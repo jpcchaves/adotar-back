@@ -1,0 +1,18 @@
+server:
+  port: 8080
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: ${DB_DEV_URL}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_DEV_USER}
+    password: ${DB_DEV_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true
