@@ -9,12 +9,21 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "pets")
 public class Pet {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 50)
     private String name;
+    @Column(length = 2)
     private int yearsAge;
+    @Column(length = 2)
     private int monthsAge;
+    @Column(length = 6)
     private char gender;
+    @Column(length = 30)
     private String color;
     private String description;
     private boolean active;
@@ -24,7 +33,7 @@ public class Pet {
             fetch = FetchType.EAGER
     )
     @JoinTable(
-            name = "pets_characteristic",
+            name = "pets_characteristics",
             joinColumns = @JoinColumn(
                     name = "pet_id", referencedColumnName = "id"
             ),
