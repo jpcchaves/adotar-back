@@ -1,7 +1,9 @@
 package com.jpcchaves.adotar.controller;
 
-import com.jpcchaves.adotar.domain.entities.Pet;
+import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.service.usecases.PetService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,7 @@ public class PetController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Pet>> listAll() {
-        return ResponseEntity.ok(petService.listAll());
+    public ResponseEntity<ApiResponsePaginatedDto<PetDto>> listAll(Pageable pageable) {
+        return ResponseEntity.ok(petService.listAll(pageable));
     }
 }
