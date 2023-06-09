@@ -1,9 +1,5 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
-import com.jpcchaves.adotar.domain.entities.AnimalType;
-import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
-import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,8 +13,8 @@ public class PetDto {
     private String description;
     private int visualizations;
     private boolean active;
-    private Set<PetCharacteristic> characteristics = new HashSet<>();
-    private AnimalType type;
+    private Set<PetCharacteristicsDto> characteristics = new HashSet<>();
+    private AnimalTypeDto type;
 
     public PetDto() {
     }
@@ -32,8 +28,8 @@ public class PetDto {
                   String description,
                   int visualizations,
                   boolean active,
-                  Set<PetCharacteristic> characteristics,
-                  AnimalType type) {
+                  Set<PetCharacteristicsDto> characteristics,
+                  AnimalTypeDto type) {
         this.id = id;
         this.name = name;
         this.yearsAge = yearsAge;
@@ -119,19 +115,19 @@ public class PetDto {
         this.active = active;
     }
 
-    public Set<PetCharacteristic> getCharacteristics() {
+    public Set<PetCharacteristicsDto> getCharacteristics() {
         return characteristics;
     }
 
-    public void setCharacteristics(Set<PetCharacteristic> characteristics) {
+    public void setCharacteristics(Set<PetCharacteristicsDto> characteristics) {
         this.characteristics = characteristics;
     }
 
-    public AnimalType getType() {
+    public AnimalTypeDto getType() {
         return type;
     }
 
-    public void setType(AnimalType type) {
+    public void setType(AnimalTypeDto type) {
         this.type = type;
     }
 }
