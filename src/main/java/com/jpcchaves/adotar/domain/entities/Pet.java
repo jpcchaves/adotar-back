@@ -26,6 +26,7 @@ public class Pet {
     @Column(length = 30)
     private String color;
     private String description;
+    private int visualizations;
     private boolean active;
 
     @ManyToMany(
@@ -64,6 +65,7 @@ public class Pet {
                AnimalGender gender,
                String color,
                String description,
+               int visualizations,
                boolean active,
                Set<PetCharacteristic> characteristics,
                AnimalType type,
@@ -76,6 +78,7 @@ public class Pet {
         setGender(gender);
         this.color = color;
         this.description = description;
+        this.visualizations = visualizations;
         this.active = active;
         this.characteristics = characteristics;
         this.type = type;
@@ -179,5 +182,17 @@ public class Pet {
 
     public void setType(AnimalType type) {
         this.type = type;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    public int getVisualizations() {
+        return visualizations;
+    }
+
+    public void setVisualizations(int visualizations) {
+        this.visualizations = visualizations;
     }
 }
