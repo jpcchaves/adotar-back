@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.utils.mappepr;
+package com.jpcchaves.adotar.utils.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
