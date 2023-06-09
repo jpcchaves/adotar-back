@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PetServiceImpl implements PetService {
+    private final int ONE = 1;
+
     private final PetRepository petRepository;
     private final CollectionsUtils collectionUtils;
     private final GlobalUtils globalUtils;
@@ -36,5 +38,19 @@ public class PetServiceImpl implements PetService {
         Page<PetDto> petDtoPage = globalUtils.buildPage(petsPage, pageable, PetDto.class);
 
         return globalUtils.buildApiResponsePaginated(petDtoPage);
+    }
+
+    @Override
+    public PetDto getById(Long id) {
+        Pet pet = petRepository.findById(id).orElseThrow(() -> new RuntimeException("Could not find pet with id: " + id));
+
+        increasePetVisualization(pet);
+        petRepository.save(pet);
+
+        return mapper.parseObject(pet, PetDto.class);
+    }
+
+    private void increasePetVisualization(Pet pet) {
+        pet.setVisualizations(pet.getVisualizations() + ONE);
     }
 }
