@@ -61,7 +61,7 @@ public class Pet {
                String name,
                int yearsAge,
                int monthsAge,
-               char gender,
+               AnimalGender gender,
                String color,
                String description,
                boolean active,
@@ -73,7 +73,7 @@ public class Pet {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
-        this.gender = gender;
+        setGender(gender);
         this.color = color;
         this.description = description;
         this.active = active;
