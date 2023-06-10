@@ -25,7 +25,9 @@ public class Pet {
     private char gender;
     @Column(length = 30)
     private String color;
+    @Column(length = 100)
     private String description;
+    @Column(length = 10)
     private int visualizations;
     private boolean active;
 
@@ -176,16 +178,16 @@ public class Pet {
         }
     }
 
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
     public AnimalType getType() {
         return type;
     }
 
     public void setType(AnimalType type) {
         this.type = type;
-    }
-
-    public void setGender(char gender) {
-        this.gender = gender;
     }
 
     public int getVisualizations() {
