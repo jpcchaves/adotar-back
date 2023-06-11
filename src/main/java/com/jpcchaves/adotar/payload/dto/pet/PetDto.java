@@ -14,7 +14,7 @@ public class PetDto {
     private int visualizations;
     private boolean active;
     private Set<PetCharacteristicsDto> characteristics = new HashSet<>();
-    private AnimalTypeDto type;
+    private String type;
 
     public PetDto() {
     }
@@ -40,7 +40,7 @@ public class PetDto {
         this.visualizations = visualizations;
         this.active = active;
         this.characteristics = characteristics;
-        this.type = type;
+        this.type = type.getType();
     }
 
     public Long getId() {
@@ -123,11 +123,11 @@ public class PetDto {
         this.characteristics = characteristics;
     }
 
-    public AnimalTypeDto getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(AnimalTypeDto type) {
+    public void setType(String type) {
         this.type = type;
     }
 }
