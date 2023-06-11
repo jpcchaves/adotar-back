@@ -5,6 +5,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "animal_types")
@@ -14,6 +16,17 @@ public class AnimalType {
     private Long id;
     @Column(length = 30)
     private String type;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "animal_type_id",
+            referencedColumnName = "id"
+    )
+    private Set<Breed> breeds = new HashSet<>();
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -24,10 +37,12 @@ public class AnimalType {
 
     public AnimalType(Long id,
                       String type,
+                      Set<Breed> breeds,
                       Date createdAt,
                       Date updatedAt) {
         this.id = id;
         this.type = type;
+        this.breeds = breeds;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -46,6 +61,14 @@ public class AnimalType {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Set<Breed> getBreeds() {
+        return breeds;
+    }
+
+    public void setBreeds(Set<Breed> breeds) {
+        this.breeds = breeds;
     }
 
     public Date getCreatedAt() {
