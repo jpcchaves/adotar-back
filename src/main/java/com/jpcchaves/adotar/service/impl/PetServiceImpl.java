@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PetServiceImpl implements PetService {
-    private final int ONE = 1;
 
     private final PetRepository petRepository;
     private final CollectionsUtils collectionUtils;
@@ -51,6 +50,7 @@ public class PetServiceImpl implements PetService {
     }
 
     private void increasePetVisualization(Pet pet) {
+        int ONE = 1;
         pet.setVisualizations(pet.getVisualizations() + ONE);
     }
 }
