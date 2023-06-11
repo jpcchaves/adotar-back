@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +13,8 @@ public class PetDto {
     private String color;
     private String description;
     private int visualizations;
+    private boolean isAvailable;
+    private Date adoptionDate;
     private boolean active;
     private Set<PetCharacteristicsDto> characteristics = new HashSet<>();
     private String type;
@@ -28,6 +31,8 @@ public class PetDto {
                   String description,
                   int visualizations,
                   boolean active,
+                  boolean isAvailable,
+                  Date adoptionDate,
                   Set<PetCharacteristicsDto> characteristics,
                   AnimalTypeDto type) {
         this.id = id;
@@ -39,6 +44,8 @@ public class PetDto {
         this.description = description;
         this.visualizations = visualizations;
         this.active = active;
+        this.adoptionDate = adoptionDate;
+        this.isAvailable = isAvailable;
         this.characteristics = characteristics;
         this.type = type.getType();
     }
@@ -105,6 +112,22 @@ public class PetDto {
 
     public void setVisualizations(int visualizations) {
         this.visualizations = visualizations;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public Date getAdoptionDate() {
+        return adoptionDate;
+    }
+
+    public void setAdoptionDate(Date adoptionDate) {
+        this.adoptionDate = adoptionDate;
     }
 
     public boolean isActive() {

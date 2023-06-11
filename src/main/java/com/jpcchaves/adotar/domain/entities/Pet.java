@@ -29,7 +29,7 @@ public class Pet {
     private String description;
     @Column(length = 10)
     private int visualizations;
-    private boolean isAvaiable;
+    private boolean isAvailable;
     private Date adoptionDate;
     private boolean active;
 
@@ -86,7 +86,7 @@ public class Pet {
         this.description = description;
         this.visualizations = visualizations;
         this.active = active;
-        this.isAvaiable = isAvaiable;
+        this.isAvailable = isAvaiable;
         this.adoptionDate = adoptionDate;
         this.characteristics = characteristics;
         this.type = type;
@@ -204,12 +204,12 @@ public class Pet {
         this.visualizations = visualizations;
     }
 
-    public boolean isAvaiable() {
-        return isAvaiable;
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
-    public void setAvaiable(boolean avaiable) {
-        isAvaiable = avaiable;
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
     public Date getAdoptionDate() {
