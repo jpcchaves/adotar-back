@@ -29,6 +29,8 @@ public class Pet {
     private String description;
     @Column(length = 10)
     private int visualizations;
+    private boolean isAvaiable;
+    private Date adoptionDate;
     private boolean active;
 
     @ManyToMany(
@@ -69,6 +71,8 @@ public class Pet {
                String description,
                int visualizations,
                boolean active,
+               boolean isAvaiable,
+               Date adoptionDate,
                Set<PetCharacteristic> characteristics,
                AnimalType type,
                Date createdAt,
@@ -82,6 +86,8 @@ public class Pet {
         this.description = description;
         this.visualizations = visualizations;
         this.active = active;
+        this.isAvaiable = isAvaiable;
+        this.adoptionDate = adoptionDate;
         this.characteristics = characteristics;
         this.type = type;
         this.createdAt = createdAt;
@@ -196,5 +202,21 @@ public class Pet {
 
     public void setVisualizations(int visualizations) {
         this.visualizations = visualizations;
+    }
+
+    public boolean isAvaiable() {
+        return isAvaiable;
+    }
+
+    public void setAvaiable(boolean avaiable) {
+        isAvaiable = avaiable;
+    }
+
+    public Date getAdoptionDate() {
+        return adoptionDate;
+    }
+
+    public void setAdoptionDate(Date adoptionDate) {
+        this.adoptionDate = adoptionDate;
     }
 }
