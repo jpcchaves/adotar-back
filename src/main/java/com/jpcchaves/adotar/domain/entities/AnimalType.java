@@ -19,11 +19,8 @@ public class AnimalType {
 
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
-    )
-    @JoinColumn(
-            name = "animal_type_id",
-            referencedColumnName = "id"
+            fetch = FetchType.EAGER,
+            mappedBy = "animalType"
     )
     private Set<Breed> breeds = new HashSet<>();
 
