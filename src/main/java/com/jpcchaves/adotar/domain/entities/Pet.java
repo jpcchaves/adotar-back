@@ -1,6 +1,8 @@
 package com.jpcchaves.adotar.domain.entities;
 
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
+import com.jpcchaves.adotar.domain.Enum.AnimalSize;
+import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,22 +17,38 @@ public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(length = 50)
     private String name;
+
     @Column(length = 2)
     private int yearsAge;
+
     @Column(length = 2)
     private int monthsAge;
+
     @Column(length = 6)
     private char gender;
+
+    @Column(length = 6)
+    private char size;
+
+    @Column(length = 15)
+    private char healthCondition;
+
     @Column(length = 30)
     private String color;
+
     @Column(length = 100)
     private String description;
+
     @Column(length = 10)
     private int visualizations;
+
     private boolean isAvailable;
+
     private Date adoptionDate;
+
     private boolean active;
 
     @ManyToMany(
@@ -67,6 +85,8 @@ public class Pet {
                int yearsAge,
                int monthsAge,
                AnimalGender gender,
+               AnimalSize size,
+               HealthCondition healthCondition,
                String color,
                String description,
                int visualizations,
@@ -82,6 +102,8 @@ public class Pet {
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
         setGender(gender);
+        setSize(size);
+        setHealthCondition(healthCondition);
         this.color = color;
         this.description = description;
         this.visualizations = visualizations;
@@ -181,6 +203,26 @@ public class Pet {
     public void setGender(AnimalGender gender) {
         if (gender != null) {
             this.gender = gender.getGender();
+        }
+    }
+
+    public AnimalSize getSize() {
+        return AnimalSize.valueOf(size);
+    }
+
+    public void setSize(AnimalSize size) {
+        if(size != null) {
+            this.size = size.getSize();
+        }
+    }
+
+    public HealthCondition getHealthCondition() {
+        return HealthCondition.valueOf(healthCondition);
+    }
+
+    public void setHealthCondition(HealthCondition healthCondition) {
+        if(healthCondition != null) {
+            this.healthCondition = healthCondition.getHealthCondition();
         }
     }
 

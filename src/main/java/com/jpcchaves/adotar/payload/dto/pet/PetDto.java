@@ -1,5 +1,10 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
+import com.jpcchaves.adotar.domain.Enum.AnimalGender;
+import com.jpcchaves.adotar.domain.Enum.AnimalSize;
+import com.jpcchaves.adotar.domain.Enum.HealthCondition;
+import com.jpcchaves.adotar.domain.entities.AnimalType;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +15,8 @@ public class PetDto {
     private int yearsAge;
     private int monthsAge;
     private char gender;
+    private char size;
+    private char healthCondition;
     private String color;
     private String description;
     private int visualizations;
@@ -26,7 +33,9 @@ public class PetDto {
                   String name,
                   int yearsAge,
                   int monthsAge,
-                  char gender,
+                  AnimalGender gender,
+                  AnimalSize size,
+                  HealthCondition healthCondition,
                   String color,
                   String description,
                   int visualizations,
@@ -39,7 +48,9 @@ public class PetDto {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
-        this.gender = gender;
+        setGender(gender);
+        setSize(size);
+        setHealthCondition(healthCondition);
         this.color = color;
         this.description = description;
         this.visualizations = visualizations;
@@ -49,6 +60,7 @@ public class PetDto {
         this.characteristics = characteristics;
         this.type = type.getType();
     }
+
 
     public Long getId() {
         return id;
@@ -80,14 +92,6 @@ public class PetDto {
 
     public void setMonthsAge(int monthsAge) {
         this.monthsAge = monthsAge;
-    }
-
-    public char getGender() {
-        return gender;
-    }
-
-    public void setGender(char gender) {
-        this.gender = gender;
     }
 
     public String getColor() {
@@ -152,5 +156,39 @@ public class PetDto {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public AnimalGender getGender() {
+        return AnimalGender.valueOf(gender);
+    }
+
+    public void setGender(AnimalGender gender) {
+        if (gender != null) {
+            this.gender = gender.getGender();
+        }
+    }
+
+    public AnimalSize getSize() {
+        return AnimalSize.valueOf(size);
+    }
+
+    public void setSize(AnimalSize size) {
+        if(size != null) {
+            this.size = size.getSize();
+        }
+    }
+
+    public HealthCondition getHealthCondition() {
+        return HealthCondition.valueOf(healthCondition);
+    }
+
+    public void setHealthCondition(HealthCondition healthCondition) {
+        if(healthCondition != null) {
+            this.healthCondition = healthCondition.getHealthCondition();
+        }
+    }
+
+    public void setType(AnimalType type) {
+        this.type = type.getType();
     }
 }
