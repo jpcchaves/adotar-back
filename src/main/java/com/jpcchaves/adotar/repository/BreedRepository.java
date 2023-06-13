@@ -8,4 +8,5 @@ import java.util.List;
 
 @Repository
 public interface BreedRepository extends JpaRepository<Breed, Long> {
+    List<Breed> findAllByAnimalType_Id(Long animalTypeId);
 }
