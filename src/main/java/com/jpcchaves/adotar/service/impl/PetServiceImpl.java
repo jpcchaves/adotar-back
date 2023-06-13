@@ -1,8 +1,14 @@
 package com.jpcchaves.adotar.service.impl;
 
+import com.jpcchaves.adotar.domain.entities.AnimalType;
 import com.jpcchaves.adotar.domain.entities.Pet;
+import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
+import com.jpcchaves.adotar.repository.AnimalTypeRepository;
+import com.jpcchaves.adotar.repository.PetCharacteristicRepository;
 import com.jpcchaves.adotar.repository.PetRepository;
 import com.jpcchaves.adotar.service.usecases.PetService;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
@@ -12,19 +18,27 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PetServiceImpl implements PetService {
 
     private final PetRepository petRepository;
+    private final PetCharacteristicRepository petCharacteristicRepository;
+    private final AnimalTypeRepository animalTypeRepository;
     private final CollectionsUtils collectionUtils;
     private final GlobalUtils globalUtils;
     private final MapperUtils mapper;
 
     public PetServiceImpl(PetRepository petRepository,
+                          PetCharacteristicRepository petCharacteristicRepository,
+                          AnimalTypeRepository animalTypeRepository,
                           CollectionsUtils collectionUtils,
                           GlobalUtils globalUtils,
                           MapperUtils mapper) {
         this.petRepository = petRepository;
+        this.petCharacteristicRepository = petCharacteristicRepository;
+        this.animalTypeRepository = animalTypeRepository;
         this.collectionUtils = collectionUtils;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
@@ -47,6 +61,24 @@ public class PetServiceImpl implements PetService {
         petRepository.save(pet);
 
         return mapper.parseObject(pet, PetDto.class);
+    }
+
+    @Override
+    public ApiMessageResponseDto create(PetCreateRequestDto petDto) {
+        List<PetCharacteristic> characteristicsList = petCharacteristicRepository
+                .findAllById(petDto.getCharacteristicsIds());
+
+        AnimalType animalType = animalTypeRepository
+                .findById(petDto.getTypeId())
+                .orElseThrow(() -> new RuntimeException("Animal type not found!"));
+
+        Pet pet = mapper.parseObject(petDto, Pet.class);
+
+        pet.setType(animalType);
+        pet.setCharacteristics(collectionUtils.convertListToSet(characteristicsList));
+
+        petRepository.save(pet);
+        return new ApiMessageResponseDto("Successfully created pet: " + petDto.getName());
     }
 
     private void increasePetVisualization(Pet pet) {
