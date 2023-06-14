@@ -66,7 +66,7 @@ public class Pet {
     )
     private Set<PetCharacteristic> characteristics = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(
             name = "type_id", referencedColumnName = "id"
     )
@@ -206,12 +206,16 @@ public class Pet {
         }
     }
 
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
     public AnimalSize getSize() {
         return AnimalSize.valueOf(size);
     }
 
     public void setSize(AnimalSize size) {
-        if(size != null) {
+        if (size != null) {
             this.size = size.getSize();
         }
     }
@@ -221,13 +225,9 @@ public class Pet {
     }
 
     public void setHealthCondition(HealthCondition healthCondition) {
-        if(healthCondition != null) {
+        if (healthCondition != null) {
             this.healthCondition = healthCondition.getHealthCondition();
         }
-    }
-
-    public void setGender(char gender) {
-        this.gender = gender;
     }
 
     public AnimalType getType() {
