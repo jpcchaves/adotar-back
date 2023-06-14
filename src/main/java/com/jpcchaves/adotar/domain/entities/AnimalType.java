@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "animal_types")
@@ -24,6 +22,13 @@ public class AnimalType {
     )
     private Set<Breed> breeds = new HashSet<>();
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            mappedBy = "type"
+    )
+    private List<Pet> petList = new ArrayList<>();
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -35,11 +40,13 @@ public class AnimalType {
     public AnimalType(Long id,
                       String type,
                       Set<Breed> breeds,
+                      List<Pet> petList,
                       Date createdAt,
                       Date updatedAt) {
         this.id = id;
         this.type = type;
         this.breeds = breeds;
+        this.petList = petList;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -66,6 +73,14 @@ public class AnimalType {
 
     public void setBreeds(Set<Breed> breeds) {
         this.breeds = breeds;
+    }
+
+    public List<Pet> getPetList() {
+        return petList;
+    }
+
+    public void setPetList(List<Pet> petList) {
+        this.petList = petList;
     }
 
     public Date getCreatedAt() {
