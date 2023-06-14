@@ -4,6 +4,7 @@ import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.service.usecases.PetService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -34,4 +35,14 @@ public class PetController {
         return ResponseEntity.status(HttpStatus.CREATED).body(petService.create(petDto));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiMessageResponseDto> update(@PathVariable(name = "id") Long id,
+                                                        @RequestBody PetUpdateRequestDto petUpdateRequestDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(petService.update(id, petUpdateRequestDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiMessageResponseDto> delete(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(petService.delete(id));
+    }
 }
