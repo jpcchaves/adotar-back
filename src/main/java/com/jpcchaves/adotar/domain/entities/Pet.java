@@ -76,6 +76,7 @@ public class Pet {
     private Date createdAt;
     @UpdateTimestamp
     private Date updatedAt;
+    private Date deletedAt;
 
     public Pet() {
     }
@@ -96,7 +97,8 @@ public class Pet {
                Set<PetCharacteristic> characteristics,
                AnimalType type,
                Date createdAt,
-               Date updatedAt) {
+               Date updatedAt,
+               Date deletedAt) {
         this.id = id;
         this.name = name;
         this.yearsAge = yearsAge;
@@ -114,6 +116,7 @@ public class Pet {
         this.type = type;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
     public Long getId() {
@@ -194,6 +197,14 @@ public class Pet {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     public AnimalGender getGender() {
