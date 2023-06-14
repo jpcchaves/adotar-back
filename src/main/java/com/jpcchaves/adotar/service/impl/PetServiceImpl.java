@@ -72,7 +72,20 @@ public class PetServiceImpl implements PetService {
                 .findById(petDto.getTypeId())
                 .orElseThrow(() -> new RuntimeException("Animal type not found!"));
 
-        Pet pet = mapper.parseObject(petDto, Pet.class);
+        Pet pet = new Pet();
+
+        pet.setHealthCondition(petDto.getHealthCondition());
+        pet.setGender(petDto.getGender());
+        pet.setSize(petDto.getSize());
+        pet.setActive(true);
+        pet.setAvailable(true);
+        pet.setMonthsAge(petDto.getMonthsAge());
+        pet.setYearsAge(petDto.getYearsAge());
+        pet.setVisualizations(0);
+        pet.setColor(petDto.getColor());
+        pet.setName(petDto.getName());
+        pet.setDescription(petDto.getDescription());
+
 
         pet.setType(animalType);
         pet.setCharacteristics(collectionUtils.convertListToSet(characteristicsList));
