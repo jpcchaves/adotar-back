@@ -47,10 +47,9 @@ public class PetServiceImpl implements PetService {
     @Override
     public ApiResponsePaginatedDto<PetDto> listAll(Pageable pageable) {
         Page<Pet> petsPage = petRepository.findAll(pageable);
+        List<PetDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetDto.class);
 
-        Page<PetDto> petDtoPage = globalUtils.buildPage(petsPage, pageable, PetDto.class);
-
-        return globalUtils.buildApiResponsePaginated(petDtoPage);
+        return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
     }
 
     @Override
