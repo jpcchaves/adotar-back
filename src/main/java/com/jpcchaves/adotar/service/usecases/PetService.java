@@ -4,6 +4,7 @@ import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import org.springframework.data.domain.Pageable;
 
 public interface PetService {
@@ -12,4 +13,9 @@ public interface PetService {
     PetDto getById(Long id);
 
     ApiMessageResponseDto create(PetCreateRequestDto petDto);
+
+    ApiMessageResponseDto update(Long id,
+                                 PetUpdateRequestDto petDto);
+
+    ApiMessageResponseDto delete(Long id);
 }
