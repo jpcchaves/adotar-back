@@ -17,6 +17,7 @@ public class PetCreateRequestDto {
     private String color;
     private String description;
     private boolean active;
+    private boolean isAvailable;
     private List<Long> characteristicsIds = new ArrayList<>();
     private Long typeId;
 
@@ -32,6 +33,7 @@ public class PetCreateRequestDto {
                                String color,
                                String description,
                                boolean active,
+                               boolean isAvailable,
                                List<Long> characteristicsIds,
                                Long typeId) {
         this.name = name;
@@ -43,6 +45,7 @@ public class PetCreateRequestDto {
         this.color = color;
         this.description = description;
         this.active = active;
+        this.isAvailable = isAvailable;
         this.characteristicsIds = characteristicsIds;
         this.typeId = typeId;
     }
@@ -123,6 +126,14 @@ public class PetCreateRequestDto {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
     public List<Long> getCharacteristicsIds() {
