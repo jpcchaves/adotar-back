@@ -1,6 +1,7 @@
 package com.jpcchaves.adotar.service.impl;
 
 import com.jpcchaves.adotar.domain.entities.AnimalType;
+import com.jpcchaves.adotar.domain.entities.Breed;
 import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
@@ -9,6 +10,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.repository.AnimalTypeRepository;
+import com.jpcchaves.adotar.repository.BreedRepository;
 import com.jpcchaves.adotar.repository.PetCharacteristicRepository;
 import com.jpcchaves.adotar.repository.PetRepository;
 import com.jpcchaves.adotar.service.usecases.PetService;
@@ -28,6 +30,7 @@ public class PetServiceImpl implements PetService {
     private final PetRepository petRepository;
     private final PetCharacteristicRepository petCharacteristicRepository;
     private final AnimalTypeRepository animalTypeRepository;
+    private final BreedRepository breedRepository;
     private final CollectionsUtils collectionUtils;
     private final GlobalUtils globalUtils;
     private final MapperUtils mapper;
@@ -35,12 +38,14 @@ public class PetServiceImpl implements PetService {
     public PetServiceImpl(PetRepository petRepository,
                           PetCharacteristicRepository petCharacteristicRepository,
                           AnimalTypeRepository animalTypeRepository,
+                          BreedRepository breedRepository,
                           CollectionsUtils collectionUtils,
                           GlobalUtils globalUtils,
                           MapperUtils mapper) {
         this.petRepository = petRepository;
         this.petCharacteristicRepository = petCharacteristicRepository;
         this.animalTypeRepository = animalTypeRepository;
+        this.breedRepository = breedRepository;
         this.collectionUtils = collectionUtils;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
@@ -68,14 +73,19 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto create(PetCreateRequestDto petCreateRequestDto) {
+
+        Breed breed = breedRepository
+                .findByIdAndAnimalType_Id(petCreateRequestDto.getBreedId(), petCreateRequestDto.getTypeId())
+                .orElseThrow(() -> new RuntimeException("Raça não encontrada!"));
+
         List<PetCharacteristic> characteristicsList = petCharacteristicRepository
                 .findAllById(petCreateRequestDto.getCharacteristicsIds());
 
         AnimalType animalType = animalTypeRepository
                 .findById(petCreateRequestDto.getTypeId())
-                .orElseThrow(() -> new RuntimeException("Animal type not found!"));
+                .orElseThrow(() -> new RuntimeException("Tipo de animal não encotrado!"));
 
-        Pet pet = buildPetCreate(petCreateRequestDto, animalType, characteristicsList);
+        Pet pet = buildPetCreate(petCreateRequestDto, animalType, breed, characteristicsList);
 
         petRepository.save(pet);
 
@@ -88,6 +98,10 @@ public class PetServiceImpl implements PetService {
         Pet pet = petRepository
                 .findById(id)
                 .orElseThrow(() -> new RuntimeException("Could not find pet with id: " + id));
+
+        Breed breed = breedRepository
+                .findByIdAndAnimalType_Id(petDto.getBreedId(), petDto.getTypeId())
+                .orElseThrow(() -> new RuntimeException("Raça não encontrada!"));
 
         List<PetCharacteristic> characteristicsList = petCharacteristicRepository
                 .findAllById(petDto.getCharacteristics());
@@ -108,6 +122,8 @@ public class PetServiceImpl implements PetService {
         pet.setVisualizations(petDto.getVisualizations());
         pet.setAvailable(petDto.isAvailable());
         pet.setAdoptionDate(petDto.getAdoptionDate());
+
+        pet.setBreed(breed);
         pet.setCharacteristics(collectionUtils.convertListToSet(characteristicsList));
         pet.setType(animalType);
 
@@ -130,6 +146,7 @@ public class PetServiceImpl implements PetService {
 
     private Pet buildPetCreate(PetCreateRequestDto petCreateRequestDto,
                                AnimalType animalType,
+                               Breed breed,
                                List<PetCharacteristic> characteristicsList) {
         Pet pet = new Pet();
 
@@ -147,6 +164,7 @@ public class PetServiceImpl implements PetService {
 
 
         pet.setType(animalType);
+        pet.setBreed(breed);
         pet.setCharacteristics(collectionUtils.convertListToSet(characteristicsList));
 
         return pet;
