@@ -20,6 +20,7 @@ public class PetCreateRequestDto {
     private boolean isAvailable;
     private List<Long> characteristicsIds = new ArrayList<>();
     private Long typeId;
+    private Long breedId;
 
     public PetCreateRequestDto() {
     }
@@ -35,7 +36,8 @@ public class PetCreateRequestDto {
                                boolean active,
                                boolean isAvailable,
                                List<Long> characteristicsIds,
-                               Long typeId) {
+                               Long typeId,
+                               Long breedId) {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
@@ -48,6 +50,7 @@ public class PetCreateRequestDto {
         this.isAvailable = isAvailable;
         this.characteristicsIds = characteristicsIds;
         this.typeId = typeId;
+        this.breedId = breedId;
     }
 
     public String getName() {
@@ -150,5 +153,13 @@ public class PetCreateRequestDto {
 
     public void setTypeId(Long typeId) {
         this.typeId = typeId;
+    }
+
+    public Long getBreedId() {
+        return breedId;
+    }
+
+    public void setBreedId(Long breedId) {
+        this.breedId = breedId;
     }
 }

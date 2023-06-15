@@ -4,6 +4,7 @@ import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import com.jpcchaves.adotar.domain.entities.AnimalType;
+import com.jpcchaves.adotar.domain.entities.Breed;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ public class PetDto {
     private boolean active;
     private Set<PetCharacteristicsDto> characteristics = new HashSet<>();
     private String type;
+    private String breed;
 
     public PetDto() {
     }
@@ -43,7 +45,8 @@ public class PetDto {
                   boolean isAvailable,
                   Date adoptionDate,
                   Set<PetCharacteristicsDto> characteristics,
-                  AnimalTypeDto type) {
+                  AnimalTypeDto type,
+                  BreedDto breed) {
         this.id = id;
         this.name = name;
         this.yearsAge = yearsAge;
@@ -59,6 +62,7 @@ public class PetDto {
         this.isAvailable = isAvailable;
         this.characteristics = characteristics;
         this.type = type.getType();
+        this.breed = breed.getname();
     }
 
 
@@ -158,6 +162,18 @@ public class PetDto {
         this.type = type;
     }
 
+    public void setType(AnimalType type) {
+        this.type = type.getType();
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(Breed breed) {
+        this.breed = breed.getName();
+    }
+
     public AnimalGender getGender() {
         return AnimalGender.valueOf(gender);
     }
@@ -173,7 +189,7 @@ public class PetDto {
     }
 
     public void setSize(AnimalSize size) {
-        if(size != null) {
+        if (size != null) {
             this.size = size.getSize();
         }
     }
@@ -183,12 +199,8 @@ public class PetDto {
     }
 
     public void setHealthCondition(HealthCondition healthCondition) {
-        if(healthCondition != null) {
+        if (healthCondition != null) {
             this.healthCondition = healthCondition.getHealthCondition();
         }
-    }
-
-    public void setType(AnimalType type) {
-        this.type = type.getType();
     }
 }

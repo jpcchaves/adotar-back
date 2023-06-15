@@ -72,6 +72,15 @@ public class Pet {
     )
     private AnimalType type;
 
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(
+            name = "breed_id",
+            referencedColumnName = "id"
+    )
+    private Breed breed;
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -96,6 +105,7 @@ public class Pet {
                Date adoptionDate,
                Set<PetCharacteristic> characteristics,
                AnimalType type,
+               Breed breed,
                Date createdAt,
                Date updatedAt,
                Date deletedAt) {
@@ -114,6 +124,7 @@ public class Pet {
         this.adoptionDate = adoptionDate;
         this.characteristics = characteristics;
         this.type = type;
+        this.breed = breed;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -271,5 +282,13 @@ public class Pet {
 
     public void setAdoptionDate(Date adoptionDate) {
         this.adoptionDate = adoptionDate;
+    }
+
+    public Breed getBreed() {
+        return breed;
+    }
+
+    public void setBreed(Breed breed) {
+        this.breed = breed;
     }
 }
