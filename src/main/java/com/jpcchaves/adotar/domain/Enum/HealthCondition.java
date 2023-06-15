@@ -5,7 +5,7 @@ public enum HealthCondition {
     INJURED('I'),
     SICK('S'),
     PREGNANT('P'),
-    HEALTHY('L');
+    HEALTHY('H');
 
     private final char healthCondition;
 
