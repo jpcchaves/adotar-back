@@ -19,7 +19,7 @@ public enum HealthCondition {
                 return value;
             }
         }
-        throw new IllegalArgumentException("Invalid gender value: " + healthCondition);
+        throw new IllegalArgumentException("Invalid animal health condition value: " + healthCondition);
     }
 
     public char getHealthCondition() {

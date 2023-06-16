@@ -18,7 +18,7 @@ public enum AnimalSize {
                 return value;
             }
         }
-        throw new IllegalArgumentException("Invalid gender value: " + size);
+        throw new IllegalArgumentException("Invalid animal size value: " + size);
     }
 
     public char getSize() {
