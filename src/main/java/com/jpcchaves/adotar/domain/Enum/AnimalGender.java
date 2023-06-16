@@ -11,12 +11,12 @@ public enum AnimalGender {
     }
 
     public static AnimalGender valueOf(char gender) {
-        for (AnimalGender value : AnimalGender.values()){
-            if(gender == value.getGender()) {
+        for (AnimalGender value : AnimalGender.values()) {
+            if (gender == value.getGender()) {
                 return value;
             }
         }
-        throw new  IllegalArgumentException("Invalid gender value: " + gender);
+        throw new IllegalArgumentException("Invalid gender value: " + gender);
     }
 
     public char getGender() {
