@@ -4,6 +4,7 @@ import com.jpcchaves.adotar.domain.entities.AnimalType;
 import com.jpcchaves.adotar.domain.entities.Breed;
 import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
@@ -63,7 +64,7 @@ public class PetServiceImpl implements PetService {
     public PetDto getById(Long id) {
         Pet pet = petRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Could not find pet with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Could not find pet with id: " + id));
 
         increasePetVisualization(pet);
         petRepository.save(pet);
@@ -76,14 +77,14 @@ public class PetServiceImpl implements PetService {
 
         Breed breed = breedRepository
                 .findByIdAndAnimalType_Id(petCreateRequestDto.getBreedId(), petCreateRequestDto.getTypeId())
-                .orElseThrow(() -> new RuntimeException("Raça não encontrada!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Raça não encontrada!"));
 
         List<PetCharacteristic> characteristicsList = petCharacteristicRepository
                 .findAllById(petCreateRequestDto.getCharacteristicsIds());
 
         AnimalType animalType = animalTypeRepository
                 .findById(petCreateRequestDto.getTypeId())
-                .orElseThrow(() -> new RuntimeException("Tipo de animal não encotrado!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Tipo de animal não encotrado!"));
 
         Pet pet = buildPetCreate(petCreateRequestDto, animalType, breed, characteristicsList);
 
@@ -97,18 +98,18 @@ public class PetServiceImpl implements PetService {
                                         PetUpdateRequestDto petDto) {
         Pet pet = petRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Could not find pet with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Could not find pet with id: " + id));
 
         Breed breed = breedRepository
                 .findByIdAndAnimalType_Id(petDto.getBreedId(), petDto.getTypeId())
-                .orElseThrow(() -> new RuntimeException("Raça não encontrada!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Raça não encontrada!"));
 
         List<PetCharacteristic> characteristicsList = petCharacteristicRepository
                 .findAllById(petDto.getCharacteristics());
 
         AnimalType animalType = animalTypeRepository
                 .findById(petDto.getTypeId())
-                .orElseThrow(() -> new RuntimeException("Animal type not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Animal type not found!"));
 
         pet.setId(pet.getId());
         pet.setName(petDto.getName());
@@ -119,7 +120,7 @@ public class PetServiceImpl implements PetService {
         pet.setHealthCondition(petDto.getHealthCondition());
         pet.setColor(petDto.getColor());
         pet.setDescription(petDto.getDescription());
-        pet.setVisualizations(petDto.getVisualizations());
+        pet.setVisualizations(pet.getVisualizations());
         pet.setAvailable(petDto.isAvailable());
         pet.setAdoptionDate(petDto.getAdoptionDate());
 
@@ -134,7 +135,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto delete(Long id) {
-        Pet pet = petRepository.findById(id).orElseThrow(() -> new RuntimeException("Pet not found with id " + id));
+        Pet pet = petRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pet not found with id " + id));
 
         pet.setActive(false);
         pet.setDeletedAt(new Date());
