@@ -6,9 +6,7 @@ import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import com.jpcchaves.adotar.domain.entities.AnimalType;
 import com.jpcchaves.adotar.domain.entities.Breed;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class PetDto {
     private Long id;
@@ -27,6 +25,7 @@ public class PetDto {
     private Set<PetCharacteristicsDto> characteristics = new HashSet<>();
     private String type;
     private String breed;
+    private List<PetPictureDto> petPictures = new ArrayList<>();
 
     public PetDto() {
     }
@@ -46,7 +45,8 @@ public class PetDto {
                   Date adoptionDate,
                   Set<PetCharacteristicsDto> characteristics,
                   AnimalTypeDto type,
-                  BreedDto breed) {
+                  BreedDto breed,
+                  List<PetPictureDto> petPictures) {
         this.id = id;
         this.name = name;
         this.yearsAge = yearsAge;
@@ -63,6 +63,7 @@ public class PetDto {
         this.characteristics = characteristics;
         this.type = type.getType();
         this.breed = breed.getname();
+        this.petPictures = petPictures;
     }
 
 
@@ -202,5 +203,13 @@ public class PetDto {
         if (healthCondition != null) {
             this.healthCondition = healthCondition.getHealthCondition();
         }
+    }
+
+    public List<PetPictureDto> getPetPictures() {
+        return petPictures;
+    }
+
+    public void setPetPictures(List<PetPictureDto> petPictures) {
+        this.petPictures = petPictures;
     }
 }

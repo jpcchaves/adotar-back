@@ -7,9 +7,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "pets")
@@ -81,6 +79,13 @@ public class Pet {
     )
     private Breed breed;
 
+    @OneToMany(
+            mappedBy = "pet",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<PetPicture> petPictures = new ArrayList<>();
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -106,6 +111,7 @@ public class Pet {
                Set<PetCharacteristic> characteristics,
                AnimalType type,
                Breed breed,
+               List<PetPicture> petPictures,
                Date createdAt,
                Date updatedAt,
                Date deletedAt) {
@@ -125,6 +131,7 @@ public class Pet {
         this.characteristics = characteristics;
         this.type = type;
         this.breed = breed;
+        this.petPictures = petPictures;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -242,6 +249,10 @@ public class Pet {
         }
     }
 
+    public void setSize(char size) {
+        this.size = size;
+    }
+
     public HealthCondition getHealthCondition() {
         return HealthCondition.valueOf(healthCondition);
     }
@@ -250,6 +261,10 @@ public class Pet {
         if (healthCondition != null) {
             this.healthCondition = healthCondition.getHealthCondition();
         }
+    }
+
+    public void setHealthCondition(char healthCondition) {
+        this.healthCondition = healthCondition;
     }
 
     public AnimalType getType() {
@@ -290,5 +305,13 @@ public class Pet {
 
     public void setBreed(Breed breed) {
         this.breed = breed;
+    }
+
+    public List<PetPicture> getPetPictures() {
+        return petPictures;
+    }
+
+    public void setPetPictures(List<PetPicture> petPictures) {
+        this.petPictures = petPictures;
     }
 }
