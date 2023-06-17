@@ -1,19 +1,13 @@
 package com.jpcchaves.adotar.service.impl;
 
-import com.jpcchaves.adotar.domain.entities.AnimalType;
-import com.jpcchaves.adotar.domain.entities.Breed;
-import com.jpcchaves.adotar.domain.entities.Pet;
-import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
-import com.jpcchaves.adotar.repository.AnimalTypeRepository;
-import com.jpcchaves.adotar.repository.BreedRepository;
-import com.jpcchaves.adotar.repository.PetCharacteristicRepository;
-import com.jpcchaves.adotar.repository.PetRepository;
+import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.usecases.PetService;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
@@ -32,6 +26,7 @@ public class PetServiceImpl implements PetService {
     private final PetCharacteristicRepository petCharacteristicRepository;
     private final AnimalTypeRepository animalTypeRepository;
     private final BreedRepository breedRepository;
+    private final PetPictureRepository petPictureRepository;
     private final CollectionsUtils collectionUtils;
     private final GlobalUtils globalUtils;
     private final MapperUtils mapper;
@@ -40,6 +35,7 @@ public class PetServiceImpl implements PetService {
                           PetCharacteristicRepository petCharacteristicRepository,
                           AnimalTypeRepository animalTypeRepository,
                           BreedRepository breedRepository,
+                          PetPictureRepository petPictureRepository,
                           CollectionsUtils collectionUtils,
                           GlobalUtils globalUtils,
                           MapperUtils mapper) {
@@ -47,6 +43,7 @@ public class PetServiceImpl implements PetService {
         this.petCharacteristicRepository = petCharacteristicRepository;
         this.animalTypeRepository = animalTypeRepository;
         this.breedRepository = breedRepository;
+        this.petPictureRepository = petPictureRepository;
         this.collectionUtils = collectionUtils;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
@@ -74,7 +71,6 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto create(PetCreateRequestDto petCreateRequestDto) {
-
         Breed breed = breedRepository
                 .findByIdAndAnimalType_Id(petCreateRequestDto.getBreedId(), petCreateRequestDto.getTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Raça não encontrada!"));
@@ -86,9 +82,20 @@ public class PetServiceImpl implements PetService {
                 .findById(petCreateRequestDto.getTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Tipo de animal não encotrado!"));
 
+        List<PetPicture> petPictures = mapper.parseListObjects(petCreateRequestDto.getPetPictures(), PetPicture.class);
+
         Pet pet = buildPetCreate(petCreateRequestDto, animalType, breed, characteristicsList);
 
-        petRepository.save(pet);
+
+        Pet savedPet = petRepository.save(pet);
+
+        for (PetPicture picture : petPictures) {
+            picture.setPet(savedPet);
+        }
+
+        if (petCreateRequestDto.getPetPictures().size() > 0) {
+            petPictureRepository.saveAll(petPictures);
+        }
 
         return new ApiMessageResponseDto("Successfully created pet: " + petCreateRequestDto.getName());
     }
@@ -105,7 +112,7 @@ public class PetServiceImpl implements PetService {
                 .orElseThrow(() -> new ResourceNotFoundException("Raça não encontrada!"));
 
         List<PetCharacteristic> characteristicsList = petCharacteristicRepository
-                .findAllById(petDto.getCharacteristics());
+                .findAllById(petDto.getCharacteristicsIds());
 
         AnimalType animalType = animalTypeRepository
                 .findById(petDto.getTypeId())
@@ -162,7 +169,6 @@ public class PetServiceImpl implements PetService {
         pet.setColor(petCreateRequestDto.getColor());
         pet.setName(petCreateRequestDto.getName());
         pet.setDescription(petCreateRequestDto.getDescription());
-
 
         pet.setType(animalType);
         pet.setBreed(breed);

@@ -22,7 +22,8 @@ public class PetUpdateRequestDto {
     private boolean isAvailable;
     private Date adoptionDate;
     private boolean active;
-    private List<Long> characteristics = new ArrayList<>();
+    private List<Long> characteristicsIds = new ArrayList<>();
+    private List<PetPictureDto> petPictures = new ArrayList<>();
     private Long typeId;
     private Long breedId;
 
@@ -42,7 +43,8 @@ public class PetUpdateRequestDto {
                                boolean active,
                                boolean isAvailable,
                                Date adoptionDate,
-                               List<Long> characteristics,
+                               List<Long> characteristicsIds,
+                               List<PetPictureDto> petPictures,
                                Long typeId,
                                Long breedId) {
         this.id = id;
@@ -58,7 +60,7 @@ public class PetUpdateRequestDto {
         this.active = active;
         this.adoptionDate = adoptionDate;
         this.isAvailable = isAvailable;
-        this.characteristics = characteristics;
+        this.characteristicsIds = characteristicsIds;
         this.typeId = typeId;
         this.breedId = breedId;
     }
@@ -144,12 +146,20 @@ public class PetUpdateRequestDto {
         this.active = active;
     }
 
-    public List<Long> getCharacteristics() {
-        return characteristics;
+    public List<Long> getCharacteristicsIds() {
+        return characteristicsIds;
     }
 
-    public void setCharacteristics(List<Long> characteristics) {
-        this.characteristics = characteristics;
+    public void setCharacteristicsIds(List<Long> characteristicsIds) {
+        this.characteristicsIds = characteristicsIds;
+    }
+
+    public List<PetPictureDto> getPetPictures() {
+        return petPictures;
+    }
+
+    public void setPetPictures(List<PetPictureDto> petPictures) {
+        this.petPictures = petPictures;
     }
 
     public Long getTypeId() {
