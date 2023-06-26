@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.service.usecases;
 
+import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 
 import java.util.List;
@@ -17,6 +18,6 @@ public interface PetPictureService {
                          Long picId,
                          PetPictureDto petPictureDto);
 
-    PetPictureDto delete(Long petId,
-                         Long picId);
+    ApiMessageResponseDto delete(Long petId,
+                                 Long picId);
 }
