@@ -6,6 +6,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.service.usecases.PetService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class PetController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiMessageResponseDto> create(@RequestBody PetCreateRequestDto petDto) {
+    public ResponseEntity<ApiMessageResponseDto> create(@Valid @RequestBody PetCreateRequestDto petDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(petService.create(petDto));
     }
 

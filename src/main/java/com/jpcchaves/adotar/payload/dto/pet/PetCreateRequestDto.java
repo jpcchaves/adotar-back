@@ -3,24 +3,44 @@ package com.jpcchaves.adotar.payload.dto.pet;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
+import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PetCreateRequestDto {
+
+    @NotBlank(message = "O nome é obrigatório")
     private String name;
+
+    @PositiveOrZero(message = "A idade em anos deve ser um valor maior ou igual a 0")
+    @Min(value = 0, message = "A idade em anos deve ser 0 ou maior")
+    @Max(value = 25, message = "Verifique a idade em anos informada e tente novamente")
+    @NotNull(message = "A idade em anos é obrigatória")
     private int yearsAge;
+
+    @Min(value = 1, message = "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
+    @Max(value = 11, message = "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
+    @Positive(message = "A idade em meses deve ser um valor maior ou igual a 1")
+    @NotNull(message = "A idade em meses é obrigatória")
     private int monthsAge;
+
     private char gender;
     private char size;
     private char healthCondition;
+
+    @NotBlank(message = "A cor é obrigatória")
     private String color;
     private String description;
     private boolean active;
     private boolean isAvailable;
     private List<Long> characteristicsIds = new ArrayList<>();
     private List<PetPictureDto> petPictures = new ArrayList<>();
+
+    @NotNull(message = "O tipo do animal é obrigatório")
     private Long typeId;
+
+    @NotNull(message = "A raça do animal é obrigatória")
     private Long breedId;
 
     public PetCreateRequestDto() {
