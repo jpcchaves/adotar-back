@@ -38,7 +38,7 @@ public class PetController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiMessageResponseDto> update(@PathVariable(name = "id") Long id,
-                                                        @RequestBody PetUpdateRequestDto petUpdateRequestDto) {
+                                                        @Valid @RequestBody PetUpdateRequestDto petUpdateRequestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(petService.update(id, petUpdateRequestDto));
     }
 
