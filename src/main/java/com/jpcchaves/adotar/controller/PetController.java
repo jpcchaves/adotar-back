@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/pets")
+@CrossOrigin(origins = "*")
 @Tag(name = "Pets-Controller")
 public class PetController {
     private final PetService petService;
