@@ -1,6 +1,8 @@
 package com.jpcchaves.adotar.domain.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +17,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private Boolean isAdmin;
+    private Boolean isActive;
 
     @ManyToMany(
             fetch = FetchType.EAGER,
@@ -30,6 +33,12 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Pet> pets = new ArrayList<>();
 
+    @CreationTimestamp
+    private Date createdAt;
+    @UpdateTimestamp
+    private Date updatedAt;
+    private Date deletedAt;
+
     public User() {
     }
 
@@ -39,16 +48,24 @@ public class User implements UserDetails {
                 String email,
                 String password,
                 Boolean isAdmin,
+                Boolean isActive,
                 Set<Role> roles,
-                List<Pet> pets) {
+                List<Pet> pets,
+                Date createdAt,
+                Date updatedAt,
+                Date deletedAt) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.isActive = isActive;
         this.roles = roles;
         this.pets = pets;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
     public Long getId() {
@@ -97,6 +114,38 @@ public class User implements UserDetails {
 
     public void setPets(List<Pet> pets) {
         this.pets = pets;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     @Override
