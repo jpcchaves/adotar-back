@@ -152,6 +152,36 @@ public class PetServiceImpl implements PetService {
         return new ApiMessageResponseDto("Pet deletado com sucesso");
     }
 
+    @Override
+    public ApiResponsePaginatedDto<PetDto> getAllByBreed(Pageable pageable,
+                                                         Long breedId,
+                                                         Long animalTypeId) {
+
+
+        if (breedId != null && animalTypeId != null) {
+            Page<Pet> petsPage = petRepository.getAllByBreed_IdAndType_Id(pageable, breedId, animalTypeId);
+            List<PetDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetDto.class);
+
+            return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
+        }
+
+        if (animalTypeId != null) {
+            Page<Pet> petsPage = petRepository.getAllByType_Id(pageable, animalTypeId);
+            List<PetDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetDto.class);
+
+            return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
+        }
+
+        if (breedId != null) {
+            Page<Pet> petsPage = petRepository.getAllByType_Id(pageable, breedId);
+            List<PetDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetDto.class);
+
+            return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
+        }
+
+        return listAll(pageable);
+    }
+
     private Pet buildPetCreate(PetCreateRequestDto petCreateRequestDto,
                                AnimalType animalType,
                                Breed breed,

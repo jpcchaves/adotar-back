@@ -10,6 +10,10 @@ import org.springframework.data.domain.Pageable;
 public interface PetService {
     ApiResponsePaginatedDto<PetDto> listAll(Pageable pageable);
 
+    ApiResponsePaginatedDto<PetDto> getAllByBreed(Pageable pageable,
+                                                  Long breedId,
+                                                  Long animalTypeId);
+
     PetDto getById(Long id);
 
     ApiMessageResponseDto create(PetCreateRequestDto petDto);
