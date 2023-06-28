@@ -10,13 +10,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "users")
 public class User implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+
+    @Column(length = 50, nullable = false)
+    private String firstName;
+
+    @Column(length = 50)
+    private String lastName;
+
+    @Column(unique = true, nullable = false, length = 100)
     private String username;
+
+    @Column(unique = true, nullable = false, length = 150)
     private String email;
+
+    @Column(nullable = false, length = 50)
     private String password;
+
     private Boolean isAdmin;
+
     private Boolean isActive;
 
     @ManyToMany(
@@ -43,7 +60,8 @@ public class User implements UserDetails {
     }
 
     public User(Long id,
-                String name,
+                String firstName,
+                String lastName,
                 String username,
                 String email,
                 String password,
@@ -55,7 +73,8 @@ public class User implements UserDetails {
                 Date updatedAt,
                 Date deletedAt) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -74,14 +93,6 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {
@@ -146,6 +157,22 @@ public class User implements UserDetails {
 
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Override
