@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.exception.handler;
 
+import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.exception.model.ExceptionResponse;
 import org.springframework.http.HttpHeaders;
@@ -41,6 +42,15 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public final ResponseEntity<ExceptionResponse> handleBadRequestException(BadRequestException ex,
+                                                                             WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
