@@ -116,4 +116,11 @@ public class PetController {
     public ResponseEntity<ApiMessageResponseDto> delete(@PathVariable(name = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(petService.delete(id));
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<ApiResponsePaginatedDto<PetDto>> getAllByBreed(@RequestParam(name = "breedId", required = false) Long breedId,
+                                                                         @RequestParam(name = "animalTypeId", required = false) Long animalTypeId,
+                                                                         Pageable pageable) {
+        return ResponseEntity.ok(petService.getAllByBreed(pageable, breedId, animalTypeId));
+    }
 }
