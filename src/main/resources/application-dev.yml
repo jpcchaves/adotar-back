@@ -16,3 +16,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         show_sql: true
         format_sql: true
+app:
+  jwt-secret: ${JWT_DEV_SECRET}
+  jwt-expiration-milliseconds: ${JWT_DEV_EXPIRATION}
