@@ -14,6 +14,12 @@ public interface PetService {
                                                   Long breedId,
                                                   Long animalTypeId);
 
+    ApiResponsePaginatedDto<PetDto> getAllByUser_Id(Pageable pageable,
+                                                    Long userId);
+
+    PetDto getPetByIdAndUser_Id(Long petId,
+                                Long userId);
+
     PetDto getById(Long id);
 
     ApiMessageResponseDto create(PetCreateRequestDto petDto);
