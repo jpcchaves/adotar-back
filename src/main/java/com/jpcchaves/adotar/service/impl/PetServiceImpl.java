@@ -9,6 +9,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.usecases.PetService;
+import com.jpcchaves.adotar.service.usecases.SecurityContextService;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
@@ -27,6 +28,8 @@ public class PetServiceImpl implements PetService {
     private final AnimalTypeRepository animalTypeRepository;
     private final BreedRepository breedRepository;
     private final PetPictureRepository petPictureRepository;
+    private final UserRepository userRepository;
+    private final SecurityContextService securityContextService;
     private final CollectionsUtils collectionUtils;
     private final GlobalUtils globalUtils;
     private final MapperUtils mapper;
@@ -38,15 +41,19 @@ public class PetServiceImpl implements PetService {
                           PetPictureRepository petPictureRepository,
                           CollectionsUtils collectionUtils,
                           GlobalUtils globalUtils,
-                          MapperUtils mapper) {
+                          MapperUtils mapper,
+                          SecurityContextService securityContextService,
+                          UserRepository userRepository) {
         this.petRepository = petRepository;
         this.petCharacteristicRepository = petCharacteristicRepository;
         this.animalTypeRepository = animalTypeRepository;
         this.breedRepository = breedRepository;
         this.petPictureRepository = petPictureRepository;
+        this.userRepository = userRepository;
         this.collectionUtils = collectionUtils;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
+        this.securityContextService = securityContextService;
     }
 
     @Override
@@ -86,8 +93,9 @@ public class PetServiceImpl implements PetService {
 
         Pet pet = buildPetCreate(petCreateRequestDto, animalType, breed, characteristicsList);
 
-
         Pet savedPet = petRepository.save(pet);
+
+        pet.setUser(securityContextService.getCurrentLoggedUser());
 
         for (PetPicture picture : petPictures) {
             picture.setPet(savedPet);
@@ -96,6 +104,7 @@ public class PetServiceImpl implements PetService {
         if (petCreateRequestDto.getPetPictures().size() > 0) {
             petPictureRepository.saveAll(petPictures);
         }
+
 
         return new ApiMessageResponseDto("Successfully created pet: " + petCreateRequestDto.getName());
     }
