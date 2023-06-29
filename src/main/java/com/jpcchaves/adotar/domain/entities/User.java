@@ -47,7 +47,7 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user")
     private List<Pet> pets = new ArrayList<>();
 
     @CreationTimestamp

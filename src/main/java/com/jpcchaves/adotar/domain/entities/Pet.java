@@ -86,6 +86,12 @@ public class Pet {
     )
     private List<PetPicture> petPictures = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(
+            name = "user_id"
+    )
+    private User user;
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -112,6 +118,7 @@ public class Pet {
                AnimalType type,
                Breed breed,
                List<PetPicture> petPictures,
+               User user,
                Date createdAt,
                Date updatedAt,
                Date deletedAt) {
@@ -132,6 +139,7 @@ public class Pet {
         this.type = type;
         this.breed = breed;
         this.petPictures = petPictures;
+        this.user = user;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -199,6 +207,14 @@ public class Pet {
 
     public void setCharacteristics(Set<PetCharacteristic> characteristics) {
         this.characteristics = characteristics;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getCreatedAt() {
