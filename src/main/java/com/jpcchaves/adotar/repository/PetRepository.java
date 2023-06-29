@@ -6,8 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
 public interface PetRepository extends JpaRepository<Pet, Long> {
     Page<Pet> getAllByBreed_Id(Pageable pageable,
@@ -22,7 +20,4 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
 
     Page<Pet> getAllByUser_Id(Pageable pageable,
                               Long userId);
-
-    Optional<Pet> getPetByIdAndUser_Id(Long petId,
-                                       Long userId);
 }

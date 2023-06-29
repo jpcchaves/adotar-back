@@ -136,4 +136,9 @@ public class PetController {
                                                                          Pageable pageable) {
         return ResponseEntity.ok(petService.getAllByBreed(pageable, breedId, animalTypeId));
     }
+
+    @GetMapping("/by-user")
+    public ResponseEntity<ApiResponsePaginatedDto<PetDto>> getAllByUser(Pageable pageable) {
+        return ResponseEntity.ok(petService.getAllByUser_Id(pageable));
+    }
 }
