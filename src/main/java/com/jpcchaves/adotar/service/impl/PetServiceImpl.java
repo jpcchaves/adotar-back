@@ -162,6 +162,25 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    public ApiResponsePaginatedDto<PetDto> getAllByUser_Id(Pageable pageable) {
+        Page<Pet> petPage = petRepository.getAllByUser_Id(pageable, securityContextService.getCurrentLoggedUser().getId());
+        List<PetDto> petDtoList = mapper.parseListObjects(petPage.getContent(), PetDto.class);
+        return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
+    }
+
+    @Override
+    public PetDto getPetByIdAndUser_Id(Long petId) {
+        Pet pet = petRepository
+                .getPetByIdAndUser_Id(petId, securityContextService.getCurrentLoggedUser().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Pet not found with id " + petId));
+
+        increasePetVisualization(pet);
+        petRepository.save(pet);
+
+        return mapper.parseObject(pet, PetDto.class);
+    }
+
+    @Override
     public ApiResponsePaginatedDto<PetDto> getAllByBreed(Pageable pageable,
                                                          Long breedId,
                                                          Long animalTypeId) {
