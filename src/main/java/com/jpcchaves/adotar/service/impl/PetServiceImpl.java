@@ -29,7 +29,6 @@ public class PetServiceImpl implements PetService {
     private final AnimalTypeRepository animalTypeRepository;
     private final BreedRepository breedRepository;
     private final PetPictureRepository petPictureRepository;
-    private final UserRepository userRepository;
     private final SecurityContextService securityContextService;
     private final GlobalUtils globalUtils;
     private final MapperUtils mapper;
@@ -41,14 +40,12 @@ public class PetServiceImpl implements PetService {
                           PetPictureRepository petPictureRepository,
                           GlobalUtils globalUtils,
                           MapperUtils mapper,
-                          SecurityContextService securityContextService,
-                          UserRepository userRepository) {
+                          SecurityContextService securityContextService) {
         this.petRepository = petRepository;
         this.petCharacteristicRepository = petCharacteristicRepository;
         this.animalTypeRepository = animalTypeRepository;
         this.breedRepository = breedRepository;
         this.petPictureRepository = petPictureRepository;
-        this.userRepository = userRepository;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
         this.securityContextService = securityContextService;
@@ -66,7 +63,7 @@ public class PetServiceImpl implements PetService {
     public PetDto getById(Long id) {
         Pet pet = petRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Could not find pet with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + id));
 
         PetUtils.increasePetVisualization(pet);
         petRepository.save(pet);
@@ -104,7 +101,7 @@ public class PetServiceImpl implements PetService {
         }
 
 
-        return new ApiMessageResponseDto("Successfully created pet: " + petCreateRequestDto.getName());
+        return new ApiMessageResponseDto("Pet criado com sucesso: " + petCreateRequestDto.getName());
     }
 
     @Override
@@ -112,7 +109,7 @@ public class PetServiceImpl implements PetService {
                                         PetUpdateRequestDto petDto) {
         Pet pet = petRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Could not find pet with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + id));
 
         Breed breed = breedRepository
                 .findByIdAndAnimalType_Id(petDto.getBreedId(), petDto.getTypeId())
@@ -123,7 +120,7 @@ public class PetServiceImpl implements PetService {
 
         AnimalType animalType = animalTypeRepository
                 .findById(petDto.getTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Animal type not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("O tipo de animal informado não existe"));
 
         Pet updatedPet = PetUtils.updatePetAttributes(pet, petDto);
 
@@ -138,7 +135,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto delete(Long id) {
-        Pet pet = petRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pet not found with id " + id));
+        Pet pet = petRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + id));
 
         pet.setActive(false);
         pet.setDeletedAt(new Date());
