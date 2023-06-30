@@ -13,6 +13,7 @@ import com.jpcchaves.adotar.service.usecases.SecurityContextService;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
+import com.jpcchaves.adotar.utils.pet.PetUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,6 @@ public class PetServiceImpl implements PetService {
     private final PetPictureRepository petPictureRepository;
     private final UserRepository userRepository;
     private final SecurityContextService securityContextService;
-    private final CollectionsUtils collectionUtils;
     private final GlobalUtils globalUtils;
     private final MapperUtils mapper;
 
@@ -39,7 +39,6 @@ public class PetServiceImpl implements PetService {
                           AnimalTypeRepository animalTypeRepository,
                           BreedRepository breedRepository,
                           PetPictureRepository petPictureRepository,
-                          CollectionsUtils collectionUtils,
                           GlobalUtils globalUtils,
                           MapperUtils mapper,
                           SecurityContextService securityContextService,
@@ -50,7 +49,6 @@ public class PetServiceImpl implements PetService {
         this.breedRepository = breedRepository;
         this.petPictureRepository = petPictureRepository;
         this.userRepository = userRepository;
-        this.collectionUtils = collectionUtils;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
         this.securityContextService = securityContextService;
@@ -70,7 +68,7 @@ public class PetServiceImpl implements PetService {
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find pet with id: " + id));
 
-        increasePetVisualization(pet);
+        PetUtils.increasePetVisualization(pet);
         petRepository.save(pet);
 
         return mapper.parseObject(pet, PetDto.class);
@@ -91,7 +89,7 @@ public class PetServiceImpl implements PetService {
 
         List<PetPicture> petPictures = mapper.parseListObjects(petCreateRequestDto.getPetPictures(), PetPicture.class);
 
-        Pet pet = buildPetCreate(petCreateRequestDto, animalType, breed, characteristicsList);
+        Pet pet = PetUtils.buildPetCreate(petCreateRequestDto, animalType, breed, characteristicsList);
 
         Pet savedPet = petRepository.save(pet);
 
@@ -127,10 +125,10 @@ public class PetServiceImpl implements PetService {
                 .findById(petDto.getTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Animal type not found!"));
 
-        Pet updatedPet = updatePetAttributes(pet, petDto);
+        Pet updatedPet = PetUtils.updatePetAttributes(pet, petDto);
 
         updatedPet.setBreed(breed);
-        updatedPet.setCharacteristics(collectionUtils.convertListToSet(characteristicsList));
+        updatedPet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicsList));
         updatedPet.setType(animalType);
 
         petRepository.save(pet);
@@ -185,53 +183,5 @@ public class PetServiceImpl implements PetService {
         }
 
         return listAll(pageable);
-    }
-
-    private Pet buildPetCreate(PetCreateRequestDto petCreateRequestDto,
-                               AnimalType animalType,
-                               Breed breed,
-                               List<PetCharacteristic> characteristicsList) {
-        Pet pet = new Pet();
-
-        pet.setHealthCondition(petCreateRequestDto.getHealthCondition());
-        pet.setGender(petCreateRequestDto.getGender());
-        pet.setSize(petCreateRequestDto.getSize());
-        pet.setActive(true);
-        pet.setAvailable(true);
-        pet.setMonthsAge(petCreateRequestDto.getMonthsAge());
-        pet.setYearsAge(petCreateRequestDto.getYearsAge());
-        pet.setVisualizations(0);
-        pet.setColor(petCreateRequestDto.getColor());
-        pet.setName(petCreateRequestDto.getName());
-        pet.setDescription(petCreateRequestDto.getDescription());
-
-        pet.setType(animalType);
-        pet.setBreed(breed);
-        pet.setCharacteristics(collectionUtils.convertListToSet(characteristicsList));
-
-        return pet;
-    }
-
-    private Pet updatePetAttributes(Pet pet,
-                                    PetUpdateRequestDto petDto) {
-        pet.setId(pet.getId());
-        pet.setName(petDto.getName());
-        pet.setYearsAge(petDto.getYearsAge());
-        pet.setMonthsAge(petDto.getMonthsAge());
-        pet.setGender(petDto.getGender());
-        pet.setSize(petDto.getSize());
-        pet.setHealthCondition(petDto.getHealthCondition());
-        pet.setColor(petDto.getColor());
-        pet.setDescription(petDto.getDescription());
-        pet.setVisualizations(pet.getVisualizations());
-        pet.setAvailable(petDto.isAvailable());
-        pet.setAdoptionDate(petDto.getAdoptionDate());
-
-        return pet;
-    }
-
-    private void increasePetVisualization(Pet pet) {
-        int ONE = 1;
-        pet.setVisualizations(pet.getVisualizations() + ONE);
     }
 }
