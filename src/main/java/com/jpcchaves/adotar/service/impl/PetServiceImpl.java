@@ -127,22 +127,11 @@ public class PetServiceImpl implements PetService {
                 .findById(petDto.getTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Animal type not found!"));
 
-        pet.setId(pet.getId());
-        pet.setName(petDto.getName());
-        pet.setYearsAge(petDto.getYearsAge());
-        pet.setMonthsAge(petDto.getMonthsAge());
-        pet.setGender(petDto.getGender());
-        pet.setSize(petDto.getSize());
-        pet.setHealthCondition(petDto.getHealthCondition());
-        pet.setColor(petDto.getColor());
-        pet.setDescription(petDto.getDescription());
-        pet.setVisualizations(pet.getVisualizations());
-        pet.setAvailable(petDto.isAvailable());
-        pet.setAdoptionDate(petDto.getAdoptionDate());
+        Pet updatedPet = updatePetAttributes(pet, petDto);
 
-        pet.setBreed(breed);
-        pet.setCharacteristics(collectionUtils.convertListToSet(characteristicsList));
-        pet.setType(animalType);
+        updatedPet.setBreed(breed);
+        updatedPet.setCharacteristics(collectionUtils.convertListToSet(characteristicsList));
+        updatedPet.setType(animalType);
 
         petRepository.save(pet);
 
@@ -219,6 +208,24 @@ public class PetServiceImpl implements PetService {
         pet.setType(animalType);
         pet.setBreed(breed);
         pet.setCharacteristics(collectionUtils.convertListToSet(characteristicsList));
+
+        return pet;
+    }
+
+    private Pet updatePetAttributes(Pet pet,
+                                    PetUpdateRequestDto petDto) {
+        pet.setId(pet.getId());
+        pet.setName(petDto.getName());
+        pet.setYearsAge(petDto.getYearsAge());
+        pet.setMonthsAge(petDto.getMonthsAge());
+        pet.setGender(petDto.getGender());
+        pet.setSize(petDto.getSize());
+        pet.setHealthCondition(petDto.getHealthCondition());
+        pet.setColor(petDto.getColor());
+        pet.setDescription(petDto.getDescription());
+        pet.setVisualizations(pet.getVisualizations());
+        pet.setAvailable(petDto.isAvailable());
+        pet.setAdoptionDate(petDto.getAdoptionDate());
 
         return pet;
     }
