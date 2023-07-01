@@ -50,6 +50,13 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Pet> pets = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(
+            name = "address_id",
+            referencedColumnName = "id"
+    )
+    private Address address;
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -69,6 +76,7 @@ public class User implements UserDetails {
                 Boolean isActive,
                 Set<Role> roles,
                 List<Pet> pets,
+                Address address,
                 Date createdAt,
                 Date updatedAt,
                 Date deletedAt) {
@@ -82,6 +90,7 @@ public class User implements UserDetails {
         this.isActive = isActive;
         this.roles = roles;
         this.pets = pets;
+        this.address = address;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -173,6 +182,14 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override
