@@ -2,6 +2,9 @@ package com.jpcchaves.adotar.domain.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "states")
 public class State {
@@ -13,15 +16,23 @@ public class State {
     @Column(length = 2, nullable = false)
     private String uf;
 
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "state")
+    private List<City> cities = new ArrayList<>();
+
     public State() {
     }
 
     public State(Long id,
                  String name,
-                 String uf) {
+                 String uf,
+                 List<City> cities) {
         this.id = id;
         this.name = name;
         this.uf = uf;
+        this.cities = cities;
     }
 
     public Long getId() {
@@ -46,5 +57,13 @@ public class State {
 
     public void setUf(String uf) {
         this.uf = uf;
+    }
+
+    public List<City> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<City> cities) {
+        this.cities = cities;
     }
 }
