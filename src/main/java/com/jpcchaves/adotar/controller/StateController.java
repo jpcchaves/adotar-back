@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.controller;
 
+import com.jpcchaves.adotar.payload.dto.city.CityDto;
 import com.jpcchaves.adotar.payload.dto.state.StateDto;
 import com.jpcchaves.adotar.service.usecases.StateService;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,10 @@ public class StateController {
     @GetMapping("/{nameOrUf}")
     public ResponseEntity<StateDto> getByNameOrUf(@PathVariable String nameOrUf) {
         return ResponseEntity.ok(stateService.getByNameOrUf(nameOrUf));
+    }
+
+    @GetMapping("/{stateId}/cities")
+    public ResponseEntity<List<CityDto>> getCitiesByStateId(@PathVariable Long stateId) {
+        return ResponseEntity.ok(stateService.getAllCitiesByState(stateId));
     }
 }
