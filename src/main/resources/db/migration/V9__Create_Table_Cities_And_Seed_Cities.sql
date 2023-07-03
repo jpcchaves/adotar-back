@@ -5606,4 +5606,4 @@ VALUES ('Afonso Cláudio', '8'),
        ('Pescaria Brava', '24');
 
 ALTER TABLE public.cities
-    ADD FOREIGN KEY (uf_id) references cities ("id");
+    ADD FOREIGN KEY (uf_id) references public.states ("id");
