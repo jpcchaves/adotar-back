@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/pets-pictures")
+@CrossOrigin("*")
 public class PetPictureController {
     private final PetPictureService petPictureService;
 
