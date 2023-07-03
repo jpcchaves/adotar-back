@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.service.impl;
 
+import com.jpcchaves.adotar.domain.entities.Address;
 import com.jpcchaves.adotar.domain.entities.Role;
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.exception.BadRequestException;
@@ -8,6 +9,7 @@ import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.auth.*;
 import com.jpcchaves.adotar.payload.dto.role.RoleDto;
 import com.jpcchaves.adotar.payload.dto.user.UserDto;
+import com.jpcchaves.adotar.repository.AddressRepository;
 import com.jpcchaves.adotar.repository.RoleRepository;
 import com.jpcchaves.adotar.repository.UserRepository;
 import com.jpcchaves.adotar.security.JwtTokenProvider;
@@ -32,6 +34,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
     private final MapperUtils mapperUtils;
     private final JwtTokenProvider jwtTokenProvider;
@@ -39,12 +42,14 @@ public class AuthServiceImpl implements AuthService {
     public AuthServiceImpl(AuthenticationManager authenticationManager,
                            UserRepository userRepository,
                            RoleRepository roleRepository,
+                           AddressRepository addressRepository,
                            PasswordEncoder passwordEncoder,
                            MapperUtils mapperUtils,
                            JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
         this.mapperUtils = mapperUtils;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -98,6 +103,8 @@ public class AuthServiceImpl implements AuthService {
 
         User user = copyPropertiesFromRegisterDtoToUser(registerDto);
 
+        Address address = addressRepository.save(new Address("", "", ""));
+
         if (userRole.isPresent()) {
             roles.add(userRole.get());
             user.setRoles(roles);
@@ -105,6 +112,7 @@ public class AuthServiceImpl implements AuthService {
 
         user.setAdmin(false);
         user.setActive(true);
+        user.setAddress(address);
 
         User newUser = userRepository.save(user);
 
