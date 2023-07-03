@@ -29,6 +29,15 @@ public class Address {
     public Address() {
     }
 
+    public Address(
+            String zipcode,
+            String city,
+            String state) {
+        this.zipcode = zipcode;
+        this.city = city;
+        this.state = state;
+    }
+
     public Address(Long id,
                    String zipcode,
                    String street,
