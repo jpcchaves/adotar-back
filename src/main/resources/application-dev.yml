@@ -19,3 +19,5 @@ spring:
 app:
   jwt-secret: ${JWT_DEV_SECRET}
   jwt-expiration-milliseconds: ${JWT_DEV_EXPIRATION}
+cors:
+  allowedOrigins: ${DEV_ORIGINS}
