@@ -5,7 +5,6 @@ import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
-import com.jpcchaves.adotar.payload.dto.address.AddressDto;
 import com.jpcchaves.adotar.payload.dto.auth.*;
 import com.jpcchaves.adotar.payload.dto.role.RoleDto;
 import com.jpcchaves.adotar.payload.dto.user.UserDto;
@@ -145,7 +144,6 @@ public class AuthServiceImpl implements AuthService {
         userDto.setLastName(user.getLastName());
         userDto.setUsername(user.getUsername());
         userDto.setRoles(mapperUtils.parseSetObjects(user.getRoles(), RoleDto.class));
-        userDto.setAddress(mapperUtils.parseObject(user.getAddress(), AddressDto.class));
         userDto.setAdmin(user.getAdmin());
         userDto.setActive(user.getActive());
         userDto.setCreatedAt(user.getCreatedAt());

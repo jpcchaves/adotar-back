@@ -1,7 +1,6 @@
 package com.jpcchaves.adotar.payload.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jpcchaves.adotar.payload.dto.address.AddressDto;
 import com.jpcchaves.adotar.payload.dto.role.RoleDto;
 
 import java.util.Date;
@@ -16,7 +15,6 @@ public class UserDto {
     private String email;
     private Boolean isAdmin;
     private Boolean isActive;
-    private AddressDto address;
     @JsonIgnore
     private Set<RoleDto> roles = new HashSet<>();
 
@@ -34,7 +32,6 @@ public class UserDto {
                    String email,
                    Boolean isAdmin,
                    Boolean isActive,
-                   AddressDto address,
                    Set<RoleDto> roles,
                    Date createdAt,
                    Date updatedAt,
@@ -46,7 +43,6 @@ public class UserDto {
         this.email = email;
         this.isAdmin = isAdmin;
         this.isActive = isActive;
-        this.address = address;
         this.roles = roles;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -139,13 +135,5 @@ public class UserDto {
 
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
-    }
-
-    public AddressDto getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressDto address) {
-        this.address = address;
     }
 }
