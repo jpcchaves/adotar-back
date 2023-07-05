@@ -18,7 +18,8 @@ public class CityController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CityDto>> getCities(@RequestParam(name = "stateId", required = false) Long stateId) {
-        return ResponseEntity.ok(cityService.getAllCities(stateId));
+    public ResponseEntity<List<CityDto>> getCities(@RequestParam(name = "stateId", required = false) Long stateId,
+                                                   @RequestParam(name = "uf", required = false) String uf) {
+        return ResponseEntity.ok(cityService.getAllCities(stateId, uf));
     }
 }
