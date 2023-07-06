@@ -140,6 +140,19 @@ public class PetController {
     }
 
     @GetMapping("/by-user")
+    @Operation(summary = "Gets all pets by user",
+            description = "Gets all pets for the current logged user",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiResponsePaginatedDto.class)
+                            )
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+            }
+    )
     public ResponseEntity<ApiResponsePaginatedDto<PetDto>> getAllByUser(Pageable pageable) {
         return ResponseEntity.ok(petService.getAllByUser_Id(pageable));
     }
