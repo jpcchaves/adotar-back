@@ -1,11 +1,11 @@
 package com.jpcchaves.adotar.service.usecases;
 
-import com.jpcchaves.adotar.payload.dto.pet.AnimalTypeDto;
+import com.jpcchaves.adotar.payload.dto.pet.AnimalTypeMinDto;
 
 import java.util.List;
 
 public interface AnimalTypeService {
-    List<AnimalTypeDto> getAll();
+    List<AnimalTypeMinDto> getAll();
 
-    AnimalTypeDto getById(Long id);
+    AnimalTypeMinDto getById(Long id);
 }

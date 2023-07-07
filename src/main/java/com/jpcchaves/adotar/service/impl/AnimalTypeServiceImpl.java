@@ -2,7 +2,7 @@ package com.jpcchaves.adotar.service.impl;
 
 import com.jpcchaves.adotar.domain.entities.AnimalType;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
-import com.jpcchaves.adotar.payload.dto.pet.AnimalTypeDto;
+import com.jpcchaves.adotar.payload.dto.pet.AnimalTypeMinDto;
 import com.jpcchaves.adotar.repository.AnimalTypeRepository;
 import com.jpcchaves.adotar.service.usecases.AnimalTypeService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
@@ -22,16 +22,16 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     }
 
     @Override
-    public List<AnimalTypeDto> getAll() {
+    public List<AnimalTypeMinDto> getAll() {
         List<AnimalType> animalTypes = animalTypeRepository.findAll();
-        return mapperUtils.parseListObjects(animalTypes, AnimalTypeDto.class);
+        return mapperUtils.parseListObjects(animalTypes, AnimalTypeMinDto.class);
     }
 
     @Override
-    public AnimalTypeDto getById(Long id) {
+    public AnimalTypeMinDto getById(Long id) {
         AnimalType animalType = animalTypeRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Tipo de animal não encontrado com o id: " + id));
-        return mapperUtils.parseObject(animalType, AnimalTypeDto.class);
+        return mapperUtils.parseObject(animalType, AnimalTypeMinDto.class);
     }
 }
