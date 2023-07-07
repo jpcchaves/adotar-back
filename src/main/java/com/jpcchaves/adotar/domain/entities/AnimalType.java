@@ -17,14 +17,14 @@ public class AnimalType {
 
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             mappedBy = "animalType"
     )
     private Set<Breed> breeds = new HashSet<>();
 
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             mappedBy = "type"
     )
     private List<Pet> petList = new ArrayList<>();
