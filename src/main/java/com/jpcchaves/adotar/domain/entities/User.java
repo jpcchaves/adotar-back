@@ -57,6 +57,13 @@ public class User implements UserDetails {
     )
     private Address address;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "contact_id",
+            referencedColumnName = "id"
+    )
+    private Contact contact;
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -77,6 +84,7 @@ public class User implements UserDetails {
                 Set<Role> roles,
                 List<Pet> pets,
                 Address address,
+                Contact contact,
                 Date createdAt,
                 Date updatedAt,
                 Date deletedAt) {
@@ -91,6 +99,7 @@ public class User implements UserDetails {
         this.roles = roles;
         this.pets = pets;
         this.address = address;
+        this.contact = contact;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -142,6 +151,14 @@ public class User implements UserDetails {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
     public Date getCreatedAt() {
