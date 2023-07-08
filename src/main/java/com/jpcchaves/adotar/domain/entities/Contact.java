@@ -28,6 +28,14 @@ public class Contact {
         this.phone3 = phone3;
     }
 
+    public Contact(String phone1,
+                   String phone2,
+                   String phone3) {
+        this.phone1 = phone1;
+        this.phone2 = phone2;
+        this.phone3 = phone3;
+    }
+
     public Long getId() {
         return id;
     }
