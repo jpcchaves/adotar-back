@@ -1,6 +1,7 @@
 package com.jpcchaves.adotar.service.impl;
 
 import com.jpcchaves.adotar.domain.entities.Address;
+import com.jpcchaves.adotar.domain.entities.Contact;
 import com.jpcchaves.adotar.domain.entities.Role;
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.exception.BadRequestException;
@@ -10,6 +11,7 @@ import com.jpcchaves.adotar.payload.dto.auth.*;
 import com.jpcchaves.adotar.payload.dto.role.RoleDto;
 import com.jpcchaves.adotar.payload.dto.user.UserDto;
 import com.jpcchaves.adotar.repository.AddressRepository;
+import com.jpcchaves.adotar.repository.ContactRepository;
 import com.jpcchaves.adotar.repository.RoleRepository;
 import com.jpcchaves.adotar.repository.UserRepository;
 import com.jpcchaves.adotar.security.JwtTokenProvider;
@@ -35,6 +37,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final AddressRepository addressRepository;
+    private final ContactRepository contactRepository;
     private final PasswordEncoder passwordEncoder;
     private final MapperUtils mapperUtils;
     private final JwtTokenProvider jwtTokenProvider;
@@ -43,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
                            UserRepository userRepository,
                            RoleRepository roleRepository,
                            AddressRepository addressRepository,
+                           ContactRepository contactRepository,
                            PasswordEncoder passwordEncoder,
                            MapperUtils mapperUtils,
                            JwtTokenProvider jwtTokenProvider) {
@@ -50,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.addressRepository = addressRepository;
+        this.contactRepository = contactRepository;
         this.passwordEncoder = passwordEncoder;
         this.mapperUtils = mapperUtils;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -84,12 +89,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public RegisterResponseDto register(RegisterRequestDto registerDto) {
-// verify if user already registered
         if (userRepository.existsByUsername(registerDto.getUsername())) {
             throw new BadRequestException("Já existe um usuário cadastrado com o usuário informado");
         }
 
-        // check if email already registered
         if (userRepository.existsByEmail(registerDto.getEmail())) {
             throw new BadRequestException("Já existe um usuário cadastrado com o email informado");
         }
@@ -104,6 +107,7 @@ public class AuthServiceImpl implements AuthService {
         User user = copyPropertiesFromRegisterDtoToUser(registerDto);
 
         Address address = addressRepository.save(new Address("", "", ""));
+        Contact contact = contactRepository.save(new Contact("", "", ""));
 
         if (userRole.isPresent()) {
             roles.add(userRole.get());
@@ -113,6 +117,7 @@ public class AuthServiceImpl implements AuthService {
         user.setAdmin(false);
         user.setActive(true);
         user.setAddress(address);
+        user.setContact(contact);
 
         User newUser = userRepository.save(user);
 
