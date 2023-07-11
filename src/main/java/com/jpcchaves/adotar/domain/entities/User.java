@@ -64,6 +64,8 @@ public class User implements UserDetails {
     )
     private Contact contact;
 
+    private Date lastSeen;
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -85,6 +87,7 @@ public class User implements UserDetails {
                 List<Pet> pets,
                 Address address,
                 Contact contact,
+                Date lastSeen,
                 Date createdAt,
                 Date updatedAt,
                 Date deletedAt) {
@@ -100,6 +103,7 @@ public class User implements UserDetails {
         this.pets = pets;
         this.address = address;
         this.contact = contact;
+        this.lastSeen = lastSeen;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -159,6 +163,14 @@ public class User implements UserDetails {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    public Date getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(Date lastSeen) {
+        this.lastSeen = lastSeen;
     }
 
     public Date getCreatedAt() {
