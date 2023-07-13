@@ -29,6 +29,9 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false, length = 150)
     private String email;
 
+    @Column(columnDefinition = "TEXT")
+    private String photoUrl;
+
     @Column(nullable = false)
     private String password;
 
@@ -80,6 +83,7 @@ public class User implements UserDetails {
                 String lastName,
                 String username,
                 String email,
+                String photoUrl,
                 String password,
                 Boolean isAdmin,
                 Boolean isActive,
@@ -96,6 +100,7 @@ public class User implements UserDetails {
         this.lastName = lastName;
         this.username = username;
         this.email = email;
+        this.photoUrl = photoUrl;
         this.password = password;
         this.isAdmin = isAdmin;
         this.isActive = isActive;
@@ -123,6 +128,14 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public Boolean getAdmin() {
