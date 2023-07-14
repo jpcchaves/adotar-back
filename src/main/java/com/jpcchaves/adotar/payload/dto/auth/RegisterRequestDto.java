@@ -23,7 +23,6 @@ public class RegisterRequestDto {
     private String email;
 
     @NotBlank(message = "A senha é obrigatória!")
-    @NotBlank(message = "A senha atual é obrigatória!")
     @Length(min = 6, message = "Senha deve conter pelo menos 6 caracteres!")
     private String password;
 
