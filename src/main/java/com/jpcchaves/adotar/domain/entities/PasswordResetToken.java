@@ -13,11 +13,19 @@ public class PasswordResetToken {
     private String token;
     private Instant expirationTime;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
     private User user;
 
     public PasswordResetToken() {
+    }
+
+    public PasswordResetToken(String token,
+                              Instant expirationTime,
+                              User user) {
+        this.token = token;
+        this.expirationTime = expirationTime;
+        this.user = user;
     }
 
     public PasswordResetToken(Long id,
