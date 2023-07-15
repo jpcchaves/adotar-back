@@ -10,6 +10,7 @@ public class PasswordResetToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 6, nullable = false)
     private String token;
     private Instant expirationTime;
 
