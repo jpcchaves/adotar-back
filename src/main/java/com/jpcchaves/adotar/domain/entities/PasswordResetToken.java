@@ -14,7 +14,7 @@ public class PasswordResetToken {
     private String token;
     private Instant expirationTime;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
     private User user;
 
