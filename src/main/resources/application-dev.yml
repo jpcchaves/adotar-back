@@ -16,8 +16,27 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         show_sql: true
         format_sql: true
+  mail:
+    host: ${MAIL_DEV_HOST}
+    port: ${MAIL_DEV_PORT}
+    username: ${MAIL_DEV_USERNAME}
+    password: ${MAIL_DEV_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+        starttls:
+          enable: true
 app:
   jwt-secret: ${JWT_DEV_SECRET}
   jwt-expiration-milliseconds: ${JWT_DEV_EXPIRATION}
 cors:
   allowedOrigins: ${DEV_ORIGINS}
+mail:
+  host: ${MAIL_DEV_HOST}
+  port: ${MAIL_DEV_PORT}
+  username: ${MAIL_DEV_USERNAME}
+  password: ${MAIL_DEV_PASSWORD}
