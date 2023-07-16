@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -42,6 +43,12 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         User user = userRepository
                 .findByEmail(passwordResetRequestDto.getEmail())
                 .orElseThrow(() -> new BadRequestException("Usuário não encontrado com o email informado. Por favor, verifique o email e tente novamente"));
+
+        Optional<PasswordResetToken> passwordResetToken = passwordResetTokenRepository.findByUser(user);
+
+        if (passwordResetToken.isPresent()) {
+            passwordResetTokenRepository.delete(passwordResetToken.get());
+        }
 
         String token = generateRandomCode();
         Instant expirationDate = calculateExpirationDate();
