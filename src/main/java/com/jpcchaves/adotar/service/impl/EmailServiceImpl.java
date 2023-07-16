@@ -4,7 +4,6 @@ import com.jpcchaves.adotar.domain.entities.PasswordResetToken;
 import com.jpcchaves.adotar.service.usecases.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -19,21 +18,9 @@ public class EmailServiceImpl implements EmailService {
     }
 
     public void sendPasswordRequest(PasswordResetToken passwordResetToken) throws MessagingException {
-        SimpleMailMessage message = new SimpleMailMessage();
         MimeMessage message2 = mailSender.createMimeMessage();
 
-        message.setSubject("Adote.Me - Solcitação para Redefinir Senha");
-
-//        message.setText(
-//                "Olá, " + passwordResetToken.getUser().getFirstName() + "! "
-//                        + "Recebemos sua solicitação para redefinir a senha. Segue seu código de verificação para prosseguir com a solicitação: "
-//                        + passwordResetToken.getToken()
-//        );
-
         MimeMessageHelper helper = new MimeMessageHelper(message2, true, "UTF-8");
-
-
-//        message.setTo(passwordResetToken.getUser().getEmail());
 
         helper.setTo(passwordResetToken.getUser().getEmail());
         helper.setSubject("Adote.Me - Solcitação para Redefinir Senha");
@@ -364,6 +351,15 @@ public class EmailServiceImpl implements EmailService {
                 "    \n" +
                 "    .email-masthead_logo {\n" +
                 "      width: 94px;\n" +
+                "    }\n" + "    \n" +
+                "    .token-container {\n" +
+                "      padding: 10px 30px;\n" +
+                "      background-color: #22bc66;\n" +
+                "      border-radius: 5px;\n" +
+                "      width: 90px;\n" +
+                "      letter-spacing: 0.2rem;\n" +
+                "      color: #fff;\n" +
+                "      text-align: center;\n" +
                 "    }\n" +
                 "    \n" +
                 "    .email-masthead_name {\n" +
@@ -481,7 +477,7 @@ public class EmailServiceImpl implements EmailService {
                 "  <![endif]-->\n" +
                 "  </head>\n" +
                 "  <body>\n" +
-                "    <span class=\"preheader\">Use this link to reset your password. The link is only valid for 24 hours.</span>\n" +
+                "    <span class=\"preheader\">Use o código para redefinir sua senha. O código é válido por 5 minutos.</span>\n" +
                 "    <table class=\"email-wrapper\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\">\n" +
                 "      <tr>\n" +
                 "        <td align=\"center\">\n" +
@@ -512,7 +508,7 @@ public class EmailServiceImpl implements EmailService {
                 "                              <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\n" +
                 "                                <tr>\n" +
                 "                                  <td align=\"center\">\n" +
-                "                                    <div href=\"{{action_url}}\" class=\"f-fallback button button--green\">" + passwordResetToken.getToken() + "</div>\n" +
+                "                                    <div class=\"token-container\">" + passwordResetToken.getToken() + "</div>\n" +
                 "                                  </td>\n" +
                 "                                </tr>\n" +
                 "                              </table>\n" +
