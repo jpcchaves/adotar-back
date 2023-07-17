@@ -22,7 +22,7 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         return new OpenAPI().info(
                 new Info()
-                        .title("Adotar - Rest API")
+                        .title("Adote.ME - Rest API")
                         .version("v1")
                         .contact(new Contact().url("https://www.linkedin.com/in/joaopaulo-chaves/").email("jpcchaves@outlook.com"))
                         .description("REST API built to manage a pet adoption application made with Spring Boot")
