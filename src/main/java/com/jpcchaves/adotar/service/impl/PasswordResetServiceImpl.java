@@ -46,19 +46,22 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
         Optional<PasswordResetToken> passwordResetToken = passwordResetTokenRepository.findByUser(user);
 
-        if (passwordResetToken.isPresent()) {
+        if (passwordResetToken.isPresent() && isTokenExpired(passwordResetToken.get().getExpirationTime())) {
             passwordResetTokenRepository.delete(passwordResetToken.get());
+
+            String token = generateRandomCode();
+            Instant expirationDate = calculateExpirationDate();
+
+            PasswordResetToken newPasswordResetToken = new PasswordResetToken(token, expirationDate, user);
+
+            PasswordResetToken savedPasswordResetToken = passwordResetTokenRepository.save(newPasswordResetToken);
+
+            emailService.sendPasswordRequest(savedPasswordResetToken);
+
+        } else {
+            emailService.sendPasswordRequest(passwordResetToken.get());
+
         }
-
-        String token = generateRandomCode();
-        Instant expirationDate = calculateExpirationDate();
-
-        PasswordResetToken newPasswordResetToken = new PasswordResetToken(token, expirationDate, user);
-
-        PasswordResetToken savedPasswordResetToken = passwordResetTokenRepository.save(newPasswordResetToken);
-
-        emailService.sendPasswordRequest(savedPasswordResetToken);
-
         return new ApiMessageResponseDto("Solicitação enviada com sucesso!");
     }
 
