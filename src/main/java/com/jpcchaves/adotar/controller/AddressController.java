@@ -1,6 +1,7 @@
 package com.jpcchaves.adotar.controller;
 
 import com.jpcchaves.adotar.payload.dto.address.AddressDto;
+import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import com.jpcchaves.adotar.service.usecases.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -68,7 +69,7 @@ public class AddressController {
             }
     )
     @PutMapping
-    public ResponseEntity<AddressDto> updateUserAddress(@RequestBody AddressDto addressDto) {
-        return ResponseEntity.ok(addressService.updateUserAddress(addressDto));
+    public ResponseEntity<AddressDto> updateUserAddress(@RequestBody AddressRequestDto addressRequestDto) {
+        return ResponseEntity.ok(addressService.updateUserAddress(addressRequestDto));
     }
 }
