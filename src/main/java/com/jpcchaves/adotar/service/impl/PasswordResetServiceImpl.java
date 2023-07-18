@@ -51,27 +51,15 @@ public class PasswordResetServiceImpl implements PasswordResetService {
             if (isTokenExpired(passwordResetToken.get().getExpirationTime())) {
                 passwordResetTokenRepository.delete(passwordResetToken.get());
 
-                String token = generateRandomCode();
-                Instant expirationDate = calculateExpirationDate();
+                PasswordResetToken newToken = buildNewToken(user);
 
-                PasswordResetToken newPasswordResetToken = new PasswordResetToken(token, expirationDate, user);
-
-                PasswordResetToken savedPasswordResetToken = passwordResetTokenRepository.save(newPasswordResetToken);
-
-                emailService.sendPasswordRequest(savedPasswordResetToken);
+                emailService.sendPasswordRequest(newToken);
             } else {
                 emailService.sendPasswordRequest(passwordResetToken.get());
             }
-            
+
         } else {
-            String token = generateRandomCode();
-            Instant expirationDate = calculateExpirationDate();
-
-            PasswordResetToken newPasswordResetToken = new PasswordResetToken(token, expirationDate, user);
-
-            PasswordResetToken savedPasswordResetToken = passwordResetTokenRepository.save(newPasswordResetToken);
-
-            emailService.sendPasswordRequest(savedPasswordResetToken);
+            emailService.sendPasswordRequest(buildNewToken(user));
         }
 
         return new ApiMessageResponseDto("Solicitação enviada com sucesso!");
@@ -123,5 +111,12 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
     private Boolean isTokenExpired(Instant expirationTime) {
         return Instant.now().isAfter(expirationTime);
+    }
+
+    private PasswordResetToken buildNewToken(User user) {
+        String token = generateRandomCode();
+        Instant expirationDate = calculateExpirationDate();
+
+        return passwordResetTokenRepository.save(new PasswordResetToken(token, expirationDate, user));
     }
 }
