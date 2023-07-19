@@ -92,6 +92,13 @@ public class Pet {
     )
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "address_id",
+            referencedColumnName = "id"
+    )
+    private Address address;
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -119,6 +126,7 @@ public class Pet {
                Breed breed,
                List<PetPicture> petPictures,
                User user,
+               Address address,
                Date createdAt,
                Date updatedAt,
                Date deletedAt) {
@@ -140,6 +148,7 @@ public class Pet {
         this.breed = breed;
         this.petPictures = petPictures;
         this.user = user;
+        this.address = address;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -215,6 +224,14 @@ public class Pet {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Date getCreatedAt() {
