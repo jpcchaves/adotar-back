@@ -8,7 +8,6 @@ public class AddressRequestDto {
     private String complement;
     private String neighborhood;
     private Long cityId;
-    private Long stateId;
 
     public AddressRequestDto() {
     }
@@ -19,8 +18,7 @@ public class AddressRequestDto {
                              String number,
                              String complement,
                              String neighborhood,
-                             Long cityId,
-                             Long stateId) {
+                             Long cityId) {
         this.id = id;
         this.zipcode = zipcode;
         this.street = street;
@@ -28,7 +26,6 @@ public class AddressRequestDto {
         this.complement = complement;
         this.neighborhood = neighborhood;
         this.cityId = cityId;
-        this.stateId = stateId;
     }
 
     public Long getId() {
@@ -85,13 +82,5 @@ public class AddressRequestDto {
 
     public void setCityId(Long cityId) {
         this.cityId = cityId;
-    }
-
-    public Long getStateId() {
-        return stateId;
-    }
-
-    public void setStateId(Long stateId) {
-        this.stateId = stateId;
     }
 }
