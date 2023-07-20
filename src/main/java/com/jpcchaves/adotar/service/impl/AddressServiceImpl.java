@@ -1,5 +1,7 @@
 package com.jpcchaves.adotar.service.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.jpcchaves.adotar.domain.entities.Address;
 import com.jpcchaves.adotar.domain.entities.City;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
@@ -11,12 +13,10 @@ import com.jpcchaves.adotar.repository.StateRepository;
 import com.jpcchaves.adotar.service.usecases.AddressService;
 import com.jpcchaves.adotar.service.usecases.SecurityContextService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
-    private final StateRepository stateRepository;
     private final CityRepository cityRepository;
     private final SecurityContextService securityContextService;
     private final MapperUtils mapperUtils;
@@ -27,7 +27,6 @@ public class AddressServiceImpl implements AddressService {
                               SecurityContextService securityContextService,
                               MapperUtils mapperUtils) {
         this.addressRepository = addressRepository;
-        this.stateRepository = stateRepository;
         this.cityRepository = cityRepository;
         this.securityContextService = securityContextService;
         this.mapperUtils = mapperUtils;
