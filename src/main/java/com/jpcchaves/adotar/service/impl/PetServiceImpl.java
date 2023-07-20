@@ -1,25 +1,38 @@
 package com.jpcchaves.adotar.service.impl;
 
-import com.jpcchaves.adotar.domain.entities.*;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.jpcchaves.adotar.domain.entities.Address;
+import com.jpcchaves.adotar.domain.entities.AnimalType;
+import com.jpcchaves.adotar.domain.entities.Breed;
+import com.jpcchaves.adotar.domain.entities.City;
+import com.jpcchaves.adotar.domain.entities.Pet;
+import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.domain.entities.PetPicture;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
-import com.jpcchaves.adotar.repository.*;
+import com.jpcchaves.adotar.repository.AddressRepository;
+import com.jpcchaves.adotar.repository.AnimalTypeRepository;
+import com.jpcchaves.adotar.repository.BreedRepository;
+import com.jpcchaves.adotar.repository.CityRepository;
+import com.jpcchaves.adotar.repository.PetCharacteristicRepository;
+import com.jpcchaves.adotar.repository.PetPictureRepository;
+import com.jpcchaves.adotar.repository.PetRepository;
 import com.jpcchaves.adotar.service.usecases.PetService;
 import com.jpcchaves.adotar.service.usecases.SecurityContextService;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.utils.pet.PetUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class PetServiceImpl implements PetService {
@@ -31,7 +44,6 @@ public class PetServiceImpl implements PetService {
     private final PetPictureRepository petPictureRepository;
     private final AddressRepository addressRepository;
     private final CityRepository cityRepository;
-    private final StateRepository stateRepository;
     private final SecurityContextService securityContextService;
     private final GlobalUtils globalUtils;
     private final MapperUtils mapper;
@@ -43,7 +55,6 @@ public class PetServiceImpl implements PetService {
                           PetPictureRepository petPictureRepository,
                           AddressRepository addressRepository,
                           CityRepository cityRepository,
-                          StateRepository stateRepository,
                           SecurityContextService securityContextService,
                           GlobalUtils globalUtils,
                           MapperUtils mapper) {
@@ -54,7 +65,6 @@ public class PetServiceImpl implements PetService {
         this.petPictureRepository = petPictureRepository;
         this.addressRepository = addressRepository;
         this.cityRepository = cityRepository;
-        this.stateRepository = stateRepository;
         this.securityContextService = securityContextService;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
