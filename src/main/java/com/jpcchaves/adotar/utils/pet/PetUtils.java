@@ -1,9 +1,6 @@
 package com.jpcchaves.adotar.utils.pet;
 
-import com.jpcchaves.adotar.domain.entities.AnimalType;
-import com.jpcchaves.adotar.domain.entities.Breed;
-import com.jpcchaves.adotar.domain.entities.Pet;
-import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
@@ -19,7 +16,8 @@ public class PetUtils {
     public static Pet buildPetCreate(PetCreateRequestDto petCreateRequestDto,
                                      AnimalType animalType,
                                      Breed breed,
-                                     List<PetCharacteristic> characteristicsList) {
+                                     List<PetCharacteristic> characteristicsList,
+                                     Address petAddress) {
         Pet pet = new Pet();
 
         pet.setHealthCondition(petCreateRequestDto.getHealthCondition());
@@ -34,6 +32,7 @@ public class PetUtils {
         pet.setName(petCreateRequestDto.getName());
         pet.setDescription(petCreateRequestDto.getDescription());
 
+        pet.setAddress(petAddress);
         pet.setType(animalType);
         pet.setBreed(breed);
         pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicsList));

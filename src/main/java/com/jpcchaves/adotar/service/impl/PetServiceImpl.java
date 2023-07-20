@@ -29,6 +29,9 @@ public class PetServiceImpl implements PetService {
     private final AnimalTypeRepository animalTypeRepository;
     private final BreedRepository breedRepository;
     private final PetPictureRepository petPictureRepository;
+    private final AddressRepository addressRepository;
+    private final CityRepository cityRepository;
+    private final StateRepository stateRepository;
     private final SecurityContextService securityContextService;
     private final GlobalUtils globalUtils;
     private final MapperUtils mapper;
@@ -38,17 +41,23 @@ public class PetServiceImpl implements PetService {
                           AnimalTypeRepository animalTypeRepository,
                           BreedRepository breedRepository,
                           PetPictureRepository petPictureRepository,
+                          AddressRepository addressRepository,
+                          CityRepository cityRepository,
+                          StateRepository stateRepository,
+                          SecurityContextService securityContextService,
                           GlobalUtils globalUtils,
-                          MapperUtils mapper,
-                          SecurityContextService securityContextService) {
+                          MapperUtils mapper) {
         this.petRepository = petRepository;
         this.petCharacteristicRepository = petCharacteristicRepository;
         this.animalTypeRepository = animalTypeRepository;
         this.breedRepository = breedRepository;
         this.petPictureRepository = petPictureRepository;
+        this.addressRepository = addressRepository;
+        this.cityRepository = cityRepository;
+        this.stateRepository = stateRepository;
+        this.securityContextService = securityContextService;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
-        this.securityContextService = securityContextService;
     }
 
     @Override
@@ -84,9 +93,25 @@ public class PetServiceImpl implements PetService {
                 .findById(petCreateRequestDto.getTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Tipo de animal não encotrado!"));
 
+        City city = cityRepository
+                .findById(petCreateRequestDto.getCityId())
+                .orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada!"));
+
+        Address address = addressRepository.save(
+                new Address(
+                        petCreateRequestDto.getZipcode(),
+                        petCreateRequestDto.getStreet(),
+                        petCreateRequestDto.getNumber(),
+                        petCreateRequestDto.getComplement(),
+                        petCreateRequestDto.getNeighborhood(),
+                        city.getName(),
+                        city.getState().getName()
+                )
+        );
+
         List<PetPicture> petPictures = mapper.parseListObjects(petCreateRequestDto.getPetPictures(), PetPicture.class);
 
-        Pet pet = PetUtils.buildPetCreate(petCreateRequestDto, animalType, breed, characteristicsList);
+        Pet pet = PetUtils.buildPetCreate(petCreateRequestDto, animalType, breed, characteristicsList, address);
 
         Pet savedPet = petRepository.save(pet);
 
@@ -99,8 +124,7 @@ public class PetServiceImpl implements PetService {
         if (petCreateRequestDto.getPetPictures().size() > 0) {
             petPictureRepository.saveAll(petPictures);
         }
-
-
+        
         return new ApiMessageResponseDto("Pet criado com sucesso: " + petCreateRequestDto.getName());
     }
 

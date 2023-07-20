@@ -4,6 +4,7 @@ import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,17 @@ public class PetCreateRequestDto {
     private List<Long> characteristicsIds = new ArrayList<>();
     private List<PetPictureDto> petPictures = new ArrayList<>();
 
+    @NotBlank(message = "O CEP é obrigatório")
+    @Length(min = 8, max = 8, message = "O CEP deve conter 8 caracteres")
+    private String zipcode;
+    private String street;
+    private String number;
+    private String complement;
+    private String neighborhood;
+    @NotNull(message = "A cidade é obrigatória")
+    private Long cityId;
+    private Long stateId;
+
     @NotNull(message = "O tipo do animal é obrigatório")
     private Long typeId;
 
@@ -58,11 +70,25 @@ public class PetCreateRequestDto {
                                boolean isAvailable,
                                List<Long> characteristicsIds,
                                List<PetPictureDto> petPictures,
+                               String zipcode,
+                               String street,
+                               String number,
+                               String complement,
+                               String neighborhood,
+                               Long cityId,
+                               Long stateId,
                                Long typeId,
                                Long breedId) {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
+        this.zipcode = zipcode;
+        this.street = street;
+        this.number = number;
+        this.complement = complement;
+        this.neighborhood = neighborhood;
+        this.cityId = cityId;
+        this.stateId = stateId;
         setGender(gender);
         setSize(size);
         setHealthCondition(healthCondition);
@@ -192,5 +218,61 @@ public class PetCreateRequestDto {
 
     public void setBreedId(Long breedId) {
         this.breedId = breedId;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public void setComplement(String complement) {
+        this.complement = complement;
+    }
+
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
+    }
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
+
+    public Long getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Long stateId) {
+        this.stateId = stateId;
     }
 }
