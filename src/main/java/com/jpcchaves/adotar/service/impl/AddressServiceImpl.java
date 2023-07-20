@@ -2,7 +2,6 @@ package com.jpcchaves.adotar.service.impl;
 
 import com.jpcchaves.adotar.domain.entities.Address;
 import com.jpcchaves.adotar.domain.entities.City;
-import com.jpcchaves.adotar.domain.entities.State;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.address.AddressDto;
 import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
@@ -44,11 +43,10 @@ public class AddressServiceImpl implements AddressService {
     public AddressDto updateUserAddress(AddressRequestDto addressDto) {
         Address address = securityContextService.getCurrentLoggedUser().getAddress();
 
-        State state = stateRepository.findById(addressDto.getStateId()).orElseThrow(() -> new ResourceNotFoundException("Estado não encontrado"));
         City city = cityRepository.findById(addressDto.getCityId()).orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada"));
 
         address.setCity(city.getName());
-        address.setState(state.getName());
+        address.setState(city.getState().getName());
 
         address.setZipcode(addressDto.getZipcode());
         address.setNeighborhood(addressDto.getNeighborhood());
