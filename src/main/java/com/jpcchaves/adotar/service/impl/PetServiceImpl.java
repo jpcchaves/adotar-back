@@ -1,38 +1,26 @@
 package com.jpcchaves.adotar.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import com.jpcchaves.adotar.domain.entities.Address;
-import com.jpcchaves.adotar.domain.entities.AnimalType;
-import com.jpcchaves.adotar.domain.entities.Breed;
-import com.jpcchaves.adotar.domain.entities.City;
-import com.jpcchaves.adotar.domain.entities.Pet;
-import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
-import com.jpcchaves.adotar.domain.entities.PetPicture;
+import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
-import com.jpcchaves.adotar.repository.AddressRepository;
-import com.jpcchaves.adotar.repository.AnimalTypeRepository;
-import com.jpcchaves.adotar.repository.BreedRepository;
-import com.jpcchaves.adotar.repository.CityRepository;
-import com.jpcchaves.adotar.repository.PetCharacteristicRepository;
-import com.jpcchaves.adotar.repository.PetPictureRepository;
-import com.jpcchaves.adotar.repository.PetRepository;
+import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.usecases.PetService;
 import com.jpcchaves.adotar.service.usecases.SecurityContextService;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.utils.pet.PetUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class PetServiceImpl implements PetService {
@@ -71,9 +59,9 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public ApiResponsePaginatedDto<PetDto> listAll(Pageable pageable) {
+    public ApiResponsePaginatedDto<PetMinDto> listAll(Pageable pageable) {
         Page<Pet> petsPage = petRepository.findAll(pageable);
-        List<PetDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetDto.class);
+        List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
 
         return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
     }
@@ -134,7 +122,7 @@ public class PetServiceImpl implements PetService {
         if (petCreateRequestDto.getPetPictures().size() > 0) {
             petPictureRepository.saveAll(petPictures);
         }
-        
+
         return new ApiMessageResponseDto("Pet criado com sucesso: " + petCreateRequestDto.getName());
     }
 
@@ -187,28 +175,28 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public ApiResponsePaginatedDto<PetDto> getAllByBreed(Pageable pageable,
-                                                         Long breedId,
-                                                         Long animalTypeId) {
+    public ApiResponsePaginatedDto<PetMinDto> getAllByBreed(Pageable pageable,
+                                                            Long breedId,
+                                                            Long animalTypeId) {
 
 
         if (breedId != null && animalTypeId != null) {
             Page<Pet> petsPage = petRepository.getAllByBreed_IdAndType_Id(pageable, breedId, animalTypeId);
-            List<PetDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetDto.class);
+            List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
 
             return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
         }
 
         if (animalTypeId != null) {
             Page<Pet> petsPage = petRepository.getAllByType_Id(pageable, animalTypeId);
-            List<PetDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetDto.class);
+            List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
 
             return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
         }
 
         if (breedId != null) {
             Page<Pet> petsPage = petRepository.getAllByType_Id(pageable, breedId);
-            List<PetDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetDto.class);
+            List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
 
             return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
         }

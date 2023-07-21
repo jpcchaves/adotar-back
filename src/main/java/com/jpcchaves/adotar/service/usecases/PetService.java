@@ -4,15 +4,16 @@ import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import org.springframework.data.domain.Pageable;
 
 public interface PetService {
-    ApiResponsePaginatedDto<PetDto> listAll(Pageable pageable);
+    ApiResponsePaginatedDto<PetMinDto> listAll(Pageable pageable);
 
-    ApiResponsePaginatedDto<PetDto> getAllByBreed(Pageable pageable,
-                                                  Long breedId,
-                                                  Long animalTypeId);
+    ApiResponsePaginatedDto<PetMinDto> getAllByBreed(Pageable pageable,
+                                                     Long breedId,
+                                                     Long animalTypeId);
 
     ApiResponsePaginatedDto<PetDto> getAllByUser_Id(Pageable pageable);
 
