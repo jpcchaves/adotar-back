@@ -62,7 +62,7 @@ public class PetDto {
         this.isAvailable = isAvailable;
         this.characteristics = characteristics;
         this.type = type.getType();
-        this.breed = breed.getname();
+        this.breed = breed.getName();
         this.petPictures = petPictures;
     }
 
