@@ -8,9 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PetRepository extends JpaRepository<Pet, Long> {
-    Page<Pet> getAllByBreed_Id(Pageable pageable,
-                               Long breedId);
-
     Page<Pet> getAllByBreed_IdAndType_Id(Pageable pageable,
                                          Long breedId,
                                          Long typeId);
