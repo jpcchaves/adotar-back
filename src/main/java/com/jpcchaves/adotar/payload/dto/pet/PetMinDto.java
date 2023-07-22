@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
+import com.jpcchaves.adotar.domain.entities.Breed;
 import com.jpcchaves.adotar.payload.dto.address.AddressMinDto;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class PetMinDto {
                      char gender,
                      int visualizations,
                      String type,
-                     String breed,
+                     BreedDto breed,
                      List<PetPictureDto> petPictures,
                      AddressMinDto address) {
         this.id = id;
@@ -31,7 +32,7 @@ public class PetMinDto {
         this.gender = gender;
         this.visualizations = visualizations;
         this.type = type;
-        this.breed = breed;
+        this.breed = breed.getName();
         this.petPictures = petPictures;
         this.address = address;
     }
@@ -80,8 +81,8 @@ public class PetMinDto {
         return breed;
     }
 
-    public void setBreed(String breed) {
-        this.breed = breed;
+    public void setBreed(Breed breed) {
+        this.breed = breed.getName();
     }
 
     public List<PetPictureDto> getPetPictures() {
