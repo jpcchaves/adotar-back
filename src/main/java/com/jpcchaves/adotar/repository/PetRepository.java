@@ -17,4 +17,7 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
 
     Page<Pet> getAllByUser_Id(Pageable pageable,
                               Long userId);
+
+    Page<Pet> findAllByActive(Pageable pageable,
+                              boolean active);
 }
