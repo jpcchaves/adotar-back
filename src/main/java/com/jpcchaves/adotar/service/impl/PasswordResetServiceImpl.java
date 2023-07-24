@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.service.impl;
 
+import com.jpcchaves.adotar.domain.Enum.ExpirationTime;
 import com.jpcchaves.adotar.domain.entities.PasswordResetToken;
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.exception.PasswordsMismatchException;
@@ -24,7 +25,7 @@ import java.util.Optional;
 
 @Service
 public class PasswordResetServiceImpl implements PasswordResetService {
-    private static final int TOKEN_VALIDITY_MINUTES = 5;
+    private static final int TOKEN_VALIDITY_MINUTES = ExpirationTime.FIVE_MINUTES.getMinutes();
 
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final UserRepository userRepository;
