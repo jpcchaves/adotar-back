@@ -2,6 +2,7 @@ package com.jpcchaves.adotar.exception.handler;
 
 import com.jpcchaves.adotar.exception.*;
 import com.jpcchaves.adotar.exception.model.ExceptionResponse;
+import jakarta.mail.SendFailedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -92,6 +93,15 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     public final ResponseEntity<ExceptionResponse> handlePasswordsMismatchException(PasswordsMismatchException ex,
                                                                                     WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SendFailedException.class)
+    public final ResponseEntity<ExceptionResponse> handleSendFailedException(SendFailedException ex,
+                                                                                    WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Email inválido! Verifique o e-mail informado e tente novamente",
                 request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
