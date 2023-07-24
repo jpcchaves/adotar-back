@@ -2,7 +2,10 @@ package com.jpcchaves.adotar.service.impl;
 
 import com.jpcchaves.adotar.domain.entities.PasswordResetToken;
 import com.jpcchaves.adotar.domain.entities.User;
-import com.jpcchaves.adotar.exception.BadRequestException;
+import com.jpcchaves.adotar.exception.PasswordsMismatchException;
+import com.jpcchaves.adotar.exception.ResourceNotFoundException;
+import com.jpcchaves.adotar.exception.TokenExpiredException;
+import com.jpcchaves.adotar.exception.UserNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.auth.PasswordResetRequestDto;
 import com.jpcchaves.adotar.payload.dto.auth.PasswordResetTokenRequestDto;
@@ -14,10 +17,10 @@ import jakarta.mail.MessagingException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class PasswordResetServiceImpl implements PasswordResetService {
@@ -42,22 +45,23 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     public ApiMessageResponseDto resetTokenRequestDto(PasswordResetRequestDto passwordResetRequestDto) throws MessagingException {
         User user = userRepository
                 .findByEmail(passwordResetRequestDto.getEmail())
-                .orElseThrow(() -> new BadRequestException("Usuário não encontrado com o email informado. Por favor, verifique o email e tente novamente"));
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado com o email informado. Por favor, verifique o email e tente novamente"));
 
         Optional<PasswordResetToken> passwordResetToken = passwordResetTokenRepository.findByUser(user);
 
         if (passwordResetToken.isPresent()) {
 
-            if (isTokenExpired(passwordResetToken.get().getExpirationTime())) {
-                passwordResetTokenRepository.delete(passwordResetToken.get());
+            PasswordResetToken token = passwordResetToken.get();
 
+            if (isTokenExpired(token.getExpirationTime())) {
+
+                deleteExpiredToken(token);
                 PasswordResetToken newToken = buildNewToken(user);
-
                 emailService.sendPasswordRequest(newToken);
+
             } else {
                 emailService.sendPasswordRequest(passwordResetToken.get());
             }
-
         } else {
             emailService.sendPasswordRequest(buildNewToken(user));
         }
@@ -68,28 +72,28 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     @Override
     public ApiMessageResponseDto resetPassword(PasswordResetTokenRequestDto passwordResetTokenRequestDto) {
 
-        if (!passwordsMatches(passwordResetTokenRequestDto.getNewPassword(), passwordResetTokenRequestDto.getConfirmNewPassword())) {
-            throw new BadRequestException("As senhas não são indenticas. Verifique os dados informados e tente novamente");
+        if (!passwordsMatch(passwordResetTokenRequestDto.getNewPassword(), passwordResetTokenRequestDto.getConfirmNewPassword())) {
+            throw new PasswordsMismatchException("As senhas não são indênticas. Verifique os dados informados e tente novamente");
         }
 
         PasswordResetToken passwordResetToken = passwordResetTokenRepository
                 .findByToken(passwordResetTokenRequestDto.getToken())
-                .orElseThrow(() -> new BadRequestException("Token inválido. Por favor, verifique o token informado e tente novamente"));
+                .orElseThrow(() -> new ResourceNotFoundException("O token informado está expirado ou não existe. Por favor, verifique os dados e tente novamente."));
 
         if (isTokenExpired(passwordResetToken.getExpirationTime())) {
-            passwordResetTokenRepository.delete(passwordResetToken);
-            throw new BadRequestException("O token informado não existe ou está expirado. Verifique os dados informados ou solicite um novo token para continuar");
+            deleteExpiredToken(passwordResetToken);
+            throw new TokenExpiredException("O token informado não existe ou está expirado. Verifique os dados informados ou solicite um novo token para continuar");
         }
 
         User user = userRepository
                 .findByEmail(passwordResetToken.getUser().getEmail())
-                .orElseThrow(() -> new BadRequestException("Ocorreu um erro inesperado. Por favor, tente novamente"));
-
+                .orElseThrow(() -> new UserNotFoundException("Ocorreu um erro inesperado. Por favor, tente novamente"));
 
         user.setPassword(passwordEncoder.encode(passwordResetTokenRequestDto.getNewPassword()));
 
         userRepository.save(user);
-        passwordResetTokenRepository.delete(passwordResetToken);
+
+        deleteExpiredToken(passwordResetToken);
 
         return new ApiMessageResponseDto("Senha redefinida com sucesso!");
     }
@@ -98,14 +102,18 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         return Instant.now().plus(TOKEN_VALIDITY_MINUTES, ChronoUnit.MINUTES);
     }
 
+    private void deleteExpiredToken(PasswordResetToken token) {
+        passwordResetTokenRepository.delete(token);
+    }
+
     private String generateRandomCode() {
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         int code = random.nextInt(900000) + 100000;
         return String.valueOf(code);
     }
 
-    private Boolean passwordsMatches(String newPassword,
-                                     String confirmNewPassword) {
+    private Boolean passwordsMatch(String newPassword,
+                                   String confirmNewPassword) {
         return newPassword.equals(confirmNewPassword);
     }
 
@@ -116,7 +124,6 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     private PasswordResetToken buildNewToken(User user) {
         String token = generateRandomCode();
         Instant expirationDate = calculateExpirationDate();
-
         return passwordResetTokenRepository.save(new PasswordResetToken(token, expirationDate, user));
     }
 }
