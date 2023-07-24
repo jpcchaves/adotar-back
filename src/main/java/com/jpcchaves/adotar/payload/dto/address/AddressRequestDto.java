@@ -1,12 +1,21 @@
 package com.jpcchaves.adotar.payload.dto.address;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import org.hibernate.validator.constraints.Length;
+
 public class AddressRequestDto {
     private Long id;
+    @NotBlank(message = "O CEP é obrigatório")
+    @Length(min = 8, max = 8, message = "CEP inválido")
     private String zipcode;
     private String street;
     private String number;
     private String complement;
     private String neighborhood;
+    @NotNull(message = "A cidade é obrigatória!")
+    @Positive(message = "Dados inválidos, verifique os dados de cidade informados e tente novamente")
     private Long cityId;
 
     public AddressRequestDto() {
