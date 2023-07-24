@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,7 +70,7 @@ public class AddressController {
             }
     )
     @PutMapping
-    public ResponseEntity<AddressDto> updateUserAddress(@RequestBody AddressRequestDto addressRequestDto) {
+    public ResponseEntity<AddressDto> updateUserAddress(@Valid @RequestBody AddressRequestDto addressRequestDto) {
         return ResponseEntity.ok(addressService.updateUserAddress(addressRequestDto));
     }
 }
