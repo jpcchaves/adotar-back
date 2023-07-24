@@ -1,8 +1,6 @@
 package com.jpcchaves.adotar.exception.handler;
 
-import com.jpcchaves.adotar.exception.BadRequestException;
-import com.jpcchaves.adotar.exception.ResourceNotFoundException;
-import com.jpcchaves.adotar.exception.UnexpectedErrorException;
+import com.jpcchaves.adotar.exception.*;
 import com.jpcchaves.adotar.exception.model.ExceptionResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -66,6 +64,33 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler(IllegalArgumentException.class)
     public final ResponseEntity<ExceptionResponse> handleIllegalArgumentException(IllegalArgumentException ex,
                                                                                   WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public final ResponseEntity<ExceptionResponse> handleTokenExpiredException(TokenExpiredException ex,
+                                                                               WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleUserNotFoundException(UserNotFoundException ex,
+                                                                               WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PasswordsMismatchException.class)
+    public final ResponseEntity<ExceptionResponse> handlePasswordsMismatchException(PasswordsMismatchException ex,
+                                                                                    WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
                 request.getDescription(false));
 
