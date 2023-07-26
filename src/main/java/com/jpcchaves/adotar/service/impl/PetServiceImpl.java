@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PetServiceImpl implements PetService {
@@ -172,6 +173,12 @@ public class PetServiceImpl implements PetService {
         Page<Pet> petPage = petRepository.getAllByUser_Id(pageable, securityContextService.getCurrentLoggedUser().getId());
         List<PetDto> petDtoList = mapper.parseListObjects(petPage.getContent(), PetDto.class);
         return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
+    }
+
+    @Override
+    public Set<PetDto> getUserSavedPets() {
+        Set<Pet> pets = securityContextService.getCurrentLoggedUser().getSavedPets();
+        return mapper.parseSetObjects(pets, PetDto.class);
     }
 
     @Override
