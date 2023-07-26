@@ -202,8 +202,9 @@ public class PetServiceImpl implements PetService {
                 .findById(petId)
                 .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + petId));
         User user = securityContextService.getCurrentLoggedUser();
-        user.getSavedPets().add(pet);
-        userRepository.save(user);
+
+        userSavedPetsRepository.save(new UserSavedPets(user, pet));
+
         return new ApiMessageResponseDto("Pet salvo com sucesso!");
     }
 
