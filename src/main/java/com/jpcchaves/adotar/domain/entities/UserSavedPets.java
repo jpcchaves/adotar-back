@@ -18,6 +18,11 @@ public class UserSavedPets {
     public UserSavedPets() {
     }
 
+    public UserSavedPets(User user, Pet pet) {
+        this.user = user;
+        this.pet = pet;
+    }
+
     public UserSavedPets(Long id, User user, Pet pet) {
         this.id = id;
         this.user = user;
