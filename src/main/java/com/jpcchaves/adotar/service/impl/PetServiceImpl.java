@@ -34,6 +34,7 @@ public class PetServiceImpl implements PetService {
     private final AddressRepository addressRepository;
     private final CityRepository cityRepository;
     private final SecurityContextService securityContextService;
+    private final UserRepository userRepository;
     private final GlobalUtils globalUtils;
     private final MapperUtils mapper;
 
@@ -45,6 +46,7 @@ public class PetServiceImpl implements PetService {
                           AddressRepository addressRepository,
                           CityRepository cityRepository,
                           SecurityContextService securityContextService,
+                          UserRepository userRepository,
                           GlobalUtils globalUtils,
                           MapperUtils mapper) {
         this.petRepository = petRepository;
@@ -55,6 +57,7 @@ public class PetServiceImpl implements PetService {
         this.addressRepository = addressRepository;
         this.cityRepository = cityRepository;
         this.securityContextService = securityContextService;
+        this.userRepository = userRepository;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
     }
@@ -176,9 +179,20 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Set<PetDto> getUserSavedPets() {
+    public Set<Pet> getUserSavedPets() {
         Set<Pet> pets = securityContextService.getCurrentLoggedUser().getSavedPets();
-        return mapper.parseSetObjects(pets, PetDto.class);
+        return pets;
+    }
+
+    @Override
+    public ApiMessageResponseDto addUserSavedPet(Long petId) {
+        Pet pet = petRepository
+                .findById(petId)
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + petId));
+        User user = securityContextService.getCurrentLoggedUser();
+        user.getSavedPets().add(pet);
+        userRepository.save(user);
+        return new ApiMessageResponseDto("Pet salvo com sucesso!");
     }
 
     @Override
