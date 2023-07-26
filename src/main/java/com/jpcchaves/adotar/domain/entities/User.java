@@ -67,7 +67,7 @@ public class User implements UserDetails {
     )
     private Contact contact;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_saved_pets",
             joinColumns = @JoinColumn(name = "user_id"),
