@@ -1,6 +1,5 @@
 package com.jpcchaves.adotar.controller;
 
-import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
@@ -162,7 +161,7 @@ public class PetController {
     }
 
     @GetMapping("/saved-pets")
-    public ResponseEntity<Set<Pet>> getUserSavedPets() {
+    public ResponseEntity<Set<PetDto>> getUserSavedPets() {
         return ResponseEntity.ok(petService.getUserSavedPets());
     }
 
