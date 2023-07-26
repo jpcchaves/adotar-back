@@ -19,9 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class PetServiceImpl implements PetService {
@@ -35,6 +33,7 @@ public class PetServiceImpl implements PetService {
     private final CityRepository cityRepository;
     private final SecurityContextService securityContextService;
     private final UserRepository userRepository;
+    private final UserSavedPetsRepository userSavedPetsRepository;
     private final GlobalUtils globalUtils;
     private final MapperUtils mapper;
 
@@ -47,7 +46,7 @@ public class PetServiceImpl implements PetService {
                           CityRepository cityRepository,
                           SecurityContextService securityContextService,
                           UserRepository userRepository,
-                          GlobalUtils globalUtils,
+                          UserSavedPetsRepository userSavedPetsRepository, GlobalUtils globalUtils,
                           MapperUtils mapper) {
         this.petRepository = petRepository;
         this.petCharacteristicRepository = petCharacteristicRepository;
@@ -58,6 +57,7 @@ public class PetServiceImpl implements PetService {
         this.cityRepository = cityRepository;
         this.securityContextService = securityContextService;
         this.userRepository = userRepository;
+        this.userSavedPetsRepository = userSavedPetsRepository;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
     }
@@ -179,9 +179,21 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Set<Pet> getUserSavedPets() {
-        Set<Pet> pets = securityContextService.getCurrentLoggedUser().getSavedPets();
-        return pets;
+    public Set<PetDto> getUserSavedPets() {
+        User user = securityContextService.getCurrentLoggedUser();
+        List<UserSavedPets> userSavedPets = userSavedPetsRepository.findAllByUserId(user.getId());
+
+        if(userSavedPets.isEmpty()) {
+            return new HashSet<>();
+        }
+
+        List<Pet> pets = new ArrayList<>();
+        for (UserSavedPets userSavedPet : userSavedPets) {
+            pets.add(userSavedPet.getPet());
+        }
+        Set<Pet> petsSet = new HashSet<>(pets);
+
+        return mapper.parseSetObjects(petsSet, PetDto.class);
     }
 
     @Override
