@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/api/v1/pets")
 @CrossOrigin(origins = "*")
@@ -156,5 +158,10 @@ public class PetController {
     )
     public ResponseEntity<ApiResponsePaginatedDto<PetDto>> getAllByUser(Pageable pageable) {
         return ResponseEntity.ok(petService.getAllByUser_Id(pageable));
+    }
+
+    @GetMapping("/saved-pets")
+    public ResponseEntity<Set<PetDto>> getUserSavedPets() {
+        return ResponseEntity.ok(petService.getUserSavedPets());
     }
 }
