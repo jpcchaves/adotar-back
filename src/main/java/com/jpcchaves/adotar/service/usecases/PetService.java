@@ -8,6 +8,8 @@ import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Set;
+
 public interface PetService {
     ApiResponsePaginatedDto<PetMinDto> listAll(Pageable pageable);
 
@@ -18,6 +20,8 @@ public interface PetService {
     ApiResponsePaginatedDto<PetDto> getAllByUser_Id(Pageable pageable);
 
     PetDto getById(Long id);
+
+    Set<PetDto> getUserSavedPets();
 
     ApiMessageResponseDto create(PetCreateRequestDto petDto);
 
