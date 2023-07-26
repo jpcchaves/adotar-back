@@ -67,6 +67,14 @@ public class User implements UserDetails {
     )
     private Contact contact;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_saved_pets",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "pet_id")
+    )
+    private Set<Pet> savedPets = new HashSet<>();
+
     private Date lastSeen;
 
     @CreationTimestamp
@@ -89,6 +97,7 @@ public class User implements UserDetails {
                 Boolean isActive,
                 Set<Role> roles,
                 List<Pet> pets,
+                Set<Pet> savedPets,
                 Address address,
                 Contact contact,
                 Date lastSeen,
@@ -106,6 +115,7 @@ public class User implements UserDetails {
         this.isActive = isActive;
         this.roles = roles;
         this.pets = pets;
+        this.savedPets = savedPets;
         this.address = address;
         this.contact = contact;
         this.lastSeen = lastSeen;
@@ -160,6 +170,14 @@ public class User implements UserDetails {
 
     public void setPets(List<Pet> pets) {
         this.pets = pets;
+    }
+
+    public Set<Pet> getSavedPets() {
+        return savedPets;
+    }
+
+    public void setSavedPets(Set<Pet> savedPets) {
+        this.savedPets = savedPets;
     }
 
     public Boolean getActive() {
