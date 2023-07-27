@@ -225,12 +225,6 @@ public class PetServiceImpl implements PetService {
         return new ApiMessageResponseDto("Pet salvo removido com sucesso!");
     }
 
-    private UserSavedPets findByUserAndPet(User user, Long petId) {
-        return userSavedPetsRepository
-                .findByPet_IdAndUser_Id(petId, user.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("O usuário não possui o pet salvo"));
-    }
-
     @Override
     public ApiResponsePaginatedDto<PetMinDto> getAllByBreed(Pageable pageable,
                                                             Long breedId,
@@ -259,5 +253,11 @@ public class PetServiceImpl implements PetService {
         }
 
         return listAll(pageable);
+    }
+
+    private UserSavedPets findByUserAndPet(User user, Long petId) {
+        return userSavedPetsRepository
+                .findByPet_IdAndUser_Id(petId, user.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("O usuário não possui o pet salvo"));
     }
 }
