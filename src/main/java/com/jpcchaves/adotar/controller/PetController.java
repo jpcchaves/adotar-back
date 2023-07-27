@@ -169,4 +169,9 @@ public class PetController {
     public ResponseEntity<ApiMessageResponseDto> addUserSavedPet(@PathVariable(name = "petId") Long petId) {
         return ResponseEntity.ok(petService.addUserSavedPet(petId));
     }
+
+    @DeleteMapping("/saved-pets/{petId}")
+    public ResponseEntity<ApiMessageResponseDto> removeUserSavedPet(@PathVariable(name = "petId") Long petId) {
+        return ResponseEntity.ok(petService.removeUserSavedPet(petId));
+    }
 }
