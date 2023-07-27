@@ -24,6 +24,7 @@ public interface PetService {
     Set<PetDto> getUserSavedPets();
 
     ApiMessageResponseDto addUserSavedPet(Long petId);
+    ApiMessageResponseDto removeUserSavedPet(Long petId);
 
     ApiMessageResponseDto create(PetCreateRequestDto petDto);
 
