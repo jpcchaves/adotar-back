@@ -1,6 +1,7 @@
 package com.jpcchaves.adotar.service.impl;
 
 import com.jpcchaves.adotar.domain.entities.*;
+import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
@@ -201,11 +202,33 @@ public class PetServiceImpl implements PetService {
         Pet pet = petRepository
                 .findById(petId)
                 .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + petId));
+
         User user = securityContextService.getCurrentLoggedUser();
+
+        if(userSavedPetsRepository.existsByPet_IdAndUser_Id(petId, user.getId())) {
+            throw new BadRequestException("O pet já foi salvo para o usuário informado");
+        }
 
         userSavedPetsRepository.save(new UserSavedPets(user, pet));
 
         return new ApiMessageResponseDto("Pet salvo com sucesso!");
+    }
+
+    @Override
+    public ApiMessageResponseDto removeUserSavedPet(Long petId) {
+        User user = securityContextService.getCurrentLoggedUser();
+
+        UserSavedPets userSavedPets = findByUserAndPet(user, petId);
+
+        userSavedPetsRepository.delete(userSavedPets);
+
+        return new ApiMessageResponseDto("Pet salvo removido com sucesso!");
+    }
+
+    private UserSavedPets findByUserAndPet(User user, Long petId) {
+        return userSavedPetsRepository
+                .findByPet_IdAndUser_Id(petId, user.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("O usuário não possui o pet salvo"));
     }
 
     @Override
