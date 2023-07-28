@@ -169,13 +169,9 @@ public class PetServiceImpl implements PetService {
             return buildEmptyList();
         }
 
-        List<Pet> pets = new ArrayList<>();
-        for (UserSavedPets userSavedPet : userSavedPets) {
-            pets.add(userSavedPet.getPet());
-        }
-        Set<Pet> petsSet = new HashSet<>(pets);
+        Set<Pet> savedPets = extractPets(userSavedPets);
 
-        return mapper.parseSetObjects(petsSet, PetDto.class);
+        return mapper.parseSetObjects(savedPets, PetDto.class);
     }
 
     @Override
@@ -317,5 +313,14 @@ public class PetServiceImpl implements PetService {
         List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
 
         return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
+    }
+
+    private Set<Pet> extractPets(List<UserSavedPets> userSavedPets) {
+        List<Pet> pets = new ArrayList<>();
+        for (UserSavedPets userSavedPet : userSavedPets) {
+            pets.add(userSavedPet.getPet());
+        }
+
+        return new HashSet<>(pets);
     }
 }
