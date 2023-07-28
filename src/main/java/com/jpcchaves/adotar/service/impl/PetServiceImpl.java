@@ -5,10 +5,7 @@ import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.*;
 import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.usecases.PetService;
 import com.jpcchaves.adotar.service.usecases.SecurityContextService;
@@ -47,7 +44,8 @@ public class PetServiceImpl implements PetService {
                           CityRepository cityRepository,
                           SecurityContextService securityContextService,
                           UserRepository userRepository,
-                          UserSavedPetsRepository userSavedPetsRepository, GlobalUtils globalUtils,
+                          UserSavedPetsRepository userSavedPetsRepository,
+                          GlobalUtils globalUtils,
                           MapperUtils mapper) {
         this.petRepository = petRepository;
         this.petCharacteristicRepository = petCharacteristicRepository;
@@ -100,17 +98,7 @@ public class PetServiceImpl implements PetService {
                 .findById(petCreateRequestDto.getCityId())
                 .orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada!"));
 
-        Address address = addressRepository.save(
-                new Address(
-                        petCreateRequestDto.getZipcode(),
-                        petCreateRequestDto.getStreet(),
-                        petCreateRequestDto.getNumber(),
-                        petCreateRequestDto.getComplement(),
-                        petCreateRequestDto.getNeighborhood(),
-                        city.getName(),
-                        city.getState().getName()
-                )
-        );
+        Address address = addressRepository.save(buildAddress(petCreateRequestDto, city));
 
         List<PetPicture> petPictures = mapper.parseListObjects(petCreateRequestDto.getPetPictures(), PetPicture.class);
 
@@ -124,11 +112,28 @@ public class PetServiceImpl implements PetService {
             picture.setPet(savedPet);
         }
 
-        if (petCreateRequestDto.getPetPictures().size() > 0) {
+        if (pictureExists(petCreateRequestDto.getPetPictures())) {
             petPictureRepository.saveAll(petPictures);
         }
 
         return new ApiMessageResponseDto("Pet criado com sucesso: " + petCreateRequestDto.getName());
+    }
+
+    private Address buildAddress(PetCreateRequestDto petCreateRequestDto,
+                                 City city) {
+        return new Address(
+                petCreateRequestDto.getZipcode(),
+                petCreateRequestDto.getStreet(),
+                petCreateRequestDto.getNumber(),
+                petCreateRequestDto.getComplement(),
+                petCreateRequestDto.getNeighborhood(),
+                city.getName(),
+                city.getState().getName()
+        );
+    }
+
+    private boolean pictureExists(List<PetPictureDto> petPictures) {
+        return petPictures.size() > 0;
     }
 
     @Override
@@ -184,7 +189,7 @@ public class PetServiceImpl implements PetService {
         User user = securityContextService.getCurrentLoggedUser();
         List<UserSavedPets> userSavedPets = userSavedPetsRepository.findAllByUserId(user.getId());
 
-        if(userSavedPets.isEmpty()) {
+        if (userSavedPets.isEmpty()) {
             return new HashSet<>();
         }
 
@@ -205,7 +210,7 @@ public class PetServiceImpl implements PetService {
 
         User user = securityContextService.getCurrentLoggedUser();
 
-        if(userSavedPetsRepository.existsByPet_IdAndUser_Id(petId, user.getId())) {
+        if (userSavedPetsRepository.existsByPet_IdAndUser_Id(petId, user.getId())) {
             throw new BadRequestException("O pet já foi salvo para o usuário informado");
         }
 
@@ -255,7 +260,8 @@ public class PetServiceImpl implements PetService {
         return listAll(pageable);
     }
 
-    private UserSavedPets findByUserAndPet(User user, Long petId) {
+    private UserSavedPets findByUserAndPet(User user,
+                                           Long petId) {
         return userSavedPetsRepository
                 .findByPet_IdAndUser_Id(petId, user.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("O usuário não possui o pet salvo"));
