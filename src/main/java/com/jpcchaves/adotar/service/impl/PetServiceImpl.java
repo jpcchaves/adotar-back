@@ -71,16 +71,14 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public PetDto getById(Long id) {
-        Pet pet = petRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + id));
+        Pet pet = getPetById(id);
 
         PetUtils.increasePetVisualization(pet);
         petRepository.save(pet);
 
         return mapper.parseObject(pet, PetDto.class);
     }
-    
+
     @Override
     public ApiMessageResponseDto create(PetCreateRequestDto petCreateRequestDto) {
         Breed breed = breedRepository
@@ -123,9 +121,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public ApiMessageResponseDto update(Long id,
                                         PetUpdateRequestDto petDto) {
-        Pet pet = petRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + id));
+        Pet pet = getPetById(id);
 
         Breed breed = breedRepository
                 .findByIdAndAnimalType_Id(petDto.getBreedId(), petDto.getTypeId())
@@ -151,7 +147,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto delete(Long id) {
-        Pet pet = petRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + id));
+        Pet pet = getPetById(id);
 
         inactivatePet(pet);
 
@@ -187,13 +183,11 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto addUserSavedPet(Long petId) {
-        Pet pet = petRepository
-                .findById(petId)
-                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + petId));
+        Pet pet = getPetById(petId);
 
         User user = securityContextService.getCurrentLoggedUser();
 
-        if (userSavedPetsRepository.existsByPet_IdAndUser_Id(petId, user.getId())) {
+        if (existsByPetAndUser(petId, user.getId())) {
             throw new BadRequestException("O pet já foi salvo para o usuário informado");
         }
 
@@ -274,5 +268,16 @@ public class PetServiceImpl implements PetService {
 
     private boolean pictureExists(List<PetPictureDto> petPictures) {
         return petPictures.size() > 0;
+    }
+
+    private Pet getPetById(Long petId) {
+        return petRepository
+                .findById(petId)
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + petId));
+    }
+
+    private boolean existsByPetAndUser(Long petId,
+                                       Long userId) {
+        return userSavedPetsRepository.existsByPet_IdAndUser_Id(petId, userId);
     }
 }
