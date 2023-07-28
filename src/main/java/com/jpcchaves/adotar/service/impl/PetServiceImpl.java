@@ -80,7 +80,7 @@ public class PetServiceImpl implements PetService {
 
         return mapper.parseObject(pet, PetDto.class);
     }
-
+    
     @Override
     public ApiMessageResponseDto create(PetCreateRequestDto petCreateRequestDto) {
         Breed breed = breedRepository
@@ -119,22 +119,6 @@ public class PetServiceImpl implements PetService {
         return new ApiMessageResponseDto("Pet criado com sucesso: " + petCreateRequestDto.getName());
     }
 
-    private Address buildAddress(PetCreateRequestDto petCreateRequestDto,
-                                 City city) {
-        return new Address(
-                petCreateRequestDto.getZipcode(),
-                petCreateRequestDto.getStreet(),
-                petCreateRequestDto.getNumber(),
-                petCreateRequestDto.getComplement(),
-                petCreateRequestDto.getNeighborhood(),
-                city.getName(),
-                city.getState().getName()
-        );
-    }
-
-    private boolean pictureExists(List<PetPictureDto> petPictures) {
-        return petPictures.size() > 0;
-    }
 
     @Override
     public ApiMessageResponseDto update(Long id,
@@ -169,8 +153,7 @@ public class PetServiceImpl implements PetService {
     public ApiMessageResponseDto delete(Long id) {
         Pet pet = petRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + id));
 
-        pet.setActive(false);
-        pet.setDeletedAt(new Date());
+        inactivatePet(pet);
 
         petRepository.save(pet);
 
@@ -189,7 +172,7 @@ public class PetServiceImpl implements PetService {
         User user = securityContextService.getCurrentLoggedUser();
         List<UserSavedPets> userSavedPets = userSavedPetsRepository.findAllByUserId(user.getId());
 
-        if (userSavedPets.isEmpty()) {
+        if (isSavedPetsEmpty(userSavedPets)) {
             return new HashSet<>();
         }
 
@@ -265,5 +248,31 @@ public class PetServiceImpl implements PetService {
         return userSavedPetsRepository
                 .findByPet_IdAndUser_Id(petId, user.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("O usuário não possui o pet salvo"));
+    }
+
+    private void inactivatePet(Pet pet) {
+        pet.setActive(false);
+        pet.setDeletedAt(new Date());
+    }
+
+    private boolean isSavedPetsEmpty(List<UserSavedPets> userSavedPets) {
+        return userSavedPets.isEmpty();
+    }
+
+    private Address buildAddress(PetCreateRequestDto petCreateRequestDto,
+                                 City city) {
+        return new Address(
+                petCreateRequestDto.getZipcode(),
+                petCreateRequestDto.getStreet(),
+                petCreateRequestDto.getNumber(),
+                petCreateRequestDto.getComplement(),
+                petCreateRequestDto.getNeighborhood(),
+                city.getName(),
+                city.getState().getName()
+        );
+    }
+
+    private boolean pictureExists(List<PetPictureDto> petPictures) {
+        return petPictures.size() > 0;
     }
 }
