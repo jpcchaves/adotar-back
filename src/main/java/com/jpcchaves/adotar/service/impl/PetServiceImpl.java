@@ -205,9 +205,9 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public ApiResponsePaginatedDto<PetMinDto> getAllByBreed(Pageable pageable,
-                                                            Long breedId,
-                                                            Long animalTypeId) {
+    public ApiResponsePaginatedDto<PetMinDto> filterByBreedOrAnimalType(Pageable pageable,
+                                                                        Long breedId,
+                                                                        Long animalTypeId) {
         if (breedAndAnimalTypeIsPresent(breedId, animalTypeId)) {
             return doFilterByBreedAndAnimalType(pageable, breedId, animalTypeId);
         }

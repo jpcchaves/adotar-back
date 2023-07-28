@@ -13,9 +13,9 @@ import java.util.Set;
 public interface PetService {
     ApiResponsePaginatedDto<PetMinDto> listAll(Pageable pageable);
 
-    ApiResponsePaginatedDto<PetMinDto> getAllByBreed(Pageable pageable,
-                                                     Long breedId,
-                                                     Long animalTypeId);
+    ApiResponsePaginatedDto<PetMinDto> filterByBreedOrAnimalType(Pageable pageable,
+                                                                 Long breedId,
+                                                                 Long animalTypeId);
 
     ApiResponsePaginatedDto<PetDto> getAllByUser_Id(Pageable pageable);
 
@@ -24,6 +24,7 @@ public interface PetService {
     Set<PetDto> getUserSavedPets();
 
     ApiMessageResponseDto addUserSavedPet(Long petId);
+
     ApiMessageResponseDto removeUserSavedPet(Long petId);
 
     ApiMessageResponseDto create(PetCreateRequestDto petDto);

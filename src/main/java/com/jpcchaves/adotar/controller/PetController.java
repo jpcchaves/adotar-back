@@ -134,10 +134,10 @@ public class PetController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
             }
     )
-    public ResponseEntity<ApiResponsePaginatedDto<PetMinDto>> getAllByBreed(@RequestParam(name = "breedId", required = false) Long breedId,
-                                                                            @RequestParam(name = "animalTypeId", required = false) Long animalTypeId,
-                                                                            Pageable pageable) {
-        return ResponseEntity.ok(petService.getAllByBreed(pageable, breedId, animalTypeId));
+    public ResponseEntity<ApiResponsePaginatedDto<PetMinDto>> filterByBreedOrAnimalType(@RequestParam(name = "breedId", required = false) Long breedId,
+                                                                                        @RequestParam(name = "animalTypeId", required = false) Long animalTypeId,
+                                                                                        Pageable pageable) {
+        return ResponseEntity.ok(petService.filterByBreedOrAnimalType(pageable, breedId, animalTypeId));
     }
 
     @GetMapping("/by-user")
