@@ -169,7 +169,7 @@ public class PetServiceImpl implements PetService {
         List<UserSavedPets> userSavedPets = userSavedPetsRepository.findAllByUserId(user.getId());
 
         if (isSavedPetsEmpty(userSavedPets)) {
-            return new HashSet<>();
+            return buildEmptyList();
         }
 
         List<Pet> pets = new ArrayList<>();
@@ -211,8 +211,6 @@ public class PetServiceImpl implements PetService {
     public ApiResponsePaginatedDto<PetMinDto> getAllByBreed(Pageable pageable,
                                                             Long breedId,
                                                             Long animalTypeId) {
-
-
         if (breedId != null && animalTypeId != null) {
             Page<Pet> petsPage = petRepository.getAllByBreed_IdAndType_Id(pageable, breedId, animalTypeId);
             List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
@@ -279,5 +277,9 @@ public class PetServiceImpl implements PetService {
     private boolean existsByPetAndUser(Long petId,
                                        Long userId) {
         return userSavedPetsRepository.existsByPet_IdAndUser_Id(petId, userId);
+    }
+
+    private <T> Set<T> buildEmptyList() {
+        return new HashSet<>();
     }
 }
