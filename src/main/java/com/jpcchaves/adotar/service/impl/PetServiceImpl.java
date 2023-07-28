@@ -117,15 +117,12 @@ public class PetServiceImpl implements PetService {
         return new ApiMessageResponseDto("Pet criado com sucesso: " + petCreateRequestDto.getName());
     }
 
-
     @Override
     public ApiMessageResponseDto update(Long id,
                                         PetUpdateRequestDto petDto) {
         Pet pet = getPetById(id);
 
-        Breed breed = breedRepository
-                .findByIdAndAnimalType_Id(petDto.getBreedId(), petDto.getTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Raça não encontrada!"));
+        Breed breed = getBreedByIdAndAnimalType(id, petDto.getTypeId());
 
         List<PetCharacteristic> characteristicsList = petCharacteristicRepository
                 .findAllById(petDto.getCharacteristicsIds());
@@ -211,25 +208,16 @@ public class PetServiceImpl implements PetService {
     public ApiResponsePaginatedDto<PetMinDto> getAllByBreed(Pageable pageable,
                                                             Long breedId,
                                                             Long animalTypeId) {
-        if (breedId != null && animalTypeId != null) {
-            Page<Pet> petsPage = petRepository.getAllByBreed_IdAndType_Id(pageable, breedId, animalTypeId);
-            List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
-
-            return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
+        if (breedAndAnimalTypeIsPresent(breedId, animalTypeId)) {
+            return doFilterByBreedAndAnimalType(pageable, breedId, animalTypeId);
         }
 
-        if (animalTypeId != null) {
-            Page<Pet> petsPage = petRepository.getAllByType_Id(pageable, animalTypeId);
-            List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
-
-            return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
+        if (animalTypeIsPresent(animalTypeId)) {
+            return doFilterByAnimalType(pageable, animalTypeId);
         }
 
-        if (breedId != null) {
-            Page<Pet> petsPage = petRepository.getAllByType_Id(pageable, breedId);
-            List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
-
-            return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
+        if (breedIsPresent(breedId)) {
+            return doFilterByBreed(pageable, breedId);
         }
 
         return listAll(pageable);
@@ -281,5 +269,53 @@ public class PetServiceImpl implements PetService {
 
     private <T> Set<T> buildEmptyList() {
         return new HashSet<>();
+    }
+
+    private Breed getBreedByIdAndAnimalType(Long breedId,
+                                            Long typeId) {
+        return breedRepository
+                .findByIdAndAnimalType_Id(breedId, typeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Raça não encontrada!"));
+    }
+
+    private boolean breedAndAnimalTypeIsPresent(Long breedId,
+                                                Long animalTypeId) {
+        return breedId != null && animalTypeId != null;
+    }
+
+    private boolean animalTypeIsPresent(Long animalTypeId) {
+        return animalTypeId != null;
+    }
+
+    private boolean breedIsPresent(Long breedId) {
+        return breedId != null;
+    }
+
+    private ApiResponsePaginatedDto<PetMinDto> doFilterByBreedAndAnimalType(Pageable pageable,
+                                                                            Long breedId,
+                                                                            Long animalTypeId) {
+        Page<Pet> petsPage = petRepository
+                .getAllByBreed_IdAndType_Id(pageable, breedId, animalTypeId);
+
+        List<PetMinDto> petDtoList = mapper
+                .parseListObjects(petsPage.getContent(), PetMinDto.class);
+
+        return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
+    }
+
+    private ApiResponsePaginatedDto<PetMinDto> doFilterByAnimalType(Pageable pageable,
+                                                                    Long animalTypeId) {
+        Page<Pet> petsPage = petRepository.getAllByType_Id(pageable, animalTypeId);
+        List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
+
+        return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
+    }
+
+    private ApiResponsePaginatedDto<PetMinDto> doFilterByBreed(Pageable pageable,
+                                                               Long breedId) {
+        Page<Pet> petsPage = petRepository.getAllByType_Id(pageable, breedId);
+        List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
+
+        return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
     }
 }
