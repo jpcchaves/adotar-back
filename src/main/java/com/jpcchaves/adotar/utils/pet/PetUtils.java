@@ -46,7 +46,7 @@ public class PetUtils {
         pet.setName(petDto.getName());
         pet.setYearsAge(petDto.getYearsAge());
         pet.setMonthsAge(petDto.getMonthsAge());
-//        pet.setGender(petDto.());
+        pet.setGender(petDto.getGender());
         pet.setSize(petDto.getSize());
         pet.setHealthCondition(petDto.getHealthCondition());
         pet.setColor(petDto.getColor());

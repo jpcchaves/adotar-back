@@ -122,7 +122,7 @@ public class PetServiceImpl implements PetService {
                                         PetUpdateRequestDto petDto) {
         Pet pet = getPetById(id);
 
-        Breed breed = getBreedByIdAndAnimalType(id, petDto.getTypeId());
+        Breed breed = getBreedByIdAndAnimalType(petDto.getBreedId(), petDto.getTypeId());
 
         List<PetCharacteristic> characteristicsList = petCharacteristicRepository
                 .findAllById(petDto.getCharacteristicsIds());
@@ -131,11 +131,11 @@ public class PetServiceImpl implements PetService {
                 .findById(petDto.getTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("O tipo de animal informado não existe"));
 
-        Pet updatedPet = PetUtils.updatePetAttributes(pet, petDto);
+        PetUtils.updatePetAttributes(pet, petDto);
 
-        updatedPet.setBreed(breed);
-        updatedPet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicsList));
-        updatedPet.setType(animalType);
+        pet.setType(animalType);
+        pet.setBreed(breed);
+        pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicsList));
 
         petRepository.save(pet);
 
