@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum AnimalGender {
     FEMALE('F'),
-    MALE('F');
+    MALE('M');
 
     private final char gender;
 
