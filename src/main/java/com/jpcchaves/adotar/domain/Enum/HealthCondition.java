@@ -1,5 +1,8 @@
 package com.jpcchaves.adotar.domain.Enum;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum HealthCondition {
     CHRONIC_DISEASE('C'),
     INJURED('I'),
@@ -13,7 +16,8 @@ public enum HealthCondition {
         this.healthCondition = healthCondition;
     }
 
-    public static HealthCondition valueOf(char healthCondition) {
+    @JsonCreator
+    public static HealthCondition fromValue(char healthCondition) {
         for (HealthCondition value : HealthCondition.values()) {
             if (healthCondition == value.getHealthCondition()) {
                 return value;
@@ -22,6 +26,7 @@ public enum HealthCondition {
         throw new IllegalArgumentException("Invalid animal health condition value: " + healthCondition);
     }
 
+    @JsonValue
     public char getHealthCondition() {
         return healthCondition;
     }
