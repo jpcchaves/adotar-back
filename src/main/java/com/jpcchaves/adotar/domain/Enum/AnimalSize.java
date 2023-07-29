@@ -1,5 +1,8 @@
 package com.jpcchaves.adotar.domain.Enum;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum AnimalSize {
     TINY('T'),
     SMALL('S'),
@@ -12,7 +15,8 @@ public enum AnimalSize {
         this.size = size;
     }
 
-    public static AnimalSize valueOf(char size) {
+    @JsonCreator
+    public static AnimalSize fromValue(char size) {
         for (AnimalSize value : AnimalSize.values()) {
             if (size == value.getSize()) {
                 return value;
@@ -21,6 +25,7 @@ public enum AnimalSize {
         throw new IllegalArgumentException("Invalid animal size value: " + size);
     }
 
+    @JsonValue
     public char getSize() {
         return size;
     }
