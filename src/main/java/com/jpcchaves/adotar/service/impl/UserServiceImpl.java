@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getUsername(),
+                user.getFirstName() + " " + user.getLastName(),
                 user.getEmail(),
                 mapperUtils.parseObject(user.getContact(), ContactDto.class),
                 mapperUtils.parseObject(user.getAddress(), AddressDto.class),
