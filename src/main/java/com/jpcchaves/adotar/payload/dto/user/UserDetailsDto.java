@@ -10,6 +10,7 @@ public class UserDetailsDto {
     private String firstName;
     private String lastName;
     private String username;
+    private String name;
     private String email;
     private ContactDto contact;
     private AddressDto address;
@@ -24,6 +25,7 @@ public class UserDetailsDto {
                           String firstName,
                           String lastName,
                           String username,
+                          String name,
                           String email,
                           ContactDto contact,
                           AddressDto address,
@@ -34,6 +36,7 @@ public class UserDetailsDto {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
+        this.name = name;
         this.email = email;
         this.contact = contact;
         this.address = address;
@@ -64,6 +67,14 @@ public class UserDetailsDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUsername() {
