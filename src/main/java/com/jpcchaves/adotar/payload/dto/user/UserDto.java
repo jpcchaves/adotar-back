@@ -11,6 +11,7 @@ public class UserDto {
     private Long id;
     private String firstName;
     private String lastName;
+    private String name;
     private String username;
     private String email;
     private Boolean isAdmin;
@@ -28,6 +29,7 @@ public class UserDto {
     public UserDto(Long id,
                    String firstName,
                    String lastName,
+                   String name,
                    String username,
                    String email,
                    Boolean isAdmin,
@@ -39,6 +41,7 @@ public class UserDto {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.name = firstName + " " + lastName;
         this.username = username;
         this.email = email;
         this.isAdmin = isAdmin;
@@ -71,6 +74,14 @@ public class UserDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUsername() {

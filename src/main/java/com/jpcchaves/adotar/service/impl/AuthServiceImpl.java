@@ -75,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
 
             user.setLastSeen(new Date());
             userRepository.save(user);
-            
+
             JwtAuthResponseDto jwtAuthResponseDto = new JwtAuthResponseDto();
 
             jwtAuthResponseDto.setAccessToken(token);
@@ -162,6 +162,8 @@ public class AuthServiceImpl implements AuthService {
         userDto.setCreatedAt(user.getCreatedAt());
         userDto.setUpdatedAt(user.getUpdatedAt());
         userDto.setDeletedAt(user.getDeletedAt());
+        userDto.setName(user.getFirstName() + " " + user.getLastName());
+
         return userDto;
     }
 
