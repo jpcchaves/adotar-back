@@ -175,10 +175,6 @@ public class PetDto {
         this.breed = breed.getName();
     }
 
-    public void setBreed(String breed) {
-        this.breed = breed;
-    }
-
     public AnimalGender getGender() {
         return gender;
     }
