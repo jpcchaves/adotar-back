@@ -26,13 +26,16 @@ public class Pet {
     private int monthsAge;
 
     @Column(length = 6)
-    private char gender;
+    @Enumerated(EnumType.STRING)
+    private AnimalGender gender;
 
     @Column(length = 6)
-    private char size;
+    @Enumerated(EnumType.STRING)
+    private AnimalSize size;
 
     @Column(length = 15)
-    private char healthCondition;
+    @Enumerated(EnumType.STRING)
+    private HealthCondition healthCondition;
 
     @Column(length = 30)
     private String color;
@@ -134,9 +137,9 @@ public class Pet {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
-        setGender(gender);
-        setSize(size);
-        setHealthCondition(healthCondition);
+        this.gender = gender;
+        this.healthCondition = healthCondition;
+        this.size = size;
         this.color = color;
         this.description = description;
         this.visualizations = visualizations;
@@ -259,44 +262,26 @@ public class Pet {
     }
 
     public AnimalGender getGender() {
-        return AnimalGender.valueOf(gender);
+        return gender;
     }
 
     public void setGender(AnimalGender gender) {
-        if (gender != null) {
-            this.gender = gender.getGender();
-        }
-    }
-
-    public void setGender(char gender) {
         this.gender = gender;
     }
 
     public AnimalSize getSize() {
-        return AnimalSize.valueOf(size);
+        return size;
     }
 
     public void setSize(AnimalSize size) {
-        if (size != null) {
-            this.size = size.getSize();
-        }
-    }
-
-    public void setSize(char size) {
         this.size = size;
     }
 
     public HealthCondition getHealthCondition() {
-        return HealthCondition.valueOf(healthCondition);
+        return healthCondition;
     }
 
     public void setHealthCondition(HealthCondition healthCondition) {
-        if (healthCondition != null) {
-            this.healthCondition = healthCondition.getHealthCondition();
-        }
-    }
-
-    public void setHealthCondition(char healthCondition) {
         this.healthCondition = healthCondition;
     }
 
