@@ -25,9 +25,10 @@ public class PetUpdateRequestDto {
     @Positive(message = "A idade em meses deve ser um valor maior ou igual a 1")
     @NotNull(message = "A idade em meses é obrigatória")
     private int monthsAge;
-    private char gender;
-    private char size;
-    private char healthCondition;
+
+    private AnimalGender gender;
+    private AnimalSize size;
+    private HealthCondition healthCondition;
 
     @NotBlank(message = "A cor é obrigatória")
     private String color;
@@ -69,9 +70,9 @@ public class PetUpdateRequestDto {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
-        setGender(gender);
-        setSize(size);
-        setHealthCondition(healthCondition);
+        this.gender = gender;
+        this.size = size;
+        this.healthCondition = healthCondition;
         this.color = color;
         this.description = description;
         this.visualizations = visualizations;
@@ -114,6 +115,30 @@ public class PetUpdateRequestDto {
 
     public void setMonthsAge(int monthsAge) {
         this.monthsAge = monthsAge;
+    }
+
+    public AnimalGender getGender() {
+        return gender;
+    }
+
+    public void setGender(AnimalGender gender) {
+        this.gender = gender;
+    }
+
+    public AnimalSize getSize() {
+        return size;
+    }
+
+    public void setSize(AnimalSize size) {
+        this.size = size;
+    }
+
+    public HealthCondition getHealthCondition() {
+        return healthCondition;
+    }
+
+    public void setHealthCondition(HealthCondition healthCondition) {
+        this.healthCondition = healthCondition;
     }
 
     public String getColor() {
@@ -194,35 +219,5 @@ public class PetUpdateRequestDto {
 
     public void setBreedId(Long breedId) {
         this.breedId = breedId;
-    }
-
-    public AnimalGender getGender() {
-        return AnimalGender.valueOf(gender);
-    }
-
-    public void setGender(AnimalGender gender) {
-        if (gender != null) {
-            this.gender = gender.getGender();
-        }
-    }
-
-    public AnimalSize getSize() {
-        return AnimalSize.valueOf(size);
-    }
-
-    public void setSize(AnimalSize size) {
-        if (size != null) {
-            this.size = size.getSize();
-        }
-    }
-
-    public HealthCondition getHealthCondition() {
-        return HealthCondition.valueOf(healthCondition);
-    }
-
-    public void setHealthCondition(HealthCondition healthCondition) {
-        if (healthCondition != null) {
-            this.healthCondition = healthCondition.getHealthCondition();
-        }
     }
 }

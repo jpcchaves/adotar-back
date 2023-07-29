@@ -13,9 +13,9 @@ public class PetDto {
     private String name;
     private int yearsAge;
     private int monthsAge;
-    private char gender;
-    private char size;
-    private char healthCondition;
+    private AnimalGender gender;
+    private AnimalSize size;
+    private HealthCondition healthCondition;
     private String color;
     private String description;
     private int visualizations;
@@ -51,9 +51,9 @@ public class PetDto {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
-        setGender(gender);
-        setSize(size);
-        setHealthCondition(healthCondition);
+        this.gender = gender;
+        this.size = size;
+        this.healthCondition = healthCondition;
         this.color = color;
         this.description = description;
         this.visualizations = visualizations;
@@ -175,34 +175,32 @@ public class PetDto {
         this.breed = breed.getName();
     }
 
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
     public AnimalGender getGender() {
-        return AnimalGender.valueOf(gender);
+        return gender;
     }
 
     public void setGender(AnimalGender gender) {
-        if (gender != null) {
-            this.gender = gender.getGender();
-        }
+        this.gender = gender;
     }
 
     public AnimalSize getSize() {
-        return AnimalSize.valueOf(size);
+        return size;
     }
 
     public void setSize(AnimalSize size) {
-        if (size != null) {
-            this.size = size.getSize();
-        }
+        this.size = size;
     }
 
     public HealthCondition getHealthCondition() {
-        return HealthCondition.valueOf(healthCondition);
+        return healthCondition;
     }
 
     public void setHealthCondition(HealthCondition healthCondition) {
-        if (healthCondition != null) {
-            this.healthCondition = healthCondition.getHealthCondition();
-        }
+        this.healthCondition = healthCondition;
     }
 
     public List<PetPictureDto> getPetPictures() {

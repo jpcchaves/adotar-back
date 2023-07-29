@@ -26,9 +26,9 @@ public class PetCreateRequestDto {
     @NotNull(message = "A idade em meses é obrigatória")
     private int monthsAge;
 
-    private char gender;
-    private char size;
-    private char healthCondition;
+    private AnimalGender gender;
+    private AnimalSize size;
+    private HealthCondition healthCondition;
 
     @NotBlank(message = "A cor é obrigatória")
     private String color;
@@ -89,9 +89,9 @@ public class PetCreateRequestDto {
         this.neighborhood = neighborhood;
         this.cityId = cityId;
         this.stateId = stateId;
-        setGender(gender);
-        setSize(size);
-        setHealthCondition(healthCondition);
+        this.gender = gender;
+        this.size = size;
+        this.gender = gender;
         this.color = color;
         this.description = description;
         this.active = active;
@@ -127,33 +127,27 @@ public class PetCreateRequestDto {
     }
 
     public AnimalGender getGender() {
-        return AnimalGender.valueOf(gender);
+        return gender;
     }
 
     public void setGender(AnimalGender gender) {
-        if (gender != null) {
-            this.gender = gender.getGender();
-        }
+        this.gender = gender;
     }
 
     public AnimalSize getSize() {
-        return AnimalSize.valueOf(size);
+        return size;
     }
 
     public void setSize(AnimalSize size) {
-        if (size != null) {
-            this.size = size.getSize();
-        }
+        this.size = size;
     }
 
     public HealthCondition getHealthCondition() {
-        return HealthCondition.valueOf(healthCondition);
+        return healthCondition;
     }
 
     public void setHealthCondition(HealthCondition healthCondition) {
-        if (healthCondition != null) {
-            this.healthCondition = healthCondition.getHealthCondition();
-        }
+        this.healthCondition = healthCondition;
     }
 
     public String getColor() {
