@@ -18,14 +18,14 @@ public class EmailServiceImpl implements EmailService {
     }
 
     public void sendPasswordRequest(PasswordResetToken passwordResetToken) throws MessagingException {
-        MimeMessage message2 = mailSender.createMimeMessage();
+        MimeMessage message = mailSender.createMimeMessage();
 
-        MimeMessageHelper helper = new MimeMessageHelper(message2, true, "UTF-8");
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         helper.setTo(passwordResetToken.getUser().getEmail());
         helper.setSubject("Adote.Me - Solcitação para Redefinir Senha");
         helper.setText(generateHtmlMessage(passwordResetToken), true);
-        mailSender.send(message2);
+        mailSender.send(message);
     }
 
     private String generateHtmlMessage(PasswordResetToken passwordResetToken) {
