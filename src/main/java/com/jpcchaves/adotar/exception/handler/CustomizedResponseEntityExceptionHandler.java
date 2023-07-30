@@ -2,12 +2,15 @@ package com.jpcchaves.adotar.exception.handler;
 
 import com.jpcchaves.adotar.exception.*;
 import com.jpcchaves.adotar.exception.model.ExceptionResponse;
+import jakarta.mail.MessagingException;
 import jakarta.mail.SendFailedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailSendException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -100,11 +103,38 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler(SendFailedException.class)
     public final ResponseEntity<ExceptionResponse> handleSendFailedException(SendFailedException ex,
-                                                                                    WebRequest request) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Email inválido! Verifique o e-mail informado e tente novamente",
+                                                                             WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
                 request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MailSendException.class)
+    public final ResponseEntity<ExceptionResponse> handleMailSendException(MailSendException ex,
+                                                                           WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MailAuthenticationException.class)
+    public final ResponseEntity<ExceptionResponse> handleMailAuthenticationException(MailAuthenticationException ex,
+                                                                                     WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MessagingException.class)
+    public final ResponseEntity<ExceptionResponse> handleMessagingException(MessagingException ex,
+                                                                            WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
