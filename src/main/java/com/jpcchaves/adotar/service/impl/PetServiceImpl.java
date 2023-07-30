@@ -81,9 +81,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto create(PetCreateRequestDto petCreateRequestDto) {
-        Breed breed = breedRepository
-                .findByIdAndAnimalType_Id(petCreateRequestDto.getBreedId(), petCreateRequestDto.getTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Raça não encontrada!"));
+        Breed breed = getBreedByIdAndAnimalType(petCreateRequestDto.getBreedId(), petCreateRequestDto.getTypeId());
 
         List<PetCharacteristic> characteristicsList = petCharacteristicRepository
                 .findAllById(petCreateRequestDto.getCharacteristicsIds());
