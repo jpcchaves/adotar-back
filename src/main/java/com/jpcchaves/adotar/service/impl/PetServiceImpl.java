@@ -21,6 +21,7 @@ import java.util.*;
 
 @Service
 public class PetServiceImpl implements PetService {
+    private final boolean ACTIVE = true;
 
     private final PetRepository petRepository;
     private final PetCharacteristicRepository petCharacteristicRepository;
@@ -63,7 +64,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiResponsePaginatedDto<PetMinDto> listAll(Pageable pageable) {
-        Page<Pet> petsPage = petRepository.findAllByActive(pageable, true);
+        Page<Pet> petsPage = petRepository.findAllByActive(pageable, ACTIVE);
         List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
 
         return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
@@ -71,7 +72,8 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public PetDto getById(Long id) {
-        Pet pet = getPetById(id);
+        Pet pet = petRepository.findByIdAndActive(id, ACTIVE)
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + id));
 
         PetUtils.increasePetVisualization(pet);
         petRepository.save(pet);
