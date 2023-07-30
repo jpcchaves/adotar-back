@@ -6,6 +6,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
+import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.service.usecases.PetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -155,6 +156,11 @@ public class PetController {
             }
     )
     public ResponseEntity<ApiResponsePaginatedDto<PetDto>> getAllByUser(Pageable pageable) {
-        return ResponseEntity.ok(petService.getAllByUser_Id(pageable));
+        return ResponseEntity.ok(petService.getAllByUserId(pageable));
+    }
+
+    @GetMapping("/{id}/owner")
+    public ResponseEntity<UserDetailsDto> getPetOwnerDetails(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(petService.getPetOwnerDetails(id));
     }
 }
