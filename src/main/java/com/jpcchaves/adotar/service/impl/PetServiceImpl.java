@@ -6,6 +6,7 @@ import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.*;
+import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.usecases.PetService;
 import com.jpcchaves.adotar.service.usecases.SecurityContextService;
@@ -13,6 +14,7 @@ import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.utils.pet.PetUtils;
+import com.jpcchaves.adotar.utils.user.UserUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,9 +33,9 @@ public class PetServiceImpl implements PetService {
     private final AddressRepository addressRepository;
     private final CityRepository cityRepository;
     private final SecurityContextService securityContextService;
-    private final UserRepository userRepository;
     private final UserSavedPetsRepository userSavedPetsRepository;
     private final GlobalUtils globalUtils;
+    private final UserUtils userUtils;
     private final MapperUtils mapper;
 
     public PetServiceImpl(PetRepository petRepository,
@@ -44,9 +46,9 @@ public class PetServiceImpl implements PetService {
                           AddressRepository addressRepository,
                           CityRepository cityRepository,
                           SecurityContextService securityContextService,
-                          UserRepository userRepository,
                           UserSavedPetsRepository userSavedPetsRepository,
                           GlobalUtils globalUtils,
+                          UserUtils userUtils,
                           MapperUtils mapper) {
         this.petRepository = petRepository;
         this.petCharacteristicRepository = petCharacteristicRepository;
@@ -56,7 +58,7 @@ public class PetServiceImpl implements PetService {
         this.addressRepository = addressRepository;
         this.cityRepository = cityRepository;
         this.securityContextService = securityContextService;
-        this.userRepository = userRepository;
+        this.userUtils = userUtils;
         this.userSavedPetsRepository = userSavedPetsRepository;
         this.globalUtils = globalUtils;
         this.mapper = mapper;
@@ -154,7 +156,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public ApiResponsePaginatedDto<PetDto> getAllByUser_Id(Pageable pageable) {
+    public ApiResponsePaginatedDto<PetDto> getAllByUserId(Pageable pageable) {
         Page<Pet> petPage = petRepository.getAllByUser_Id(pageable, securityContextService.getCurrentLoggedUser().getId());
         List<PetDto> petDtoList = mapper.parseListObjects(petPage.getContent(), PetDto.class);
         return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
@@ -217,6 +219,14 @@ public class PetServiceImpl implements PetService {
         }
 
         return listAll(pageable);
+    }
+
+    @Override
+    public UserDetailsDto getPetOwnerDetails(Long petId) {
+        Pet pet = getPetById(petId);
+        User petOwner = pet.getUser();
+
+        return userUtils.buildUserDetails(petOwner);
     }
 
     private UserSavedPets findByUserAndPet(User user,
