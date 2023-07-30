@@ -42,6 +42,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         this.passwordEncoder = passwordEncoder;
     }
 
+
     @Override
     public ApiMessageResponseDto resetTokenRequestDto(PasswordResetRequestDto passwordResetRequestDto) throws MessagingException {
         User user = userRepository
@@ -58,13 +59,13 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
                 deleteExpiredToken(token);
                 PasswordResetToken newToken = buildNewToken(user);
-                emailService.sendPasswordRequest(newToken);
+                sendPasswordRequest(newToken);
 
             } else {
-                emailService.sendPasswordRequest(passwordResetToken.get());
+                sendPasswordRequest(passwordResetToken.get());
             }
         } else {
-            emailService.sendPasswordRequest(buildNewToken(user));
+            sendPasswordRequest(buildNewToken(user));
         }
 
         return new ApiMessageResponseDto("Solicitação enviada com sucesso!");
@@ -97,6 +98,10 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         deleteExpiredToken(passwordResetToken);
 
         return new ApiMessageResponseDto("Senha redefinida com sucesso!");
+    }
+
+    private void sendPasswordRequest(PasswordResetToken token) throws MessagingException {
+        emailService.sendPasswordRequest(token);
     }
 
     private Instant calculateExpirationDate() {
