@@ -258,9 +258,17 @@ public class PetServiceImpl implements PetService {
 
     private void setPetCardFields(Pet pet, PDAcroForm acroForm) throws IOException {
         acroForm.getField("name").setValue(pet.getName());
-        acroForm.getField("age").setValue(pet.getYearsAge() + " anos e " + pet.getMonthsAge() + " meses");
+        acroForm.getField("age").setValue(generatePetAgeMessage(pet));
         acroForm.getField("breed").setValue(pet.getBreed().getName());
-        acroForm.getField("gender").setValue(pet.getGender().name().equals("MALE") ? "Macho" : "Fêmea");
+        acroForm.getField("gender").setValue(generatePetGenderMessage(pet));
+    }
+
+    private String generatePetAgeMessage(Pet pet) {
+        return pet.getYearsAge() > 0 ? pet.getYearsAge() + " anos e " + pet.getMonthsAge() + " meses" : pet.getMonthsAge() + " meses";
+    }
+
+    private String generatePetGenderMessage(Pet pet) {
+        return pet.getGender().name().equals("MALE") ? "Macho" : "Fêmea";
     }
 
     private UserSavedPets findByUserAndPet(User user,
