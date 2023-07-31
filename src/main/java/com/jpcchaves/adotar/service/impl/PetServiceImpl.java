@@ -237,23 +237,30 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public byte[] generatePetCard(Long petId) throws IOException {
-            Pet pet = getPetById(petId);
-            ClassPathResource templateResource = new ClassPathResource("/templates/pet_id_card.pdf");
-            PDDocument pdfDocument = PDDocument.load(templateResource.getInputStream());
+        final String PET_CARD_ID_PATH = "/templates/pet_id_card.pdf";
 
-            PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
-            PDAcroForm acroForm = docCatalog.getAcroForm();
+        Pet pet = getPetById(petId);
 
-            acroForm.getField("name").setValue(pet.getName());
-            acroForm.getField("age").setValue(pet.getYearsAge() + " anos e " + pet.getMonthsAge() + " meses");
-            acroForm.getField("breed").setValue(pet.getBreed().getName());
-            acroForm.getField("gender").setValue(pet.getGender().name().equals("MALE") ? "Macho" : "Fêmea");
+        ClassPathResource templateResource = new ClassPathResource(PET_CARD_ID_PATH);
+        PDDocument pdfDocument = PDDocument.load(templateResource.getInputStream());
 
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            pdfDocument.save(outputStream);
-            pdfDocument.close();
+        PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
+        PDAcroForm acroForm = docCatalog.getAcroForm();
 
-            return outputStream.toByteArray();
+        setPetCardFields(pet, acroForm);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        pdfDocument.save(outputStream);
+        pdfDocument.close();
+
+        return outputStream.toByteArray();
+    }
+
+    private void setPetCardFields(Pet pet, PDAcroForm acroForm) throws IOException {
+        acroForm.getField("name").setValue(pet.getName());
+        acroForm.getField("age").setValue(pet.getYearsAge() + " anos e " + pet.getMonthsAge() + " meses");
+        acroForm.getField("breed").setValue(pet.getBreed().getName());
+        acroForm.getField("gender").setValue(pet.getGender().name().equals("MALE") ? "Macho" : "Fêmea");
     }
 
     private UserSavedPets findByUserAndPet(User user,
