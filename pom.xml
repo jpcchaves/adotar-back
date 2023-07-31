@@ -18,6 +18,7 @@
         <java.version>17</java.version>
         <mapper.version>3.1.1</mapper.version>
         <springdoc.version>2.0.4</springdoc.version>
+        <pdfbox.version>2.0.27</pdfbox.version>
     </properties>
     <dependencies>
         <dependency>
@@ -97,6 +98,12 @@
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>${mapper.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>${pdfbox.version}</version>
         </dependency>
 
         <dependency>

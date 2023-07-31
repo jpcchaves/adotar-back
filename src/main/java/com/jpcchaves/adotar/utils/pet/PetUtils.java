@@ -5,6 +5,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 public class PetUtils {
@@ -31,6 +32,7 @@ public class PetUtils {
         pet.setColor(petCreateRequestDto.getColor());
         pet.setName(petCreateRequestDto.getName());
         pet.setDescription(petCreateRequestDto.getDescription());
+        pet.setSerialNumber(generateUniqueSerialNumber());
 
         pet.setAddress(petAddress);
         pet.setType(animalType);
@@ -56,5 +58,20 @@ public class PetUtils {
         pet.setAdoptionDate(petDto.getAdoptionDate());
 
         return pet;
+    }
+
+    private static String generateUniqueSerialNumber() {
+        final int length = 12;
+        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder serialNumber = new StringBuilder();
+
+        SecureRandom random = new SecureRandom();
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(chars.length());
+            char randomChar = chars.charAt(randomIndex);
+            serialNumber.append(randomChar);
+        }
+
+        return serialNumber.toString();
     }
 }
