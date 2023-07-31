@@ -102,6 +102,8 @@ public class Pet {
     )
     private Address address;
 
+    @Column(length = 12, unique = true, nullable = false)
+    private String serialNumber;
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -130,7 +132,7 @@ public class Pet {
                List<PetPicture> petPictures,
                User user,
                Address address,
-               Date createdAt,
+               String serialNumber, Date createdAt,
                Date updatedAt,
                Date deletedAt) {
         this.id = id;
@@ -152,6 +154,7 @@ public class Pet {
         this.petPictures = petPictures;
         this.user = user;
         this.address = address;
+        this.serialNumber = serialNumber;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -331,5 +334,13 @@ public class Pet {
 
     public void setPetPictures(List<PetPicture> petPictures) {
         this.petPictures = petPictures;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
     }
 }
