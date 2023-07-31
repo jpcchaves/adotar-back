@@ -15,10 +15,16 @@ import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.utils.pet.PetUtils;
 import com.jpcchaves.adotar.utils.user.UserUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
+import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -227,6 +233,27 @@ public class PetServiceImpl implements PetService {
         User petOwner = pet.getUser();
 
         return userUtils.buildUserDetails(petOwner);
+    }
+
+    @Override
+    public byte[] generatePetCard(Long petId) throws IOException {
+            Pet pet = getPetById(petId);
+            ClassPathResource templateResource = new ClassPathResource("/templates/pet_id_card.pdf");
+            PDDocument pdfDocument = PDDocument.load(templateResource.getInputStream());
+
+            PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
+            PDAcroForm acroForm = docCatalog.getAcroForm();
+
+            acroForm.getField("name").setValue(pet.getName());
+            acroForm.getField("age").setValue(pet.getYearsAge() + " anos e " + pet.getMonthsAge() + " meses");
+            acroForm.getField("breed").setValue(pet.getBreed().getName());
+            acroForm.getField("gender").setValue(pet.getGender().name().equals("MALE") ? "Macho" : "Fêmea");
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            pdfDocument.save(outputStream);
+            pdfDocument.close();
+
+            return outputStream.toByteArray();
     }
 
     private UserSavedPets findByUserAndPet(User user,

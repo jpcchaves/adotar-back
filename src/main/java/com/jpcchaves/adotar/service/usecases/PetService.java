@@ -9,6 +9,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
 import java.util.Set;
 
 public interface PetService {
@@ -25,6 +26,7 @@ public interface PetService {
     Set<PetDto> getUserSavedPets();
 
     UserDetailsDto getPetOwnerDetails(Long petId);
+    byte[] generatePetCard(Long petId) throws IOException;
 
     ApiMessageResponseDto addUserSavedPet(Long petId);
 
