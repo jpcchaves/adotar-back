@@ -17,7 +17,12 @@ import com.jpcchaves.adotar.utils.pet.PetUtils;
 import com.jpcchaves.adotar.utils.user.UserUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
+import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -247,7 +252,7 @@ public class PetServiceImpl implements PetService {
         PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
         PDAcroForm acroForm = docCatalog.getAcroForm();
 
-        setPetCardFields(pet, acroForm);
+        setPetCardFields(pet, pdfDocument, acroForm);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         pdfDocument.save(outputStream);
@@ -257,7 +262,19 @@ public class PetServiceImpl implements PetService {
     }
 
     private void setPetCardFields(Pet pet,
+                                  PDDocument pdfDocument,
                                   PDAcroForm acroForm) throws IOException {
+        PDField imageField = acroForm.getField("picture");
+        PDPage page = pdfDocument.getPage(0);
+        PDRectangle position = imageField.getWidgets().get(0).getRectangle();
+        PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page, PDPageContentStream.AppendMode.APPEND, true, false);
+
+        String base64Image = pet.getPetPictures().get(0).getImgUrl();
+        byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+        PDImageXObject image = PDImageXObject.createFromByteArray(pdfDocument, imageBytes, "image/jpeg");
+
+        contentStream.drawImage(image, position.getLowerLeftX(), position.getLowerLeftY(), position.getWidth(), position.getHeight());
+
         acroForm.getField("name").setValue(pet.getName());
         acroForm.getField("age").setValue(generatePetAgeMessage(pet));
         acroForm.getField("breed").setValue(pet.getBreed().getName());
@@ -269,6 +286,8 @@ public class PetServiceImpl implements PetService {
         acroForm.getField("address").setValue(pet.getAddress().getCity() + " - " + pet.getAddress().getState());
         acroForm.getField("observations").setValue(pet.getDescription());
         acroForm.getField("owner_name").setValue(pet.getUser().getFirstName() + " " + pet.getUser().getLastName());
+
+        contentStream.close();
     }
 
     private String generateCharacteristics(Pet pet) {
