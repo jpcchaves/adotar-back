@@ -1,5 +1,7 @@
 package com.jpcchaves.adotar.service.impl;
 
+import com.jpcchaves.adotar.domain.Enum.AnimalGender;
+import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
@@ -282,7 +284,7 @@ public class PetServiceImpl implements PetService {
         acroForm.getField("gender").setValue(generatePetGenderMessage(pet));
         acroForm.getField("type").setValue(pet.getType().getType());
         acroForm.getField("color").setValue(pet.getColor());
-        acroForm.getField("size").setValue(pet.getSize().name());
+        acroForm.getField("size").setValue(generatePetSize(pet));
         acroForm.getField("characteristics").setValue(generateCharacteristics(pet));
         acroForm.getField("address").setValue(pet.getAddress().getCity() + " - " + pet.getAddress().getState());
         acroForm.getField("observations").setValue(pet.getDescription());
@@ -329,7 +331,25 @@ public class PetServiceImpl implements PetService {
     }
 
     private String generatePetGenderMessage(Pet pet) {
-        return pet.getGender().name().equals("MALE") ? "Macho" : "Fêmea";
+        return pet.getGender() == AnimalGender.MALE ? "Macho" : "Fêmea";
+    }
+
+    private String generatePetSize(Pet pet) {
+
+        if (pet.getSize() == AnimalSize.TINY) {
+            return "Muito Pequeno";
+        }
+
+        if (pet.getSize() == AnimalSize.SMALL) {
+            return "Pequeno";
+        }
+
+
+        if (pet.getSize() == AnimalSize.MEDIUM) {
+            return "Médio";
+        }
+
+        return "Grande";
     }
 
     private UserSavedPets findByUserAndPet(User user,
