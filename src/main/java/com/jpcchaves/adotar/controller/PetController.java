@@ -16,13 +16,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/pets")
@@ -166,12 +162,5 @@ public class PetController {
     @GetMapping("/{id}/owner")
     public ResponseEntity<UserDetailsDto> getPetOwnerDetails(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(petService.getPetOwnerDetails(id));
-    }
-
-    @GetMapping("/generate-pet-id/{id}")
-    public ResponseEntity<byte[]> generatePetCard(@PathVariable(name = "id") Long id) throws IOException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        return new ResponseEntity<>(petService.generatePetCard(id), headers, HttpStatus.OK);
     }
 }
