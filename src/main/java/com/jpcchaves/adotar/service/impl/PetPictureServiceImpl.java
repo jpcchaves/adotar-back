@@ -8,6 +8,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 import com.jpcchaves.adotar.repository.PetPictureRepository;
 import com.jpcchaves.adotar.repository.PetRepository;
 import com.jpcchaves.adotar.service.usecases.PetPictureService;
+import com.jpcchaves.adotar.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,10 @@ public class PetPictureServiceImpl implements PetPictureService {
     @Override
     public PetPictureDto create(Long petId,
                                 PetPictureDto petPictureDto) {
+        if (Base64Utils.hasBase64Prefix(petPictureDto.getImgUrl())) {
+            petPictureDto.setImgUrl(Base64Utils.removeBase64Prefix(petPictureDto.getImgUrl()));
+        }
+
         Pet pet = petRepository
                 .findById(petId)
                 .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + petId));
@@ -61,6 +66,10 @@ public class PetPictureServiceImpl implements PetPictureService {
     public PetPictureDto update(Long petId,
                                 Long picId,
                                 PetPictureDto petPictureDto) {
+        if (Base64Utils.hasBase64Prefix(petPictureDto.getImgUrl())) {
+            petPictureDto.setImgUrl(Base64Utils.removeBase64Prefix(petPictureDto.getImgUrl()));
+        }
+
         PetPicture petPicture = petPictureRepository
                 .getByIdAndPet_Id(picId, petId)
                 .orElseThrow(() -> new ResourceNotFoundException("Foto não encontrada com o id informado: " + picId));
