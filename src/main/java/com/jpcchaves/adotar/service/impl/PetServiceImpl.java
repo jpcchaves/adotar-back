@@ -237,7 +237,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public byte[] generatePetCard(Long petId) throws IOException {
-        final String PET_CARD_ID_PATH = "/templates/pet_id_card.pdf";
+        final String PET_CARD_ID_PATH = "/templates/petcard.pdf";
 
         Pet pet = getPetById(petId);
 
@@ -256,11 +256,35 @@ public class PetServiceImpl implements PetService {
         return outputStream.toByteArray();
     }
 
-    private void setPetCardFields(Pet pet, PDAcroForm acroForm) throws IOException {
+    private void setPetCardFields(Pet pet,
+                                  PDAcroForm acroForm) throws IOException {
         acroForm.getField("name").setValue(pet.getName());
         acroForm.getField("age").setValue(generatePetAgeMessage(pet));
         acroForm.getField("breed").setValue(pet.getBreed().getName());
         acroForm.getField("gender").setValue(generatePetGenderMessage(pet));
+        acroForm.getField("type").setValue(pet.getType().getType());
+        acroForm.getField("color").setValue(pet.getColor());
+        acroForm.getField("size").setValue(pet.getSize().name());
+        acroForm.getField("characteristics").setValue(generateCharacteristics(pet));
+        acroForm.getField("address").setValue(pet.getAddress().getCity() + " - " + pet.getAddress().getState());
+        acroForm.getField("observations").setValue(pet.getDescription());
+        acroForm.getField("owner_name").setValue(pet.getUser().getFirstName() + " " + pet.getUser().getLastName());
+    }
+
+    private String generateCharacteristics(Pet pet) {
+        StringBuilder sb = new StringBuilder();
+        boolean isFirst = true;
+
+        for (PetCharacteristic characteristic : pet.getCharacteristics()) {
+            if (!isFirst) {
+                sb.append(", ");
+            } else {
+                isFirst = false;
+            }
+            sb.append(characteristic.getCharacteristic());
+        }
+
+        return sb.toString();
     }
 
     private String generatePetAgeMessage(Pet pet) {
