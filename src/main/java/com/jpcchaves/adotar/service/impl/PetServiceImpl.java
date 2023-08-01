@@ -10,6 +10,7 @@ import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.usecases.PetService;
 import com.jpcchaves.adotar.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
@@ -269,8 +270,8 @@ public class PetServiceImpl implements PetService {
         PDRectangle position = imageField.getWidgets().get(0).getRectangle();
         PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page, PDPageContentStream.AppendMode.APPEND, true, false);
 
-        String base64Image = pet.getPetPictures().get(0).getImgUrl();
-        byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+        String base64Image = extractBase64(pet);
+        byte[] imageBytes = base64ToByteArray(base64Image);
         PDImageXObject image = PDImageXObject.createFromByteArray(pdfDocument, imageBytes, "image/jpeg");
 
         contentStream.drawImage(image, position.getLowerLeftX(), position.getLowerLeftY(), position.getWidth(), position.getHeight());
@@ -288,6 +289,23 @@ public class PetServiceImpl implements PetService {
         acroForm.getField("owner_name").setValue(pet.getUser().getFirstName() + " " + pet.getUser().getLastName());
 
         contentStream.close();
+    }
+
+    private byte[] base64ToByteArray(String base64String) {
+        if (Base64Utils.isValidBase64(base64String)) {
+            return Base64.getMimeDecoder().decode(base64String);
+        }
+        throw new IllegalArgumentException("invalid base64");
+    }
+
+    private String extractBase64(Pet pet) {
+        String pictureBase64 = pet.getPetPictures().get(0).getImgUrl();
+
+        if (Base64Utils.hasBase64Prefix(pictureBase64)) {
+            return Base64Utils.removeBase64Prefix(pictureBase64);
+        }
+
+        return pictureBase64;
     }
 
     private String generateCharacteristics(Pet pet) {
