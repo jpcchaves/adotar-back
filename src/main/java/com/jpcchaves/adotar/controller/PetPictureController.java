@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -100,7 +101,7 @@ public class PetPictureController {
     )
     @PostMapping("/{petId}")
     public ResponseEntity<PetPictureDto> create(@PathVariable(name = "petId") Long petId,
-                                                @RequestBody PetPictureDto petPictureDto) {
+                                                @Valid @RequestBody PetPictureDto petPictureDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(petPictureService.create(petId, petPictureDto));
     }
 
@@ -126,7 +127,7 @@ public class PetPictureController {
     @PutMapping("/{petId}/{picId}")
     public ResponseEntity<PetPictureDto> update(@PathVariable(name = "petId") Long petId,
                                                 @PathVariable(name = "picId") Long picId,
-                                                @RequestBody PetPictureDto petPictureDto) {
+                                                @Valid @RequestBody PetPictureDto petPictureDto) {
         return ResponseEntity.ok(petPictureService.update(petId, picId, petPictureDto));
     }
 
