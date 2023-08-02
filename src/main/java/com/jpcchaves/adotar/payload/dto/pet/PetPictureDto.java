@@ -1,7 +1,10 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
+import com.jpcchaves.adotar.domain.annotations.base64validator.ValidBase64;
+
 public class PetPictureDto {
     private Long id;
+    @ValidBase64
     private String imgUrl;
 
     public PetPictureDto() {
