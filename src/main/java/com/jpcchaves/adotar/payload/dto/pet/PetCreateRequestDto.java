@@ -36,7 +36,6 @@ public class PetCreateRequestDto {
     private boolean active;
     private boolean isAvailable;
     private List<Long> characteristicsIds = new ArrayList<>();
-    private List<PetPictureDto> petPictures = new ArrayList<>();
 
     @NotBlank(message = "O CEP é obrigatório")
     @Length(min = 8, max = 8, message = "O CEP deve conter 8 caracteres")
@@ -69,7 +68,6 @@ public class PetCreateRequestDto {
                                boolean active,
                                boolean isAvailable,
                                List<Long> characteristicsIds,
-                               List<PetPictureDto> petPictures,
                                String zipcode,
                                String street,
                                String number,
@@ -89,15 +87,14 @@ public class PetCreateRequestDto {
         this.neighborhood = neighborhood;
         this.cityId = cityId;
         this.stateId = stateId;
-        this.gender = gender;
         this.size = size;
+        this.healthCondition = healthCondition;
         this.gender = gender;
         this.color = color;
         this.description = description;
         this.active = active;
         this.isAvailable = isAvailable;
         this.characteristicsIds = characteristicsIds;
-        this.petPictures = petPictures;
         this.typeId = typeId;
         this.breedId = breedId;
     }
@@ -188,14 +185,6 @@ public class PetCreateRequestDto {
 
     public void setCharacteristicsIds(List<Long> characteristicsIds) {
         this.characteristicsIds = characteristicsIds;
-    }
-
-    public List<PetPictureDto> getPetPictures() {
-        return petPictures;
-    }
-
-    public void setPetPictures(List<PetPictureDto> petPictures) {
-        this.petPictures = petPictures;
     }
 
     public Long getTypeId() {
