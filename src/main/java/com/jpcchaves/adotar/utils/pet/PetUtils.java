@@ -3,7 +3,9 @@ package com.jpcchaves.adotar.utils.pet;
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
+import com.jpcchaves.adotar.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 
 import java.security.SecureRandom;
@@ -76,6 +78,14 @@ public class PetUtils {
         return serialNumber.toString();
     }
 
+    public static void removeBase64Prefix(List<PetPictureDto> pictureDtos) {
+        for (PetPictureDto picture : pictureDtos) {
+            if (Base64Utils.hasBase64Prefix(picture.getImgUrl())) {
+                picture.setImgUrl(Base64Utils.removeBase64Prefix(picture.getImgUrl()));
+            }
+        }
+    }
+
     public static <T> void verifyCharacteristicsLimit(List<T> characteristics) {
         if (!isListSizeUnderLimit(characteristics)) {
             throw new BadRequestException("O limite de características foi excedido!");
@@ -90,4 +100,6 @@ public class PetUtils {
     private static <T> boolean isListSizeUnderLimit(List<T> list, int limit) {
         return list.size() <= limit;
     }
+
+
 }
