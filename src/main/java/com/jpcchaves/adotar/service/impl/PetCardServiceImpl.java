@@ -70,6 +70,7 @@ public class PetCardServiceImpl implements PetCardService {
         acroForm.getField("address").setValue(generateAddress(pet));
         acroForm.getField("observations").setValue(pet.getDescription());
         acroForm.getField("owner_name").setValue(generateOwnerName(pet));
+        acroForm.getField("serial_number").setValue(pet.getSerialNumber());
     }
 
     private String generateAddress(Pet pet) {
