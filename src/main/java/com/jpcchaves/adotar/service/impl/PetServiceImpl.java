@@ -86,6 +86,8 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto create(PetCreateRequestDto petCreateRequestDto) {
+        PetUtils.verifyCharacteristicsLimit(petCreateRequestDto.getCharacteristicsIds());
+
         Breed breed = getBreedByIdAndAnimalType(petCreateRequestDto.getBreedId(), petCreateRequestDto.getTypeId());
 
         List<PetCharacteristic> characteristicsList = petCharacteristicRepository

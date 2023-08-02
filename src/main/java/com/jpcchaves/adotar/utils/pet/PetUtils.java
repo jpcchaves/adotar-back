@@ -1,6 +1,7 @@
 package com.jpcchaves.adotar.utils.pet;
 
 import com.jpcchaves.adotar.domain.entities.*;
+import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
@@ -60,6 +61,11 @@ public class PetUtils {
         return pet;
     }
 
+    public static <T> boolean hasFiveOrFewerElements(List<T> list) {
+        final int LIMIT = 5;
+        return list.size() <= LIMIT;
+    }
+
     private static String generateUniqueSerialNumber() {
         final int length = 25;
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -73,5 +79,11 @@ public class PetUtils {
         }
 
         return serialNumber.toString();
+    }
+
+    public static <T> void verifyCharacteristicsLimit(List<T> characteristics) {
+        if (hasFiveOrFewerElements(characteristics)) {
+            throw new BadRequestException("O limite de características foi excedido!");
+        }
     }
 }
