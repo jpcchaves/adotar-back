@@ -44,12 +44,11 @@ public class PetPictureServiceImpl implements PetPictureService {
         return mapperUtils.parseObject(petPicture, PetPictureDto.class);
     }
 
+
     @Override
     public PetPictureDto create(Long petId,
                                 PetPictureDto petPictureDto) {
-        if (Base64Utils.hasBase64Prefix(petPictureDto.getImgUrl())) {
-            petPictureDto.setImgUrl(Base64Utils.removeBase64Prefix(petPictureDto.getImgUrl()));
-        }
+        handleBase64(petPictureDto);
 
         Pet pet = petRepository
                 .findById(petId)
@@ -66,9 +65,7 @@ public class PetPictureServiceImpl implements PetPictureService {
     public PetPictureDto update(Long petId,
                                 Long picId,
                                 PetPictureDto petPictureDto) {
-        if (Base64Utils.hasBase64Prefix(petPictureDto.getImgUrl())) {
-            petPictureDto.setImgUrl(Base64Utils.removeBase64Prefix(petPictureDto.getImgUrl()));
-        }
+        handleBase64(petPictureDto);
 
         PetPicture petPicture = petPictureRepository
                 .getByIdAndPet_Id(picId, petId)
@@ -90,5 +87,11 @@ public class PetPictureServiceImpl implements PetPictureService {
         petPictureRepository.deleteById(petPicture.getId());
 
         return new ApiMessageResponseDto("Foto excluída com sucesso");
+    }
+
+    private void handleBase64(PetPictureDto petPictureDto) {
+        if (Base64Utils.hasBase64Prefix(petPictureDto.getImgUrl())) {
+            petPictureDto.setImgUrl(Base64Utils.removeBase64Prefix(petPictureDto.getImgUrl()));
+        }
     }
 }
