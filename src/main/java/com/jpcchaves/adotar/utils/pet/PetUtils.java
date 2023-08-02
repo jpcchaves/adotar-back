@@ -61,7 +61,7 @@ public class PetUtils {
     }
 
     private static String generateUniqueSerialNumber() {
-        final int length = 12;
+        final int length = 25;
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder serialNumber = new StringBuilder();
 

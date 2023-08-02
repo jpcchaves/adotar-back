@@ -102,7 +102,7 @@ public class Pet {
     )
     private Address address;
 
-    @Column(length = 12, unique = true, nullable = false)
+    @Column(length = 25, unique = true, nullable = false)
     private String serialNumber;
     @CreationTimestamp
     private Date createdAt;
