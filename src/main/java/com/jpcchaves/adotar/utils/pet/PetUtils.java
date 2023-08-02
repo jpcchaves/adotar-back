@@ -61,11 +61,6 @@ public class PetUtils {
         return pet;
     }
 
-    public static <T> boolean hasFiveOrFewerElements(List<T> list) {
-        final int LIMIT = 5;
-        return list.size() <= LIMIT;
-    }
-
     private static String generateUniqueSerialNumber() {
         final int length = 25;
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -82,8 +77,17 @@ public class PetUtils {
     }
 
     public static <T> void verifyCharacteristicsLimit(List<T> characteristics) {
-        if (!hasFiveOrFewerElements(characteristics)) {
+        if (!isListSizeUnderLimit(characteristics)) {
             throw new BadRequestException("O limite de características foi excedido!");
         }
+    }
+
+    private static <T> boolean isListSizeUnderLimit(List<T> list) {
+        final int LIMIT = 5;
+        return list.size() <= LIMIT;
+    }
+
+    private static <T> boolean isListSizeUnderLimit(List<T> list, int limit) {
+        return list.size() <= limit;
     }
 }
