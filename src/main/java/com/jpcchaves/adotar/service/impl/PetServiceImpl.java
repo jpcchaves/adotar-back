@@ -10,7 +10,6 @@ import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.usecases.PetService;
 import com.jpcchaves.adotar.service.usecases.SecurityContextService;
-import com.jpcchaves.adotar.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
@@ -103,24 +102,11 @@ public class PetServiceImpl implements PetService {
 
         Address address = addressRepository.save(buildAddress(petCreateRequestDto, city));
 
-        removeBase64Prefix(petCreateRequestDto.getPetPictures());
-
-        List<PetPicture> petPictures = mapper.parseListObjects(petCreateRequestDto.getPetPictures(), PetPicture.class);
-
         Pet pet = PetUtils.buildPetCreate(petCreateRequestDto, animalType, breed, characteristicsList, address);
-
-        Pet savedPet = petRepository.save(pet);
-
         pet.setUser(securityContextService.getCurrentLoggedUser());
 
-        for (PetPicture picture : petPictures) {
-            picture.setPet(savedPet);
-        }
-
-        if (pictureExists(petCreateRequestDto.getPetPictures())) {
-            petPictureRepository.saveAll(petPictures);
-        }
-
+        petRepository.save(pet);
+        
         return new ApiMessageResponseDto("Pet criado com sucesso: " + petCreateRequestDto.getName());
     }
 
@@ -331,15 +317,6 @@ public class PetServiceImpl implements PetService {
 
         return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
     }
-
-    private void removeBase64Prefix(List<PetPictureDto> pictureDtos) {
-        for (PetPictureDto picture : pictureDtos) {
-            if (Base64Utils.hasBase64Prefix(picture.getImgUrl())) {
-                picture.setImgUrl(Base64Utils.removeBase64Prefix(picture.getImgUrl()));
-            }
-        }
-    }
-
 
     private Set<Pet> extractPets(List<UserSavedPets> userSavedPets) {
         List<Pet> pets = new ArrayList<>();
