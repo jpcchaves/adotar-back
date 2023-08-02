@@ -127,6 +127,8 @@ public class PetServiceImpl implements PetService {
     @Override
     public ApiMessageResponseDto update(Long id,
                                         PetUpdateRequestDto petDto) {
+        PetUtils.verifyCharacteristicsLimit(petDto.getCharacteristicsIds());
+
         Pet pet = getPetById(id);
 
         Breed breed = getBreedByIdAndAnimalType(petDto.getBreedId(), petDto.getTypeId());

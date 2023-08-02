@@ -82,7 +82,7 @@ public class PetUtils {
     }
 
     public static <T> void verifyCharacteristicsLimit(List<T> characteristics) {
-        if (hasFiveOrFewerElements(characteristics)) {
+        if (!hasFiveOrFewerElements(characteristics)) {
             throw new BadRequestException("O limite de características foi excedido!");
         }
     }
