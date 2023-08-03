@@ -110,6 +110,15 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(PdfNotAvailableException.class)
+    public final ResponseEntity<ExceptionResponse> handlePdfNotAvailableException(PdfNotAvailableException ex,
+                                                                                  WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(MailSendException.class)
     public final ResponseEntity<ExceptionResponse> handleMailSendException(MailSendException ex,
                                                                            WebRequest request) {
