@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/api/v1/pets/generate-card")
 public class PetCardController {
@@ -22,7 +20,7 @@ public class PetCardController {
     }
 
     @GetMapping("/{petId}")
-    public ResponseEntity<byte[]> generatePetCard(@PathVariable(name = "petId") Long petId) throws IOException {
+    public ResponseEntity<byte[]> generatePetCard(@PathVariable(name = "petId") Long petId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         return new ResponseEntity<>(petCardService.generatePetCard(petId), headers, HttpStatus.OK);

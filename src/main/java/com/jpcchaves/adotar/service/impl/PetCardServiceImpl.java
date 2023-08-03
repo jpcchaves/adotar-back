@@ -4,6 +4,7 @@ import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.exception.PdfNotAvailableException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.repository.PetRepository;
 import com.jpcchaves.adotar.service.usecases.PetCardService;
@@ -33,44 +34,54 @@ public class PetCardServiceImpl implements PetCardService {
     }
 
     @Override
-    public byte[] generatePetCard(Long petId) throws IOException {
+    public byte[] generatePetCard(Long petId) {
 
         Pet pet = getPetById(petId);
 
         String PET_CARD_ID_PATH = "/templates/petcard.pdf";
-        ClassPathResource templateResource = new ClassPathResource(PET_CARD_ID_PATH);
-        PDDocument pdfDocument = PDDocument.load(templateResource.getInputStream());
+        try {
+            ClassPathResource templateResource = new ClassPathResource(PET_CARD_ID_PATH);
+            PDDocument pdfDocument = PDDocument.load(templateResource.getInputStream());
 
-        PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
-        PDAcroForm acroForm = docCatalog.getAcroForm();
+            PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
 
-        setPetCardFields(pet, pdfDocument, acroForm);
+            PDAcroForm acroForm = docCatalog.getAcroForm();
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        pdfDocument.save(outputStream);
-        pdfDocument.close();
+            setPetCardFields(pet, pdfDocument, acroForm);
 
-        return outputStream.toByteArray();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            pdfDocument.save(outputStream);
+            pdfDocument.close();
+
+            return outputStream.toByteArray();
+
+        } catch (IOException ex) {
+            throw new PdfNotAvailableException("Ocorreu um erro inesperado ao gerar o cartão. Tente novamente mais tarde.");
+        }
     }
 
     private void setPetCardFields(Pet pet,
                                   PDDocument pdfDocument,
-                                  PDAcroForm acroForm) throws IOException {
+                                  PDAcroForm acroForm) {
 
         handlePetPictureInput(pet, pdfDocument, acroForm);
 
-        acroForm.getField("name").setValue(pet.getName());
-        acroForm.getField("age").setValue(generatePetAgeMessage(pet));
-        acroForm.getField("breed").setValue(pet.getBreed().getName());
-        acroForm.getField("gender").setValue(generatePetGenderMessage(pet));
-        acroForm.getField("type").setValue(pet.getType().getType());
-        acroForm.getField("color").setValue(pet.getColor());
-        acroForm.getField("size").setValue(generatePetSize(pet));
-        acroForm.getField("characteristics").setValue(generateCharacteristics(pet));
-        acroForm.getField("address").setValue(generateAddress(pet));
-        acroForm.getField("observations").setValue(pet.getDescription());
-        acroForm.getField("owner_name").setValue(generateOwnerName(pet));
-        acroForm.getField("serial_number").setValue(pet.getSerialNumber());
+        try {
+            acroForm.getField("name").setValue(pet.getName());
+            acroForm.getField("age").setValue(generatePetAgeMessage(pet));
+            acroForm.getField("breed").setValue(pet.getBreed().getName());
+            acroForm.getField("gender").setValue(generatePetGenderMessage(pet));
+            acroForm.getField("type").setValue(pet.getType().getType());
+            acroForm.getField("color").setValue(pet.getColor());
+            acroForm.getField("size").setValue(generatePetSize(pet));
+            acroForm.getField("characteristics").setValue(generateCharacteristics(pet));
+            acroForm.getField("address").setValue(generateAddress(pet));
+            acroForm.getField("observations").setValue(pet.getDescription());
+            acroForm.getField("owner_name").setValue(generateOwnerName(pet));
+            acroForm.getField("serial_number").setValue(pet.getSerialNumber());
+        } catch (IOException ex) {
+            throw new PdfNotAvailableException("Ocorreu um erro inesperado. Tente novamente mais tarde");
+        }
     }
 
     private String generateAddress(Pet pet) {
@@ -89,18 +100,22 @@ public class PetCardServiceImpl implements PetCardService {
 
     private void handlePetPictureInput(Pet pet,
                                        PDDocument pdfDocument,
-                                       PDAcroForm acroForm) throws IOException {
-        PDField imageField = acroForm.getField("picture");
-        PDPage page = pdfDocument.getPage(0);
-        PDRectangle position = imageField.getWidgets().get(0).getRectangle();
-        PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page, PDPageContentStream.AppendMode.APPEND, true, false);
+                                       PDAcroForm acroForm) {
+        try {
+            PDField imageField = acroForm.getField("picture");
+            PDPage page = pdfDocument.getPage(0);
+            PDRectangle position = imageField.getWidgets().get(0).getRectangle();
+            PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page, PDPageContentStream.AppendMode.APPEND, true, false);
 
-        String base64Image = extractBase64(pet);
-        byte[] imageBytes = base64ToByteArray(base64Image);
-        PDImageXObject image = PDImageXObject.createFromByteArray(pdfDocument, imageBytes, "image/jpeg");
+            String base64Image = extractBase64(pet);
+            byte[] imageBytes = base64ToByteArray(base64Image);
+            PDImageXObject image = PDImageXObject.createFromByteArray(pdfDocument, imageBytes, "image/jpeg");
 
-        contentStream.drawImage(image, position.getLowerLeftX(), position.getLowerLeftY(), position.getWidth(), position.getHeight());
-        contentStream.close();
+            contentStream.drawImage(image, position.getLowerLeftX(), position.getLowerLeftY(), position.getWidth(), position.getHeight());
+            contentStream.close();
+        } catch (IOException ex) {
+            throw new PdfNotAvailableException("Ocorreu um erro inesperado. Tente novamente mais tarde.");
+        }
     }
 
     private byte[] base64ToByteArray(String base64String) {
