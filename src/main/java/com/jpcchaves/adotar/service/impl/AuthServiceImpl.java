@@ -135,11 +135,7 @@ public class AuthServiceImpl implements AuthService {
 
         if (passwordsMatches(updateUserDto.getCurrentPassword(), user.getPassword())) {
 
-            user.setFirstName(updateUserDto.getFirstName());
-            user.setLastName(updateUserDto.getLastName());
-            user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
-            user.setAdmin(false);
-            user.setRoles(user.getRoles());
+            updateUser(user, updateUserDto);
 
             userRepository.save(user);
 
@@ -147,6 +143,15 @@ public class AuthServiceImpl implements AuthService {
         } else {
             throw new BadRequestException("A senha atual não condiz com a senha cadastrada anteriormente.");
         }
+    }
+
+    private void updateUser(User user,
+                            UpdateUserRequestDto updateUserDto) {
+        user.setFirstName(updateUserDto.getFirstName());
+        user.setLastName(updateUserDto.getLastName());
+        user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
+        user.setAdmin(false);
+        user.setRoles(user.getRoles());
     }
 
     private UserDto copyPropertiesFromUserToUserDto(User user) {
