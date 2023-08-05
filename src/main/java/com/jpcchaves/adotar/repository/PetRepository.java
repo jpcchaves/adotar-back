@@ -23,4 +23,6 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
     Page<Pet> findAllByActiveTrue(Pageable pageable);
 
     Optional<Pet> findByIdAndActiveTrue(Long id);
+
+    Optional<Pet> findBySerialNumberAndActiveTrue(String serialNumber);
 }
