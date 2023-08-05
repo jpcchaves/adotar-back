@@ -80,6 +80,15 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    public PetDto getBySerialNumber(String serialNumber) {
+        Pet pet = petRepository
+                .findBySerialNumberAndActiveTrue(serialNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o número de série informado"));
+
+        return mapper.parseObject(pet, PetDto.class);
+    }
+
+    @Override
     public ApiMessageResponseDto create(PetCreateRequestDto petCreateRequestDto) {
         PetUtils.verifyCharacteristicsLimit(petCreateRequestDto.getCharacteristicsIds());
 
