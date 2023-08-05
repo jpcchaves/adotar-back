@@ -23,13 +23,11 @@ import java.util.*;
 
 @Service
 public class PetServiceImpl implements PetService {
-    private final boolean ACTIVE = true;
 
     private final PetRepository petRepository;
     private final PetCharacteristicRepository petCharacteristicRepository;
     private final AnimalTypeRepository animalTypeRepository;
     private final BreedRepository breedRepository;
-    private final PetPictureRepository petPictureRepository;
     private final AddressRepository addressRepository;
     private final CityRepository cityRepository;
     private final SecurityContextService securityContextService;
@@ -42,7 +40,6 @@ public class PetServiceImpl implements PetService {
                           PetCharacteristicRepository petCharacteristicRepository,
                           AnimalTypeRepository animalTypeRepository,
                           BreedRepository breedRepository,
-                          PetPictureRepository petPictureRepository,
                           AddressRepository addressRepository,
                           CityRepository cityRepository,
                           SecurityContextService securityContextService,
@@ -54,7 +51,6 @@ public class PetServiceImpl implements PetService {
         this.petCharacteristicRepository = petCharacteristicRepository;
         this.animalTypeRepository = animalTypeRepository;
         this.breedRepository = breedRepository;
-        this.petPictureRepository = petPictureRepository;
         this.addressRepository = addressRepository;
         this.cityRepository = cityRepository;
         this.securityContextService = securityContextService;
@@ -66,7 +62,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiResponsePaginatedDto<PetMinDto> listAll(Pageable pageable) {
-        Page<Pet> petsPage = petRepository.findAllByActive(pageable, ACTIVE);
+        Page<Pet> petsPage = petRepository.findAllByActiveTrue(pageable);
         List<PetMinDto> petDtoList = mapper.parseListObjects(petsPage.getContent(), PetMinDto.class);
 
         return globalUtils.buildApiResponsePaginated(petsPage, petDtoList);
@@ -74,7 +70,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public PetDto getById(Long id) {
-        Pet pet = petRepository.findByIdAndActive(id, ACTIVE)
+        Pet pet = petRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + id));
 
         PetUtils.increasePetVisualization(pet);
@@ -106,7 +102,7 @@ public class PetServiceImpl implements PetService {
         pet.setUser(securityContextService.getCurrentLoggedUser());
 
         petRepository.save(pet);
-        
+
         return new ApiMessageResponseDto("Pet criado com sucesso: " + petCreateRequestDto.getName());
     }
 
@@ -257,7 +253,7 @@ public class PetServiceImpl implements PetService {
 
     private Pet getPetById(Long petId) {
         return petRepository
-                .findById(petId)
+                .findByIdAndActiveTrue(petId)
                 .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + petId));
     }
 

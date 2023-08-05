@@ -26,7 +26,6 @@ import java.util.Base64;
 
 @Service
 public class PetCardServiceImpl implements PetCardService {
-    private static final boolean ACTIVE = true;
     private final PetRepository petRepository;
 
     public PetCardServiceImpl(PetRepository petRepository) {
@@ -94,7 +93,7 @@ public class PetCardServiceImpl implements PetCardService {
 
     private Pet getPetById(Long petId) {
         return petRepository
-                .findByIdAndActive(petId, ACTIVE)
+                .findByIdAndActiveTrue(petId)
                 .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + petId));
     }
 
