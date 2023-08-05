@@ -22,6 +22,8 @@ public interface PetService {
 
     PetDto getById(Long id);
 
+    PetDto getBySerialNumber(String serialNumber);
+
     Set<PetDto> getUserSavedPets();
 
     UserDetailsDto getPetOwnerDetails(Long petId);
