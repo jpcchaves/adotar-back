@@ -163,4 +163,9 @@ public class PetController {
     public ResponseEntity<UserDetailsDto> getPetOwnerDetails(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(petService.getPetOwnerDetails(id));
     }
+
+    @GetMapping("/by-serial/{serialNumber}")
+    public ResponseEntity<PetDto> getPetBySerialNumber(@PathVariable(name = "serialNumber") String serialNumber) {
+        return ResponseEntity.ok(petService.getBySerialNumber(serialNumber));
+    }
 }
