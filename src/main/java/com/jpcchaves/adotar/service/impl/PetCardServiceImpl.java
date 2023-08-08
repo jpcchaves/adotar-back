@@ -59,6 +59,30 @@ public class PetCardServiceImpl implements PetCardService {
         }
     }
 
+    @Override
+    public byte[] generateEmptyCard() {
+        String PET_CARD_ID_PATH = "/templates/petcard.pdf";
+        try {
+            ClassPathResource templateResource = new ClassPathResource(PET_CARD_ID_PATH);
+            PDDocument pdfDocument = PDDocument.load(templateResource.getInputStream());
+
+            PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
+
+            PDAcroForm acroForm = docCatalog.getAcroForm();
+
+            handlePetPictureInput(pdfDocument, acroForm);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            pdfDocument.save(outputStream);
+            pdfDocument.close();
+
+            return outputStream.toByteArray();
+
+        } catch (IOException ex) {
+            throw new PdfNotAvailableException("Ocorreu um erro inesperado ao gerar o cartão. Tente novamente mais tarde.");
+        }
+    }
+
     private void setPetCardFields(Pet pet,
                                   PDDocument pdfDocument,
                                   PDAcroForm acroForm) {
@@ -107,6 +131,25 @@ public class PetCardServiceImpl implements PetCardService {
             PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page, PDPageContentStream.AppendMode.APPEND, true, false);
 
             String base64Image = extractBase64(pet);
+            byte[] imageBytes = base64ToByteArray(base64Image);
+            PDImageXObject image = PDImageXObject.createFromByteArray(pdfDocument, imageBytes, "image/jpeg");
+
+            contentStream.drawImage(image, position.getLowerLeftX(), position.getLowerLeftY(), position.getWidth(), position.getHeight());
+            contentStream.close();
+        } catch (IOException ex) {
+            throw new PdfNotAvailableException("Ocorreu um erro inesperado. Tente novamente mais tarde.");
+        }
+    }
+
+    private void handlePetPictureInput(PDDocument pdfDocument,
+                                       PDAcroForm acroForm) {
+        try {
+            PDField imageField = acroForm.getField("picture");
+            PDPage page = pdfDocument.getPage(0);
+            PDRectangle position = imageField.getWidgets().get(0).getRectangle();
+            PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page, PDPageContentStream.AppendMode.APPEND, true, false);
+
+            String base64Image = makeDefaultImage();
             byte[] imageBytes = base64ToByteArray(base64Image);
             PDImageXObject image = PDImageXObject.createFromByteArray(pdfDocument, imageBytes, "image/jpeg");
 
