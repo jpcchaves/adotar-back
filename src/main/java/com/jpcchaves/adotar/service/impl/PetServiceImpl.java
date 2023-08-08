@@ -89,30 +89,18 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public ApiMessageResponseDto create(PetCreateRequestDto petCreateRequestDto) {
-        PetUtils.verifyCharacteristicsLimit(petCreateRequestDto.getCharacteristicsIds());
+    public ApiMessageResponseDto create(PetCreateRequestDto requestDto) {
+        validateCharacteristicsLimit(requestDto);
 
-        Breed breed = getBreedByIdAndAnimalType(petCreateRequestDto.getBreedId(), petCreateRequestDto.getTypeId());
+        Breed breed = fetchBreed(requestDto.getBreedId(), requestDto.getTypeId());
+        List<PetCharacteristic> characteristicsList = fetchCharacteristics(requestDto.getCharacteristicsIds());
+        AnimalType animalType = fetchAnimalType(requestDto.getTypeId());
+        City city = fetchCity(requestDto.getCityId());
+        Address address = saveAddress(requestDto, city);
 
-        List<PetCharacteristic> characteristicsList = petCharacteristicRepository
-                .findAllById(petCreateRequestDto.getCharacteristicsIds());
+        Pet pet = buildAndSavePet(requestDto, animalType, breed, characteristicsList, address);
 
-        AnimalType animalType = animalTypeRepository
-                .findById(petCreateRequestDto.getTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Tipo de animal não encotrado!"));
-
-        City city = cityRepository
-                .findById(petCreateRequestDto.getCityId())
-                .orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada!"));
-
-        Address address = addressRepository.save(buildAddress(petCreateRequestDto, city));
-
-        Pet pet = PetUtils.buildPetCreate(petCreateRequestDto, animalType, breed, characteristicsList, address);
-        pet.setUser(securityContextService.getCurrentLoggedUser());
-
-        petRepository.save(pet);
-
-        return new ApiMessageResponseDto("Pet criado com sucesso: " + petCreateRequestDto.getName());
+        return new ApiMessageResponseDto("Pet criado com sucesso: " + pet.getName());
     }
 
     @Override
@@ -225,6 +213,45 @@ public class PetServiceImpl implements PetService {
         User petOwner = pet.getUser();
 
         return userUtils.buildUserDetails(petOwner);
+    }
+
+    private void validateCharacteristicsLimit(PetCreateRequestDto requestDto) {
+        PetUtils.verifyCharacteristicsLimit(requestDto.getCharacteristicsIds());
+    }
+
+    private Breed fetchBreed(Long breedId,
+                             Long typeId) {
+        return getBreedByIdAndAnimalType(breedId, typeId);
+    }
+
+    private List<PetCharacteristic> fetchCharacteristics(List<Long> characteristicIds) {
+        return petCharacteristicRepository.findAllById(characteristicIds);
+    }
+
+    private AnimalType fetchAnimalType(Long typeId) {
+        return animalTypeRepository.findById(typeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Tipo de animal não encontrado!"));
+    }
+
+    private City fetchCity(Long cityId) {
+        return cityRepository.findById(cityId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada!"));
+    }
+
+    private Address saveAddress(PetCreateRequestDto requestDto,
+                                City city) {
+        Address address = buildAddress(requestDto, city);
+        return addressRepository.save(address);
+    }
+
+    private Pet buildAndSavePet(PetCreateRequestDto requestDto,
+                                AnimalType animalType,
+                                Breed breed,
+                                List<PetCharacteristic> characteristicsList,
+                                Address address) {
+        Pet pet = PetUtils.buildPetCreate(requestDto, animalType, breed, characteristicsList, address);
+        pet.setUser(securityContextService.getCurrentLoggedUser());
+        return petRepository.save(pet);
     }
 
     private UserSavedPets findByUserAndPet(User user,
