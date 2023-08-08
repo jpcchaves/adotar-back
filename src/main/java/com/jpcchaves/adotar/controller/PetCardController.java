@@ -1,17 +1,19 @@
 package com.jpcchaves.adotar.controller;
 
 import com.jpcchaves.adotar.service.usecases.PetCardService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/pets/generate-card")
+@CrossOrigin(origins = "*")
+@Tag(name = "Pet Card-Controller")
+@SecurityRequirement(name = "Bearer Authentication")
 public class PetCardController {
     private final PetCardService petCardService;
 
