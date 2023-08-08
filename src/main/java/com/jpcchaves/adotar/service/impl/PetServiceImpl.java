@@ -90,7 +90,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto create(PetCreateRequestDto requestDto) {
-        validateCharacteristicsLimit(requestDto);
+        validateCharacteristicsLimit(requestDto.getCharacteristicsIds());
 
         Breed breed = fetchBreed(requestDto.getBreedId(), requestDto.getTypeId());
         List<PetCharacteristic> characteristicsList = fetchCharacteristics(requestDto.getCharacteristicsIds());
@@ -105,21 +105,14 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto update(Long id,
-                                        PetUpdateRequestDto petDto) {
-        PetUtils.verifyCharacteristicsLimit(petDto.getCharacteristicsIds());
+                                        PetUpdateRequestDto requestDto) {
+        validateCharacteristicsLimit(requestDto.getCharacteristicsIds());
 
         Pet pet = getPetById(id);
-
-        Breed breed = getBreedByIdAndAnimalType(petDto.getBreedId(), petDto.getTypeId());
-
-        List<PetCharacteristic> characteristicsList = petCharacteristicRepository
-                .findAllById(petDto.getCharacteristicsIds());
-
-        AnimalType animalType = animalTypeRepository
-                .findById(petDto.getTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("O tipo de animal informado não existe"));
-
-        PetUtils.updatePetAttributes(pet, petDto);
+        Breed breed = fetchBreed(requestDto.getBreedId(), requestDto.getTypeId());
+        List<PetCharacteristic> characteristicsList = fetchCharacteristics(requestDto.getCharacteristicsIds());
+        AnimalType animalType = fetchAnimalType(requestDto.getTypeId());
+        PetUtils.updatePetAttributes(pet, requestDto);
 
         pet.setType(animalType);
         pet.setBreed(breed);
@@ -215,8 +208,8 @@ public class PetServiceImpl implements PetService {
         return userUtils.buildUserDetails(petOwner);
     }
 
-    private void validateCharacteristicsLimit(PetCreateRequestDto requestDto) {
-        PetUtils.verifyCharacteristicsLimit(requestDto.getCharacteristicsIds());
+    private void validateCharacteristicsLimit(List<Long> characteristicsIds) {
+        PetUtils.verifyCharacteristicsLimit(characteristicsIds);
     }
 
     private Breed fetchBreed(Long breedId,
