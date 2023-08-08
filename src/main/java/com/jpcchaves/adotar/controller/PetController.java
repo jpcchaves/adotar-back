@@ -160,11 +160,37 @@ public class PetController {
     }
 
     @GetMapping("/{id}/owner")
+    @Operation(summary = "Gets pet owner details",
+            description = "Gets pet owner details",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = @Content(
+                                    schema = @Schema(implementation = UserDetailsDto.class)
+                            )
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+            }
+    )
     public ResponseEntity<UserDetailsDto> getPetOwnerDetails(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(petService.getPetOwnerDetails(id));
     }
 
     @GetMapping("/by-serial/{serialNumber}")
+    @Operation(summary = "Gets pet by serial number",
+            description = "Gets pet by passing his serial number",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = @Content(
+                                    schema = @Schema(implementation = PetDto.class)
+                            )
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+            }
+    )
     public ResponseEntity<PetDto> getPetBySerialNumber(@PathVariable(name = "serialNumber") String serialNumber) {
         return ResponseEntity.ok(petService.getBySerialNumber(serialNumber));
     }
