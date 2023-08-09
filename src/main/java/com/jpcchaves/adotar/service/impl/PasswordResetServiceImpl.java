@@ -111,7 +111,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     }
 
     private void sendPasswordRequest(PasswordResetToken token) throws MessagingException {
-        emailService.sendPasswordRequest(token);
+        emailService.sendResetPasswordRequest(token);
     }
 
     private Instant calculateExpirationDate() {
