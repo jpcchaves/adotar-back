@@ -1,34 +1,62 @@
 package com.jpcchaves.adotar.service.impl;
 
 import com.jpcchaves.adotar.domain.entities.PasswordResetToken;
+import com.jpcchaves.adotar.domain.entities.User;
+import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
+import com.jpcchaves.adotar.payload.dto.email.ContactEmailDto;
 import com.jpcchaves.adotar.service.usecases.EmailService;
+import com.jpcchaves.adotar.service.usecases.SecurityContextService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailServiceImpl implements EmailService {
-
     private final JavaMailSender mailSender;
+    private final SecurityContextService contextService;
 
-    public EmailServiceImpl(JavaMailSender javaMailSender) {
+
+    @Value("${mail.username}")
+    private String appMail;
+
+    public EmailServiceImpl(JavaMailSender javaMailSender, SecurityContextService contextService) {
         this.mailSender = javaMailSender;
+        this.contextService = contextService;
     }
 
-    public void sendPasswordRequest(PasswordResetToken passwordResetToken) throws MessagingException {
+    public void sendResetPasswordRequest(PasswordResetToken passwordResetToken) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         helper.setTo(passwordResetToken.getUser().getEmail());
         helper.setSubject("Adote.Me - Solcitação para Redefinir Senha");
-        helper.setText(generateHtmlMessage(passwordResetToken), true);
+        helper.setText(generateResetPasswordMessage(passwordResetToken), true);
         mailSender.send(message);
     }
 
-    private String generateHtmlMessage(PasswordResetToken passwordResetToken) {
+    @Override
+    public ApiMessageResponseDto sendContactMessage(ContactEmailDto contactEmailDto) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        User user = contextService.getCurrentLoggedUser();
+
+        helper.setTo(appMail);
+        helper.setFrom(user.getEmail());
+        helper.setSubject(contactEmailDto.getSubject());
+        helper.setText(generateContactUsHtml(contactEmailDto, user));
+
+        mailSender.send(message);
+
+        return new ApiMessageResponseDto("Mensagem enviada com sucesso!");
+    }
+
+    private String generateResetPasswordMessage(PasswordResetToken passwordResetToken) {
         return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
                 "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
                 "  <head>\n" +
@@ -544,5 +572,9 @@ public class EmailServiceImpl implements EmailService {
                 "    </table>\n" +
                 "  </body>\n" +
                 "</html>";
+    }
+
+    private String generateContactUsHtml(ContactEmailDto contactEmailDto, User user) {
+        return "Assunto: " + contactEmailDto.getSubject() + ". Enviado por: " + user.getEmail() + ". Mensagem: " + contactEmailDto.getMessage();
     }
 }
