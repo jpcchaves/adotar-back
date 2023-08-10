@@ -696,11 +696,11 @@ public class EmailServiceImpl implements EmailService {
                 "                                    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\"\n" +
                 "                                      style=\"border-collapse:collapse;border-spacing:0px;\">\n" +
                 "                                      <tbody>\n" +
-                "                                        <tr>\n" +
-                "                                          <td style=\"width:50px;\">\n" +
+                "                                        <tr style=\"display:flex;justify-content:center;\">\n" +
+                "                                          <td style=\"width:100px;\">\n" +
                 "                                            <img alt=\"image description\" height=\"auto\"\n" +
                 "                                              style=\"border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:14px;\"\n" +
-                "                                              src=\"https://i.ibb.co/P61Kcfk/IMG-20230801-WA0028.jpg\"\n" +
+                "                                              src=\"https://i.ibb.co/NFzKp6F/logo-ador-me-1.png\"\n" +
                 "                                              width=\"50\" />\n" +
                 "                                          </td>\n" +
                 "                                        </tr>\n" +
