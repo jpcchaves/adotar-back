@@ -32,15 +32,19 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public ContactDto updateUserContact(ContactDto addressDto) {
+    public ContactDto updateUserContact(ContactDto contactDto) {
         Contact contact = securityContextService.getCurrentLoggedUser().getContact();
 
-        contact.setPhone1(addressDto.getPhone1());
-        contact.setPhone2(addressDto.getPhone2());
-        contact.setPhone3(addressDto.getPhone3());
+        updateContact(contact, contactDto);
 
         Contact updatedContact = contactRepository.save(contact);
 
         return mapperUtils.parseObject(updatedContact, ContactDto.class);
+    }
+
+    private void updateContact(Contact contact, ContactDto contactDto) {
+        contact.setPhone1(contactDto.getPhone1());
+        contact.setPhone2(contactDto.getPhone2());
+        contact.setPhone3(contactDto.getPhone3());
     }
 }
