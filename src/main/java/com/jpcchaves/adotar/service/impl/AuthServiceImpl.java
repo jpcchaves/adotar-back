@@ -6,7 +6,8 @@ import com.jpcchaves.adotar.domain.entities.Role;
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
-import com.jpcchaves.adotar.factory.AddressFactory;
+import com.jpcchaves.adotar.factory.address.AddressFactory;
+import com.jpcchaves.adotar.factory.contact.ContactFactory;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.auth.*;
 import com.jpcchaves.adotar.payload.dto.role.RoleDto;
@@ -37,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
     private final AddressRepository addressRepository;
     private final ContactRepository contactRepository;
     private final AddressFactory addressFactory;
+    private final ContactFactory contactFactory;
     private final PasswordEncoder passwordEncoder;
     private final MapperUtils mapperUtils;
     private final JwtTokenProvider jwtTokenProvider;
@@ -47,6 +49,7 @@ public class AuthServiceImpl implements AuthService {
                            AddressRepository addressRepository,
                            ContactRepository contactRepository,
                            AddressFactory addressFactory,
+                           ContactFactory contactFactory,
                            PasswordEncoder passwordEncoder,
                            MapperUtils mapperUtils,
                            JwtTokenProvider jwtTokenProvider) {
@@ -56,6 +59,7 @@ public class AuthServiceImpl implements AuthService {
         this.addressRepository = addressRepository;
         this.contactRepository = contactRepository;
         this.addressFactory = addressFactory;
+        this.contactFactory = contactFactory;
         this.passwordEncoder = passwordEncoder;
         this.mapperUtils = mapperUtils;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -90,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("Usuário inexistente ou senha inválida");
         }
     }
-
+    
     @Override
     public RegisterResponseDto register(RegisterRequestDto registerDto) {
         if (userRepository.existsByUsername(registerDto.getUsername())) {
@@ -110,8 +114,8 @@ public class AuthServiceImpl implements AuthService {
 
         User user = copyPropertiesFromRegisterDtoToUser(registerDto);
 
-        Address address = addressRepository.save(addressFactory.createEmptyUserAddress());
-        Contact contact = contactRepository.save(new Contact("", "", ""));
+        Address address = addressRepository.save(addressFactory.createUserEmptyAddress());
+        Contact contact = contactRepository.save(contactFactory.createUserEmptyContact());
 
         if (userRole.isPresent()) {
             roles.add(userRole.get());
