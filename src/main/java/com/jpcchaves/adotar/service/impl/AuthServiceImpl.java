@@ -6,6 +6,7 @@ import com.jpcchaves.adotar.domain.entities.Role;
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
+import com.jpcchaves.adotar.factory.AddressFactory;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.auth.*;
 import com.jpcchaves.adotar.payload.dto.role.RoleDto;
@@ -35,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepository;
     private final AddressRepository addressRepository;
     private final ContactRepository contactRepository;
+    private final AddressFactory addressFactory;
     private final PasswordEncoder passwordEncoder;
     private final MapperUtils mapperUtils;
     private final JwtTokenProvider jwtTokenProvider;
@@ -44,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
                            RoleRepository roleRepository,
                            AddressRepository addressRepository,
                            ContactRepository contactRepository,
+                           AddressFactory addressFactory,
                            PasswordEncoder passwordEncoder,
                            MapperUtils mapperUtils,
                            JwtTokenProvider jwtTokenProvider) {
@@ -52,6 +55,7 @@ public class AuthServiceImpl implements AuthService {
         this.roleRepository = roleRepository;
         this.addressRepository = addressRepository;
         this.contactRepository = contactRepository;
+        this.addressFactory = addressFactory;
         this.passwordEncoder = passwordEncoder;
         this.mapperUtils = mapperUtils;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -106,7 +110,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = copyPropertiesFromRegisterDtoToUser(registerDto);
 
-        Address address = addressRepository.save(new Address("", "", ""));
+        Address address = addressRepository.save(addressFactory.createEmptyUserAddress());
         Contact contact = contactRepository.save(new Contact("", "", ""));
 
         if (userRole.isPresent()) {
