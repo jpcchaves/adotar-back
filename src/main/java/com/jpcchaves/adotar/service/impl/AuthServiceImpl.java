@@ -94,20 +94,12 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("Usuário inexistente ou senha inválida");
         }
     }
-    
+
     @Override
     public RegisterResponseDto register(RegisterRequestDto registerDto) {
-        if (userRepository.existsByUsername(registerDto.getUsername())) {
-            throw new BadRequestException("Já existe um usuário cadastrado com o usuário informado");
-        }
-
-        if (userRepository.existsByEmail(registerDto.getEmail())) {
-            throw new BadRequestException("Já existe um usuário cadastrado com o email informado");
-        }
-
-        if (!Objects.equals(registerDto.getPassword(), registerDto.getConfirmPassword())) {
-            throw new BadRequestException("As senhas não são iguais!");
-        }
+        checkUsernameAvailability(registerDto.getUsername());
+        checkEmailAvailability(registerDto.getEmail());
+        checkPasswordsMatch(registerDto.getPassword(), registerDto.getConfirmPassword());
 
         Set<Role> roles = new HashSet<>();
         Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
@@ -150,6 +142,25 @@ public class AuthServiceImpl implements AuthService {
             return new ApiMessageResponseDto("Usuário atualizado com sucesso");
         } else {
             throw new BadRequestException("A senha atual não condiz com a senha cadastrada anteriormente.");
+        }
+    }
+
+    private void checkUsernameAvailability(String username) {
+        if (userRepository.existsByUsername(username)) {
+            throw new BadRequestException("Já existe um usuário cadastrado com o usuário informado");
+        }
+    }
+
+    private void checkEmailAvailability(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new BadRequestException("Já existe um usuário cadastrado com o email informado");
+        }
+    }
+
+    private void checkPasswordsMatch(String password,
+                                     String confirmPassword) {
+        if (!password.equals(confirmPassword)) {
+            throw new BadRequestException("As senhas não são iguais!");
         }
     }
 
