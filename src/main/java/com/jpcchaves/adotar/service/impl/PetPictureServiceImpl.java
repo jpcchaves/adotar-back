@@ -2,6 +2,7 @@ package com.jpcchaves.adotar.service.impl;
 
 import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.domain.entities.PetPicture;
+import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
@@ -52,6 +53,8 @@ public class PetPictureServiceImpl implements PetPictureService {
                 .findById(petId)
                 .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + petId));
 
+        verifyPicturesLimit(pet.getPetPictures());
+
         PetPicture petPicture = mapperUtils.parseObject(petPictureDto, PetPicture.class);
         petPicture.setPet(pet);
 
@@ -85,4 +88,16 @@ public class PetPictureServiceImpl implements PetPictureService {
 
         return new ApiMessageResponseDto("Foto excluída com sucesso");
     }
+
+    private boolean isUnderLimit(List<PetPicture> pictures) {
+        final int LIMIT = 6;
+        return pictures.size() < LIMIT;
+    }
+
+    private void verifyPicturesLimit(List<PetPicture> pictures) {
+        if (!isUnderLimit(pictures)) {
+            throw new BadRequestException("O limite de fotos foi excedido!");
+        }
+    }
+
 }
