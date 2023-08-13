@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.service.impl;
 
+import com.jpcchaves.adotar.domain.Enum.UserRoles;
 import com.jpcchaves.adotar.domain.entities.Address;
 import com.jpcchaves.adotar.domain.entities.Contact;
 import com.jpcchaves.adotar.domain.entities.Role;
@@ -32,6 +33,8 @@ import java.util.*;
 
 @Service
 public class AuthServiceImpl implements AuthService {
+    private static final String ROLE_USER = UserRoles.ROLE_USER.getRole();
+
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -101,18 +104,13 @@ public class AuthServiceImpl implements AuthService {
         checkEmailAvailability(registerDto.getEmail());
         checkPasswordsMatch(registerDto.getPassword(), registerDto.getConfirmPassword());
 
-        Set<Role> roles = new HashSet<>();
-        Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
 
         User user = copyPropertiesFromRegisterDtoToUser(registerDto);
+        defineUserRole(user, ROLE_USER);
 
         Address address = createNewAddress();
         Contact contact = createNewContact();
 
-        if (userRole.isPresent()) {
-            roles.add(userRole.get());
-            user.setRoles(roles);
-        }
 
         user.setAdmin(false);
         user.setActive(true);
@@ -122,6 +120,17 @@ public class AuthServiceImpl implements AuthService {
         User newUser = userRepository.save(user);
 
         return mapperUtils.parseObject(newUser, RegisterResponseDto.class);
+    }
+
+    private void defineUserRole(User user,
+                                String role) {
+        Set<Role> roles = new HashSet<>();
+        Optional<Role> userRole = roleRepository.findByName(role);
+
+        if (userRole.isPresent()) {
+            roles.add(userRole.get());
+            user.setRoles(roles);
+        }
     }
 
     private Contact createNewContact() {
