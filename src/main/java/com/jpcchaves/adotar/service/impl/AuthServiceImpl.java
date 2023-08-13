@@ -106,8 +106,8 @@ public class AuthServiceImpl implements AuthService {
 
         User user = copyPropertiesFromRegisterDtoToUser(registerDto);
 
-        Address address = addressRepository.save(addressFactory.createUserEmptyAddress());
-        Contact contact = contactRepository.save(contactFactory.createUserEmptyContact());
+        Address address = createNewAddress();
+        Contact contact = createNewContact();
 
         if (userRole.isPresent()) {
             roles.add(userRole.get());
@@ -122,6 +122,14 @@ public class AuthServiceImpl implements AuthService {
         User newUser = userRepository.save(user);
 
         return mapperUtils.parseObject(newUser, RegisterResponseDto.class);
+    }
+
+    private Contact createNewContact() {
+        return contactRepository.save(contactFactory.createUserEmptyContact());
+    }
+
+    private Address createNewAddress() {
+        return addressRepository.save(addressFactory.createUserEmptyAddress());
     }
 
     @Override
