@@ -71,17 +71,12 @@ public class AuthServiceImpl implements AuthService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    private void updateLastSeen(User user) {
-        user.setLastSeen(new Date());
-    }
-
     @Override
     public JwtAuthResponseDto login(LoginDto loginDto) {
         try {
             Authentication authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(
-                            loginDto.getUsernameOrEmail(), loginDto.getPassword()
-                    ));
+                    .authenticate(buildNewAuthentication(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
+            
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String token = jwtTokenProvider.generateToken(authentication);
@@ -126,6 +121,14 @@ public class AuthServiceImpl implements AuthService {
         User newUser = userRepository.save(user);
 
         return mapperUtils.parseObject(newUser, RegisterResponseDto.class);
+    }
+
+    private void updateLastSeen(User user) {
+        user.setLastSeen(new Date());
+    }
+
+    private Authentication buildNewAuthentication(String usernameOrEmail, String password) {
+        return new UsernamePasswordAuthenticationToken(usernameOrEmail, password);
     }
 
     private User fetchUserByUsernameOrEmail(String usernameOrEmail) {
