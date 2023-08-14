@@ -29,7 +29,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -79,8 +82,7 @@ public class AuthServiceImpl implements AuthService {
 
             String token = jwtTokenProvider.generateToken(authentication);
 
-            User user = userRepository.findByUsernameOrEmail(loginDto.getUsernameOrEmail(), loginDto.getUsernameOrEmail())
-                    .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com os dados informados: " + loginDto.getUsernameOrEmail()));
+            User user = fetchUserByUsernameOrEmail(loginDto.getUsernameOrEmail());
 
             UserDto userDto = copyPropertiesFromUserToUserDto(user);
 
@@ -120,6 +122,11 @@ public class AuthServiceImpl implements AuthService {
         User newUser = userRepository.save(user);
 
         return mapperUtils.parseObject(newUser, RegisterResponseDto.class);
+    }
+
+    private User fetchUserByUsernameOrEmail(String usernameOrEmail) {
+        return userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com os dados informados: " + usernameOrEmail));
     }
 
     private void defineUserRole(User user,
