@@ -71,6 +71,10 @@ public class AuthServiceImpl implements AuthService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    private void updateLastSeen(User user) {
+        user.setLastSeen(new Date());
+    }
+
     @Override
     public JwtAuthResponseDto login(LoginDto loginDto) {
         try {
@@ -86,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
 
             UserDto userDto = copyPropertiesFromUserToUserDto(user);
 
-            user.setLastSeen(new Date());
+            updateLastSeen(user);
             userRepository.save(user);
 
             JwtAuthResponseDto jwtAuthResponseDto = new JwtAuthResponseDto();
