@@ -9,6 +9,7 @@ import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.factory.address.AddressFactory;
 import com.jpcchaves.adotar.factory.contact.ContactFactory;
+import com.jpcchaves.adotar.factory.jwt.JwtAuthResponseFactory;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.auth.*;
 import com.jpcchaves.adotar.payload.dto.role.RoleDto;
@@ -45,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
     private final ContactRepository contactRepository;
     private final AddressFactory addressFactory;
     private final ContactFactory contactFactory;
+    private final JwtAuthResponseFactory jwtAuthResponseFactory;
     private final PasswordEncoder passwordEncoder;
     private final MapperUtils mapperUtils;
     private final JwtTokenProvider jwtTokenProvider;
@@ -56,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
                            ContactRepository contactRepository,
                            AddressFactory addressFactory,
                            ContactFactory contactFactory,
-                           PasswordEncoder passwordEncoder,
+                           JwtAuthResponseFactory jwtAuthResponseFactory, PasswordEncoder passwordEncoder,
                            MapperUtils mapperUtils,
                            JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
@@ -66,6 +68,7 @@ public class AuthServiceImpl implements AuthService {
         this.contactRepository = contactRepository;
         this.addressFactory = addressFactory;
         this.contactFactory = contactFactory;
+        this.jwtAuthResponseFactory = jwtAuthResponseFactory;
         this.passwordEncoder = passwordEncoder;
         this.mapperUtils = mapperUtils;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -76,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             Authentication authentication = authenticationManager
                     .authenticate(buildNewAuthentication(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
-            
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String token = jwtTokenProvider.generateToken(authentication);
@@ -88,12 +91,7 @@ public class AuthServiceImpl implements AuthService {
             updateLastSeen(user);
             userRepository.save(user);
 
-            JwtAuthResponseDto jwtAuthResponseDto = new JwtAuthResponseDto();
-
-            jwtAuthResponseDto.setAccessToken(token);
-            jwtAuthResponseDto.setUser(userDto);
-
-            return jwtAuthResponseDto;
+            return jwtAuthResponseFactory.createJwtAuthResponse(token, userDto);
         } catch (AuthenticationException ex) {
             throw new BadCredentialsException("Usuário inexistente ou senha inválida");
         }
