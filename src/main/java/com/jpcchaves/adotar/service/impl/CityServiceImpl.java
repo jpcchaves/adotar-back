@@ -21,27 +21,39 @@ public class CityServiceImpl implements CityService {
         this.cityRepository = cityRepository;
         this.mapperUtils = mapperUtils;
     }
-    
+
     @Override
     public List<CityDto> getAllCities(Long stateId,
                                       String uf) {
-        assertParamsNotNull(stateId, uf);
+        validateSingleQueryParam(stateId, uf);
 
         List<City> cities;
 
         if (isParamPresent(stateId)) {
-            cities = cityRepository.findAllByState_Id(stateId);
+            cities = fetchCitiesByState(stateId);
         } else if (isParamPresent(uf)) {
-            cities = cityRepository.findAllByState_UfIgnoreCase(uf);
+            cities = fetchCitiesByState(uf);
         } else {
-            cities = cityRepository.findAll();
+            cities = fetchAllCities();
         }
 
         return mapperUtils.parseListObjects(cities, CityDto.class);
     }
 
-    private void assertParamsNotNull(Long stateId,
-                                     String uf) {
+    private List<City> fetchCitiesByState(Long stateId) {
+        return cityRepository.findAllByState_Id(stateId);
+    }
+
+    private List<City> fetchCitiesByState(String uf) {
+        return cityRepository.findAllByState_UfIgnoreCase(uf);
+    }
+
+    private List<City> fetchAllCities() {
+        return cityRepository.findAll();
+    }
+
+    private void validateSingleQueryParam(Long stateId,
+                                          String uf) {
         if (stateId != null && uf != null) {
             throw new BadRequestException("Informe apenas um parâmetro para realizar a busca");
         }
