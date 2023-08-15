@@ -70,8 +70,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public PetDto getById(Long id) {
-        Pet pet = petRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + id));
+        Pet pet = fetchPetById(id);
 
         PetUtils.increasePetVisualization(pet);
         petRepository.save(pet);
@@ -206,6 +205,11 @@ public class PetServiceImpl implements PetService {
         User petOwner = pet.getUser();
 
         return userUtils.buildUserDetails(petOwner);
+    }
+
+    private Pet fetchPetById(Long id) {
+        return petRepository.findByIdAndActiveTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + id));
     }
 
     private void validateCharacteristicsLimit(List<Long> characteristicsIds) {
