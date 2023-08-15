@@ -21,28 +21,38 @@ public class CityServiceImpl implements CityService {
         this.cityRepository = cityRepository;
         this.mapperUtils = mapperUtils;
     }
-
+    
     @Override
     public List<CityDto> getAllCities(Long stateId,
                                       String uf) {
-        List<City> cities = new ArrayList<>();
+        assertParamsNotNull(stateId, uf);
 
-        if (stateId != null && uf != null) {
-            throw new BadRequestException("Informe apenas um parâmetro para realizar a busca");
-        }
+        List<City> cities;
 
-        if (stateId == null && uf == null) {
-            cities.addAll(cityRepository.findAll());
-        }
-
-        if (stateId != null) {
-            cities.addAll(cityRepository.findAllByState_Id(stateId));
-        }
-
-        if (stateId == null && uf != null) {
-            cities.addAll(cityRepository.findAllByState_UfIgnoreCase(uf));
+        if (isParamPresent(stateId)) {
+            cities = cityRepository.findAllByState_Id(stateId);
+        } else if (isParamPresent(uf)) {
+            cities = cityRepository.findAllByState_UfIgnoreCase(uf);
+        } else {
+            cities = cityRepository.findAll();
         }
 
         return mapperUtils.parseListObjects(cities, CityDto.class);
     }
+
+    private void assertParamsNotNull(Long stateId,
+                                     String uf) {
+        if (stateId != null && uf != null) {
+            throw new BadRequestException("Informe apenas um parâmetro para realizar a busca");
+        }
+    }
+
+    private boolean isParamPresent(Long stateId) {
+        return stateId != null;
+    }
+
+    private boolean isParamPresent(String uf) {
+        return uf != null;
+    }
+
 }
