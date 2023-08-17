@@ -73,7 +73,7 @@ public class PetServiceImpl implements PetService {
         Pet pet = fetchPetById(id);
 
         PetUtils.increasePetVisualization(pet);
-        petRepository.save(pet);
+        savePet(pet);
 
         return mapper.parseObject(pet, PetDto.class);
     }
@@ -124,33 +124,13 @@ public class PetServiceImpl implements PetService {
         return new ApiMessageResponseDto("Pet atualizado com sucesso");
     }
 
-    private Pet savePet(Pet pet) {
-        return petRepository.save(pet);
-    }
-
-    private void definePetCharacteristics(Pet pet,
-                                          List<PetCharacteristic> characteristicList) {
-        pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicList));
-    }
-
-    private void definePetBreed(Pet pet,
-                                Breed breed) {
-        pet.setBreed(breed);
-    }
-
-    private void definePetType(Pet pet,
-                               AnimalType animalType) {
-        pet.setType(animalType);
-
-    }
-
     @Override
     public ApiMessageResponseDto delete(Long id) {
         Pet pet = getPetById(id);
 
         inactivatePet(pet);
 
-        petRepository.save(pet);
+        savePet(pet);
 
         return new ApiMessageResponseDto("Pet deletado com sucesso");
     }
@@ -229,6 +209,26 @@ public class PetServiceImpl implements PetService {
         return userUtils.buildUserDetails(petOwner);
     }
 
+    private void savePet(Pet pet) {
+        petRepository.save(pet);
+    }
+
+    private void definePetCharacteristics(Pet pet,
+                                          List<PetCharacteristic> characteristicList) {
+        pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicList));
+    }
+
+    private void definePetBreed(Pet pet,
+                                Breed breed) {
+        pet.setBreed(breed);
+    }
+
+    private void definePetType(Pet pet,
+                               AnimalType animalType) {
+        pet.setType(animalType);
+
+    }
+    
     private Pet fetchPetById(Long id) {
         return petRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + id));
