@@ -97,7 +97,9 @@ public class PetServiceImpl implements PetService {
         City city = fetchCity(requestDto.getCityId());
         Address address = saveAddress(requestDto, city);
 
-        Pet pet = buildAndSavePet(requestDto, animalType, breed, characteristicsList, address);
+        Pet pet = buildPet(requestDto, animalType, breed, characteristicsList, address);
+
+        savePet(pet);
 
         return new ApiMessageResponseDto("Pet criado com sucesso: " + pet.getName());
     }
@@ -113,13 +115,33 @@ public class PetServiceImpl implements PetService {
         AnimalType animalType = fetchAnimalType(requestDto.getTypeId());
         PetUtils.updatePetAttributes(pet, requestDto);
 
-        pet.setType(animalType);
-        pet.setBreed(breed);
-        pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicsList));
+        definePetType(pet, animalType);
+        definePetBreed(pet, breed);
+        definePetCharacteristics(pet, characteristicsList);
 
-        petRepository.save(pet);
+        savePet(pet);
 
         return new ApiMessageResponseDto("Pet atualizado com sucesso");
+    }
+
+    private Pet savePet(Pet pet) {
+        return petRepository.save(pet);
+    }
+
+    private void definePetCharacteristics(Pet pet,
+                                          List<PetCharacteristic> characteristicList) {
+        pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicList));
+    }
+
+    private void definePetBreed(Pet pet,
+                                Breed breed) {
+        pet.setBreed(breed);
+    }
+
+    private void definePetType(Pet pet,
+                               AnimalType animalType) {
+        pet.setType(animalType);
+
     }
 
     @Override
@@ -241,14 +263,14 @@ public class PetServiceImpl implements PetService {
         return addressRepository.save(address);
     }
 
-    private Pet buildAndSavePet(PetCreateRequestDto requestDto,
-                                AnimalType animalType,
-                                Breed breed,
-                                List<PetCharacteristic> characteristicsList,
-                                Address address) {
+    private Pet buildPet(PetCreateRequestDto requestDto,
+                         AnimalType animalType,
+                         Breed breed,
+                         List<PetCharacteristic> characteristicsList,
+                         Address address) {
         Pet pet = PetUtils.buildPetCreate(requestDto, animalType, breed, characteristicsList, address);
         pet.setUser(securityContextService.getCurrentLoggedUser());
-        return petRepository.save(pet);
+        return pet;
     }
 
     private UserSavedPets findByUserAndPet(User user,
