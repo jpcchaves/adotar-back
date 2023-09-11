@@ -51,6 +51,10 @@ public class PetPictureServiceImpl implements PetPictureService {
 
         Pet pet = fetchPet(petId);
 
+        if (pet.getPetPictures().size() == 0) {
+            petPictureDto.setFavorite(true);
+        }
+
         verifyPicturesLimit(pet.getPetPictures());
 
         PetPicture petPicture = mapperUtils.parseObject(petPictureDto, PetPicture.class);
@@ -83,6 +87,23 @@ public class PetPictureServiceImpl implements PetPictureService {
         petPictureRepository.deleteById(petPicture.getId());
 
         return new ApiMessageResponseDto("Foto excluída com sucesso");
+    }
+
+    @Override
+    public ApiMessageResponseDto markAsFavorite(
+            Long petIt,
+            Long picId) {
+        Pet pet = fetchPet(petIt);
+        PetPicture petPicture = fetchPetPictureById(picId, petIt);
+
+        for (PetPicture picture : pet.getPetPictures()) {
+            picture.setFavorite(false);
+        }
+
+        petPicture.setFavorite(true);
+        petPictureRepository.save(petPicture);
+
+        return new ApiMessageResponseDto("Foto selecionada como favorita com sucesso");
     }
 
     private PetPicture fetchPetPictureById(

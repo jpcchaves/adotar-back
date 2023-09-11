@@ -8,16 +8,24 @@ import java.util.List;
 public interface PetPictureService {
     List<PetPictureDto> getAll(Long petId);
 
-    PetPictureDto getById(Long petId,
-                          Long picId);
+    PetPictureDto getById(
+            Long petId,
+            Long picId);
 
-    PetPictureDto create(Long petId,
-                         PetPictureDto petPictureDto);
+    PetPictureDto create(
+            Long petId,
+            PetPictureDto petPictureDto);
 
-    PetPictureDto update(Long petId,
-                         Long picId,
-                         PetPictureDto petPictureDto);
+    PetPictureDto update(
+            Long petId,
+            Long picId,
+            PetPictureDto petPictureDto);
 
-    ApiMessageResponseDto delete(Long petId,
-                                 Long picId);
+    ApiMessageResponseDto markAsFavorite(
+            Long petIt,
+            Long picId);
+
+    ApiMessageResponseDto delete(
+            Long petId,
+            Long picId);
 }
