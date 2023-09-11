@@ -6,14 +6,18 @@ public class PetPictureDto {
     private Long id;
     @ValidBase64
     private String imgUrl;
+    private boolean isFavorite;
 
     public PetPictureDto() {
     }
 
-    public PetPictureDto(Long id,
-                         String imgUrl) {
+    public PetPictureDto(
+            Long id,
+            String imgUrl,
+            boolean isFavorite) {
         this.id = id;
         this.imgUrl = imgUrl;
+        this.isFavorite = isFavorite;
     }
 
     public Long getId() {
@@ -30,5 +34,13 @@ public class PetPictureDto {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }
