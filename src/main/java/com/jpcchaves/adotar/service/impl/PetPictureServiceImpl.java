@@ -21,9 +21,10 @@ public class PetPictureServiceImpl implements PetPictureService {
     private final PetRepository petRepository;
     private final MapperUtils mapperUtils;
 
-    public PetPictureServiceImpl(PetPictureRepository petPictureRepository,
-                                 PetRepository petRepository,
-                                 MapperUtils mapperUtils) {
+    public PetPictureServiceImpl(
+            PetPictureRepository petPictureRepository,
+            PetRepository petRepository,
+            MapperUtils mapperUtils) {
         this.petPictureRepository = petPictureRepository;
         this.petRepository = petRepository;
         this.mapperUtils = mapperUtils;
@@ -31,27 +32,24 @@ public class PetPictureServiceImpl implements PetPictureService {
 
     @Override
     public List<PetPictureDto> getAll(Long petId) {
-        List<PetPicture> petPictures = petPictureRepository.getAllByPet_Id(petId);
+        List<PetPicture> petPictures = fetchPetPictures(petId);
         return mapperUtils.parseListObjects(petPictures, PetPictureDto.class);
     }
 
     @Override
-    public PetPictureDto getById(Long petId,
-                                 Long picId) {
-        PetPicture petPicture = petPictureRepository
-                .getByIdAndPet_Id(picId, petId)
-                .orElseThrow(() -> new ResourceNotFoundException("Foto não encontrada"));
+    public PetPictureDto getById(
+            Long petId,
+            Long picId) {
+        PetPicture petPicture = fetchPetPictureById(picId, petId);
         return mapperUtils.parseObject(petPicture, PetPictureDto.class);
     }
 
-
     @Override
-    public PetPictureDto create(Long petId,
-                                PetPictureDto petPictureDto) {
+    public PetPictureDto create(
+            Long petId,
+            PetPictureDto petPictureDto) {
 
-        Pet pet = petRepository
-                .findById(petId)
-                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + petId));
+        Pet pet = fetchPet(petId);
 
         verifyPicturesLimit(pet.getPetPictures());
 
@@ -63,13 +61,12 @@ public class PetPictureServiceImpl implements PetPictureService {
     }
 
     @Override
-    public PetPictureDto update(Long petId,
-                                Long picId,
-                                PetPictureDto petPictureDto) {
+    public PetPictureDto update(
+            Long petId,
+            Long picId,
+            PetPictureDto petPictureDto) {
 
-        PetPicture petPicture = petPictureRepository
-                .getByIdAndPet_Id(picId, petId)
-                .orElseThrow(() -> new ResourceNotFoundException("Foto não encontrada com o id informado: " + picId));
+        PetPicture petPicture = fetchPetPictureById(picId, petId);
 
         petPicture.setImgUrl(petPictureDto.getImgUrl());
 
@@ -78,15 +75,32 @@ public class PetPictureServiceImpl implements PetPictureService {
     }
 
     @Override
-    public ApiMessageResponseDto delete(Long petId,
-                                        Long picId) {
-        PetPicture petPicture = petPictureRepository
-                .getByIdAndPet_Id(picId, petId)
-                .orElseThrow(() -> new ResourceNotFoundException("Foto não encontrada com o id informado: " + picId));
+    public ApiMessageResponseDto delete(
+            Long petId,
+            Long picId) {
+        PetPicture petPicture = fetchPetPictureById(picId, petId);
 
         petPictureRepository.deleteById(petPicture.getId());
 
         return new ApiMessageResponseDto("Foto excluída com sucesso");
+    }
+
+    private PetPicture fetchPetPictureById(
+            Long picId,
+            Long petId) {
+        return petPictureRepository
+                .getByIdAndPet_Id(picId, petId)
+                .orElseThrow(() -> new ResourceNotFoundException("Foto não encontrada"));
+    }
+
+    private Pet fetchPet(Long petId) {
+        return petRepository
+                .findById(petId)
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado: " + petId));
+    }
+
+    private List<PetPicture> fetchPetPictures(Long petId) {
+        return petPictureRepository.getAllByPet_Id(petId);
     }
 
     private boolean isUnderLimit(List<PetPicture> pictures) {
