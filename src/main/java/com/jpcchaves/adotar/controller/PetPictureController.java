@@ -75,8 +75,9 @@ public class PetPictureController {
             }
     )
     @GetMapping("/{petId}/{picId}")
-    public ResponseEntity<PetPictureDto> getById(@PathVariable(name = "petId") Long petId,
-                                                 @PathVariable(name = "picId") Long picId) {
+    public ResponseEntity<PetPictureDto> getById(
+            @PathVariable(name = "petId") Long petId,
+            @PathVariable(name = "picId") Long picId) {
         return ResponseEntity.ok(petPictureService.getById(petId, picId));
     }
 
@@ -100,8 +101,9 @@ public class PetPictureController {
             }
     )
     @PostMapping("/{petId}")
-    public ResponseEntity<PetPictureDto> create(@PathVariable(name = "petId") Long petId,
-                                                @Valid @RequestBody PetPictureDto petPictureDto) {
+    public ResponseEntity<PetPictureDto> create(
+            @PathVariable(name = "petId") Long petId,
+            @Valid @RequestBody PetPictureDto petPictureDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(petPictureService.create(petId, petPictureDto));
     }
 
@@ -125,9 +127,10 @@ public class PetPictureController {
             }
     )
     @PutMapping("/{petId}/{picId}")
-    public ResponseEntity<PetPictureDto> update(@PathVariable(name = "petId") Long petId,
-                                                @PathVariable(name = "picId") Long picId,
-                                                @Valid @RequestBody PetPictureDto petPictureDto) {
+    public ResponseEntity<PetPictureDto> update(
+            @PathVariable(name = "petId") Long petId,
+            @PathVariable(name = "picId") Long picId,
+            @Valid @RequestBody PetPictureDto petPictureDto) {
         return ResponseEntity.ok(petPictureService.update(petId, picId, petPictureDto));
     }
 
@@ -149,8 +152,16 @@ public class PetPictureController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
             }
     )
-    public ResponseEntity<ApiMessageResponseDto> delete(@PathVariable(name = "petId") Long petId,
-                                                        @PathVariable(name = "picId") Long picId) {
+    public ResponseEntity<ApiMessageResponseDto> delete(
+            @PathVariable(name = "petId") Long petId,
+            @PathVariable(name = "picId") Long picId) {
         return ResponseEntity.ok(petPictureService.delete(petId, picId));
+    }
+
+    @PatchMapping("/{petId}/{picId}")
+    public ResponseEntity<ApiMessageResponseDto> markAsFavorite(
+            @PathVariable(name = "petId") Long petId,
+            @PathVariable(name = "picId") Long picId) {
+        return ResponseEntity.ok(petPictureService.markAsFavorite(petId, picId));
     }
 }
