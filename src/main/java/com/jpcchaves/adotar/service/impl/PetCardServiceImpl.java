@@ -6,6 +6,7 @@ import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
 import com.jpcchaves.adotar.exception.PdfNotAvailableException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
+import com.jpcchaves.adotar.repository.PetPictureRepository;
 import com.jpcchaves.adotar.repository.PetRepository;
 import com.jpcchaves.adotar.service.usecases.PetCardService;
 import com.jpcchaves.adotar.utils.base64.Base64Utils;
@@ -27,9 +28,13 @@ import java.util.Base64;
 @Service
 public class PetCardServiceImpl implements PetCardService {
     private final PetRepository petRepository;
+    private final PetPictureRepository petPictureRepository;
 
-    public PetCardServiceImpl(PetRepository petRepository) {
+    public PetCardServiceImpl(
+            PetRepository petRepository,
+            PetPictureRepository petPictureRepository) {
         this.petRepository = petRepository;
+        this.petPictureRepository = petPictureRepository;
     }
 
     @Override
@@ -83,9 +88,10 @@ public class PetCardServiceImpl implements PetCardService {
         }
     }
 
-    private void setPetCardFields(Pet pet,
-                                  PDDocument pdfDocument,
-                                  PDAcroForm acroForm) {
+    private void setPetCardFields(
+            Pet pet,
+            PDDocument pdfDocument,
+            PDAcroForm acroForm) {
 
         handlePetPictureInput(pet, pdfDocument, acroForm);
 
@@ -121,9 +127,10 @@ public class PetCardServiceImpl implements PetCardService {
                 .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + petId));
     }
 
-    private void handlePetPictureInput(Pet pet,
-                                       PDDocument pdfDocument,
-                                       PDAcroForm acroForm) {
+    private void handlePetPictureInput(
+            Pet pet,
+            PDDocument pdfDocument,
+            PDAcroForm acroForm) {
         try {
             PDField imageField = acroForm.getField("picture");
             PDPage page = pdfDocument.getPage(0);
@@ -141,8 +148,9 @@ public class PetCardServiceImpl implements PetCardService {
         }
     }
 
-    private void handlePetPictureInput(PDDocument pdfDocument,
-                                       PDAcroForm acroForm) {
+    private void handlePetPictureInput(
+            PDDocument pdfDocument,
+            PDAcroForm acroForm) {
         try {
             PDField imageField = acroForm.getField("picture");
             PDPage page = pdfDocument.getPage(0);
@@ -169,7 +177,11 @@ public class PetCardServiceImpl implements PetCardService {
 
     private String extractBase64(Pet pet) {
         if (pet.getPetPictures().size() > 0) {
-            String pictureBase64 = pet.getPetPictures().get(0).getImgUrl();
+
+            String pictureBase64 = petPictureRepository
+                    .findByPetAndIsFavoriteTrue(pet)
+                    .orElseThrow(() -> new ResourceNotFoundException("Ocorreu um erro inesperado."))
+                    .getImgUrl();
 
             if (Base64Utils.hasBase64Prefix(pictureBase64)) {
                 return Base64Utils.removeBase64Prefix(pictureBase64);
