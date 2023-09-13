@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.repository;
 
+import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.domain.entities.PetPicture;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,9 @@ import java.util.Optional;
 public interface PetPictureRepository extends JpaRepository<PetPicture, Long> {
     List<PetPicture> getAllByPet_Id(Long petId);
 
-    Optional<PetPicture> getByIdAndPet_Id(Long picId,
-                                          Long petId);
+    Optional<PetPicture> getByIdAndPet_Id(
+            Long picId,
+            Long petId);
+
+    Optional<PetPicture> findByPetAndIsFavoriteTrue(Pet pet);
 }
