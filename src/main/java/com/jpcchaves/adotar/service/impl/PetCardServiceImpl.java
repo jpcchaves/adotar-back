@@ -4,6 +4,7 @@ import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.domain.entities.PetPicture;
 import com.jpcchaves.adotar.exception.PdfNotAvailableException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.repository.PetPictureRepository;
@@ -178,10 +179,8 @@ public class PetCardServiceImpl implements PetCardService {
     private String extractBase64(Pet pet) {
         if (pet.getPetPictures().size() > 0) {
 
-            String pictureBase64 = petPictureRepository
-                    .findByPetAndIsFavoriteTrue(pet)
-                    .orElseThrow(() -> new ResourceNotFoundException("Ocorreu um erro inesperado."))
-                    .getImgUrl();
+            String pictureBase64 = fetchFavoritePetPicture(pet);
+
 
             if (Base64Utils.hasBase64Prefix(pictureBase64)) {
                 return Base64Utils.removeBase64Prefix(pictureBase64);
@@ -190,6 +189,14 @@ public class PetCardServiceImpl implements PetCardService {
         }
 
         return makeDefaultImage();
+    }
+
+    private String fetchFavoritePetPicture(Pet pet) {
+        PetPicture picture = petPictureRepository
+                .findByPetAndIsFavoriteTrue(pet)
+                .orElseThrow(() -> new ResourceNotFoundException("Ocorreu um erro inesperado."));
+
+        return picture.getImgUrl();
     }
 
     private String generateCharacteristics(Pet pet) {
