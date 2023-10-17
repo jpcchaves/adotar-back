@@ -77,6 +77,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public JwtAuthResponseDto login(LoginDto loginDto) {
         try {
+
+            // refactor this code to first make sure the user email exists, then build the authentication object
             Authentication authentication = authenticationManager
                     .authenticate(buildNewAuthentication(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
