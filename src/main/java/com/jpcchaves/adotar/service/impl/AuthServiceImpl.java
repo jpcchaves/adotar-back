@@ -51,16 +51,18 @@ public class AuthServiceImpl implements AuthService {
     private final MapperUtils mapperUtils;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthServiceImpl(AuthenticationManager authenticationManager,
-                           UserRepository userRepository,
-                           RoleRepository roleRepository,
-                           AddressRepository addressRepository,
-                           ContactRepository contactRepository,
-                           AddressFactory addressFactory,
-                           ContactFactory contactFactory,
-                           JwtAuthResponseFactory jwtAuthResponseFactory, PasswordEncoder passwordEncoder,
-                           MapperUtils mapperUtils,
-                           JwtTokenProvider jwtTokenProvider) {
+    public AuthServiceImpl(
+            AuthenticationManager authenticationManager,
+            UserRepository userRepository,
+            RoleRepository roleRepository,
+            AddressRepository addressRepository,
+            ContactRepository contactRepository,
+            AddressFactory addressFactory,
+            ContactFactory contactFactory,
+            JwtAuthResponseFactory jwtAuthResponseFactory,
+            PasswordEncoder passwordEncoder,
+            MapperUtils mapperUtils,
+            JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -75,10 +77,34 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public JwtAuthResponseDto loginV2(LoginDtoV2 loginDtoV2) {
+        try {
+            User user = fetchUserByEmail(loginDtoV2.getEmail());
+
+            Authentication authentication = authenticationManager
+                    .authenticate(buildNewAuthentication(loginDtoV2.getEmail(), loginDtoV2.getPassword()));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String token = jwtTokenProvider.generateToken(authentication);
+
+
+            UserDto userDto = copyPropertiesFromUserToUserDto(user);
+
+            updateLastSeen(user);
+            userRepository.save(user);
+
+            return jwtAuthResponseFactory.createJwtAuthResponse(token, userDto);
+        } catch (AuthenticationException ex) {
+            throw new BadCredentialsException("Usuário inexistente ou senha inválida");
+        }
+    }
+
+    @Override
     public JwtAuthResponseDto login(LoginDto loginDto) {
         try {
+            User user = fetchUserByUsernameOrEmail(loginDto.getUsernameOrEmail());
 
-            // refactor this code to first make sure the user email exists, then build the authentication object
             Authentication authentication = authenticationManager
                     .authenticate(buildNewAuthentication(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
@@ -86,7 +112,6 @@ public class AuthServiceImpl implements AuthService {
 
             String token = jwtTokenProvider.generateToken(authentication);
 
-            User user = fetchUserByUsernameOrEmail(loginDto.getUsernameOrEmail());
 
             UserDto userDto = copyPropertiesFromUserToUserDto(user);
 
@@ -127,7 +152,9 @@ public class AuthServiceImpl implements AuthService {
         user.setLastSeen(new Date());
     }
 
-    private Authentication buildNewAuthentication(String usernameOrEmail, String password) {
+    private Authentication buildNewAuthentication(
+            String usernameOrEmail,
+            String password) {
         return new UsernamePasswordAuthenticationToken(usernameOrEmail, password);
     }
 
@@ -136,8 +163,13 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com os dados informados: " + usernameOrEmail));
     }
 
-    private void defineUserRole(User user,
-                                String role) {
+    private User fetchUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com o email informado: " + email));
+    }
+
+    private void defineUserRole(
+            User user,
+            String role) {
         Set<Role> roles = new HashSet<>();
         Optional<Role> userRole = roleRepository.findByName(role);
 
@@ -156,8 +188,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ApiMessageResponseDto update(UpdateUserRequestDto updateUserDto,
-                                        Long id) {
+    public ApiMessageResponseDto update(
+            UpdateUserRequestDto updateUserDto,
+            Long id) {
         User user = userRepository
                 .findById(id)
                 .orElseThrow(
@@ -188,15 +221,17 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private void checkPasswordsMatch(String password,
-                                     String confirmPassword) {
+    private void checkPasswordsMatch(
+            String password,
+            String confirmPassword) {
         if (!password.equals(confirmPassword)) {
             throw new BadRequestException("As senhas não são iguais!");
         }
     }
 
-    private void updateUser(User user,
-                            UpdateUserRequestDto updateUserDto) {
+    private void updateUser(
+            User user,
+            UpdateUserRequestDto updateUserDto) {
         user.setFirstName(updateUserDto.getFirstName());
         user.setLastName(updateUserDto.getLastName());
         user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
@@ -232,8 +267,9 @@ public class AuthServiceImpl implements AuthService {
         return user;
     }
 
-    private Boolean passwordsMatches(String currentPassword,
-                                     String password) {
+    private Boolean passwordsMatches(
+            String currentPassword,
+            String password) {
         return passwordEncoder.matches(currentPassword, password);
     }
 }
