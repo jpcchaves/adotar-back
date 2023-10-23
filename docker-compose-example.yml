@@ -1,0 +1,35 @@
+#remember to copy this file on the project ws outside of the project
+
+version: '3.8'
+services:
+  db:
+    image: postgres:15.4-alpine3.18
+    restart: always
+    environment:
+      TZ: America/Sao_Paulo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: adotar_db
+    ports:
+      - "5436:5432"
+    networks:
+      - adotar-network
+  adotar:
+    image: adotar
+    restart: always
+    build:
+      context: .
+      dockerfile: adotar-back/Dockerfile
+    working_dir: adotar-back
+    environment:
+      TZ: America/Sao_Paulo
+    ports:
+      - "8080:8080"
+    command: mvn spring-boot:run
+    depends_on:
+      - db
+    networks:
+      - adotar-network
+networks:
+  adotar-network:
+    driver: bridge
