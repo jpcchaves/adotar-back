@@ -1,8 +1,8 @@
 server:
   port: 8080
 spring:
-  config:
-    import: optional:file:.env[.properties]
+#  config:
+#    import: optional:file:.env[.properties]
   datasource:
     url: ${DB_DEV_URL}
     driver-class-name: org.postgresql.Driver
@@ -33,8 +33,6 @@ spring:
 app:
   jwt-secret: ${JWT_DEV_SECRET}
   jwt-expiration-milliseconds: ${JWT_DEV_EXPIRATION}
-cors:
-  allowedOrigins: ${DEV_ORIGINS}
 mail:
   host: ${MAIL_DEV_HOST}
   port: ${MAIL_DEV_PORT}
