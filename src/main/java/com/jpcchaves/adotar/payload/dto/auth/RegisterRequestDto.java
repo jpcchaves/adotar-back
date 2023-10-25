@@ -6,12 +6,12 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 
 public class RegisterRequestDto {
-    @Size(max = 50, message = "O nome deve conter no máximo 50 caracteres!")
-    @NotBlank(message = "O nome de usuário é obrigatório!")
+    @Size(max = 50, message = "O primeiro nome deve conter no máximo 50 caracteres!")
+    @NotBlank(message = "O primeiro nome é obrigatório!")
     private String firstName;
 
-    @Size(max = 50, message = "O nome deve conter no máximo 50 caracteres!")
-    @NotBlank(message = "O nome de usuário é obrigatório!")
+    @Size(max = 50, message = "O sobrenome deve conter no máximo 50 caracteres!")
+    @NotBlank(message = "O sobrenome é obrigatório!")
     private String lastName;
 
     @Size(max = 50, message = "O nome deve conter no máximo 50 caracteres!")
