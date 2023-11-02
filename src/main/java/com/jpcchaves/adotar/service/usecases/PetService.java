@@ -2,10 +2,7 @@ package com.jpcchaves.adotar.service.usecases;
 
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.*;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import org.springframework.data.domain.Pageable;
 
