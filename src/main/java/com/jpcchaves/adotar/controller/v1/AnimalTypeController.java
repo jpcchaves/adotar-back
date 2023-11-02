@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.controller;
+package com.jpcchaves.adotar.controller.v1;
 
 import com.jpcchaves.adotar.payload.dto.pet.AnimalTypeDto;
 import com.jpcchaves.adotar.payload.dto.pet.AnimalTypeMinDto;

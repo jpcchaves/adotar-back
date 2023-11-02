@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.controller;
+package com.jpcchaves.adotar.controller.v1;
 
 import com.jpcchaves.adotar.service.usecases.PetCardService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

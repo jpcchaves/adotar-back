@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.controller;
+package com.jpcchaves.adotar.controller.v1;
 
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.email.ContactEmailDto;
