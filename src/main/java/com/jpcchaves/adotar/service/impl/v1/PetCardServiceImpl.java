@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
@@ -9,7 +9,7 @@ import com.jpcchaves.adotar.exception.PdfNotAvailableException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.repository.PetPictureRepository;
 import com.jpcchaves.adotar.repository.PetRepository;
-import com.jpcchaves.adotar.service.usecases.PetCardService;
+import com.jpcchaves.adotar.service.usecases.v1.PetCardService;
 import com.jpcchaves.adotar.utils.base64.Base64Utils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;

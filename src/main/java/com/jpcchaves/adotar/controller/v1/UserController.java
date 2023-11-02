@@ -1,7 +1,7 @@
 package com.jpcchaves.adotar.controller.v1;
 
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
-import com.jpcchaves.adotar.service.usecases.UserService;
+import com.jpcchaves.adotar.service.usecases.v1.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

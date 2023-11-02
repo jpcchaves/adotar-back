@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.Enum.UserRoles;
 import com.jpcchaves.adotar.domain.entities.Address;
@@ -19,7 +19,7 @@ import com.jpcchaves.adotar.repository.ContactRepository;
 import com.jpcchaves.adotar.repository.RoleRepository;
 import com.jpcchaves.adotar.repository.UserRepository;
 import com.jpcchaves.adotar.security.JwtTokenProvider;
-import com.jpcchaves.adotar.service.usecases.AuthService;
+import com.jpcchaves.adotar.service.usecases.v1.AuthService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

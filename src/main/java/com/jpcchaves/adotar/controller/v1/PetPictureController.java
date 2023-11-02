@@ -2,7 +2,7 @@ package com.jpcchaves.adotar.controller.v1;
 
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
-import com.jpcchaves.adotar.service.usecases.PetPictureService;
+import com.jpcchaves.adotar.service.usecases.v1.PetPictureService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

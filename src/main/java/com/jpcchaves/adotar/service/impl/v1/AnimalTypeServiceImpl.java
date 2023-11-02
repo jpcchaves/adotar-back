@@ -1,10 +1,10 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.AnimalType;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.pet.AnimalTypeMinDto;
 import com.jpcchaves.adotar.repository.AnimalTypeRepository;
-import com.jpcchaves.adotar.service.usecases.AnimalTypeService;
+import com.jpcchaves.adotar.service.usecases.v1.AnimalTypeService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 

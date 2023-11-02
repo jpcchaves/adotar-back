@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.Enum.ExpirationTime;
 import com.jpcchaves.adotar.domain.entities.PasswordResetToken;
@@ -12,8 +12,8 @@ import com.jpcchaves.adotar.payload.dto.auth.PasswordResetRequestDto;
 import com.jpcchaves.adotar.payload.dto.auth.PasswordResetTokenRequestDto;
 import com.jpcchaves.adotar.repository.PasswordResetTokenRepository;
 import com.jpcchaves.adotar.repository.UserRepository;
-import com.jpcchaves.adotar.service.usecases.EmailService;
-import com.jpcchaves.adotar.service.usecases.PasswordResetService;
+import com.jpcchaves.adotar.service.usecases.v1.EmailService;
+import com.jpcchaves.adotar.service.usecases.v1.PasswordResetService;
 import jakarta.mail.MessagingException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

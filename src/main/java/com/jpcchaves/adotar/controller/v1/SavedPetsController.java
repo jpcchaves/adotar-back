@@ -2,7 +2,7 @@ package com.jpcchaves.adotar.controller.v1;
 
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
-import com.jpcchaves.adotar.service.usecases.PetService;
+import com.jpcchaves.adotar.service.usecases.v1.PetService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;

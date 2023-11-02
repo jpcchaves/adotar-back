@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
@@ -8,8 +8,8 @@ import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.*;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.repository.*;
-import com.jpcchaves.adotar.service.usecases.PetService;
-import com.jpcchaves.adotar.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.service.usecases.v1.PetService;
+import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;

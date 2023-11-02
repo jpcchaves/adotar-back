@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.Address;
 import com.jpcchaves.adotar.domain.entities.City;
@@ -8,8 +8,8 @@ import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import com.jpcchaves.adotar.repository.AddressRepository;
 import com.jpcchaves.adotar.repository.CityRepository;
 import com.jpcchaves.adotar.repository.StateRepository;
-import com.jpcchaves.adotar.service.usecases.AddressService;
-import com.jpcchaves.adotar.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.service.usecases.v1.AddressService;
+import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 

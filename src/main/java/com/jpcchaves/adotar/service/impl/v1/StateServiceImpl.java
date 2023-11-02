@@ -1,10 +1,10 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.State;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.state.StateDto;
 import com.jpcchaves.adotar.repository.StateRepository;
-import com.jpcchaves.adotar.service.usecases.StateService;
+import com.jpcchaves.adotar.service.usecases.v1.StateService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 

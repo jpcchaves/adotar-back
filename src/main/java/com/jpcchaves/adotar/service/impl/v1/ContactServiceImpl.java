@@ -1,10 +1,10 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.Contact;
 import com.jpcchaves.adotar.payload.dto.contact.ContactDto;
 import com.jpcchaves.adotar.repository.ContactRepository;
-import com.jpcchaves.adotar.service.usecases.ContactService;
-import com.jpcchaves.adotar.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.service.usecases.v1.ContactService;
+import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 

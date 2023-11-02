@@ -1,14 +1,13 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.City;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.city.CityDto;
 import com.jpcchaves.adotar.repository.CityRepository;
-import com.jpcchaves.adotar.service.usecases.CityService;
+import com.jpcchaves.adotar.service.usecases.v1.CityService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

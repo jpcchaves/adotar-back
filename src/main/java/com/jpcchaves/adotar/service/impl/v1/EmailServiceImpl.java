@@ -1,11 +1,11 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.PasswordResetToken;
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.email.ContactEmailDto;
-import com.jpcchaves.adotar.service.usecases.EmailService;
-import com.jpcchaves.adotar.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.service.usecases.v1.EmailService;
+import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;

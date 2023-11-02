@@ -1,7 +1,7 @@
 package com.jpcchaves.adotar.controller.v1;
 
 import com.jpcchaves.adotar.payload.dto.pet.PetCharacteristicsDto;
-import com.jpcchaves.adotar.service.usecases.PetCharacteristicService;
+import com.jpcchaves.adotar.service.usecases.v1.PetCharacteristicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

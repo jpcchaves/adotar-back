@@ -2,7 +2,7 @@ package com.jpcchaves.adotar.controller.v2;
 
 import com.jpcchaves.adotar.payload.dto.auth.JwtAuthResponseDto;
 import com.jpcchaves.adotar.payload.dto.auth.LoginDtoV2;
-import com.jpcchaves.adotar.service.usecases.AuthService;
+import com.jpcchaves.adotar.service.usecases.v1.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

@@ -1,11 +1,11 @@
-package com.jpcchaves.adotar.service.impl;
+package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.exception.UnexpectedErrorException;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.repository.UserRepository;
-import com.jpcchaves.adotar.service.usecases.SecurityContextService;
-import com.jpcchaves.adotar.service.usecases.UserService;
+import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
+import com.jpcchaves.adotar.service.usecases.v1.UserService;
 import com.jpcchaves.adotar.utils.user.UserUtils;
 import org.springframework.stereotype.Service;
 

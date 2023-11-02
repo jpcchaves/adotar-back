@@ -2,7 +2,7 @@ package com.jpcchaves.adotar.controller.v1;
 
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.email.ContactEmailDto;
-import com.jpcchaves.adotar.service.usecases.EmailService;
+import com.jpcchaves.adotar.service.usecases.v1.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
