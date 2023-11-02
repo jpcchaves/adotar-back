@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.controller;
+package com.jpcchaves.adotar.controller.v2;
 
 import com.jpcchaves.adotar.payload.dto.auth.JwtAuthResponseDto;
 import com.jpcchaves.adotar.payload.dto.auth.LoginDtoV2;
