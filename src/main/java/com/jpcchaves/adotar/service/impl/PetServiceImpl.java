@@ -137,8 +137,10 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiResponsePaginatedDto<PetDto> getAllByUserId(Pageable pageable) {
-        Page<Pet> petPage = petRepository.getAllByUser_Id(pageable, securityContextService.getCurrentLoggedUser().getId());
+        Long userId = securityContextService.getCurrentLoggedUser().getId();
+        Page<Pet> petPage = petRepository.getAllByUser_Id(pageable, userId);
         List<PetDto> petDtoList = mapper.parseListObjects(petPage.getContent(), PetDto.class);
+
         return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
     }
 
