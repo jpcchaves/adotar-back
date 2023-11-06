@@ -92,6 +92,7 @@ public class PetServiceImpl implements PetService {
         validateCharacteristicsLimit(requestDto.getCharacteristicsIds());
 
         Breed breed = fetchBreed(requestDto.getBreedId(), requestDto.getTypeId());
+
         List<PetCharacteristic> characteristicsList = fetchCharacteristics(requestDto.getCharacteristicsIds());
         AnimalType animalType = fetchAnimalType(requestDto.getTypeId());
         City city = fetchCity(requestDto.getCityId());
@@ -302,10 +303,6 @@ public class PetServiceImpl implements PetService {
                 city.getName(),
                 city.getState().getName()
         );
-    }
-
-    private boolean pictureExists(List<PetPictureDto> petPictures) {
-        return petPictures.size() > 0;
     }
 
     private Pet getPetById(Long petId) {
