@@ -30,6 +30,9 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
         starttls:
           enable: true
+  web:
+    locale-resolver: fixed
+    locale: pt_BR
 app:
   jwt-secret: ${JWT_DEV_SECRET}
   jwt-expiration-milliseconds: ${JWT_DEV_EXPIRATION}
