@@ -2,6 +2,7 @@ package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.Address;
 import com.jpcchaves.adotar.domain.entities.City;
+import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.address.AddressDto;
 import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
@@ -12,6 +13,8 @@ import com.jpcchaves.adotar.service.usecases.v1.AddressService;
 import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -34,6 +37,11 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDto getUserAddress() {
         Address address = securityContextService.getCurrentLoggedUser().getAddress();
+
+        if(Objects.isNull(address)) {
+            throw new BadRequestException("O usuario ainda nao possui um endereco cadastrado!");
+        }
+
         return mapperUtils.parseObject(address, AddressDto.class);
     }
 
