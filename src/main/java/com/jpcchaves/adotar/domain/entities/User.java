@@ -53,11 +53,11 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Pet> pets = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "address_id",
-            referencedColumnName = "id"
+            name = "address_id"
     )
+    @MapsId("id")
     private Address address;
 
     @OneToOne(cascade = CascadeType.ALL)

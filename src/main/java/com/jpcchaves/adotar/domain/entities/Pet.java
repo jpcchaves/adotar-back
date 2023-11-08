@@ -97,11 +97,11 @@ public class Pet {
     )
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "address_id",
-            referencedColumnName = "id"
+            name = "address_id"
     )
+    @MapsId("id")
     private Address address;
 
     @Column(length = 25, unique = true, nullable = false)
