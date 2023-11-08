@@ -4,4 +4,5 @@ import com.jpcchaves.adotar.domain.entities.Address;
 
 public interface AddressFactory {
     Address createUserEmptyAddress();
+    Address createAddress(String zipcode, String city, String state);
 }

@@ -10,4 +10,9 @@ public class ConcreteAddressFactory implements AddressFactory {
     public Address createUserEmptyAddress() {
         return new Address("", "", "");
     }
+
+    @Override
+    public Address createAddress(String zipcode, String city, String state) {
+        return new Address(zipcode, city, state);
+    }
 }
