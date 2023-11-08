@@ -5,6 +5,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "pet_characteristics")
@@ -14,6 +16,12 @@ public class PetCharacteristic {
     private Long id;
     @Column(length = 50, unique = true)
     private String characteristic;
+
+    @ManyToMany(
+            mappedBy = "characteristics"
+    )
+    private Set<Pet> pets = new HashSet<>();
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
@@ -28,6 +36,18 @@ public class PetCharacteristic {
                              Date updatedAt) {
         this.id = id;
         this.characteristic = characteristic;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public PetCharacteristic(Long id,
+                             String characteristic,
+                             Set<Pet> pets,
+                             Date createdAt,
+                             Date updatedAt) {
+        this.id = id;
+        this.characteristic = characteristic;
+        this.pets = pets;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -62,5 +82,9 @@ public class PetCharacteristic {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Set<Pet> getPets() {
+        return pets;
     }
 }
