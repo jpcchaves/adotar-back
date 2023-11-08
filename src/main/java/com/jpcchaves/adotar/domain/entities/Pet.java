@@ -53,8 +53,8 @@ public class Pet {
     private boolean active;
 
     @ManyToMany(
-            cascade = {CascadeType.DETACH},
-            fetch = FetchType.EAGER
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST},
+            fetch = FetchType.LAZY
     )
     @JoinTable(
             name = "pets_characteristics",
