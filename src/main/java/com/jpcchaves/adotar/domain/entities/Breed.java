@@ -18,14 +18,13 @@ public class Breed {
             fetch = FetchType.LAZY
     )
     @JoinColumn(
-            name = "animal_type_id",
-            referencedColumnName = "id"
+            name = "animal_type_id"
     )
     private AnimalType animalType;
 
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             mappedBy = "breed"
     )
     private List<Pet> petList = new ArrayList<>();

@@ -17,7 +17,6 @@ public class AnimalType {
 
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
             mappedBy = "animalType"
     )
     private Set<Breed> breeds = new HashSet<>();

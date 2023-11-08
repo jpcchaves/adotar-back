@@ -73,6 +73,7 @@ public class Pet {
     )
     private AnimalType type;
 
+    // CHECKED
     @ManyToOne(
             fetch = FetchType.LAZY
     )
@@ -82,6 +83,7 @@ public class Pet {
     )
     private Breed breed;
 
+    // CHECKED
     @OneToMany(
             mappedBy = "pet",
             cascade = CascadeType.ALL,
@@ -89,7 +91,7 @@ public class Pet {
     )
     private List<PetPicture> petPictures = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "user_id"
     )

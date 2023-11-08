@@ -50,7 +50,7 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Pet> pets = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
