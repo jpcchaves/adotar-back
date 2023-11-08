@@ -21,6 +21,7 @@ import com.jpcchaves.adotar.repository.UserRepository;
 import com.jpcchaves.adotar.security.JwtTokenProvider;
 import com.jpcchaves.adotar.service.usecases.v1.AuthService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
+import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -125,6 +126,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public RegisterResponseDto register(RegisterRequestDto registerDto) {
         checkUsernameAvailability(registerDto.getUsername());
         checkEmailAvailability(registerDto.getEmail());
@@ -134,14 +136,8 @@ public class AuthServiceImpl implements AuthService {
         User user = copyPropertiesFromRegisterDtoToUser(registerDto);
         defineUserRole(user, ROLE_USER);
 
-        Address address = createNewAddress();
-        Contact contact = createNewContact();
-
-
         user.setAdmin(false);
         user.setActive(true);
-        user.setAddress(address);
-        user.setContact(contact);
 
         User newUser = userRepository.save(user);
 
