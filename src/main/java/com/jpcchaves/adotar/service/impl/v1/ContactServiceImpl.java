@@ -31,6 +31,8 @@ public class ContactServiceImpl implements ContactService {
                 );
     }
 
+    // todo: implement create method
+
     @Override
     public ContactDto updateUserContact(ContactDto contactDto) {
         Contact contact = securityContextService.getCurrentLoggedUser().getContact();

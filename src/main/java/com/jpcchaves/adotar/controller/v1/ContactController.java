@@ -48,6 +48,8 @@ public class ContactController {
         return ResponseEntity.ok(contactService.getUserContact());
     }
 
+    // todo: implement create endpoint
+
     @Operation(
             summary = "Update user's contact",
             description = "Update the current user's logged in contact",
