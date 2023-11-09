@@ -1,20 +1,29 @@
 package com.jpcchaves.adotar.security;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.user.UserMinDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SecurityException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class JwtTokenProviderImpl implements JwtTokenProvider {
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProviderImpl.class);
+
     @Value("${app.jwt-secret}")
     private String jwtSecret;
 
@@ -22,6 +31,8 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     private long jwtExpiration;
 
     public String generateToken(Authentication authentication) {
+        final String AUTHORITIES_CLAIM_KEY = "authorities";
+        final String USER_CLAIM_KEY = "user";
         User user = (User) authentication.getPrincipal();
 
         Date creationDate = new Date();
@@ -33,8 +44,8 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
                 .setIssuedAt(new Date())
                 .setExpiration(expirationDate)
                 .signWith(generateKey())
-                .claim("authorities", authentication.getAuthorities())
-                .claim("user", generateUserClaims(user))
+                .claim(AUTHORITIES_CLAIM_KEY, authentication.getAuthorities())
+                .claim(USER_CLAIM_KEY, generateUserClaims(user))
                 .compact();
     }
 
@@ -59,6 +70,29 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
         return claims.getSubject();
     }
 
+    @Override
+    public String getClaimFromTokenByKey(String token, String key) {
+
+        try {
+            Map<String, Object> claims = Jwts
+                    .parserBuilder()
+                    .setSigningKey(generateKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            Map<String, Object> userClaim = objectMapper.convertValue(claims.get("user"), new TypeReference<>() {
+            });
+
+            return String.valueOf(userClaim.get(key));
+        } catch (Exception e) {
+            logger.error("Could not get all claims Token from passed token");
+            return null;
+        }
+    }
+
     public boolean validateToken(String token) {
 
         try {
@@ -77,6 +111,8 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
             throw new BadRequestException("O tipo do token é inválido!");
         } catch (IllegalArgumentException ex) {
             throw new BadRequestException("O token é obrigatório para acessar esse recurso!");
+        } catch (SecurityException ex) {
+            throw new BadRequestException("A assinatura do token é inválido!");
         }
     }
 }

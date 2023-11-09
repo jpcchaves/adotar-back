@@ -8,4 +8,6 @@ public interface JwtTokenProvider {
     String getUsernameFromToken(String token);
 
     boolean validateToken(String token);
+
+    String getClaimFromTokenByKey(String token, String key);
 }
