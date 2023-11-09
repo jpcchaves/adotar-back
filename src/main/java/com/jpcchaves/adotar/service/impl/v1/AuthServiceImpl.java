@@ -144,6 +144,20 @@ public class AuthServiceImpl implements AuthService {
         return mapperUtils.parseObject(newUser, RegisterResponseDto.class);
     }
 
+    @Override
+    public JwtAuthResponseDto verifyToken(TokenDto tokenDto) {
+        final String CLAIM_EMAIL_KEY = "email";
+
+        jwtTokenProvider.validateToken(tokenDto.getAccessToken());
+
+        String userEmail = jwtTokenProvider.getClaimFromTokenByKey(tokenDto.getAccessToken(), CLAIM_EMAIL_KEY);
+
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com o e-mail informado"));
+        UserDto userDto = copyPropertiesFromUserToUserDto(user);
+
+        return jwtAuthResponseFactory.createJwtAuthResponse(tokenDto.getAccessToken(), userDto);
+    }
+
     private void updateLastSeen(User user) {
         user.setLastSeen(new Date());
     }
