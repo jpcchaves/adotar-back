@@ -74,4 +74,9 @@ public class AuthController {
                                                         @PathVariable(name = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(authService.update(updateUserDto, id));
     }
+
+    @PostMapping("/verify-token")
+    public ResponseEntity<JwtAuthResponseDto> verifyToken(@Valid @RequestBody TokenDto tokenDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(authService.verifyToken(tokenDto));
+    }
 }
