@@ -146,16 +146,25 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public JwtAuthResponseDto verifyToken(TokenDto tokenDto) {
-        final String CLAIM_EMAIL_KEY = "email";
+        String token = tokenDto.getAccessToken();
 
-        jwtTokenProvider.validateToken(tokenDto.getAccessToken());
+        isTokenValid(token);
+        String userEmail = getUserEmailFromToken(token);
 
-        String userEmail = jwtTokenProvider.getClaimFromTokenByKey(tokenDto.getAccessToken(), CLAIM_EMAIL_KEY);
+        User user = fetchUserByEmail(userEmail);
 
-        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com o e-mail informado"));
         UserDto userDto = copyPropertiesFromUserToUserDto(user);
 
         return jwtAuthResponseFactory.createJwtAuthResponse(tokenDto.getAccessToken(), userDto);
+    }
+
+    private void isTokenValid(String token) {
+        jwtTokenProvider.validateToken(token);
+    }
+
+    private String getUserEmailFromToken(String token) {
+        final String CLAIM_EMAIL_KEY = "email";
+        return jwtTokenProvider.getClaimFromTokenByKey(token, CLAIM_EMAIL_KEY);
     }
 
     private void updateLastSeen(User user) {
