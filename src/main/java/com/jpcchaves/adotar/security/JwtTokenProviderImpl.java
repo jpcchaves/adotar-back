@@ -72,6 +72,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
 
     @Override
     public String getClaimFromTokenByKey(String token, String key) {
+        final String USER_CLAIM_KEY = "user";
 
         try {
             Map<String, Object> claims = Jwts
@@ -83,7 +84,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
 
             ObjectMapper objectMapper = new ObjectMapper();
 
-            Map<String, Object> userClaim = objectMapper.convertValue(claims.get("user"), new TypeReference<>() {
+            Map<String, Object> userClaim = objectMapper.convertValue(claims.get(USER_CLAIM_KEY), new TypeReference<>() {
             });
 
             return String.valueOf(userClaim.get(key));
