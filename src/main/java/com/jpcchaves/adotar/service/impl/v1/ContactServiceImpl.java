@@ -1,8 +1,13 @@
 package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.Contact;
+import com.jpcchaves.adotar.domain.entities.User;
+import com.jpcchaves.adotar.exception.ResourceNotFoundException;
+import com.jpcchaves.adotar.exception.UnexpectedErrorException;
+import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.contact.ContactDto;
 import com.jpcchaves.adotar.repository.ContactRepository;
+import com.jpcchaves.adotar.repository.UserRepository;
 import com.jpcchaves.adotar.service.usecases.v1.ContactService;
 import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
@@ -11,31 +16,47 @@ import org.springframework.stereotype.Service;
 @Service
 public class ContactServiceImpl implements ContactService {
     private final ContactRepository contactRepository;
+    private final UserRepository userRepository;
     private final SecurityContextService securityContextService;
     private final MapperUtils mapperUtils;
 
     public ContactServiceImpl(ContactRepository contactRepository,
-                              SecurityContextService securityContextService,
+                              UserRepository userRepository, SecurityContextService securityContextService,
                               MapperUtils mapperUtils) {
         this.contactRepository = contactRepository;
+        this.userRepository = userRepository;
         this.securityContextService = securityContextService;
         this.mapperUtils = mapperUtils;
     }
 
     @Override
     public ContactDto getUserContact() {
+        User user = securityContextService.getCurrentLoggedUser();
+        User currentUser = userRepository.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+
         return mapperUtils
                 .parseObject(
-                        securityContextService.getCurrentLoggedUser().getContact(),
+                        currentUser.getContact(),
                         ContactDto.class
                 );
     }
 
-    // todo: implement create method
+    @Override
+    public ApiMessageResponseDto createContact(ContactDto contactDto) {
+        Contact contact = new Contact(contactDto.getPhone1(), contactDto.getPhone2(), contactDto.getPhone3());
+        User user = userRepository.findById(securityContextService.getCurrentLoggedUser().getId()).orElseThrow(() -> new UnexpectedErrorException("Ocorreu um erro inesperado ao criar o contato. Por favor, tente novamente mais tarde"));
+
+        user.setContact(contact);
+        userRepository.save(user);
+
+        return new ApiMessageResponseDto("Contato adicionado com sucesso!");
+    }
 
     @Override
     public ContactDto updateUserContact(ContactDto contactDto) {
-        Contact contact = securityContextService.getCurrentLoggedUser().getContact();
+        User user = securityContextService.getCurrentLoggedUser();
+        User currentUser = userRepository.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+        Contact contact = currentUser.getContact();
 
         updateContact(contact, contactDto);
 
