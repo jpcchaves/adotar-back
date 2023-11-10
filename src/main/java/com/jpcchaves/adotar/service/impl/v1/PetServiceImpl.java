@@ -5,7 +5,10 @@ import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
-import com.jpcchaves.adotar.payload.dto.pet.*;
+import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.usecases.v1.PetService;
@@ -23,7 +26,6 @@ import java.util.*;
 
 @Service
 public class PetServiceImpl implements PetService {
-
     private final PetRepository petRepository;
     private final PetCharacteristicRepository petCharacteristicRepository;
     private final AnimalTypeRepository animalTypeRepository;
@@ -96,7 +98,7 @@ public class PetServiceImpl implements PetService {
         List<PetCharacteristic> characteristicsList = fetchCharacteristics(requestDto.getCharacteristicsIds());
         AnimalType animalType = fetchAnimalType(requestDto.getTypeId());
         City city = fetchCity(requestDto.getCityId());
-        Address address = saveAddress(requestDto, city);
+        Address address = createAddress(requestDto, city);
 
         Pet pet = buildPet(requestDto, animalType, breed, characteristicsList, address);
 
@@ -260,10 +262,9 @@ public class PetServiceImpl implements PetService {
                 .orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada!"));
     }
 
-    private Address saveAddress(PetCreateRequestDto requestDto,
+    private Address createAddress(PetCreateRequestDto requestDto,
                                 City city) {
-        Address address = buildAddress(requestDto, city);
-        return addressRepository.save(address);
+        return buildAddress(requestDto, city);
     }
 
     private Pet buildPet(PetCreateRequestDto requestDto,
