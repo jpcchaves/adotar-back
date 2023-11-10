@@ -2,6 +2,7 @@ package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.Contact;
 import com.jpcchaves.adotar.domain.entities.User;
+import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.exception.UnexpectedErrorException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
@@ -13,6 +14,8 @@ import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class ContactServiceImpl implements ContactService {
     private final ContactRepository contactRepository;
@@ -21,7 +24,8 @@ public class ContactServiceImpl implements ContactService {
     private final MapperUtils mapperUtils;
 
     public ContactServiceImpl(ContactRepository contactRepository,
-                              UserRepository userRepository, SecurityContextService securityContextService,
+                              UserRepository userRepository,
+                              SecurityContextService securityContextService,
                               MapperUtils mapperUtils) {
         this.contactRepository = contactRepository;
         this.userRepository = userRepository;
@@ -46,6 +50,10 @@ public class ContactServiceImpl implements ContactService {
         Contact contact = new Contact(contactDto.getPhone1(), contactDto.getPhone2(), contactDto.getPhone3());
         User user = userRepository.findById(securityContextService.getCurrentLoggedUser().getId()).orElseThrow(() -> new UnexpectedErrorException("Ocorreu um erro inesperado ao criar o contato. Por favor, tente novamente mais tarde"));
 
+        if (!Objects.isNull(user.getContact())) {
+            throw new BadRequestException("O usuario ja possui um contato cadastrado!");
+        }
+
         user.setContact(contact);
         userRepository.save(user);
 
@@ -65,7 +73,8 @@ public class ContactServiceImpl implements ContactService {
         return mapperUtils.parseObject(updatedContact, ContactDto.class);
     }
 
-    private void updateContact(Contact contact, ContactDto contactDto) {
+    private void updateContact(Contact contact,
+                               ContactDto contactDto) {
         contact.setPhone1(contactDto.getPhone1());
         contact.setPhone2(contactDto.getPhone2());
         contact.setPhone3(contactDto.getPhone3());
