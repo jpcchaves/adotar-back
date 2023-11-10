@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.controller.v1;
 
+import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.address.AddressDto;
 import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import com.jpcchaves.adotar.service.usecases.v1.AddressService;
@@ -74,5 +75,10 @@ public class AddressController {
     @PutMapping
     public ResponseEntity<AddressDto> updateUserAddress(@Valid @RequestBody AddressRequestDto addressRequestDto) {
         return ResponseEntity.ok(addressService.updateUserAddress(addressRequestDto));
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiMessageResponseDto> createAddress(@Valid @RequestBody AddressRequestDto addressRequestDto) {
+        return ResponseEntity.ok(addressService.createAddress(addressRequestDto));
     }
 }
