@@ -16,7 +16,7 @@ public class City {
     private Double latitude;
     private Double longitude;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uf_id")
     private State state;
 
