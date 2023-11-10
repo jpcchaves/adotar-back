@@ -96,7 +96,9 @@ public class PetServiceImpl implements PetService {
         Breed breed = fetchBreed(requestDto.getBreedId(), requestDto.getTypeId());
 
         List<PetCharacteristic> characteristicsList = fetchCharacteristics(requestDto.getCharacteristicsIds());
+
         AnimalType animalType = fetchAnimalType(requestDto.getTypeId());
+
         City city = fetchCity(requestDto.getCityId());
         Address address = createAddress(requestDto, city);
 
@@ -233,7 +235,7 @@ public class PetServiceImpl implements PetService {
         pet.setType(animalType);
 
     }
-    
+
     private Pet fetchPetById(Long id) {
         return petRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o ID informado: " + id));
@@ -263,7 +265,7 @@ public class PetServiceImpl implements PetService {
     }
 
     private Address createAddress(PetCreateRequestDto requestDto,
-                                City city) {
+                                  City city) {
         return buildAddress(requestDto, city);
     }
 
