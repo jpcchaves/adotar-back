@@ -101,7 +101,6 @@ public class Pet {
     @JoinColumn(
             name = "address_id"
     )
-    @MapsId("id")
     private Address address;
 
     @Column(length = 25, unique = true, nullable = false)
