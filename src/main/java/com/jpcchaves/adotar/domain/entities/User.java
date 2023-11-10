@@ -57,10 +57,9 @@ public class User implements UserDetails {
     @JoinColumn(
             name = "address_id"
     )
-    @MapsId("id")
     private Address address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(
             name = "contact_id",
             referencedColumnName = "id"
