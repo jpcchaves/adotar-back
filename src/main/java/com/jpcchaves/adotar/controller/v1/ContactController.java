@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.controller.v1;
 
+import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.contact.ContactDto;
 import com.jpcchaves.adotar.service.usecases.v1.ContactService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,5 +75,10 @@ public class ContactController {
     @PutMapping
     public ResponseEntity<ContactDto> updateUserContact(@RequestBody ContactDto contactDto) {
         return ResponseEntity.ok(contactService.updateUserContact(contactDto));
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiMessageResponseDto> createContact(@RequestBody ContactDto contactDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(contactService.createContact(contactDto));
     }
 }
