@@ -15,9 +15,10 @@ public class UserServiceImpl implements UserService {
     private final UserUtils userUtils;
     private final UserRepository userRepository;
 
-    public UserServiceImpl(SecurityContextService securityContextService,
-                           UserUtils userUtils,
-                           UserRepository userRepository) {
+    public UserServiceImpl(
+            SecurityContextService securityContextService,
+            UserUtils userUtils,
+            UserRepository userRepository) {
         this.securityContextService = securityContextService;
         this.userUtils = userUtils;
         this.userRepository = userRepository;
@@ -25,12 +26,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetailsDto getUserDetails() {
-        User user = userRepository
-                .findById(securityContextService.getCurrentLoggedUser().getId())
+        User user = securityContextService.getCurrentLoggedUser();
+        User currentUser = userRepository
+                .findById(user.getId())
                 .orElseThrow(() -> new UnexpectedErrorException("Ocorreu um erro inesperado, tente novamente"));
 
-        return userUtils.buildUserDetails(user);
+        return userUtils.buildUserDetails(currentUser);
     }
-
-
 }
