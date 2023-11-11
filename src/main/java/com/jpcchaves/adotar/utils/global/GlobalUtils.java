@@ -5,11 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class GlobalUtils {
-    public <T, D> ApiResponsePaginatedDto<D> buildApiResponsePaginated(Page<T> page,
-                                                                       List<D> content) {
+    public <T, D> ApiResponsePaginatedDto<D> buildApiResponsePaginated(
+            Page<T> page,
+            List<D> content) {
         ApiResponsePaginatedDto<D> response = new ApiResponsePaginatedDto<>();
         response.setContent(content);
         response.setPageNo(page.getNumber());
@@ -18,5 +20,13 @@ public class GlobalUtils {
         response.setTotalPages(page.getTotalPages());
         response.setLast(page.isLast());
         return response;
+    }
+
+    public boolean isObjectNull(Object object) {
+        return Objects.isNull(object);
+    }
+
+    public boolean isObjectNotNull(Object object) {
+        return Objects.nonNull(object);
     }
 }
