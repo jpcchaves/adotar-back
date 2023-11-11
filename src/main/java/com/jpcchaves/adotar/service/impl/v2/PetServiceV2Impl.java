@@ -43,8 +43,8 @@ public class PetServiceV2Impl implements PetServiceV2 {
         Page<Pet> petPage = petRepository.findAll(pageable);
         List<PetMinDtoV2> petDtoList = mapper.parseListObjects(petPage.getContent(), PetMinDtoV2.class);
 
-        for(PetMinDtoV2 petDto : petDtoList) {
-            if(isPetSavedByUser(user.getId(), petDto.getId())) {
+        for (PetMinDtoV2 petDto : petDtoList) {
+            if (isPetSavedByUser(user.getId(), petDto.getId())) {
                 petDto.setFavorite(true);
             }
         }
@@ -52,7 +52,9 @@ public class PetServiceV2Impl implements PetServiceV2 {
         return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
     }
 
-    private boolean isPetSavedByUser(Long userId, Long petId) {
-        return userSavedPetsRepository.existsByPet_IdAndUser_Id(userId, petId);
+    private boolean isPetSavedByUser(
+            Long userId,
+            Long petId) {
+        return userSavedPetsRepository.existsByPet_IdAndUser_Id(petId, userId);
     }
 }
