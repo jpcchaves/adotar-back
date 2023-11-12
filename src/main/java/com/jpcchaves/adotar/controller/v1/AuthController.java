@@ -70,11 +70,23 @@ public class AuthController {
     )
     @PutMapping("/update/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public ResponseEntity<ApiMessageResponseDto> update(@Valid @RequestBody UpdateUserRequestDto updateUserDto,
-                                                        @PathVariable(name = "id") Long id) {
+    public ResponseEntity<ApiMessageResponseDto> update(
+            @Valid @RequestBody UpdateUserRequestDto updateUserDto,
+            @PathVariable(name = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(authService.update(updateUserDto, id));
     }
 
+    @Operation(summary = "Verify the validity of the JWT Token",
+            description = "Verify the validity of the JWT Token, if valid, returns the user details to persist the login",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = JwtAuthResponseDto.class))
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+            }
+    )
     @PostMapping("/verify-token")
     public ResponseEntity<JwtAuthResponseDto> verifyToken(@Valid @RequestBody TokenDto tokenDto) {
         return ResponseEntity.status(HttpStatus.OK).body(authService.verifyToken(tokenDto));
