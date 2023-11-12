@@ -11,6 +11,7 @@ import java.util.List;
 public class PetMinDtoV2 {
     private Long id;
     private String name;
+    private String description;
     private char gender;
     private int visualizations;
     private String type;
@@ -22,17 +23,20 @@ public class PetMinDtoV2 {
     public PetMinDtoV2() {
     }
 
-    public PetMinDtoV2(Long id,
-                       String name,
-                       char gender,
-                       int visualizations,
-                       String type,
-                       BreedDto breed,
-                       boolean isFavorite,
-                       List<PetPictureDto> petPictures,
-                       AddressMinDto address) {
+    public PetMinDtoV2(
+            Long id,
+            String name,
+            String description,
+            char gender,
+            int visualizations,
+            String type,
+            BreedDto breed,
+            boolean isFavorite,
+            List<PetPictureDto> petPictures,
+            AddressMinDto address) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.gender = gender;
         this.visualizations = visualizations;
         this.type = type;
@@ -56,6 +60,14 @@ public class PetMinDtoV2 {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public char getGender() {
