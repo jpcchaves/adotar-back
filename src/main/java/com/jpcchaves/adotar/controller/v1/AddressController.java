@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,8 +52,6 @@ public class AddressController {
         return ResponseEntity.ok(addressService.getUserAddress());
     }
 
-    // todo: implement create endpoint
-
     @Operation(
             summary = "Update user's address",
             description = "Update the current user's logged in address",
@@ -77,8 +76,19 @@ public class AddressController {
         return ResponseEntity.ok(addressService.updateUserAddress(addressRequestDto));
     }
 
+    @Operation(summary = "Create an address",
+            description = "Create an address by passing a JSON representation of the Address",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "201",
+                            content = @Content(schema = @Schema(implementation = ApiMessageResponseDto.class))
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+            }
+    )
     @PostMapping
     public ResponseEntity<ApiMessageResponseDto> createAddress(@Valid @RequestBody AddressRequestDto addressRequestDto) {
-        return ResponseEntity.ok(addressService.createAddress(addressRequestDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(addressService.createAddress(addressRequestDto));
     }
 }
