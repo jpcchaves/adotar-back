@@ -43,13 +43,19 @@ public class PetServiceV2Impl implements PetServiceV2 {
         Page<Pet> petPage = petRepository.findAll(pageable);
         List<PetMinDtoV2> petDtoList = mapper.parseListObjects(petPage.getContent(), PetMinDtoV2.class);
 
+        markFavoritePets(user, petDtoList);
+
+        return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
+    }
+
+    private void markFavoritePets(
+            User user,
+            List<PetMinDtoV2> petDtoList) {
         for (PetMinDtoV2 petDto : petDtoList) {
             if (isPetSavedByUser(user.getId(), petDto.getId())) {
                 petDto.setFavorite(true);
             }
         }
-
-        return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
     }
 
     private boolean isPetSavedByUser(
