@@ -50,8 +50,6 @@ public class ContactController {
         return ResponseEntity.ok(contactService.getUserContact());
     }
 
-    // todo: implement create endpoint
-
     @Operation(
             summary = "Update user's contact",
             description = "Update the current user's logged in contact",
@@ -77,6 +75,17 @@ public class ContactController {
         return ResponseEntity.ok(contactService.updateUserContact(contactDto));
     }
 
+    @Operation(summary = "Create a contact",
+            description = "Create a contact by passing a JSON representation of the Contact",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "201",
+                            content = @Content(schema = @Schema(implementation = ApiMessageResponseDto.class))
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+            }
+    )
     @PostMapping
     public ResponseEntity<ApiMessageResponseDto> createContact(@RequestBody ContactDto contactDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(contactService.createContact(contactDto));
