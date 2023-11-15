@@ -10,6 +10,7 @@ import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.service.usecases.v2.PetServiceV2;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,7 @@ public class PetServiceV2Impl implements PetServiceV2 {
     }
 
     @Override
+    @Cacheable("pets")
     public ApiResponsePaginatedDto<PetMinDtoV2> listAllV2(Pageable pageable) {
         User user = securityContextService.getCurrentLoggedUser();
         Page<Pet> petPage = petRepository.findAll(pageable);
