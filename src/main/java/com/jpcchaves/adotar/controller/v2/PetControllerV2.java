@@ -1,7 +1,6 @@
 package com.jpcchaves.adotar.controller.v2;
 
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.service.usecases.v2.PetServiceV2;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,10 +11,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v2/pets")
@@ -46,5 +44,12 @@ public class PetControllerV2 {
     )
     public ResponseEntity<ApiResponsePaginatedDto<PetMinDtoV2>> listAll(Pageable pageable) {
         return ResponseEntity.ok(petServiceV2.listAllV2(pageable));
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<ApiResponsePaginatedDto<PetMinDtoV2>> filterByAnimalTypes(Pageable pageable,
+                                                                                    @RequestParam
+                                                                                    List<Long> animalTypesIds) {
+        return ResponseEntity.ok(petServiceV2.filterByAnimalTypes(pageable, animalTypesIds));
     }
 }
