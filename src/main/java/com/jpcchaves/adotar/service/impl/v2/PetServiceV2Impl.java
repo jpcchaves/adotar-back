@@ -3,7 +3,6 @@ package com.jpcchaves.adotar.service.impl.v2;
 import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
-import com.jpcchaves.adotar.payload.dto.pet.AnimalTypesIdsDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.repository.PetRepository;
 import com.jpcchaves.adotar.repository.UserSavedPetsRepository;
