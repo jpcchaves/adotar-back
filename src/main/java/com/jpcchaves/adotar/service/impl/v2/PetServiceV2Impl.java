@@ -3,6 +3,7 @@ package com.jpcchaves.adotar.service.impl.v2;
 import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
+import com.jpcchaves.adotar.payload.dto.pet.AnimalTypesIdsDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.repository.PetRepository;
 import com.jpcchaves.adotar.repository.UserSavedPetsRepository;
@@ -48,6 +49,19 @@ public class PetServiceV2Impl implements PetServiceV2 {
         markFavoritePets(user, petDtoList);
 
         return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
+    }
+
+    @Override
+    public ApiResponsePaginatedDto<PetMinDtoV2> filterByAnimalTypes(Pageable pageable,
+                                                                    List<Long> animalTypesIds) {
+        User user = securityContextService.getCurrentLoggedUser();
+        Page<Pet> petPage = petRepository.findByTypes(pageable, animalTypesIds);
+        List<PetMinDtoV2> petDtoList = mapper.parseListObjects(petPage.getContent(), PetMinDtoV2.class);
+
+        markFavoritePets(user, petDtoList);
+
+        return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
+
     }
 
     private void markFavoritePets(
