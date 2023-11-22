@@ -24,6 +24,9 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
     Page<Pet> findByTypes(Pageable pageable,
                           @Param("typeIds") List<Long> typeIds);
 
+    @Query(value = "SELECT * FROM Pet p WHERE LOWER(REGEXP_REPLACE(p.name, '[^a-zA-Z0-9]', '')) LIKE LOWER(CONCAT('%', :name, '%'))", nativeQuery = true)
+    List<Pet> findAllByNameContainingIgnoreCase();
+
     Page<Pet> getAllByUser_Id(Pageable pageable,
                               Long userId);
 
