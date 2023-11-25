@@ -2,7 +2,9 @@ package com.jpcchaves.adotar.service.impl.v1;
 
 import com.jpcchaves.adotar.domain.entities.User;
 import com.jpcchaves.adotar.exception.UnexpectedErrorException;
+import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
+import com.jpcchaves.adotar.payload.dto.user.UserPictureDto;
 import com.jpcchaves.adotar.repository.UserRepository;
 import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.service.usecases.v1.UserService;
@@ -32,5 +34,19 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UnexpectedErrorException("Ocorreu um erro inesperado, tente novamente"));
 
         return userUtils.buildUserDetails(currentUser);
+    }
+
+    @Override
+    public ApiMessageResponseDto updateUserPicture(UserPictureDto userPictureDto) {
+        User user = securityContextService.getCurrentLoggedUser();
+        User currentUser = userRepository
+                .findById(user.getId())
+                .orElseThrow(() -> new UnexpectedErrorException("Ocorreu um erro inesperado, tente novamente"));
+
+        currentUser.setPhotoUrl(userPictureDto.getPictureUrl());
+
+        userRepository.save(currentUser);
+
+        return new ApiMessageResponseDto("Foto adicionada com sucesso!");
     }
 }
