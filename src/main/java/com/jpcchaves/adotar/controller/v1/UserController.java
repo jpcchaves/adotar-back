@@ -1,6 +1,8 @@
 package com.jpcchaves.adotar.controller.v1;
 
+import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
+import com.jpcchaves.adotar.payload.dto.user.UserPictureDto;
 import com.jpcchaves.adotar.service.usecases.v1.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,10 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -50,5 +49,12 @@ public class UserController {
     @GetMapping
     public ResponseEntity<UserDetailsDto> getUserDetails() {
         return ResponseEntity.ok(userService.getUserDetails());
+    }
+
+    @PatchMapping("/user-picture")
+    public ResponseEntity<ApiMessageResponseDto> updateUserPicture(
+            @RequestBody
+            UserPictureDto userPictureDto) {
+        return ResponseEntity.ok(userService.updateUserPicture(userPictureDto));
     }
 }
