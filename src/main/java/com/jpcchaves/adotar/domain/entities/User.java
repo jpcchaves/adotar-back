@@ -23,7 +23,7 @@ public class User implements UserDetails {
     @Column(length = 50)
     private String lastName;
 
-    @Column(unique = true, nullable = false, length = 100)
+    @Column(length = 1)
     private String username;
 
     @Column(unique = true, nullable = false, length = 150)
@@ -85,24 +85,25 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id,
-                String firstName,
-                String lastName,
-                String username,
-                String email,
-                String photoUrl,
-                String password,
-                Boolean isAdmin,
-                Boolean isActive,
-                Set<Role> roles,
-                List<Pet> pets,
-                Set<Pet> savedPets,
-                Address address,
-                Contact contact,
-                Date lastSeen,
-                Date createdAt,
-                Date updatedAt,
-                Date deletedAt) {
+    public User(
+            Long id,
+            String firstName,
+            String lastName,
+            String username,
+            String email,
+            String photoUrl,
+            String password,
+            Boolean isAdmin,
+            Boolean isActive,
+            Set<Role> roles,
+            List<Pet> pets,
+            Set<Pet> savedPets,
+            Address address,
+            Contact contact,
+            Date lastSeen,
+            Date createdAt,
+            Date updatedAt,
+            Date deletedAt) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
