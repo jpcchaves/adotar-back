@@ -89,7 +89,6 @@ public class AuthServiceImpl implements AuthService {
 
             String token = jwtTokenProvider.generateToken(authentication);
 
-
             UserDto userDto = copyPropertiesFromUserToUserDto(user);
 
             updateLastSeen(user);
@@ -113,7 +112,6 @@ public class AuthServiceImpl implements AuthService {
 
             String token = jwtTokenProvider.generateToken(authentication);
 
-
             UserDto userDto = copyPropertiesFromUserToUserDto(user);
 
             updateLastSeen(user);
@@ -128,10 +126,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public RegisterResponseDto register(RegisterRequestDto registerDto) {
-        checkUsernameAvailability(registerDto.getUsername());
         checkEmailAvailability(registerDto.getEmail());
         checkPasswordsMatch(registerDto.getPassword(), registerDto.getConfirmPassword());
-
 
         User user = copyPropertiesFromRegisterDtoToUser(registerDto);
         defineUserRole(user, ROLE_USER);
@@ -179,11 +175,13 @@ public class AuthServiceImpl implements AuthService {
 
     private User fetchUserByUsernameOrEmail(String usernameOrEmail) {
         return userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com os dados informados: " + usernameOrEmail));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Usuário não encontrado com os dados informados: " + usernameOrEmail));
     }
 
     private User fetchUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com o email informado: " + email));
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("Usuário não encontrado com o email informado: " + email));
     }
 
     private void defineUserRole(
@@ -213,8 +211,7 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new ResourceNotFoundException("Usuário não encontrado com o id: " + id)
-                );
+                        () -> new ResourceNotFoundException("Usuário não encontrado com o id: " + id));
 
         if (passwordsMatches(updateUserDto.getCurrentPassword(), user.getPassword())) {
 
@@ -225,12 +222,6 @@ public class AuthServiceImpl implements AuthService {
             return new ApiMessageResponseDto("Usuário atualizado com sucesso");
         } else {
             throw new BadRequestException("A senha atual não condiz com a senha cadastrada anteriormente.");
-        }
-    }
-
-    private void checkUsernameAvailability(String username) {
-        if (userRepository.existsByUsername(username)) {
-            throw new BadRequestException("Já existe um usuário cadastrado com o usuário informado");
         }
     }
 
@@ -281,7 +272,6 @@ public class AuthServiceImpl implements AuthService {
         user.setFirstName(registerDto.getFirstName());
         user.setLastName(registerDto.getLastName());
         user.setEmail(registerDto.getEmail());
-        user.setUsername(registerDto.getUsername());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         return user;
     }
