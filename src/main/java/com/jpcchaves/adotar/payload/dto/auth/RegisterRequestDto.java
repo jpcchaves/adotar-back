@@ -14,10 +14,6 @@ public class RegisterRequestDto {
     @NotBlank(message = "O sobrenome é obrigatório!")
     private String lastName;
 
-    @Size(max = 50, message = "O nome deve conter no máximo 50 caracteres!")
-    @NotBlank(message = "O nome de usuário é obrigatório!")
-    private String username;
-
     @NotBlank(message = "O email é obrigatório!")
     @Email(message = "Insira um email válido!")
     private String email;
@@ -36,13 +32,11 @@ public class RegisterRequestDto {
     public RegisterRequestDto(
             String firstName,
             String lastName,
-            String username,
             String email,
             String password,
             String confirmPassword) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
         this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;
@@ -63,15 +57,7 @@ public class RegisterRequestDto {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    
     public String getEmail() {
         return email;
     }
