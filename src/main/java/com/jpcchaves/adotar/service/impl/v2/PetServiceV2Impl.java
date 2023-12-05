@@ -39,7 +39,7 @@ public class PetServiceV2Impl implements PetServiceV2 {
     }
 
     @Override
-    @Cacheable("pets")
+    @Cacheable(value = "pets")
     public ApiResponsePaginatedDto<PetMinDtoV2> listAllV2(Pageable pageable) {
         User user = securityContextService.getCurrentLoggedUser();
         Page<Pet> petPage = petRepository.findAll(pageable);
@@ -51,8 +51,9 @@ public class PetServiceV2Impl implements PetServiceV2 {
     }
 
     @Override
-    public ApiResponsePaginatedDto<PetMinDtoV2> filterByAnimalTypes(Pageable pageable,
-                                                                    List<Long> animalTypesIds) {
+    public ApiResponsePaginatedDto<PetMinDtoV2> filterByAnimalTypes(
+            Pageable pageable,
+            List<Long> animalTypesIds) {
         User user = securityContextService.getCurrentLoggedUser();
         Page<Pet> petPage = petRepository.findByTypes(pageable, animalTypesIds);
         List<PetMinDtoV2> petDtoList = mapper.parseListObjects(petPage.getContent(), PetMinDtoV2.class);
