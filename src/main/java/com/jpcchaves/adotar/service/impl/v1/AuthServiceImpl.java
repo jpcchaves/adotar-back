@@ -12,7 +12,6 @@ import com.jpcchaves.adotar.factory.contact.ContactFactory;
 import com.jpcchaves.adotar.factory.jwt.JwtAuthResponseFactory;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.auth.*;
-import com.jpcchaves.adotar.payload.dto.role.RoleDto;
 import com.jpcchaves.adotar.payload.dto.user.UserDto;
 import com.jpcchaves.adotar.repository.AddressRepository;
 import com.jpcchaves.adotar.repository.ContactRepository;
@@ -256,13 +255,16 @@ public class AuthServiceImpl implements AuthService {
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setUsername(user.getUsername());
-        userDto.setRoles(mapperUtils.parseSetObjects(user.getRoles(), RoleDto.class));
         userDto.setAdmin(user.getAdmin());
         userDto.setActive(user.getActive());
         userDto.setCreatedAt(user.getCreatedAt());
         userDto.setUpdatedAt(user.getUpdatedAt());
         userDto.setDeletedAt(user.getDeletedAt());
         userDto.setName(user.getFirstName() + " " + user.getLastName());
+
+        for (Role role : user.getRoles()) {
+            userDto.getRoles().add(role.getName());
+        }
 
         return userDto;
     }

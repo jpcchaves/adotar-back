@@ -1,8 +1,5 @@
 package com.jpcchaves.adotar.payload.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jpcchaves.adotar.payload.dto.role.RoleDto;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,8 +13,7 @@ public class UserDto {
     private String email;
     private Boolean isAdmin;
     private Boolean isActive;
-    @JsonIgnore
-    private Set<RoleDto> roles = new HashSet<>();
+    private Set<String> roles = new HashSet<>();
 
     private Date createdAt;
     private Date updatedAt;
@@ -26,18 +22,20 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(Long id,
-                   String firstName,
-                   String lastName,
-                   String name,
-                   String username,
-                   String email,
-                   Boolean isAdmin,
-                   Boolean isActive,
-                   Set<RoleDto> roles,
-                   Date createdAt,
-                   Date updatedAt,
-                   Date deletedAt) {
+    public UserDto(
+            Long id,
+            String firstName,
+            String lastName,
+            String name,
+            String username,
+            String email,
+            Boolean isAdmin,
+            Boolean isActive,
+            String role,
+            Set<String> roles,
+            Date createdAt,
+            Date updatedAt,
+            Date deletedAt) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -116,13 +114,14 @@ public class UserDto {
         isActive = active;
     }
 
-    public Set<RoleDto> getRoles() {
+    public Set<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<RoleDto> roles) {
+    public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
+
 
     public Date getCreatedAt() {
         return createdAt;
