@@ -1,6 +1,6 @@
 INSERT INTO public.roles (name) VALUES ('ROLE_ADMIN'), ('ROLE_USER');
 
-INSERT INTO public.users (created_at,deleted_at,email,first_name,is_active,is_admin,last_name,last_seen,"password",photo_url,updated_at,username,address_id,contact_id) VALUES ('2023-12-11 08:47:00.977',NULL,'user@adotar.com','Joao',true,false,'Paulo','2023-12-11 08:47:01.158','$2a$10$5Xl5SVuF4m.OiCCuZbgCP.qSaywzgeHp/YDz.hob9/MiVPtlIgEEW',NULL,'2023-12-11 08:47:01.159','user@adotar.com',NULL,NULL), ('2023-12-11 08:48:45.569',NULL,'admin@adotar.com','Joao',true,false,'Paulo','2023-12-11 08:49:24.078','$2a$10$xK3a9kuuvUgzbMjKb35HPuXjhmH0tkFiEP85WG0Q0KCglFpXX31h2',NULL,'2023-12-11 08:49:24.079','admin@adotar.com',NULL,NULL);
+INSERT INTO public.users (created_at,deleted_at,email,first_name,is_active,is_admin,last_name,last_seen,"password",photo_url,updated_at,username,address_id,contact_id) VALUES ('2023-12-11 08:47:00.977',NULL,'user@adotar.com','Joao',true,false,'Paulo','2023-12-11 08:47:01.158','$2a$10$5Xl5SVuF4m.OiCCuZbgCP.qSaywzgeHp/YDz.hob9/MiVPtlIgEEW',NULL,'2023-12-11 08:47:01.159','user@adotar.com',NULL,NULL), ('2023-12-11 08:48:45.569',NULL,'admin@adotar.com','Joao',true,true,'Paulo','2023-12-11 08:49:24.078','$2a$10$xK3a9kuuvUgzbMjKb35HPuXjhmH0tkFiEP85WG0Q0KCglFpXX31h2',NULL,'2023-12-11 08:49:24.079','admin@adotar.com',NULL,NULL);
 
 INSERT INTO public.users_roles (user_id,role_id) VALUES (1,2), (2,1);
 
