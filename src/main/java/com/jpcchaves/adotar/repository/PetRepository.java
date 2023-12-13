@@ -13,22 +13,26 @@ import java.util.Optional;
 
 @Repository
 public interface PetRepository extends JpaRepository<Pet, Long> {
-    Page<Pet> getAllByBreed_IdAndType_Id(Pageable pageable,
-                                         Long breedId,
-                                         Long typeId);
+    Page<Pet> getAllByBreed_IdAndType_Id(
+            Pageable pageable,
+            Long breedId,
+            Long typeId);
 
-    Page<Pet> getAllByType_Id(Pageable pageable,
-                              Long typeId);
+    Page<Pet> getAllByType_Id(
+            Pageable pageable,
+            Long typeId);
 
     @Query("SELECT p FROM Pet p WHERE p.type.id IN :typeIds")
-    Page<Pet> findByTypes(Pageable pageable,
-                          @Param("typeIds") List<Long> typeIds);
+    Page<Pet> findByTypes(
+            Pageable pageable,
+            @Param("typeIds") List<Long> typeIds);
 
     @Query(value = "SELECT * FROM Pet p WHERE LOWER(REGEXP_REPLACE(p.name, '[^a-zA-Z0-9]', '')) LIKE LOWER(CONCAT('%', :name, '%'))", nativeQuery = true)
     List<Pet> findAllByNameContainingIgnoreCase();
 
-    Page<Pet> getAllByUser_Id(Pageable pageable,
-                              Long userId);
+    Page<Pet> getAllByUser_Id(
+            Pageable pageable,
+            Long userId);
 
     Page<Pet> findAllByActiveTrue(Pageable pageable);
 
