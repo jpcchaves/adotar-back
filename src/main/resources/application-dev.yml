@@ -3,8 +3,6 @@ server:
 spring:
   #  config:
   #    import: optional:file:.env[.properties]
-  cache:
-    cache-names: pets
   datasource:
     url: ${DB_DEV_URL}
     driver-class-name: org.postgresql.Driver
