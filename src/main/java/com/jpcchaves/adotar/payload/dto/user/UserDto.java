@@ -13,6 +13,7 @@ public class UserDto {
     private String email;
     private Boolean isAdmin;
     private Boolean isActive;
+    private String photoUrl;
     private Set<String> roles = new HashSet<>();
 
     private Date createdAt;
@@ -32,6 +33,7 @@ public class UserDto {
             Boolean isAdmin,
             Boolean isActive,
             String role,
+            String photoUrl,
             Set<String> roles,
             Date createdAt,
             Date updatedAt,
@@ -39,6 +41,7 @@ public class UserDto {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.photoUrl = photoUrl;
         this.name = firstName + " " + lastName;
         this.username = username;
         this.email = email;
@@ -96,6 +99,14 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public Boolean getAdmin() {

@@ -260,6 +260,7 @@ public class AuthServiceImpl implements AuthService {
         userDto.setCreatedAt(user.getCreatedAt());
         userDto.setUpdatedAt(user.getUpdatedAt());
         userDto.setDeletedAt(user.getDeletedAt());
+        userDto.setPhotoUrl(user.getPhotoUrl());
         userDto.setName(user.getFirstName() + " " + user.getLastName());
 
         for (Role role : user.getRoles()) {
