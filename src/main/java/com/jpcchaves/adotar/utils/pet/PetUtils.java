@@ -97,9 +97,4 @@ public class PetUtils {
         return list.size() <= LIMIT;
     }
 
-    private static <T> boolean isListSizeUnderLimit(List<T> list, int limit) {
-        return list.size() <= limit;
-    }
-
-
 }

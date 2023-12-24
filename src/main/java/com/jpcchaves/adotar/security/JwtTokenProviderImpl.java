@@ -1,24 +1,29 @@
 package com.jpcchaves.adotar.security;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jpcchaves.adotar.domain.entities.User;
-import com.jpcchaves.adotar.exception.BadRequestException;
-import com.jpcchaves.adotar.payload.dto.user.UserMinDto;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SecurityException;
+import java.security.Key;
+import java.util.Date;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jpcchaves.adotar.domain.entities.User;
+import com.jpcchaves.adotar.exception.BadRequestException;
+import com.jpcchaves.adotar.payload.dto.user.UserMinDto;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SecurityException;
 
 @Component
 public class JwtTokenProviderImpl implements JwtTokenProvider {

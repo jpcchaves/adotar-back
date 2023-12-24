@@ -1,26 +1,10 @@
 package com.jpcchaves.adotar.service.impl.v1;
 
-import com.jpcchaves.adotar.domain.Enum.UserRoles;
-import com.jpcchaves.adotar.domain.entities.Address;
-import com.jpcchaves.adotar.domain.entities.Contact;
-import com.jpcchaves.adotar.domain.entities.Role;
-import com.jpcchaves.adotar.domain.entities.User;
-import com.jpcchaves.adotar.exception.BadRequestException;
-import com.jpcchaves.adotar.exception.ResourceNotFoundException;
-import com.jpcchaves.adotar.factory.address.AddressFactory;
-import com.jpcchaves.adotar.factory.contact.ContactFactory;
-import com.jpcchaves.adotar.factory.jwt.JwtAuthResponseFactory;
-import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
-import com.jpcchaves.adotar.payload.dto.auth.*;
-import com.jpcchaves.adotar.payload.dto.user.UserDto;
-import com.jpcchaves.adotar.repository.AddressRepository;
-import com.jpcchaves.adotar.repository.ContactRepository;
-import com.jpcchaves.adotar.repository.RoleRepository;
-import com.jpcchaves.adotar.repository.UserRepository;
-import com.jpcchaves.adotar.security.JwtTokenProvider;
-import com.jpcchaves.adotar.service.usecases.v1.AuthService;
-import com.jpcchaves.adotar.utils.mapper.MapperUtils;
-import jakarta.transaction.Transactional;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,10 +14,28 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import com.jpcchaves.adotar.domain.Enum.UserRoles;
+import com.jpcchaves.adotar.domain.entities.Role;
+import com.jpcchaves.adotar.domain.entities.User;
+import com.jpcchaves.adotar.exception.BadRequestException;
+import com.jpcchaves.adotar.exception.ResourceNotFoundException;
+import com.jpcchaves.adotar.factory.jwt.JwtAuthResponseFactory;
+import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
+import com.jpcchaves.adotar.payload.dto.auth.JwtAuthResponseDto;
+import com.jpcchaves.adotar.payload.dto.auth.LoginDto;
+import com.jpcchaves.adotar.payload.dto.auth.LoginDtoV2;
+import com.jpcchaves.adotar.payload.dto.auth.RegisterRequestDto;
+import com.jpcchaves.adotar.payload.dto.auth.RegisterResponseDto;
+import com.jpcchaves.adotar.payload.dto.auth.TokenDto;
+import com.jpcchaves.adotar.payload.dto.auth.UpdateUserRequestDto;
+import com.jpcchaves.adotar.payload.dto.user.UserDto;
+import com.jpcchaves.adotar.repository.RoleRepository;
+import com.jpcchaves.adotar.repository.UserRepository;
+import com.jpcchaves.adotar.security.JwtTokenProvider;
+import com.jpcchaves.adotar.service.usecases.v1.AuthService;
+import com.jpcchaves.adotar.utils.mapper.MapperUtils;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -42,10 +44,6 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final AddressRepository addressRepository;
-    private final ContactRepository contactRepository;
-    private final AddressFactory addressFactory;
-    private final ContactFactory contactFactory;
     private final JwtAuthResponseFactory jwtAuthResponseFactory;
     private final PasswordEncoder passwordEncoder;
     private final MapperUtils mapperUtils;
@@ -55,10 +53,6 @@ public class AuthServiceImpl implements AuthService {
             AuthenticationManager authenticationManager,
             UserRepository userRepository,
             RoleRepository roleRepository,
-            AddressRepository addressRepository,
-            ContactRepository contactRepository,
-            AddressFactory addressFactory,
-            ContactFactory contactFactory,
             JwtAuthResponseFactory jwtAuthResponseFactory,
             PasswordEncoder passwordEncoder,
             MapperUtils mapperUtils,
@@ -66,10 +60,6 @@ public class AuthServiceImpl implements AuthService {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.addressRepository = addressRepository;
-        this.contactRepository = contactRepository;
-        this.addressFactory = addressFactory;
-        this.contactFactory = contactFactory;
         this.jwtAuthResponseFactory = jwtAuthResponseFactory;
         this.passwordEncoder = passwordEncoder;
         this.mapperUtils = mapperUtils;
@@ -193,14 +183,6 @@ public class AuthServiceImpl implements AuthService {
             roles.add(userRole.get());
             user.setRoles(roles);
         }
-    }
-
-    private Contact createNewContact() {
-        return contactRepository.save(contactFactory.createUserEmptyContact());
-    }
-
-    private Address createNewAddress() {
-        return addressRepository.save(addressFactory.createUserEmptyAddress());
     }
 
     @Override
