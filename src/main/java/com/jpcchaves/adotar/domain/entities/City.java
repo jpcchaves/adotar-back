@@ -12,6 +12,7 @@ public class City {
     @Column(length = 120)
     private String name;
 
+    @Column(length = 10, nullable = false)
     private int ibge;
     private Double latitude;
     private Double longitude;
