@@ -48,6 +48,8 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .headers((headers) ->
                         headers
                                 .contentTypeOptions(Customizer.withDefaults())
