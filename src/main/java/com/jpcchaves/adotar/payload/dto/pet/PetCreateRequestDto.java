@@ -54,6 +54,7 @@ public class PetCreateRequestDto {
     @NotNull(message = "A raça do animal é obrigatória")
     private Long breedId;
 
+    private List<PetPictureCreateDto> petPictures;
     public PetCreateRequestDto() {
     }
 
@@ -76,7 +77,7 @@ public class PetCreateRequestDto {
                                Long cityId,
                                Long stateId,
                                Long typeId,
-                               Long breedId) {
+                               Long breedId, List<PetPictureCreateDto> petPictures) {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
@@ -97,6 +98,7 @@ public class PetCreateRequestDto {
         this.characteristicsIds = characteristicsIds;
         this.typeId = typeId;
         this.breedId = breedId;
+        this.petPictures = petPictures;
     }
 
     public String getName() {
@@ -257,5 +259,13 @@ public class PetCreateRequestDto {
 
     public void setStateId(Long stateId) {
         this.stateId = stateId;
+    }
+
+    public List<PetPictureCreateDto> getPetPictures() {
+        return petPictures;
+    }
+
+    public void setPetPictures(List<PetPictureCreateDto> petPictures) {
+        this.petPictures = petPictures;
     }
 }
