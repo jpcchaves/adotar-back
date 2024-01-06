@@ -1,38 +1,13 @@
 package com.jpcchaves.adotar.service.impl.v1;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import com.jpcchaves.adotar.domain.entities.Address;
-import com.jpcchaves.adotar.domain.entities.AnimalType;
-import com.jpcchaves.adotar.domain.entities.Breed;
-import com.jpcchaves.adotar.domain.entities.City;
-import com.jpcchaves.adotar.domain.entities.Pet;
-import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
-import com.jpcchaves.adotar.domain.entities.User;
-import com.jpcchaves.adotar.domain.entities.UserSavedPets;
+import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.*;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
-import com.jpcchaves.adotar.repository.AnimalTypeRepository;
-import com.jpcchaves.adotar.repository.BreedRepository;
-import com.jpcchaves.adotar.repository.CityRepository;
-import com.jpcchaves.adotar.repository.PetCharacteristicRepository;
-import com.jpcchaves.adotar.repository.PetRepository;
-import com.jpcchaves.adotar.repository.UserSavedPetsRepository;
+import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.usecases.v1.PetService;
 import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
@@ -40,6 +15,12 @@ import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.utils.pet.PetUtils;
 import com.jpcchaves.adotar.utils.user.UserUtils;
+import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class PetServiceImpl implements PetService {
@@ -48,6 +29,7 @@ public class PetServiceImpl implements PetService {
     private final AnimalTypeRepository animalTypeRepository;
     private final BreedRepository breedRepository;
     private final CityRepository cityRepository;
+    private final PetPictureRepository petPictureRepository;
     private final SecurityContextService securityContextService;
     private final UserSavedPetsRepository userSavedPetsRepository;
     private final GlobalUtils globalUtils;
@@ -58,7 +40,7 @@ public class PetServiceImpl implements PetService {
                           PetCharacteristicRepository petCharacteristicRepository,
                           AnimalTypeRepository animalTypeRepository,
                           BreedRepository breedRepository,
-                          CityRepository cityRepository,
+                          CityRepository cityRepository, PetPictureRepository petPictureRepository,
                           SecurityContextService securityContextService,
                           UserSavedPetsRepository userSavedPetsRepository,
                           GlobalUtils globalUtils,
@@ -69,6 +51,7 @@ public class PetServiceImpl implements PetService {
         this.animalTypeRepository = animalTypeRepository;
         this.breedRepository = breedRepository;
         this.cityRepository = cityRepository;
+        this.petPictureRepository = petPictureRepository;
         this.securityContextService = securityContextService;
         this.userUtils = userUtils;
         this.userSavedPetsRepository = userSavedPetsRepository;
@@ -104,6 +87,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @Transactional
     public ApiMessageResponseDto create(PetCreateRequestDto requestDto) {
         validateCharacteristicsLimit(requestDto.getCharacteristicsIds());
 
@@ -116,9 +100,12 @@ public class PetServiceImpl implements PetService {
         City city = fetchCity(requestDto.getCityId());
         Address address = createAddress(requestDto, city);
 
+
         Pet pet = buildPet(requestDto, animalType, breed, characteristicsList, address);
 
-        savePet(pet);
+        Pet savedPet = savePet(pet);
+
+        createPetPictures(requestDto.getPetPictures(), savedPet);
 
         return new ApiMessageResponseDto("Pet criado com sucesso: " + pet.getName());
     }
@@ -230,8 +217,8 @@ public class PetServiceImpl implements PetService {
         return userUtils.buildUserDetails(petOwner);
     }
 
-    private void savePet(Pet pet) {
-        petRepository.save(pet);
+    private Pet savePet(Pet pet) {
+        return petRepository.save(pet);
     }
 
     private void definePetCharacteristics(Pet pet,
@@ -392,5 +379,15 @@ public class PetServiceImpl implements PetService {
         }
 
         return new HashSet<>(pets);
+    }
+
+    private void createPetPictures(List<PetPictureCreateDto> petPicturesDtos, Pet pet) {
+        List<PetPicture> petPictures = mapper.parseListObjects(petPicturesDtos, PetPicture.class);
+
+        for (PetPicture petPicture : petPictures) {
+            petPicture.setPet(pet);
+        }
+
+        petPictureRepository.saveAll(petPictures);
     }
 }
