@@ -14,7 +14,7 @@ public class PetPicture {
     @Column(nullable = false)
     private boolean isFavorite = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
