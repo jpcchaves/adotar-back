@@ -1,8 +1,8 @@
 server:
   port: 8080
 spring:
-  #  config:
-  #    import: optional:file:.env[.properties]
+  config:
+    import: optional:file:.env[.properties]
   datasource:
     url: ${DB_DEV_URL}
     driver-class-name: org.postgresql.Driver
