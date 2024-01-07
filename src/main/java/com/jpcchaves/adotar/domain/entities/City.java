@@ -13,7 +13,7 @@ public class City {
     private String name;
 
     @Column(length = 10, nullable = false, unique = true)
-    private int ibge;
+    private Long ibge;
     private Double latitude;
     private Double longitude;
 
@@ -26,7 +26,7 @@ public class City {
 
     public City(Long id,
                 String name,
-                int ibge,
+                Long ibge,
                 Double latitude,
                 Double longitude,
                 State state) {
@@ -54,11 +54,11 @@ public class City {
         this.name = name;
     }
 
-    public int getIbge() {
+    public Long getIbge() {
         return ibge;
     }
 
-    public void setIbge(int ibge) {
+    public void setIbge(Long ibge) {
         this.ibge = ibge;
     }
 

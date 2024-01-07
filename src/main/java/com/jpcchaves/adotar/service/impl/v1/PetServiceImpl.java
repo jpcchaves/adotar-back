@@ -97,7 +97,7 @@ public class PetServiceImpl implements PetService {
 
         AnimalType animalType = fetchAnimalType(requestDto.getTypeId());
 
-        City city = fetchCity(requestDto.getCityId());
+        City city = fetchCity(requestDto.getCityIbge());
         Address address = createAddress(requestDto, city);
 
 
@@ -260,8 +260,8 @@ public class PetServiceImpl implements PetService {
                 .orElseThrow(() -> new ResourceNotFoundException("Tipo de animal não encontrado!"));
     }
 
-    private City fetchCity(Long cityId) {
-        return cityRepository.findById(cityId)
+    private City fetchCity(Long cityIbge) {
+        return cityRepository.findCityByIbge(cityIbge)
                 .orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada!"));
     }
 

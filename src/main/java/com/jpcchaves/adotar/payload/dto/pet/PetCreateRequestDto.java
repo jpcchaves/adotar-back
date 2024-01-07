@@ -45,7 +45,7 @@ public class PetCreateRequestDto {
     private String complement;
     private String neighborhood;
     @NotNull(message = "A cidade é obrigatória")
-    private Long cityId;
+    private Long cityIbge;
     private Long stateId;
 
     @NotNull(message = "O tipo do animal é obrigatório")
@@ -74,7 +74,7 @@ public class PetCreateRequestDto {
                                String number,
                                String complement,
                                String neighborhood,
-                               Long cityId,
+                               Long cityIbge,
                                Long stateId,
                                Long typeId,
                                Long breedId, List<PetPictureCreateDto> petPictures) {
@@ -86,7 +86,7 @@ public class PetCreateRequestDto {
         this.number = number;
         this.complement = complement;
         this.neighborhood = neighborhood;
-        this.cityId = cityId;
+        this.cityIbge = cityIbge;
         this.stateId = stateId;
         this.size = size;
         this.healthCondition = healthCondition;
@@ -245,12 +245,12 @@ public class PetCreateRequestDto {
         this.neighborhood = neighborhood;
     }
 
-    public Long getCityId() {
-        return cityId;
+    public Long getCityIbge() {
+        return cityIbge;
     }
 
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
+    public void setCityIbge(Long cityIbge) {
+        this.cityIbge = cityIbge;
     }
 
     public Long getStateId() {

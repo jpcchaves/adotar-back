@@ -16,7 +16,7 @@ public class AddressRequestDto {
     private String neighborhood;
     @NotNull(message = "A cidade é obrigatória!")
     @Positive(message = "Dados inválidos, verifique os dados de cidade informados e tente novamente")
-    private Long cityId;
+    private Long cityIbge;
 
     public AddressRequestDto() {
     }
@@ -27,14 +27,14 @@ public class AddressRequestDto {
                              String number,
                              String complement,
                              String neighborhood,
-                             Long cityId) {
+                             Long cityIbge) {
         this.id = id;
         this.zipcode = zipcode;
         this.street = street;
         this.number = number;
         this.complement = complement;
         this.neighborhood = neighborhood;
-        this.cityId = cityId;
+        this.cityIbge = cityIbge;
     }
 
     public Long getId() {
@@ -85,11 +85,11 @@ public class AddressRequestDto {
         this.neighborhood = neighborhood;
     }
 
-    public Long getCityId() {
-        return cityId;
+    public Long getCityIbge() {
+        return cityIbge;
     }
 
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
+    public void setCityIbge(Long cityIbge) {
+        this.cityIbge = cityIbge;
     }
 }

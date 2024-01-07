@@ -60,7 +60,7 @@ public class AddressServiceImpl implements AddressService {
             throw new BadRequestException("O usuario ja possui um endereco cadastrado!");
         }
 
-        City city = cityRepository.findById(addressDto.getCityId()).orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada"));
+        City city = cityRepository.findCityByIbge(addressDto.getCityIbge()).orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada"));
 
         Address address = new Address(
                 addressDto.getZipcode(),
@@ -83,7 +83,7 @@ public class AddressServiceImpl implements AddressService {
     public AddressDto updateUserAddress(AddressRequestDto addressDto) {
         Address address = securityContextService.getCurrentLoggedUser().getAddress();
 
-        City city = cityRepository.findById(addressDto.getCityId()).orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada"));
+        City city = cityRepository.findCityByIbge(addressDto.getCityIbge()).orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada"));
 
         updateAddress(address, city, addressDto);
 
