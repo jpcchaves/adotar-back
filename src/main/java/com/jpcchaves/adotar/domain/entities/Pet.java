@@ -40,7 +40,7 @@ public class Pet {
     @Column(length = 30)
     private String color;
 
-    @Column(length = 100)
+    @Column(length = 255)
     private String description;
 
     @Column(length = 10)
