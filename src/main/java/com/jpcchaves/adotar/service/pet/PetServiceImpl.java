@@ -82,7 +82,7 @@ public class PetServiceImpl implements PetService {
 
         User user = securityContextService.getCurrentLoggedUser();
 
-        Pet pet = petUtils.buildPetCreate(petDto, animalType, breed, characteristicsList, address, user);
+        Pet pet = petUtils.buildPet(petDto, animalType, breed, characteristicsList, address, user);
 
         Pet savedPet = petRepositoryService.savePet(pet);
 
@@ -94,7 +94,18 @@ public class PetServiceImpl implements PetService {
     @Override
     public ApiMessageResponseDto update(Long id,
                                         PetUpdateRequestDto petDto) {
-        return null;
+        petValidationService.validateCharacteristicsLimit(petDto.getCharacteristicsIds());
+        Pet pet = petRepositoryService.findById(id);
+
+        Breed breed = petRepositoryService.fetchBreed(petDto.getBreedId(), petDto.getTypeId());
+        List<PetCharacteristic> characteristicsList = petRepositoryService.fetchCharacteristics(petDto.getCharacteristicsIds());
+        AnimalType animalType = petRepositoryService.fetchAnimalType(petDto.getTypeId());
+
+        petUtils.updatePet(pet, petDto, animalType, breed, characteristicsList);
+
+        petRepositoryService.savePet(pet);
+
+        return new ApiMessageResponseDto("Pet atualizado com sucesso");
     }
 
     @Override

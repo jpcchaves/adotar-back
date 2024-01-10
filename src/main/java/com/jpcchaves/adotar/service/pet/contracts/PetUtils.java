@@ -11,12 +11,19 @@ import java.util.List;
 public interface PetUtils {
     void increasePetVisualization(Pet pet);
 
-    Pet buildPetCreate(PetCreateRequestDto petCreateRequestDto,
-                       AnimalType animalType,
-                       Breed breed,
-                       List<PetCharacteristic> characteristicsList,
-                       Address petAddress,
-                       User user);
+    Pet buildPet(PetCreateRequestDto petCreateRequestDto,
+                 AnimalType animalType,
+                 Breed breed,
+                 List<PetCharacteristic> characteristicsList,
+                 Address petAddress,
+                 User user);
+
+    Pet updatePet(Pet pet,
+                  PetUpdateRequestDto petDto,
+                  AnimalType animalType,
+                  Breed breed,
+                  List<PetCharacteristic> characteristicsList
+    );
 
     Pet updatePetAttributes(Pet pet,
                             PetUpdateRequestDto petDto);

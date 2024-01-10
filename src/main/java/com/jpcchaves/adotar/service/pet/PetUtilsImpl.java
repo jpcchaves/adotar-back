@@ -30,13 +30,14 @@ public class PetUtilsImpl implements PetUtils {
         pet.setVisualizations(pet.getVisualizations() + ONE);
     }
 
+
     @Override
-    public Pet buildPetCreate(PetCreateRequestDto petCreateRequestDto,
-                              AnimalType animalType,
-                              Breed breed,
-                              List<PetCharacteristic> characteristicsList,
-                              Address petAddress,
-                              User user) {
+    public Pet buildPet(PetCreateRequestDto petCreateRequestDto,
+                        AnimalType animalType,
+                        Breed breed,
+                        List<PetCharacteristic> characteristicsList,
+                        Address petAddress,
+                        User user) {
         Pet pet = new Pet();
 
         pet.setHealthCondition(petCreateRequestDto.getHealthCondition());
@@ -58,6 +59,29 @@ public class PetUtilsImpl implements PetUtils {
         pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicsList));
 
         pet.setUser(user);
+
+        return pet;
+    }
+
+    @Override
+    public Pet updatePet(Pet pet,
+                         PetUpdateRequestDto petDto,
+                         AnimalType animalType,
+                         Breed breed,
+                         List<PetCharacteristic> characteristicsList) {
+        pet.setHealthCondition(petDto.getHealthCondition());
+        pet.setGender(petDto.getGender());
+        pet.setSize(petDto.getSize());
+        pet.setMonthsAge(petDto.getMonthsAge());
+        pet.setYearsAge(petDto.getYearsAge());
+        pet.setColor(petDto.getColor());
+        pet.setName(petDto.getName());
+        pet.setDescription(petDto.getDescription());
+
+        pet.setType(animalType);
+        pet.setBreed(breed);
+        pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicsList));
+
 
         return pet;
     }
