@@ -37,4 +37,6 @@ public interface PetUtils {
             List<PetMinDtoV2> dtoList
     );
 
+    void setPetAsInactive(Pet pet);
+
 }

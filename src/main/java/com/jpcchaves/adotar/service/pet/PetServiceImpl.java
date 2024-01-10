@@ -110,7 +110,10 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiMessageResponseDto delete(Long id) {
-        return null;
+        Pet pet = petRepositoryService.findById(id);
+        petUtils.setPetAsInactive(pet);
+        petRepositoryService.savePet(pet);
+        return new ApiMessageResponseDto("Pet deletado com sucesso");
     }
 
     @Override

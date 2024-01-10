@@ -13,6 +13,7 @@ import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -131,6 +132,12 @@ public class PetUtilsImpl implements PetUtils {
                 petDto.setFavorite(true);
             }
         }
+    }
+
+    @Override
+    public void setPetAsInactive(Pet pet) {
+        pet.setActive(false);
+        pet.setDeletedAt(new Date());
     }
 
     private <T> boolean isListSizeUnderLimit(List<T> list) {
