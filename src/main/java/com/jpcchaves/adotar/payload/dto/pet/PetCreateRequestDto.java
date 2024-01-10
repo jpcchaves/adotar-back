@@ -3,6 +3,7 @@ package com.jpcchaves.adotar.payload.dto.pet;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
+import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -37,17 +38,7 @@ public class PetCreateRequestDto {
     private boolean isAvailable;
     private List<Long> characteristicsIds = new ArrayList<>();
 
-    @NotBlank(message = "O CEP é obrigatório")
-    @Length(min = 8, max = 8, message = "O CEP deve conter 8 caracteres")
-    private String zipcode;
-    private String street;
-    private String number;
-    private String complement;
-    private String neighborhood;
-    @NotNull(message = "A cidade é obrigatória")
-    private Long cityIbge;
-    private Long stateId;
-
+    private AddressRequestDto address;
     @NotNull(message = "O tipo do animal é obrigatório")
     private Long typeId;
 
@@ -55,6 +46,7 @@ public class PetCreateRequestDto {
     private Long breedId;
 
     private List<PetPictureCreateDto> petPictures;
+
     public PetCreateRequestDto() {
     }
 
@@ -69,25 +61,14 @@ public class PetCreateRequestDto {
                                boolean active,
                                boolean isAvailable,
                                List<Long> characteristicsIds,
-                               String zipcode,
-                               String street,
-                               String number,
-                               String complement,
-                               String neighborhood,
-                               Long cityIbge,
-                               Long stateId,
+                               AddressRequestDto address,
                                Long typeId,
-                               Long breedId, List<PetPictureCreateDto> petPictures) {
+                               Long breedId,
+                               List<PetPictureCreateDto> petPictures) {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
-        this.zipcode = zipcode;
-        this.street = street;
-        this.number = number;
-        this.complement = complement;
-        this.neighborhood = neighborhood;
-        this.cityIbge = cityIbge;
-        this.stateId = stateId;
+        this.address = address;
         this.size = size;
         this.healthCondition = healthCondition;
         this.gender = gender;
@@ -173,6 +154,14 @@ public class PetCreateRequestDto {
         this.active = active;
     }
 
+    public AddressRequestDto getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressRequestDto address) {
+        this.address = address;
+    }
+
     public boolean isAvailable() {
         return isAvailable;
     }
@@ -205,61 +194,6 @@ public class PetCreateRequestDto {
         this.breedId = breedId;
     }
 
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getComplement() {
-        return complement;
-    }
-
-    public void setComplement(String complement) {
-        this.complement = complement;
-    }
-
-    public String getNeighborhood() {
-        return neighborhood;
-    }
-
-    public void setNeighborhood(String neighborhood) {
-        this.neighborhood = neighborhood;
-    }
-
-    public Long getCityIbge() {
-        return cityIbge;
-    }
-
-    public void setCityIbge(Long cityIbge) {
-        this.cityIbge = cityIbge;
-    }
-
-    public Long getStateId() {
-        return stateId;
-    }
-
-    public void setStateId(Long stateId) {
-        this.stateId = stateId;
-    }
 
     public List<PetPictureCreateDto> getPetPictures() {
         return petPictures;

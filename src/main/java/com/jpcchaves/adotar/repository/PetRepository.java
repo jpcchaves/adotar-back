@@ -22,7 +22,7 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
             Pageable pageable,
             Long typeId);
 
-    @Query("SELECT p FROM Pet p WHERE p.type.id IN :typeIds")
+    @Query("SELECT p FROM Pet p WHERE p.type.id IN :typeIds AND p.active = true")
     Page<Pet> findByTypes(
             Pageable pageable,
             @Param("typeIds") List<Long> typeIds);

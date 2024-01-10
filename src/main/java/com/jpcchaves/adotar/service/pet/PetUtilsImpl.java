@@ -1,27 +1,42 @@
-package com.jpcchaves.adotar.utils.pet;
+package com.jpcchaves.adotar.service.pet;
 
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
+import com.jpcchaves.adotar.service.pet.contracts.PetRepositoryService;
+import com.jpcchaves.adotar.service.pet.contracts.PetUtils;
 import com.jpcchaves.adotar.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
+import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.List;
 
-public class PetUtils {
-    public static void increasePetVisualization(Pet pet) {
+@Service
+public class PetUtilsImpl implements PetUtils {
+    private final PetRepositoryService petRepositoryService;
+
+
+    public PetUtilsImpl(PetRepositoryService petRepositoryService) {
+        this.petRepositoryService = petRepositoryService;
+    }
+
+    @Override
+    public void increasePetVisualization(Pet pet) {
         int ONE = 1;
         pet.setVisualizations(pet.getVisualizations() + ONE);
     }
 
-    public static Pet buildPetCreate(PetCreateRequestDto petCreateRequestDto,
-                                     AnimalType animalType,
-                                     Breed breed,
-                                     List<PetCharacteristic> characteristicsList,
-                                     Address petAddress) {
+    @Override
+    public Pet buildPetCreate(PetCreateRequestDto petCreateRequestDto,
+                              AnimalType animalType,
+                              Breed breed,
+                              List<PetCharacteristic> characteristicsList,
+                              Address petAddress,
+                              User user) {
         Pet pet = new Pet();
 
         pet.setHealthCondition(petCreateRequestDto.getHealthCondition());
@@ -42,11 +57,14 @@ public class PetUtils {
         pet.setBreed(breed);
         pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicsList));
 
+        pet.setUser(user);
+
         return pet;
     }
 
-    public static Pet updatePetAttributes(Pet pet,
-                                          PetUpdateRequestDto petDto) {
+    @Override
+    public Pet updatePetAttributes(Pet pet,
+                                   PetUpdateRequestDto petDto) {
         pet.setId(pet.getId());
         pet.setName(petDto.getName());
         pet.setYearsAge(petDto.getYearsAge());
@@ -63,7 +81,40 @@ public class PetUtils {
         return pet;
     }
 
-    private static String generateUniqueSerialNumber() {
+
+    @Override
+    public void removeBase64Prefix(List<PetPictureDto> pictureDtos) {
+        for (PetPictureDto picture : pictureDtos) {
+            if (Base64Utils.hasBase64Prefix(picture.getImgUrl())) {
+                picture.setImgUrl(Base64Utils.removeBase64Prefix(picture.getImgUrl()));
+            }
+        }
+    }
+
+    @Override
+    public <T> void verifyCharacteristicsLimit(List<T> characteristics) {
+        if (!isListSizeUnderLimit(characteristics)) {
+            throw new BadRequestException("O limite de características foi excedido!");
+        }
+    }
+
+
+    @Override
+    public void markFavoritePets(User user,
+                                 List<PetMinDtoV2> dtoList) {
+        for (PetMinDtoV2 petDto : dtoList) {
+            if (petRepositoryService.isPetSavedByUser(user.getId(), petDto.getId())) {
+                petDto.setFavorite(true);
+            }
+        }
+    }
+
+    private <T> boolean isListSizeUnderLimit(List<T> list) {
+        final int LIMIT = 5;
+        return list.size() <= LIMIT;
+    }
+
+    private String generateUniqueSerialNumber() {
         final int length = 25;
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder serialNumber = new StringBuilder();
@@ -77,24 +128,4 @@ public class PetUtils {
 
         return serialNumber.toString();
     }
-
-    public static void removeBase64Prefix(List<PetPictureDto> pictureDtos) {
-        for (PetPictureDto picture : pictureDtos) {
-            if (Base64Utils.hasBase64Prefix(picture.getImgUrl())) {
-                picture.setImgUrl(Base64Utils.removeBase64Prefix(picture.getImgUrl()));
-            }
-        }
-    }
-
-    public static <T> void verifyCharacteristicsLimit(List<T> characteristics) {
-        if (!isListSizeUnderLimit(characteristics)) {
-            throw new BadRequestException("O limite de características foi excedido!");
-        }
-    }
-
-    private static <T> boolean isListSizeUnderLimit(List<T> list) {
-        final int LIMIT = 5;
-        return list.size() <= LIMIT;
-    }
-
 }
