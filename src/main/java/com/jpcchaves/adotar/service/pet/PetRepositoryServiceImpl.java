@@ -3,9 +3,7 @@ package com.jpcchaves.adotar.service.pet;
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureCreateDto;
-import com.jpcchaves.adotar.repository.PetPictureRepository;
-import com.jpcchaves.adotar.repository.PetRepository;
-import com.jpcchaves.adotar.repository.UserSavedPetsRepository;
+import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.pet.contracts.PetRepositoryService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.data.domain.Page;
@@ -19,15 +17,24 @@ public class PetRepositoryServiceImpl implements PetRepositoryService {
     private final PetRepository petRepository;
     private final UserSavedPetsRepository userSavedPetsRepository;
     private final PetPictureRepository petPictureRepository;
+    private final PetCharacteristicRepository petCharacteristicRepository;
+    private final AnimalTypeRepository animalTypeRepository;
+    private final BreedRepository breedRepository;
     private final MapperUtils mapper;
 
     public PetRepositoryServiceImpl(PetRepository petRepository,
                                     UserSavedPetsRepository userSavedPetsRepository,
                                     PetPictureRepository petPictureRepository,
+                                    PetCharacteristicRepository petCharacteristicRepository,
+                                    AnimalTypeRepository animalTypeRepository,
+                                    BreedRepository breedRepository,
                                     MapperUtils mapper) {
         this.petRepository = petRepository;
         this.userSavedPetsRepository = userSavedPetsRepository;
         this.petPictureRepository = petPictureRepository;
+        this.petCharacteristicRepository = petCharacteristicRepository;
+        this.animalTypeRepository = animalTypeRepository;
+        this.breedRepository = breedRepository;
         this.mapper = mapper;
     }
 
@@ -62,17 +69,21 @@ public class PetRepositoryServiceImpl implements PetRepositoryService {
     @Override
     public Breed fetchBreed(Long breedId,
                             Long animalTypeId) {
-        return null;
+        return breedRepository
+                .findByIdAndAnimalType_Id(breedId, animalTypeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Raça não encontrada!"));
     }
 
     @Override
     public List<PetCharacteristic> fetchCharacteristics(List<Long> characteristicsIds) {
-        return null;
+        return petCharacteristicRepository.findAllById(characteristicsIds);
     }
 
     @Override
     public AnimalType fetchAnimalType(Long animalTypeId) {
-        return null;
+        return animalTypeRepository
+                .findById(animalTypeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Tipo não encontrado!"));
     }
 
     @Override
@@ -126,5 +137,24 @@ public class PetRepositoryServiceImpl implements PetRepositoryService {
     @Override
     public void removeUserSavedPet(UserSavedPets userSavedPets) {
         userSavedPetsRepository.delete(userSavedPets);
+    }
+
+    @Override
+    public Page<Pet> getAllByBreedIdAndTypeId(Pageable pageable,
+                                              Long breedId,
+                                              Long typeId) {
+        return petRepository.getAllByBreed_IdAndType_Id(pageable, breedId, typeId);
+    }
+
+    @Override
+    public Page<Pet> getAllByTypeId(Pageable pageable,
+                                    Long typeId) {
+        return petRepository.getAllByType_Id(pageable, typeId);
+    }
+
+    @Override
+    public Page<Pet> getAllByBreedId(Pageable pageable,
+                                     Long breedId) {
+        return petRepository.getAllByBreed_Id(pageable, breedId);
     }
 }

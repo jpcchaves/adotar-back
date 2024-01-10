@@ -11,6 +11,8 @@ import com.jpcchaves.adotar.service.pet.contracts.PetUtils;
 import com.jpcchaves.adotar.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -19,12 +21,13 @@ import java.util.*;
 @Service
 public class PetUtilsImpl implements PetUtils {
     private final PetRepositoryService petRepositoryService;
+    private final MapperUtils mapper;
 
-
-    public PetUtilsImpl(PetRepositoryService petRepositoryService
-    ) {
+    public PetUtilsImpl(PetRepositoryService petRepositoryService,
+                        MapperUtils mapper) {
         this.petRepositoryService = petRepositoryService;
 
+        this.mapper = mapper;
     }
 
     @Override
@@ -153,9 +156,50 @@ public class PetUtilsImpl implements PetUtils {
         return new HashSet<>(pets);
     }
 
+    @Override
+    public boolean breedAndAnimalTypeIsPresent(Long breedId,
+                                               Long animalTypeId) {
+        return breedId != null && animalTypeId != null;
+    }
+
+    @Override
+    public boolean animalTypeIsPresent(Long animalTypeId) {
+        return animalTypeId != null;
+    }
+
+    @Override
+    public boolean breedIsPresent(Long breedId) {
+        return breedId != null;
+    }
+
     public boolean existsByPetAndUser(Long petId,
                                       Long userId) {
         return petRepositoryService.existsByPetAndUser(petId, userId);
+    }
+
+    @Override
+    public List<PetMinDtoV2> doFilterByBreedAndAnimalType(Pageable pageable,
+                                                          Long breedId,
+                                                          Long animalTypeId) {
+        Page<Pet> petsPage = petRepositoryService
+                .getAllByBreedIdAndTypeId(pageable, breedId, animalTypeId);
+
+        return mapper
+                .parseListObjects(petsPage.getContent(), PetMinDtoV2.class);
+    }
+
+    @Override
+    public List<PetMinDtoV2> doFilterByAnimalType(Pageable pageable,
+                                                  Long animalTypeId) {
+        Page<Pet> petsPage = petRepositoryService.getAllByTypeId(pageable, animalTypeId);
+        return mapper.parseListObjects(petsPage.getContent(), PetMinDtoV2.class);
+    }
+
+    @Override
+    public List<PetMinDtoV2> doFilterByBreed(Pageable pageable,
+                                             Long breedId) {
+        Page<Pet> petsPage = petRepositoryService.getAllByBreedId(pageable, breedId);
+        return mapper.parseListObjects(petsPage.getContent(), PetMinDtoV2.class);
     }
 
     private <T> boolean isListSizeUnderLimit(List<T> list) {

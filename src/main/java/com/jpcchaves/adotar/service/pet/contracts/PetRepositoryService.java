@@ -47,4 +47,14 @@ public interface PetRepositoryService {
     UserSavedPets saveUserSavedPet(UserSavedPets userSavedPet);
 
     void removeUserSavedPet(UserSavedPets userSavedPets);
+
+    Page<Pet> getAllByBreedIdAndTypeId(Pageable pageable,
+                                       Long breedId,
+                                       Long typeId);
+
+    Page<Pet> getAllByTypeId(Pageable pageable,
+                             Long typeId);
+
+    Page<Pet> getAllByBreedId(Pageable pageable,
+                              Long breedId);
 }

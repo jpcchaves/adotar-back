@@ -6,7 +6,6 @@ import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
@@ -199,9 +198,23 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public ApiResponsePaginatedDto<PetMinDto> filterByBreedOrAnimalType(Pageable pageable,
-                                                                        Long breedId,
-                                                                        Long animalTypeId) {
-        return null;
+    public ApiResponsePaginatedDto<PetMinDtoV2> filterByBreedOrAnimalType(Pageable pageable,
+                                                                          Long breedId,
+                                                                          Long animalTypeId) {
+        if (petUtils.breedAndAnimalTypeIsPresent(breedId, animalTypeId)) {
+            return petUtils.doFilterByBreedAndAnimalType(pageable, breedId, animalTypeId);
+        }
+
+        if (petUtils.animalTypeIsPresent(animalTypeId)) {
+            return petUtils.doFilterByAnimalType(pageable, animalTypeId);
+        }
+
+        if (petUtils.breedIsPresent(breedId)) {
+            return petUtils.doFilterByBreed(pageable, breedId);
+        }
+
+        return listAll(pageable);
     }
+
+
 }
