@@ -1,6 +1,7 @@
 package com.jpcchaves.adotar.service.pet;
 
 import com.jpcchaves.adotar.domain.entities.*;
+import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
@@ -17,11 +18,13 @@ import com.jpcchaves.adotar.service.pet.contracts.PetValidationService;
 import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
+import com.jpcchaves.adotar.utils.user.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +35,7 @@ public class PetServiceImpl implements PetService {
     private final SecurityContextService securityContextService;
     private final AddressService addressService;
     private final PetUtils petUtils;
+    private final UserUtils userUtils;
     private final MapperUtils mapper;
     private final GlobalUtils globalUtils;
 
@@ -41,6 +45,7 @@ public class PetServiceImpl implements PetService {
                           SecurityContextService securityContextService,
                           AddressService addressService,
                           PetUtils petUtils,
+                          UserUtils userUtils,
                           MapperUtils mapper,
                           GlobalUtils globalUtils) {
         this.petRepositoryService = petRepositoryService;
@@ -48,6 +53,7 @@ public class PetServiceImpl implements PetService {
         this.securityContextService = securityContextService;
         this.addressService = addressService;
         this.petUtils = petUtils;
+        this.userUtils = userUtils;
         this.mapper = mapper;
         this.globalUtils = globalUtils;
     }
@@ -118,35 +124,67 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public ApiResponsePaginatedDto<PetMinDtoV2> getAllByUserId(Pageable pageable) {
-        return null;
+        Long userId = securityContextService.getCurrentLoggedUser().getId();
+        Page<Pet> petPage = petRepositoryService.fetchAllByUser(pageable, userId);
+        List<PetMinDtoV2> petDtoList = mapper.parseListObjects(petPage.getContent(), PetMinDtoV2.class);
+
+        return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
     }
 
 
     @Override
     public PetDto getBySerialNumber(String serialNumber) {
-        return null;
+        Pet pet = petRepositoryService.findBySerialNumber(serialNumber);
+        return mapper.parseObject(pet, PetDto.class);
     }
 
     @Override
     public Set<PetDto> getUserSavedPets() {
-        return null;
+        User user = securityContextService.getCurrentLoggedUser();
+        List<UserSavedPets> userSavedPets = petRepositoryService.fetchAllUserSavedPets(user.getId());
+
+        if (userSavedPets.isEmpty()) {
+            return Collections.emptySet();
+        }
+
+        Set<Pet> pets = petUtils.extractPets(userSavedPets);
+
+        return mapper.parseSetObjects(pets, PetDto.class);
     }
 
-    @Override
-    public UserDetailsDto getPetOwnerDetails(Long petId) {
-        return null;
-    }
 
     @Override
     public ApiMessageResponseDto addUserSavedPet(Long petId) {
-        return null;
+        Pet pet = petRepositoryService.findById(petId);
+
+        User user = securityContextService.getCurrentLoggedUser();
+
+        if (petRepositoryService.existsByPetAndUser(petId, user.getId())) {
+            throw new BadRequestException("O pet já foi salvo para o usuário informado");
+        }
+
+        petRepositoryService.saveUserSavedPet(new UserSavedPets(user, pet));
+
+        return new ApiMessageResponseDto("Pet salvo com sucesso!");
     }
 
     @Override
     public ApiMessageResponseDto removeUserSavedPet(Long petId) {
-        return null;
+        User user = securityContextService.getCurrentLoggedUser();
+
+        UserSavedPets userSavedPets = petRepositoryService.findSavedPetByPetAndUser(petId, user.getId());
+
+        petRepositoryService.removeUserSavedPet(userSavedPets);
+
+        return new ApiMessageResponseDto("Pet salvo removido com sucesso!");
     }
 
+    @Override
+    public UserDetailsDto getPetOwnerDetails(Long petId) {
+        Pet pet = petRepositoryService.findById(petId);
+        User petOwner = pet.getUser();
+        return userUtils.buildUserDetails(petOwner);
+    }
 
     @Override
     public ApiResponsePaginatedDto<PetMinDtoV2> filterByAnimalTypes(Pageable pageable,

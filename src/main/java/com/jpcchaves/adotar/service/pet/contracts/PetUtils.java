@@ -7,6 +7,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 
 import java.util.List;
+import java.util.Set;
 
 public interface PetUtils {
     void increasePetVisualization(Pet pet);
@@ -39,4 +40,8 @@ public interface PetUtils {
 
     void setPetAsInactive(Pet pet);
 
+    boolean existsByPetAndUser(Long petId,
+                               Long userId);
+
+    Set<Pet> extractPets(List<UserSavedPets> userSavedPets);
 }

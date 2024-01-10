@@ -10,19 +10,21 @@ import com.jpcchaves.adotar.service.pet.contracts.PetRepositoryService;
 import com.jpcchaves.adotar.service.pet.contracts.PetUtils;
 import com.jpcchaves.adotar.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
+import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PetUtilsImpl implements PetUtils {
     private final PetRepositoryService petRepositoryService;
 
 
-    public PetUtilsImpl(PetRepositoryService petRepositoryService) {
+    public PetUtilsImpl(PetRepositoryService petRepositoryService
+    ) {
         this.petRepositoryService = petRepositoryService;
+
     }
 
     @Override
@@ -138,6 +140,22 @@ public class PetUtilsImpl implements PetUtils {
     public void setPetAsInactive(Pet pet) {
         pet.setActive(false);
         pet.setDeletedAt(new Date());
+    }
+
+    @Override
+    public Set<Pet> extractPets(List<UserSavedPets> userSavedPets) {
+        List<Pet> pets = new ArrayList<>();
+
+        for (UserSavedPets userSavedPet : userSavedPets) {
+            pets.add(userSavedPet.getPet());
+        }
+
+        return new HashSet<>(pets);
+    }
+
+    public boolean existsByPetAndUser(Long petId,
+                                      Long userId) {
+        return petRepositoryService.existsByPetAndUser(petId, userId);
     }
 
     private <T> boolean isListSizeUnderLimit(List<T> list) {

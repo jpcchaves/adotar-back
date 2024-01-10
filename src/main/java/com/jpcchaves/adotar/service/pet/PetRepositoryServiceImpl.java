@@ -86,4 +86,45 @@ public class PetRepositoryServiceImpl implements PetRepositoryService {
 
         petPictureRepository.saveAll(petPictures);
     }
+
+    @Override
+    public Page<Pet> fetchAllByUser(Pageable pageable,
+                                    Long userId) {
+        return petRepository.getAllByUser_Id(pageable, userId);
+    }
+
+    @Override
+    public Pet findBySerialNumber(String serialNumber) {
+        return petRepository
+                .findBySerialNumberAndActiveTrue(serialNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o número de série informado"));
+
+    }
+
+    @Override
+    public List<UserSavedPets> fetchAllUserSavedPets(Long userId) {
+        return userSavedPetsRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    public boolean existsByPetAndUser(Long petId,
+                                      Long userId) {
+        return userSavedPetsRepository.existsByPet_IdAndUser_Id(petId, userId);
+    }
+
+    @Override
+    public UserSavedPets findSavedPetByPetAndUser(Long petId,
+                                                  Long userId) {
+        return userSavedPetsRepository.findByPet_IdAndUser_Id(petId, userId).orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado com o id informado " + petId));
+    }
+
+    @Override
+    public UserSavedPets saveUserSavedPet(UserSavedPets userSavedPet) {
+        return userSavedPetsRepository.save(userSavedPet);
+    }
+
+    @Override
+    public void removeUserSavedPet(UserSavedPets userSavedPets) {
+        userSavedPetsRepository.delete(userSavedPets);
+    }
 }

@@ -1,9 +1,6 @@
 package com.jpcchaves.adotar.service.pet.contracts;
 
-import com.jpcchaves.adotar.domain.entities.AnimalType;
-import com.jpcchaves.adotar.domain.entities.Breed;
-import com.jpcchaves.adotar.domain.entities.Pet;
-import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureCreateDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +28,23 @@ public interface PetRepositoryService {
 
     AnimalType fetchAnimalType(Long animalTypeId);
 
+    List<UserSavedPets> fetchAllUserSavedPets(Long userId);
+
     void createPetPictures(List<PetPictureCreateDto> petPicturesDto,
                            Pet pet);
+
+    Page<Pet> fetchAllByUser(Pageable pageable,
+                             Long userId);
+
+    Pet findBySerialNumber(String serialNumber);
+
+    boolean existsByPetAndUser(Long petId,
+                               Long userId);
+
+    UserSavedPets findSavedPetByPetAndUser(Long petId,
+                                           Long userId);
+
+    UserSavedPets saveUserSavedPet(UserSavedPets userSavedPet);
+
+    void removeUserSavedPet(UserSavedPets userSavedPets);
 }
