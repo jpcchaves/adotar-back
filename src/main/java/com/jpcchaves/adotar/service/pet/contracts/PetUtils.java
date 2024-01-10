@@ -7,6 +7,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -55,14 +56,14 @@ public interface PetUtils {
 
     boolean breedIsPresent(Long breedId);
 
-    List<PetMinDtoV2> doFilterByBreedAndAnimalType(Pageable pageable,
-                                                   Long breedId,
-                                                   Long animalTypeId);
-
-    List<PetMinDtoV2> doFilterByAnimalType(Pageable pageable,
+    Page<Pet> doFilterByBreedAndAnimalType(Pageable pageable,
+                                           Long breedId,
                                            Long animalTypeId);
 
-    List<PetMinDtoV2> doFilterByBreed(Pageable pageable,
-                                      Long breedId);
+    Page<Pet> doFilterByAnimalType(Pageable pageable,
+                                   Long animalTypeId);
+
+    Page<Pet> doFilterByBreed(Pageable pageable,
+                              Long breedId);
 
 }

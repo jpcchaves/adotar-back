@@ -201,20 +201,26 @@ public class PetServiceImpl implements PetService {
     public ApiResponsePaginatedDto<PetMinDtoV2> filterByBreedOrAnimalType(Pageable pageable,
                                                                           Long breedId,
                                                                           Long animalTypeId) {
+        Page<Pet> petsPage = null;
+
         if (petUtils.breedAndAnimalTypeIsPresent(breedId, animalTypeId)) {
-            return petUtils.doFilterByBreedAndAnimalType(pageable, breedId, animalTypeId);
+            petsPage = petUtils.doFilterByBreedAndAnimalType(pageable, breedId, animalTypeId);
         }
 
         if (petUtils.animalTypeIsPresent(animalTypeId)) {
-            return petUtils.doFilterByAnimalType(pageable, animalTypeId);
+            petsPage = petUtils.doFilterByAnimalType(pageable, animalTypeId);
         }
 
         if (petUtils.breedIsPresent(breedId)) {
-            return petUtils.doFilterByBreed(pageable, breedId);
+            petsPage = petUtils.doFilterByBreed(pageable, breedId);
         }
 
-        return listAll(pageable);
+
+        if (petsPage == null || petsPage.isEmpty()) {
+            return listAll(pageable);
+        }
+
+        return globalUtils.buildApiResponsePaginated(petsPage, mapper.parseListObjects(petsPage.getContent(), PetMinDtoV2.class));
+
     }
-
-
 }
