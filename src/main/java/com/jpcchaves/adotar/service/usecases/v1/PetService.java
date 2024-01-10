@@ -3,6 +3,7 @@ package com.jpcchaves.adotar.service.usecases.v1;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.*;
+import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import org.springframework.data.domain.Pageable;
 
@@ -15,7 +16,7 @@ public interface PetService {
                                                                  Long breedId,
                                                                  Long animalTypeId);
 
-    ApiResponsePaginatedDto<PetDto> getAllByUserId(Pageable pageable);
+    ApiResponsePaginatedDto<PetMinDtoV2> getAllByUserId(Pageable pageable);
 
     PetDto getById(Long id);
 

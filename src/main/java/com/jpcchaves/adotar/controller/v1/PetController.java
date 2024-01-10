@@ -6,6 +6,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.service.usecases.v1.PetService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -155,7 +156,7 @@ public class PetController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
             }
     )
-    public ResponseEntity<ApiResponsePaginatedDto<PetDto>> getAllByUser(Pageable pageable) {
+    public ResponseEntity<ApiResponsePaginatedDto<PetMinDtoV2>> getAllByUser(Pageable pageable) {
         return ResponseEntity.ok(petService.getAllByUserId(pageable));
     }
 

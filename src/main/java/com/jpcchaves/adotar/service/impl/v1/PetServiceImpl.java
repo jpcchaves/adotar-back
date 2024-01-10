@@ -6,6 +6,7 @@ import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.*;
+import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.usecases.v1.PetService;
@@ -40,7 +41,8 @@ public class PetServiceImpl implements PetService {
                           PetCharacteristicRepository petCharacteristicRepository,
                           AnimalTypeRepository animalTypeRepository,
                           BreedRepository breedRepository,
-                          CityRepository cityRepository, PetPictureRepository petPictureRepository,
+                          CityRepository cityRepository,
+                          PetPictureRepository petPictureRepository,
                           SecurityContextService securityContextService,
                           UserSavedPetsRepository userSavedPetsRepository,
                           GlobalUtils globalUtils,
@@ -142,10 +144,10 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public ApiResponsePaginatedDto<PetDto> getAllByUserId(Pageable pageable) {
+    public ApiResponsePaginatedDto<PetMinDtoV2> getAllByUserId(Pageable pageable) {
         Long userId = securityContextService.getCurrentLoggedUser().getId();
         Page<Pet> petPage = petRepository.getAllByUser_Id(pageable, userId);
-        List<PetDto> petDtoList = mapper.parseListObjects(petPage.getContent(), PetDto.class);
+        List<PetMinDtoV2> petDtoList = mapper.parseListObjects(petPage.getContent(), PetMinDtoV2.class);
 
         return globalUtils.buildApiResponsePaginated(petPage, petDtoList);
     }
@@ -381,7 +383,8 @@ public class PetServiceImpl implements PetService {
         return new HashSet<>(pets);
     }
 
-    private void createPetPictures(List<PetPictureCreateDto> petPicturesDtos, Pet pet) {
+    private void createPetPictures(List<PetPictureCreateDto> petPicturesDtos,
+                                   Pet pet) {
         List<PetPicture> petPictures = mapper.parseListObjects(petPicturesDtos, PetPicture.class);
 
         for (PetPicture petPicture : petPictures) {
