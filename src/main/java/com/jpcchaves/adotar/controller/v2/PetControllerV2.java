@@ -2,6 +2,7 @@ package com.jpcchaves.adotar.controller.v2;
 
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
+import com.jpcchaves.adotar.service.pet.contracts.PetService;
 import com.jpcchaves.adotar.service.usecases.v2.PetServiceV2;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,11 +23,12 @@ import java.util.List;
 @SecurityRequirement(name = "Bearer Authentication")
 public class PetControllerV2 {
 
-    private final PetServiceV2 petServiceV2;
+    private final PetService petService;
 
-    public PetControllerV2(PetServiceV2 petServiceV2) {
-        this.petServiceV2 = petServiceV2;
+    public PetControllerV2(PetService petService) {
+        this.petService = petService;
     }
+
 
     @GetMapping
     @Operation(summary = "Gets a pet list",
@@ -43,13 +45,13 @@ public class PetControllerV2 {
             }
     )
     public ResponseEntity<ApiResponsePaginatedDto<PetMinDtoV2>> listAll(Pageable pageable) {
-        return ResponseEntity.ok(petServiceV2.listAllV2(pageable));
+        return ResponseEntity.ok(petService.listAll(pageable));
     }
 
     @GetMapping("/filter")
     public ResponseEntity<ApiResponsePaginatedDto<PetMinDtoV2>> filterByAnimalTypes(Pageable pageable,
                                                                                     @RequestParam
                                                                                     List<Long> animalTypesIds) {
-        return ResponseEntity.ok(petServiceV2.filterByAnimalTypes(pageable, animalTypesIds));
+        return ResponseEntity.ok(petService.filterByAnimalTypes(pageable, animalTypesIds));
     }
 }
