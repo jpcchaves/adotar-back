@@ -83,7 +83,7 @@ public class PetServiceImpl implements PetService {
         AnimalType animalType = petRepositoryService.fetchAnimalType(petDto.getTypeId());
 
         City city = addressService.fetchCityByIbge(petDto.getAddress().getCityIbge());
-        Address address = addressService.createAddress(petDto.getAddress(), city);
+        Address address = addressService.buildAddress(petDto.getAddress(), city);
 
         User user = securityContextService.getCurrentLoggedUser();
 

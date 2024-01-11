@@ -6,8 +6,12 @@ import com.jpcchaves.adotar.payload.dto.address.AddressDto;
 import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 
 public interface AddressUtils {
-    Address createAddress(
+    Address buildAddress(
             AddressRequestDto addressDto,
             City city
     );
+
+    void updateAddress(Address address,
+                       City city,
+                       AddressRequestDto addressDto);
 }

@@ -2,22 +2,40 @@ package com.jpcchaves.adotar.service.address;
 
 import com.jpcchaves.adotar.domain.entities.Address;
 import com.jpcchaves.adotar.domain.entities.City;
+import com.jpcchaves.adotar.domain.entities.User;
+import com.jpcchaves.adotar.exception.BadRequestException;
+import com.jpcchaves.adotar.exception.ResourceNotFoundException;
+import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.address.AddressDto;
 import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
+import com.jpcchaves.adotar.repository.UserRepository;
 import com.jpcchaves.adotar.service.address.contracts.AddressRepositoryService;
 import com.jpcchaves.adotar.service.address.contracts.AddressService;
 import com.jpcchaves.adotar.service.address.contracts.AddressUtils;
+import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
+import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class AddressServiceImpl implements AddressService {
+    private final SecurityContextService securityContextService;
+    private final UserRepository userRepository;
     private final AddressRepositoryService addressRepositoryService;
     private final AddressUtils addressUtils;
+    private final MapperUtils mapper;
 
-    public AddressServiceImpl(AddressRepositoryService addressRepositoryService,
-                              AddressUtils addressUtils) {
+    public AddressServiceImpl(SecurityContextService securityContextService,
+                              UserRepository userRepository,
+                              AddressRepositoryService addressRepositoryService,
+                              AddressUtils addressUtils,
+                              MapperUtils mapper) {
+        this.securityContextService = securityContextService;
+        this.userRepository = userRepository;
         this.addressRepositoryService = addressRepositoryService;
         this.addressUtils = addressUtils;
+        this.mapper = mapper;
     }
 
     @Override
@@ -26,8 +44,62 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address createAddress(AddressRequestDto addressDto,
-                                 City city) {
-        return addressUtils.createAddress(addressDto, city);
+    public Address buildAddress(AddressRequestDto addressDto,
+                                City city) {
+        return addressUtils.buildAddress(addressDto, city);
+    }
+
+    @Override
+    public AddressDto getUserAddress() {
+        User user = securityContextService.getCurrentLoggedUser();
+        User currentUser = userRepository.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+        Address address = currentUser.getAddress();
+
+        if (Objects.isNull(address)) {
+            throw new BadRequestException("O usuario ainda nao possui um endereco cadastrado!");
+        }
+
+        return mapper.parseObject(address, AddressDto.class);
+    }
+
+    @Override
+    public AddressDto updateUserAddress(AddressRequestDto addressDto) {
+        Address address = securityContextService.getCurrentLoggedUser().getAddress();
+
+        City city = addressRepositoryService.fetchCityByIbge(addressDto.getCityIbge());
+
+        addressUtils.updateAddress(address, city, addressDto);
+
+        Address updatedAddress = addressRepositoryService.saveAddress(address);
+
+        return mapper.parseObject(updatedAddress, AddressDto.class);
+    }
+
+    @Override
+    public ApiMessageResponseDto createAddress(AddressRequestDto addressDto) {
+        User user = securityContextService.getCurrentLoggedUser();
+        User currentUser = userRepository.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+
+        if (!Objects.isNull(currentUser.getAddress())) {
+            throw new BadRequestException("O usuario ja possui um endereco cadastrado!");
+        }
+
+        City city = addressRepositoryService.fetchCityByIbge(addressDto.getCityIbge());
+
+        Address address = new Address(
+                addressDto.getZipcode(),
+                addressDto.getStreet(),
+                addressDto.getNumber(),
+                addressDto.getComplement(),
+                addressDto.getNeighborhood(),
+                city.getName(),
+                city.getState().getName()
+        );
+
+        currentUser.setAddress(address);
+
+        userRepository.save(currentUser);
+
+        return new ApiMessageResponseDto("Endereco cadastrado com sucesso!");
     }
 }
