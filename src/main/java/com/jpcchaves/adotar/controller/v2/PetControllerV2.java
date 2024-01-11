@@ -3,7 +3,6 @@ package com.jpcchaves.adotar.controller.v2;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.service.pet.contracts.PetService;
-import com.jpcchaves.adotar.service.usecases.v2.PetServiceV2;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

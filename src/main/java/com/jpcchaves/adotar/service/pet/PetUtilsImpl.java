@@ -181,7 +181,7 @@ public class PetUtilsImpl implements PetUtils {
     public Page<Pet> doFilterByBreedAndAnimalType(Pageable pageable,
                                                   Long breedId,
                                                   Long animalTypeId) {
-        return Page < Pet > petsPage = petRepositoryService
+        return petRepositoryService
                 .getAllByBreedIdAndTypeId(pageable, breedId, animalTypeId);
         
     }
