@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 public class AddressUtilsImpl implements AddressUtils {
 
     @Override
-    public Address createAddress(AddressRequestDto addressDto,
-                                 City city) {
+    public Address buildAddress(AddressRequestDto addressDto,
+                                City city) {
         return new Address(
                 addressDto.getZipcode(),
                 addressDto.getStreet(),
@@ -22,5 +22,18 @@ public class AddressUtilsImpl implements AddressUtils {
                 city.getName(),
                 city.getState().getName()
         );
+    }
+
+    @Override
+    public void updateAddress(Address address,
+                              City city,
+                              AddressRequestDto addressDto) {
+        address.setCity(city.getName());
+        address.setState(city.getState().getName());
+        address.setZipcode(addressDto.getZipcode());
+        address.setNeighborhood(addressDto.getNeighborhood());
+        address.setComplement(addressDto.getComplement());
+        address.setStreet(addressDto.getStreet());
+        address.setNumber(addressDto.getNumber());
     }
 }

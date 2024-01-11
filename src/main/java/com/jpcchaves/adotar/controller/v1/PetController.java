@@ -8,7 +8,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
-import com.jpcchaves.adotar.service.usecases.v1.PetService;
+import com.jpcchaves.adotar.service.pet.contracts.PetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
 
 @RestController
 @RequestMapping("/api/v1/pets")
@@ -48,7 +50,7 @@ public class PetController {
             }
     )
     public ResponseEntity<ApiResponsePaginatedDto<PetMinDto>> listAll(Pageable pageable) {
-        return ResponseEntity.ok(petService.listAll(pageable));
+        return ResponseEntity.ok(null);
     }
 
     @GetMapping("/{id}")
@@ -136,7 +138,7 @@ public class PetController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
             }
     )
-    public ResponseEntity<ApiResponsePaginatedDto<PetMinDto>> filterByBreedOrAnimalType(@RequestParam(name = "breedId", required = false) Long breedId,
+    public ResponseEntity<ApiResponsePaginatedDto<PetMinDtoV2>> filterByBreedOrAnimalType(@RequestParam(name = "breedId", required = false) Long breedId,
                                                                                         @RequestParam(name = "animalTypeId", required = false) Long animalTypeId,
                                                                                         Pageable pageable) {
         return ResponseEntity.ok(petService.filterByBreedOrAnimalType(pageable, breedId, animalTypeId));
