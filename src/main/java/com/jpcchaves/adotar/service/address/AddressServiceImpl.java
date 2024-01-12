@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.service.impl.v1;
+package com.jpcchaves.adotar.service.address;
 
 import com.jpcchaves.adotar.domain.entities.Address;
 import com.jpcchaves.adotar.domain.entities.City;
@@ -8,10 +8,10 @@ import com.jpcchaves.adotar.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.address.AddressDto;
 import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
-import com.jpcchaves.adotar.repository.AddressRepository;
-import com.jpcchaves.adotar.repository.CityRepository;
 import com.jpcchaves.adotar.repository.UserRepository;
-import com.jpcchaves.adotar.service.usecases.v1.AddressService;
+import com.jpcchaves.adotar.service.address.contracts.AddressRepositoryService;
+import com.jpcchaves.adotar.service.address.contracts.AddressService;
+import com.jpcchaves.adotar.service.address.contracts.AddressUtils;
 import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
@@ -20,22 +20,33 @@ import java.util.Objects;
 
 @Service
 public class AddressServiceImpl implements AddressService {
-    private final AddressRepository addressRepository;
-    private final CityRepository cityRepository;
-    private final UserRepository userRepository;
     private final SecurityContextService securityContextService;
-    private final MapperUtils mapperUtils;
+    private final UserRepository userRepository;
+    private final AddressRepositoryService addressRepositoryService;
+    private final AddressUtils addressUtils;
+    private final MapperUtils mapper;
 
-    public AddressServiceImpl(AddressRepository addressRepository,
-                              CityRepository cityRepository,
+    public AddressServiceImpl(SecurityContextService securityContextService,
                               UserRepository userRepository,
-                              SecurityContextService securityContextService,
-                              MapperUtils mapperUtils) {
-        this.addressRepository = addressRepository;
-        this.cityRepository = cityRepository;
-        this.userRepository = userRepository;
+                              AddressRepositoryService addressRepositoryService,
+                              AddressUtils addressUtils,
+                              MapperUtils mapper) {
         this.securityContextService = securityContextService;
-        this.mapperUtils = mapperUtils;
+        this.userRepository = userRepository;
+        this.addressRepositoryService = addressRepositoryService;
+        this.addressUtils = addressUtils;
+        this.mapper = mapper;
+    }
+
+    @Override
+    public City fetchCityByIbge(Long cityIbge) {
+        return addressRepositoryService.fetchCityByIbge(cityIbge);
+    }
+
+    @Override
+    public Address buildAddress(AddressRequestDto addressDto,
+                                City city) {
+        return addressUtils.buildAddress(addressDto, city);
     }
 
     @Override
@@ -48,7 +59,20 @@ public class AddressServiceImpl implements AddressService {
             throw new BadRequestException("O usuario ainda nao possui um endereco cadastrado!");
         }
 
-        return mapperUtils.parseObject(address, AddressDto.class);
+        return mapper.parseObject(address, AddressDto.class);
+    }
+
+    @Override
+    public AddressDto updateUserAddress(AddressRequestDto addressDto) {
+        Address address = securityContextService.getCurrentLoggedUser().getAddress();
+
+        City city = addressRepositoryService.fetchCityByIbge(addressDto.getCityIbge());
+
+        addressUtils.updateAddress(address, city, addressDto);
+
+        Address updatedAddress = addressRepositoryService.saveAddress(address);
+
+        return mapper.parseObject(updatedAddress, AddressDto.class);
     }
 
     @Override
@@ -60,7 +84,7 @@ public class AddressServiceImpl implements AddressService {
             throw new BadRequestException("O usuario ja possui um endereco cadastrado!");
         }
 
-        City city = cityRepository.findCityByIbge(addressDto.getCityIbge()).orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada"));
+        City city = addressRepositoryService.fetchCityByIbge(addressDto.getCityIbge());
 
         Address address = new Address(
                 addressDto.getZipcode(),
@@ -77,30 +101,5 @@ public class AddressServiceImpl implements AddressService {
         userRepository.save(currentUser);
 
         return new ApiMessageResponseDto("Endereco cadastrado com sucesso!");
-    }
-
-    @Override
-    public AddressDto updateUserAddress(AddressRequestDto addressDto) {
-        Address address = securityContextService.getCurrentLoggedUser().getAddress();
-
-        City city = cityRepository.findCityByIbge(addressDto.getCityIbge()).orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada"));
-
-        updateAddress(address, city, addressDto);
-
-        Address updatedAddress = addressRepository.save(address);
-
-        return mapperUtils.parseObject(updatedAddress, AddressDto.class);
-    }
-
-    private void updateAddress(Address address,
-                               City city,
-                               AddressRequestDto addressDto) {
-        address.setCity(city.getName());
-        address.setState(city.getState().getName());
-        address.setZipcode(addressDto.getZipcode());
-        address.setNeighborhood(addressDto.getNeighborhood());
-        address.setComplement(addressDto.getComplement());
-        address.setStreet(addressDto.getStreet());
-        address.setNumber(addressDto.getNumber());
     }
 }

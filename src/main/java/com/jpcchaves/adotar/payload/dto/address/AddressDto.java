@@ -13,6 +13,18 @@ public class AddressDto {
     public AddressDto() {
     }
 
+    public AddressDto(String zipcode,
+                      String street,
+                      String number,
+                      String complement,
+                      String neighborhood) {
+        this.zipcode = zipcode;
+        this.street = street;
+        this.number = number;
+        this.complement = complement;
+        this.neighborhood = neighborhood;
+    }
+
     public AddressDto(Long id,
                       String zipcode,
                       String street,
