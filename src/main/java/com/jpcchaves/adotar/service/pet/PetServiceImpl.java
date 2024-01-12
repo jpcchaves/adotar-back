@@ -1,5 +1,6 @@
 package com.jpcchaves.adotar.service.pet;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -78,7 +79,10 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public PetDto getById(Long id) {
-        return mapper.parseObject(petRepositoryService.findById(id), PetDto.class);
+        Pet pet = petRepositoryService.findById(id);
+        petUtils.increasePetVisualization(pet);
+        petRepositoryService.savePet(pet);
+        return mapper.parseObject(pet, PetDto.class);
     }
 
     @Override
@@ -207,26 +211,30 @@ public class PetServiceImpl implements PetService {
     public ApiResponsePaginatedDto<PetMinDtoV2> filterByBreedOrAnimalType(Pageable pageable,
                                                                           Long breedId,
                                                                           Long animalTypeId) {
-        Page<Pet> petsPage = null;
+        Page <Pet>  petsPage = null;
+        ApiResponsePaginatedDto<PetMinDtoV2> response;
+
+        if(!petUtils.breedIsPresent(breedId) && !petUtils.animalTypeIsPresent(animalTypeId)) {
+            response = globalUtils.buildApiResponsePaginated(Page.empty(), new ArrayList<>());
+            return response;
+        }
+
 
         if (petUtils.breedAndAnimalTypeIsPresent(breedId, animalTypeId)) {
             petsPage = petUtils.doFilterByBreedAndAnimalType(pageable, breedId, animalTypeId);
         }
 
-        if (petUtils.animalTypeIsPresent(animalTypeId)) {
+        if (petUtils.animalTypeIsPresent(animalTypeId) && !petUtils.breedIsPresent(breedId)) {
             petsPage = petUtils.doFilterByAnimalType(pageable, animalTypeId);
         }
 
-        if (petUtils.breedIsPresent(breedId)) {
+        if (petUtils.breedIsPresent(breedId) && !petUtils.animalTypeIsPresent(animalTypeId)) {
             petsPage = petUtils.doFilterByBreed(pageable, breedId);
         }
 
+        assert petsPage != null;
+        response = globalUtils.buildApiResponsePaginated(petsPage, mapper.parseListObjects(petsPage.getContent(), PetMinDtoV2.class));
 
-        if (petsPage == null || petsPage.isEmpty()) {
-            return listAll(pageable);
-        }
-
-        return globalUtils.buildApiResponsePaginated(petsPage, mapper.parseListObjects(petsPage.getContent(), PetMinDtoV2.class));
-
+        return response;
     }
 }
