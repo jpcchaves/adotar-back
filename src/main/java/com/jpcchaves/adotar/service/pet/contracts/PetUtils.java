@@ -71,4 +71,5 @@ public interface PetUtils {
     Page<Pet> doFilterByBreed(Pageable pageable,
                               Long breedId);
 
+    Page<Pet> filterPets(Pageable pageable, Long breedId, Long animalTypeId);
 }

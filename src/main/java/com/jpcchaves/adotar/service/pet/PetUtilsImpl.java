@@ -206,6 +206,23 @@ public class PetUtilsImpl implements PetUtils {
         return petRepositoryService.getAllByBreedId(pageable, breedId);
     }
 
+    @Override
+    public Page<Pet> filterPets(Pageable pageable, Long breedId, Long animalTypeId) {
+        if (breedAndAnimalTypeIsPresent(breedId, animalTypeId)) {
+            return doFilterByBreedAndAnimalType(pageable, breedId, animalTypeId);
+        }
+
+        if (animalTypeIsPresent(animalTypeId)) {
+            return doFilterByAnimalType(pageable, animalTypeId);
+        }
+
+        if (breedIsPresent(breedId)) {
+            return doFilterByBreed(pageable, breedId);
+        }
+
+        throw new IllegalArgumentException("Combinação inválida de raça e tipo de animal");
+    }
+
     private <T> boolean isListSizeUnderLimit(List<T> list) {
         final int LIMIT = 5;
         return list.size() <= LIMIT;
