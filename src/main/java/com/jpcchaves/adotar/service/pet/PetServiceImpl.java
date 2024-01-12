@@ -211,30 +211,12 @@ public class PetServiceImpl implements PetService {
     public ApiResponsePaginatedDto<PetMinDtoV2> filterByBreedOrAnimalType(Pageable pageable,
                                                                           Long breedId,
                                                                           Long animalTypeId) {
-        Page <Pet>  petsPage = null;
-        ApiResponsePaginatedDto<PetMinDtoV2> response;
-
-        if(!petUtils.breedIsPresent(breedId) && !petUtils.animalTypeIsPresent(animalTypeId)) {
-            response = globalUtils.buildApiResponsePaginated(Page.empty(), new ArrayList<>());
-            return response;
+        if (!petUtils.breedIsPresent(breedId) && !petUtils.animalTypeIsPresent(animalTypeId)) {
+            return globalUtils.buildApiResponsePaginated(Page.empty(), new ArrayList<>());
         }
 
+        Page<Pet> petsPage = petUtils.filterPets(pageable, breedId, animalTypeId);
 
-        if (petUtils.breedAndAnimalTypeIsPresent(breedId, animalTypeId)) {
-            petsPage = petUtils.doFilterByBreedAndAnimalType(pageable, breedId, animalTypeId);
-        }
-
-        if (petUtils.animalTypeIsPresent(animalTypeId) && !petUtils.breedIsPresent(breedId)) {
-            petsPage = petUtils.doFilterByAnimalType(pageable, animalTypeId);
-        }
-
-        if (petUtils.breedIsPresent(breedId) && !petUtils.animalTypeIsPresent(animalTypeId)) {
-            petsPage = petUtils.doFilterByBreed(pageable, breedId);
-        }
-
-        assert petsPage != null;
-        response = globalUtils.buildApiResponsePaginated(petsPage, mapper.parseListObjects(petsPage.getContent(), PetMinDtoV2.class));
-
-        return response;
+        return globalUtils.buildApiResponsePaginated(petsPage, mapper.parseListObjects(petsPage.getContent(), PetMinDtoV2.class));
     }
 }
