@@ -2,7 +2,6 @@ package com.jpcchaves.adotar.service.pet;
 
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
-import com.jpcchaves.adotar.payload.dto.pet.PetPictureCreateDto;
 import com.jpcchaves.adotar.repository.*;
 import com.jpcchaves.adotar.service.pet.contracts.PetRepositoryService;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
@@ -16,7 +15,6 @@ import java.util.List;
 public class PetRepositoryServiceImpl implements PetRepositoryService {
     private final PetRepository petRepository;
     private final UserSavedPetsRepository userSavedPetsRepository;
-    private final PetPictureRepository petPictureRepository;
     private final PetCharacteristicRepository petCharacteristicRepository;
     private final AnimalTypeRepository animalTypeRepository;
     private final BreedRepository breedRepository;
@@ -24,14 +22,12 @@ public class PetRepositoryServiceImpl implements PetRepositoryService {
 
     public PetRepositoryServiceImpl(PetRepository petRepository,
                                     UserSavedPetsRepository userSavedPetsRepository,
-                                    PetPictureRepository petPictureRepository,
                                     PetCharacteristicRepository petCharacteristicRepository,
                                     AnimalTypeRepository animalTypeRepository,
                                     BreedRepository breedRepository,
                                     MapperUtils mapper) {
         this.petRepository = petRepository;
         this.userSavedPetsRepository = userSavedPetsRepository;
-        this.petPictureRepository = petPictureRepository;
         this.petCharacteristicRepository = petCharacteristicRepository;
         this.animalTypeRepository = animalTypeRepository;
         this.breedRepository = breedRepository;
@@ -84,18 +80,6 @@ public class PetRepositoryServiceImpl implements PetRepositoryService {
         return animalTypeRepository
                 .findById(animalTypeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Tipo não encontrado!"));
-    }
-
-    @Override
-    public void createPetPictures(List<PetPictureCreateDto> petPicturesDto,
-                                  Pet pet) {
-        List<PetPicture> petPictures = mapper.parseListObjects(petPicturesDto, PetPicture.class);
-
-        for (PetPicture petPicture : petPictures) {
-            petPicture.setPet(pet);
-        }
-
-        petPictureRepository.saveAll(petPictures);
     }
 
     @Override

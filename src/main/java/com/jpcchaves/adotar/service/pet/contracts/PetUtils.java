@@ -17,6 +17,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface PetUtils {
     void increasePetVisualization(Pet pet);
@@ -72,4 +73,6 @@ public interface PetUtils {
                               Long breedId);
 
     Page<Pet> filterPets(Pageable pageable, Long breedId, Long animalTypeId);
+
+    void setPetPictures(Pet pet, List<MultipartFile> petPictures);
 }

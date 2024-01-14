@@ -21,8 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-
 @RestController
 @RequestMapping("/api/v1/pets")
 @CrossOrigin(origins = "*")
@@ -83,7 +81,7 @@ public class PetController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
             }
     )
-    public ResponseEntity<ApiMessageResponseDto> create(@Valid @RequestBody PetCreateRequestDto petDto) {
+    public ResponseEntity<ApiMessageResponseDto> create(@ModelAttribute PetCreateRequestDto petDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(petService.create(petDto));
     }
 
@@ -139,8 +137,8 @@ public class PetController {
             }
     )
     public ResponseEntity<ApiResponsePaginatedDto<PetMinDtoV2>> filterByBreedOrAnimalType(@RequestParam(name = "breedId", required = false) Long breedId,
-                                                                                        @RequestParam(name = "animalTypeId", required = false) Long animalTypeId,
-                                                                                        Pageable pageable) {
+                                                                                          @RequestParam(name = "animalTypeId", required = false) Long animalTypeId,
+                                                                                          Pageable pageable) {
         return ResponseEntity.ok(petService.filterByBreedOrAnimalType(pageable, breedId, animalTypeId));
     }
 
