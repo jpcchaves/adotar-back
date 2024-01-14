@@ -18,6 +18,7 @@ import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.utils.user.UserUtils;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -78,8 +79,11 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @Transactional
     public ApiMessageResponseDto create(PetCreateRequestDto petDto) {
+        petValidationService.validatePetPictures(petDto.getPetPictures());
         petValidationService.validateCharacteristicsLimit(petDto.getCharacteristicsIds());
+
         Breed breed = petRepositoryService.fetchBreed(petDto.getBreedId(), petDto.getTypeId());
         List<PetCharacteristic> characteristicsList = petRepositoryService.fetchCharacteristics(petDto.getCharacteristicsIds());
         AnimalType animalType = petRepositoryService.fetchAnimalType(petDto.getTypeId());
@@ -87,9 +91,12 @@ public class PetServiceImpl implements PetService {
         City city = addressService.fetchCityByIbge(petDto.getAddress().getCityIbge());
         Address address = addressService.buildAddress(petDto.getAddress(), city);
 
+
         User user = securityContextService.getCurrentLoggedUser();
 
         Pet pet = petUtils.buildPet(petDto, animalType, breed, characteristicsList, address, user);
+
+        petUtils.setPetPictures(pet, petDto.getPetPictures());
 
         petRepositoryService.savePet(pet);
 

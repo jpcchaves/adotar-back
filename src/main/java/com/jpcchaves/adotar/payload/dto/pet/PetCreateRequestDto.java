@@ -5,6 +5,7 @@ import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import jakarta.validation.constraints.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class PetCreateRequestDto {
     @NotNull(message = "A raça do animal é obrigatória")
     private Long breedId;
 
-    private List<PetPictureCreateDto> petPictures;
+    private List<MultipartFile> petPictures;
 
     public PetCreateRequestDto() {
     }
@@ -63,7 +64,7 @@ public class PetCreateRequestDto {
                                AddressRequestDto address,
                                Long typeId,
                                Long breedId,
-                               List<PetPictureCreateDto> petPictures) {
+                               List<MultipartFile> petPictures) {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
@@ -194,11 +195,11 @@ public class PetCreateRequestDto {
     }
 
 
-    public List<PetPictureCreateDto> getPetPictures() {
+    public List<MultipartFile> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPictureCreateDto> petPictures) {
+    public void setPetPictures(List<MultipartFile> petPictures) {
         this.petPictures = petPictures;
     }
 }

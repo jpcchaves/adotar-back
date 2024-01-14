@@ -2,10 +2,12 @@ package com.jpcchaves.adotar.utils.files;
 
 import com.jpcchaves.adotar.utils.files.contracts.FileUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +29,13 @@ public class FileUtilsImpl implements FileUtils {
 
     @Override
     public String getFileExtension(MultipartFile file) {
-        String fileName = file.getName();
-        return fileName.substring(fileName.lastIndexOf(".") + 1);
+        ;
+        return StringUtils
+                .cleanPath(Objects.requireNonNull(file.getOriginalFilename()))
+                .substring(
+                        StringUtils
+                                .cleanPath(Objects.requireNonNull(file.getOriginalFilename()))
+                                .lastIndexOf(".") + 1
+                );
     }
 }

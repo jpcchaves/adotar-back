@@ -39,9 +39,8 @@ public class PetValidationServiceImpl implements PetValidationService {
                 throw new BadRequestException("O tamanho do arquivo " + file.getName() + " excede o limite permitido");
             }
 
-            String fileExtension = fileUtils.getFileExtension(file);
 
-            if (!ALLOWED_EXTENSIONS.contains(fileExtension.toLowerCase())) {
+            if (!ALLOWED_EXTENSIONS.contains(fileUtils.getFileExtension(file))) {
                 throw new BadRequestException("Tipo de arquivo inválido. Tipos permitidos são: " + ALLOWED_EXTENSIONS);
             }
         }
