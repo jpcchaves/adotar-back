@@ -30,9 +30,6 @@ public interface PetRepositoryService {
 
     List<UserSavedPets> fetchAllUserSavedPets(Long userId);
 
-    void createPetPictures(List<PetPictureCreateDto> petPicturesDto,
-                           Pet pet);
-
     Page<Pet> fetchAllByUser(Pageable pageable,
                              Long userId);
 
