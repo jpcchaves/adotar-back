@@ -1,8 +1,5 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
-import com.jpcchaves.adotar.domain.Enum.AnimalGender;
-import com.jpcchaves.adotar.domain.Enum.AnimalSize;
-import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,9 +24,9 @@ public class PetCreateRequestDto {
     @NotNull(message = "A idade em meses é obrigatória")
     private int monthsAge;
 
-    private AnimalGender gender;
-    private AnimalSize size;
-    private HealthCondition healthCondition;
+    private char gender;
+    private char size;
+    private char healthCondition;
 
     @NotBlank(message = "A cor é obrigatória")
     private String color;
@@ -66,9 +63,9 @@ public class PetCreateRequestDto {
     public PetCreateRequestDto(String name,
                                int yearsAge,
                                int monthsAge,
-                               AnimalGender gender,
-                               AnimalSize size,
-                               HealthCondition healthCondition,
+                               char gender,
+                               char size,
+                               char healthCondition,
                                String color,
                                String description,
                                boolean active,
@@ -127,27 +124,27 @@ public class PetCreateRequestDto {
         this.monthsAge = monthsAge;
     }
 
-    public AnimalGender getGender() {
+    public char getGender() {
         return gender;
     }
 
-    public void setGender(AnimalGender gender) {
+    public void setGender(char gender) {
         this.gender = gender;
     }
 
-    public AnimalSize getSize() {
+    public char getSize() {
         return size;
     }
 
-    public void setSize(AnimalSize size) {
+    public void setSize(char size) {
         this.size = size;
     }
 
-    public HealthCondition getHealthCondition() {
+    public char getHealthCondition() {
         return healthCondition;
     }
 
-    public void setHealthCondition(HealthCondition healthCondition) {
+    public void setHealthCondition(char healthCondition) {
         this.healthCondition = healthCondition;
     }
 

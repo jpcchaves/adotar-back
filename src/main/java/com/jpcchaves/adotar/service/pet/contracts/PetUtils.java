@@ -3,6 +3,7 @@ package com.jpcchaves.adotar.service.pet.contracts;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -27,7 +28,7 @@ public interface PetUtils {
                  Breed breed,
                  List<PetCharacteristic> characteristicsList,
                  Address petAddress,
-                 User user);
+                 User user) throws JsonProcessingException;
 
     Pet updatePet(Pet pet,
                   PetUpdateRequestDto petDto,
@@ -72,7 +73,10 @@ public interface PetUtils {
     Page<Pet> doFilterByBreed(Pageable pageable,
                               Long breedId);
 
-    Page<Pet> filterPets(Pageable pageable, Long breedId, Long animalTypeId);
+    Page<Pet> filterPets(Pageable pageable,
+                         Long breedId,
+                         Long animalTypeId);
 
-    void setPetPictures(Pet pet, List<MultipartFile> petPictures);
+    void setPetPictures(Pet pet,
+                        List<MultipartFile> petPictures);
 }
