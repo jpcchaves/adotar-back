@@ -3,8 +3,8 @@ package com.jpcchaves.adotar.payload.dto.pet;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
-import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -38,7 +38,20 @@ public class PetCreateRequestDto {
     private boolean isAvailable;
     private List<Long> characteristicsIds = new ArrayList<>();
 
-    private AddressRequestDto address;
+    @NotBlank(message = "O CEP é obrigatório")
+    @Length(min = 8, max = 8, message = "CEP inválido")
+    private String zipcode;
+
+    private String street;
+
+    private String number;
+
+    private String complement;
+    private String neighborhood;
+
+    @NotNull(message = "A cidade é obrigatória!")
+    @Positive(message = "Dados inválidos, verifique os dados de cidade informados e tente novamente")
+    private Long cityIbge;
     @NotNull(message = "O tipo do animal é obrigatório")
     private Long typeId;
 
@@ -61,14 +74,18 @@ public class PetCreateRequestDto {
                                boolean active,
                                boolean isAvailable,
                                List<Long> characteristicsIds,
-                               AddressRequestDto address,
+                               String zipcode,
+                               String street,
+                               String number,
+                               String complement,
+                               String neighborhood,
                                Long typeId,
                                Long breedId,
                                List<MultipartFile> petPictures) {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
-        this.address = address;
+        this.zipcode = zipcode;
         this.size = size;
         this.healthCondition = healthCondition;
         this.gender = gender;
@@ -77,6 +94,10 @@ public class PetCreateRequestDto {
         this.active = active;
         this.isAvailable = isAvailable;
         this.characteristicsIds = characteristicsIds;
+        this.street = street;
+        this.number = number;
+        this.complement = complement;
+        this.neighborhood = neighborhood;
         this.typeId = typeId;
         this.breedId = breedId;
         this.petPictures = petPictures;
@@ -154,14 +175,6 @@ public class PetCreateRequestDto {
         this.active = active;
     }
 
-    public AddressRequestDto getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressRequestDto address) {
-        this.address = address;
-    }
-
     public boolean isAvailable() {
         return isAvailable;
     }
@@ -201,5 +214,53 @@ public class PetCreateRequestDto {
 
     public void setPetPictures(List<MultipartFile> petPictures) {
         this.petPictures = petPictures;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public void setComplement(String complement) {
+        this.complement = complement;
+    }
+
+    public Long getCityIbge() {
+        return cityIbge;
+    }
+
+    public void setCityIbge(Long cityIbge) {
+        this.cityIbge = cityIbge;
+    }
+
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
     }
 }

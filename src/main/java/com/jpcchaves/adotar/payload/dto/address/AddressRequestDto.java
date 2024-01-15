@@ -21,6 +21,20 @@ public class AddressRequestDto {
     public AddressRequestDto() {
     }
 
+    public AddressRequestDto(String zipcode,
+                             String street,
+                             String number,
+                             String complement,
+                             String neighborhood,
+                             Long cityIbge) {
+        this.zipcode = zipcode;
+        this.street = street;
+        this.number = number;
+        this.complement = complement;
+        this.neighborhood = neighborhood;
+        this.cityIbge = cityIbge;
+    }
+
     public AddressRequestDto(Long id,
                              String zipcode,
                              String street,

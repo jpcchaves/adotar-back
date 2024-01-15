@@ -86,6 +86,7 @@ public class Pet {
     @ElementCollection(
             fetch = FetchType.LAZY
     )
+    @Column(columnDefinition = "TEXT")
     private List<String> petPictures = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -130,7 +131,8 @@ public class Pet {
                List<String> petPictures,
                User user,
                Address address,
-               String serialNumber, Date createdAt,
+               String serialNumber,
+               Date createdAt,
                Date updatedAt,
                Date deletedAt) {
         this.id = id;
