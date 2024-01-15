@@ -1,6 +1,5 @@
 package com.jpcchaves.adotar.service.pet;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
@@ -82,7 +81,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     @Transactional
-    public ApiMessageResponseDto create(PetCreateRequestDto petDto) throws JsonProcessingException {
+    public ApiMessageResponseDto create(PetCreateRequestDto petDto) {
         petValidationService.validatePetPictures(petDto.getPetPictures());
         petValidationService.validateCharacteristicsLimit(petDto.getCharacteristicsIds());
 

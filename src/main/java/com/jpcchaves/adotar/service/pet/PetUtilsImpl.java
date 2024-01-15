@@ -1,6 +1,5 @@
 package com.jpcchaves.adotar.service.pet;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
@@ -52,7 +51,7 @@ public class PetUtilsImpl implements PetUtils {
                         Breed breed,
                         List<PetCharacteristic> characteristicsList,
                         Address petAddress,
-                        User user) throws JsonProcessingException {
+                        User user) {
         Pet pet = new Pet();
 
         HealthCondition healthCondition = HealthCondition.fromValue(petCreateRequestDto.getHealthCondition());

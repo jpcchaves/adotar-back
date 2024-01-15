@@ -1,24 +1,16 @@
 package com.jpcchaves.adotar.service.pet.contracts;
 
-import java.util.List;
-import java.util.Set;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import com.jpcchaves.adotar.domain.entities.Address;
-import com.jpcchaves.adotar.domain.entities.AnimalType;
-import com.jpcchaves.adotar.domain.entities.Breed;
-import com.jpcchaves.adotar.domain.entities.Pet;
-import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
-import com.jpcchaves.adotar.domain.entities.User;
-import com.jpcchaves.adotar.domain.entities.UserSavedPets;
+import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Set;
 
 public interface PetUtils {
     void increasePetVisualization(Pet pet);
@@ -28,7 +20,7 @@ public interface PetUtils {
                  Breed breed,
                  List<PetCharacteristic> characteristicsList,
                  Address petAddress,
-                 User user) throws JsonProcessingException;
+                 User user);
 
     Pet updatePet(Pet pet,
                   PetUpdateRequestDto petDto,

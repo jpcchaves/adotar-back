@@ -1,6 +1,5 @@
 package com.jpcchaves.adotar.service.pet.contracts;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
@@ -34,7 +33,7 @@ public interface PetService {
 
     ApiMessageResponseDto removeUserSavedPet(Long petId);
 
-    ApiMessageResponseDto create(PetCreateRequestDto petDto) throws JsonProcessingException;
+    ApiMessageResponseDto create(PetCreateRequestDto petDto);
 
     ApiMessageResponseDto update(Long id,
                                  PetUpdateRequestDto petDto);
