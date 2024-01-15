@@ -33,17 +33,24 @@ public class PetCreateRequestDto {
     private String description;
     private boolean active;
     private boolean isAvailable;
+
+    @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 características")
     private List<Long> characteristicsIds = new ArrayList<>();
 
     @NotBlank(message = "O CEP é obrigatório")
     @Length(min = 8, max = 8, message = "CEP inválido")
     private String zipcode;
 
+    @NotBlank(message = "A rua é obrigatória")
     private String street;
 
+    @NotBlank(message = "O número é obrigatório")
     private String number;
 
+    @NotBlank(message = "O complemento é obrigatório")
     private String complement;
+
+    @NotBlank(message = "O bairro é obrigatório")
     private String neighborhood;
 
     @NotNull(message = "A cidade é obrigatória!")
@@ -55,6 +62,7 @@ public class PetCreateRequestDto {
     @NotNull(message = "A raça do animal é obrigatória")
     private Long breedId;
 
+    @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 fotos")
     private List<MultipartFile> petPictures;
 
     public PetCreateRequestDto() {
