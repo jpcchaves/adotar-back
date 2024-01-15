@@ -83,13 +83,11 @@ public class Pet {
     )
     private Breed breed;
 
-    // CHECKED
-    @OneToMany(
-            mappedBy = "pet",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+    @ElementCollection(
+            fetch = FetchType.LAZY
     )
-    private List<PetPicture> petPictures = new ArrayList<>();
+    @Column(columnDefinition = "TEXT")
+    private List<String> petPictures = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -130,10 +128,11 @@ public class Pet {
                Set<PetCharacteristic> characteristics,
                AnimalType type,
                Breed breed,
-               List<PetPicture> petPictures,
+               List<String> petPictures,
                User user,
                Address address,
-               String serialNumber, Date createdAt,
+               String serialNumber,
+               Date createdAt,
                Date updatedAt,
                Date deletedAt) {
         this.id = id;
@@ -329,11 +328,11 @@ public class Pet {
         this.breed = breed;
     }
 
-    public List<PetPicture> getPetPictures() {
+    public List<String> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPicture> petPictures) {
+    public void setPetPictures(List<String> petPictures) {
         this.petPictures = petPictures;
     }
 

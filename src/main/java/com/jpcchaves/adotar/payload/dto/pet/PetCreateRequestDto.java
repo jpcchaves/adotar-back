@@ -1,10 +1,8 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
-import com.jpcchaves.adotar.domain.Enum.AnimalGender;
-import com.jpcchaves.adotar.domain.Enum.AnimalSize;
-import com.jpcchaves.adotar.domain.Enum.HealthCondition;
-import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +24,9 @@ public class PetCreateRequestDto {
     @NotNull(message = "A idade em meses é obrigatória")
     private int monthsAge;
 
-    private AnimalGender gender;
-    private AnimalSize size;
-    private HealthCondition healthCondition;
+    private char gender;
+    private char size;
+    private char healthCondition;
 
     @NotBlank(message = "A cor é obrigatória")
     private String color;
@@ -37,14 +35,27 @@ public class PetCreateRequestDto {
     private boolean isAvailable;
     private List<Long> characteristicsIds = new ArrayList<>();
 
-    private AddressRequestDto address;
+    @NotBlank(message = "O CEP é obrigatório")
+    @Length(min = 8, max = 8, message = "CEP inválido")
+    private String zipcode;
+
+    private String street;
+
+    private String number;
+
+    private String complement;
+    private String neighborhood;
+
+    @NotNull(message = "A cidade é obrigatória!")
+    @Positive(message = "Dados inválidos, verifique os dados de cidade informados e tente novamente")
+    private Long cityIbge;
     @NotNull(message = "O tipo do animal é obrigatório")
     private Long typeId;
 
     @NotNull(message = "A raça do animal é obrigatória")
     private Long breedId;
 
-    private List<PetPictureCreateDto> petPictures;
+    private List<MultipartFile> petPictures;
 
     public PetCreateRequestDto() {
     }
@@ -52,22 +63,26 @@ public class PetCreateRequestDto {
     public PetCreateRequestDto(String name,
                                int yearsAge,
                                int monthsAge,
-                               AnimalGender gender,
-                               AnimalSize size,
-                               HealthCondition healthCondition,
+                               char gender,
+                               char size,
+                               char healthCondition,
                                String color,
                                String description,
                                boolean active,
                                boolean isAvailable,
                                List<Long> characteristicsIds,
-                               AddressRequestDto address,
+                               String zipcode,
+                               String street,
+                               String number,
+                               String complement,
+                               String neighborhood,
                                Long typeId,
                                Long breedId,
-                               List<PetPictureCreateDto> petPictures) {
+                               List<MultipartFile> petPictures) {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
-        this.address = address;
+        this.zipcode = zipcode;
         this.size = size;
         this.healthCondition = healthCondition;
         this.gender = gender;
@@ -76,6 +91,10 @@ public class PetCreateRequestDto {
         this.active = active;
         this.isAvailable = isAvailable;
         this.characteristicsIds = characteristicsIds;
+        this.street = street;
+        this.number = number;
+        this.complement = complement;
+        this.neighborhood = neighborhood;
         this.typeId = typeId;
         this.breedId = breedId;
         this.petPictures = petPictures;
@@ -105,27 +124,27 @@ public class PetCreateRequestDto {
         this.monthsAge = monthsAge;
     }
 
-    public AnimalGender getGender() {
+    public char getGender() {
         return gender;
     }
 
-    public void setGender(AnimalGender gender) {
+    public void setGender(char gender) {
         this.gender = gender;
     }
 
-    public AnimalSize getSize() {
+    public char getSize() {
         return size;
     }
 
-    public void setSize(AnimalSize size) {
+    public void setSize(char size) {
         this.size = size;
     }
 
-    public HealthCondition getHealthCondition() {
+    public char getHealthCondition() {
         return healthCondition;
     }
 
-    public void setHealthCondition(HealthCondition healthCondition) {
+    public void setHealthCondition(char healthCondition) {
         this.healthCondition = healthCondition;
     }
 
@@ -151,14 +170,6 @@ public class PetCreateRequestDto {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public AddressRequestDto getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressRequestDto address) {
-        this.address = address;
     }
 
     public boolean isAvailable() {
@@ -194,11 +205,59 @@ public class PetCreateRequestDto {
     }
 
 
-    public List<PetPictureCreateDto> getPetPictures() {
+    public List<MultipartFile> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPictureCreateDto> petPictures) {
+    public void setPetPictures(List<MultipartFile> petPictures) {
         this.petPictures = petPictures;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public void setComplement(String complement) {
+        this.complement = complement;
+    }
+
+    public Long getCityIbge() {
+        return cityIbge;
+    }
+
+    public void setCityIbge(Long cityIbge) {
+        this.cityIbge = cityIbge;
+    }
+
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
     }
 }

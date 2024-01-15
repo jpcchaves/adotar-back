@@ -4,10 +4,8 @@ import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.entities.Pet;
 import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
-import com.jpcchaves.adotar.domain.entities.PetPicture;
 import com.jpcchaves.adotar.exception.PdfNotAvailableException;
 import com.jpcchaves.adotar.exception.ResourceNotFoundException;
-import com.jpcchaves.adotar.repository.PetPictureRepository;
 import com.jpcchaves.adotar.repository.PetRepository;
 import com.jpcchaves.adotar.service.usecases.v1.PetCardService;
 import com.jpcchaves.adotar.utils.base64.Base64Utils;
@@ -29,13 +27,9 @@ import java.util.Base64;
 @Service
 public class PetCardServiceImpl implements PetCardService {
     private final PetRepository petRepository;
-    private final PetPictureRepository petPictureRepository;
 
-    public PetCardServiceImpl(
-            PetRepository petRepository,
-            PetPictureRepository petPictureRepository) {
+    public PetCardServiceImpl(PetRepository petRepository) {
         this.petRepository = petRepository;
-        this.petPictureRepository = petPictureRepository;
     }
 
     @Override
@@ -177,9 +171,9 @@ public class PetCardServiceImpl implements PetCardService {
     }
 
     private String extractBase64(Pet pet) {
-        if (pet.getPetPictures().size() > 0) {
+        if (!pet.getPetPictures().isEmpty()) {
 
-            String pictureBase64 = fetchFavoritePetPicture(pet);
+            String pictureBase64 = pet.getPetPictures().get(0);
 
 
             if (Base64Utils.hasBase64Prefix(pictureBase64)) {
@@ -189,14 +183,6 @@ public class PetCardServiceImpl implements PetCardService {
         }
 
         return makeDefaultImage();
-    }
-
-    private String fetchFavoritePetPicture(Pet pet) {
-        PetPicture picture = petPictureRepository
-                .findByPetAndIsFavoriteTrue(pet)
-                .orElseThrow(() -> new ResourceNotFoundException("Ocorreu um erro inesperado."));
-
-        return picture.getImgUrl();
     }
 
     private String generateCharacteristics(Pet pet) {

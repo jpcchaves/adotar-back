@@ -42,5 +42,5 @@ public interface PetService {
 
     ApiResponsePaginatedDto<PetMinDtoV2> filterByAnimalTypes(Pageable pageable,
                                                              List<Long> animalTypesIds);
-    
+
 }
