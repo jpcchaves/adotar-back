@@ -4,6 +4,7 @@ import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
+import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
@@ -88,8 +89,16 @@ public class PetServiceImpl implements PetService {
         List<PetCharacteristic> characteristicsList = petRepositoryService.fetchCharacteristics(petDto.getCharacteristicsIds());
         AnimalType animalType = petRepositoryService.fetchAnimalType(petDto.getTypeId());
 
-        City city = addressService.fetchCityByIbge(petDto.getAddress().getCityIbge());
-        Address address = addressService.buildAddress(petDto.getAddress(), city);
+        City city = addressService.fetchCityByIbge(petDto.getCityIbge());
+        Address address = addressService.buildAddress(
+                new AddressRequestDto(
+                        petDto.getZipcode(),
+                        petDto.getStreet(),
+                        petDto.getNumber(),
+                        petDto.getComplement(),
+                        petDto.getNeighborhood(),
+                        petDto.getCityIbge()
+                ), city);
 
 
         User user = securityContextService.getCurrentLoggedUser();

@@ -1,5 +1,9 @@
 package com.jpcchaves.adotar.service.pet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jpcchaves.adotar.domain.Enum.AnimalGender;
+import com.jpcchaves.adotar.domain.Enum.AnimalSize;
+import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
@@ -23,12 +27,15 @@ import java.util.*;
 public class PetUtilsImpl implements PetUtils {
     private final PetRepositoryService petRepositoryService;
     private final FileUtils fileUtils;
+    private final ObjectMapper objectMapper;
 
-    public PetUtilsImpl(PetRepositoryService petRepositoryService, FileUtils fileUtils
-    ) {
+    public PetUtilsImpl(PetRepositoryService petRepositoryService,
+                        FileUtils fileUtils,
+                        ObjectMapper objectMapper) {
         this.petRepositoryService = petRepositoryService;
 
         this.fileUtils = fileUtils;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -47,9 +54,14 @@ public class PetUtilsImpl implements PetUtils {
                         User user) {
         Pet pet = new Pet();
 
-        pet.setHealthCondition(petCreateRequestDto.getHealthCondition());
-        pet.setGender(petCreateRequestDto.getGender());
-        pet.setSize(petCreateRequestDto.getSize());
+        HealthCondition healthCondition = HealthCondition.fromValue(petCreateRequestDto.getHealthCondition());
+        AnimalGender animalGender = AnimalGender.fromValue(petCreateRequestDto.getGender());
+        AnimalSize animalSize = AnimalSize.fromValue(petCreateRequestDto.getSize());
+
+        pet.setHealthCondition(healthCondition);
+        pet.setGender(animalGender);
+        pet.setSize(animalSize);
+
         pet.setActive(true);
         pet.setAvailable(true);
         pet.setMonthsAge(petCreateRequestDto.getMonthsAge());
@@ -200,7 +212,9 @@ public class PetUtilsImpl implements PetUtils {
     }
 
     @Override
-    public Page<Pet> filterPets(Pageable pageable, Long breedId, Long animalTypeId) {
+    public Page<Pet> filterPets(Pageable pageable,
+                                Long breedId,
+                                Long animalTypeId) {
         if (breedAndAnimalTypeIsPresent(breedId, animalTypeId)) {
             return doFilterByBreedAndAnimalType(pageable, breedId, animalTypeId);
         }
@@ -237,9 +251,10 @@ public class PetUtilsImpl implements PetUtils {
     }
 
     @Override
-    public void setPetPictures(Pet pet, List<MultipartFile> petPictures) {
+    public void setPetPictures(Pet pet,
+                               List<MultipartFile> petPictures) {
         List<String> pictures = new ArrayList<>();
-        
+
         for (MultipartFile petPicture : petPictures) {
             String picture = fileUtils.encodeMultipartFileWithPrefix(petPicture);
             pictures.add(picture);
