@@ -18,7 +18,7 @@ public class PetCreateRequestDto {
     @NotNull(message = "A idade em anos é obrigatória")
     private int yearsAge;
 
-    @Min(value = 1, message = "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
+    @Min(value = 0, message = "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
     @Max(value = 11, message = "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
     @Positive(message = "A idade em meses deve ser um valor maior ou igual a 1")
     @NotNull(message = "A idade em meses é obrigatória")
