@@ -18,10 +18,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
 
 @RestController
 @RequestMapping("/api/v1/pets")
@@ -71,7 +70,7 @@ public class PetController {
         return ResponseEntity.ok(petService.getById(id));
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Creates a new pet",
             description = "Creates a new pet by passing a JSON representation of the pet",
             responses = {
@@ -83,7 +82,7 @@ public class PetController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
             }
     )
-    public ResponseEntity<ApiMessageResponseDto> create(@Valid @RequestBody PetCreateRequestDto petDto) {
+    public ResponseEntity<ApiMessageResponseDto> create(@Valid @ModelAttribute PetCreateRequestDto petDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(petService.create(petDto));
     }
 
@@ -139,8 +138,8 @@ public class PetController {
             }
     )
     public ResponseEntity<ApiResponsePaginatedDto<PetMinDtoV2>> filterByBreedOrAnimalType(@RequestParam(name = "breedId", required = false) Long breedId,
-                                                                                        @RequestParam(name = "animalTypeId", required = false) Long animalTypeId,
-                                                                                        Pageable pageable) {
+                                                                                          @RequestParam(name = "animalTypeId", required = false) Long animalTypeId,
+                                                                                          Pageable pageable) {
         return ResponseEntity.ok(petService.filterByBreedOrAnimalType(pageable, breedId, animalTypeId));
     }
 
