@@ -82,7 +82,7 @@ public class PetController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
             }
     )
-    public ResponseEntity<ApiMessageResponseDto> create(@ModelAttribute PetCreateRequestDto petDto) {
+    public ResponseEntity<ApiMessageResponseDto> create(@Valid @ModelAttribute PetCreateRequestDto petDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(petService.create(petDto));
     }
 
