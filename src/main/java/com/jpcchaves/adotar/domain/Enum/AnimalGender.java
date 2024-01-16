@@ -20,7 +20,7 @@ public enum AnimalGender {
                 return sex;
             }
         }
-        throw new IllegalArgumentException("Invalid Sex value: " + gender);
+        throw new IllegalArgumentException("Invalid gender value: " + gender);
     }
 
     @JsonValue

@@ -17,7 +17,7 @@ public class PetMinDtoV2 {
     private String type;
     private String breed;
     private boolean isFavorite;
-    private List<PetPictureDto> petPictures = new ArrayList<>();
+    private List<String> petPictures = new ArrayList<>();
     private AddressMinDto address;
 
     public PetMinDtoV2() {
@@ -32,7 +32,7 @@ public class PetMinDtoV2 {
             String type,
             BreedDto breed,
             boolean isFavorite,
-            List<PetPictureDto> petPictures,
+            List<String> petPictures,
             AddressMinDto address) {
         this.id = id;
         this.name = name;
@@ -102,11 +102,11 @@ public class PetMinDtoV2 {
         this.breed = breed.getName();
     }
 
-    public List<PetPictureDto> getPetPictures() {
+    public List<String> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPictureDto> petPictures) {
+    public void setPetPictures(List<String> petPictures) {
         this.petPictures = petPictures;
     }
 

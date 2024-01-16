@@ -1,8 +1,7 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
+import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +17,9 @@ public class PetCreateRequestDto {
     @NotNull(message = "A idade em anos é obrigatória")
     private int yearsAge;
 
-    @Min(value = 1, message = "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
+    @Min(value = 0, message = "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
     @Max(value = 11, message = "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
-    @Positive(message = "A idade em meses deve ser um valor maior ou igual a 1")
+    @PositiveOrZero(message = "A idade em meses deve ser um valor maior ou igual a 1")
     @NotNull(message = "A idade em meses é obrigatória")
     private int monthsAge;
 
@@ -33,29 +32,20 @@ public class PetCreateRequestDto {
     private String description;
     private boolean active;
     private boolean isAvailable;
+
+    @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 características")
     private List<Long> characteristicsIds = new ArrayList<>();
 
-    @NotBlank(message = "O CEP é obrigatório")
-    @Length(min = 8, max = 8, message = "CEP inválido")
-    private String zipcode;
+    private AddressRequestDto address;
 
-    private String street;
-
-    private String number;
-
-    private String complement;
-    private String neighborhood;
-
-    @NotNull(message = "A cidade é obrigatória!")
-    @Positive(message = "Dados inválidos, verifique os dados de cidade informados e tente novamente")
-    private Long cityIbge;
     @NotNull(message = "O tipo do animal é obrigatório")
     private Long typeId;
 
     @NotNull(message = "A raça do animal é obrigatória")
     private Long breedId;
 
-    private List<MultipartFile> petPictures;
+    @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 fotos")
+    private List<String> petPictures;
 
     public PetCreateRequestDto() {
     }
@@ -71,18 +61,14 @@ public class PetCreateRequestDto {
                                boolean active,
                                boolean isAvailable,
                                List<Long> characteristicsIds,
-                               String zipcode,
-                               String street,
-                               String number,
-                               String complement,
-                               String neighborhood,
+                               AddressRequestDto address,
                                Long typeId,
                                Long breedId,
-                               List<MultipartFile> petPictures) {
+                               List<String> petPictures) {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
-        this.zipcode = zipcode;
+        this.address = address;
         this.size = size;
         this.healthCondition = healthCondition;
         this.gender = gender;
@@ -91,10 +77,6 @@ public class PetCreateRequestDto {
         this.active = active;
         this.isAvailable = isAvailable;
         this.characteristicsIds = characteristicsIds;
-        this.street = street;
-        this.number = number;
-        this.complement = complement;
-        this.neighborhood = neighborhood;
         this.typeId = typeId;
         this.breedId = breedId;
         this.petPictures = petPictures;
@@ -205,59 +187,19 @@ public class PetCreateRequestDto {
     }
 
 
-    public List<MultipartFile> getPetPictures() {
+    public List<String> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<MultipartFile> petPictures) {
+    public void setPetPictures(List<String> petPictures) {
         this.petPictures = petPictures;
     }
 
-    public String getZipcode() {
-        return zipcode;
+    public AddressRequestDto getAddress() {
+        return address;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getComplement() {
-        return complement;
-    }
-
-    public void setComplement(String complement) {
-        this.complement = complement;
-    }
-
-    public Long getCityIbge() {
-        return cityIbge;
-    }
-
-    public void setCityIbge(Long cityIbge) {
-        this.cityIbge = cityIbge;
-    }
-
-    public String getNeighborhood() {
-        return neighborhood;
-    }
-
-    public void setNeighborhood(String neighborhood) {
-        this.neighborhood = neighborhood;
+    public void setAddress(AddressRequestDto address) {
+        this.address = address;
     }
 }

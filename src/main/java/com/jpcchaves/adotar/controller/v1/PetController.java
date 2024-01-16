@@ -6,6 +6,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.v2.PetDtoV2;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.service.pet.contracts.PetService;
@@ -18,7 +19,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,11 +66,11 @@ public class PetController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
             }
     )
-    public ResponseEntity<PetDto> getById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<PetDtoV2> getById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(petService.getById(id));
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping
     @Operation(summary = "Creates a new pet",
             description = "Creates a new pet by passing a JSON representation of the pet",
             responses = {
@@ -82,11 +82,11 @@ public class PetController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
             }
     )
-    public ResponseEntity<ApiMessageResponseDto> create(@ModelAttribute PetCreateRequestDto petDto) {
+    public ResponseEntity<ApiMessageResponseDto> create(@Valid @RequestBody PetCreateRequestDto petDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(petService.create(petDto));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(path = "/{id}")
     @Operation(summary = "Updates a pet",
             description = "Updates a pet by passing a pet ID and it's JSON representation",
             responses = {
