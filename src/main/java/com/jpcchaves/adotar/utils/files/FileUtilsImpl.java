@@ -21,10 +21,12 @@ public class FileUtilsImpl implements FileUtils {
             byte[] fileContent = file.getBytes();
             String base64Encoded = Base64.getEncoder().encodeToString(fileContent);
             return "data:" + file.getContentType() + ";base64," + base64Encoded;
-        } catch (IOException | IllegalArgumentException e) {
-            logger.log(Level.SEVERE, e.getMessage());
-            return null;
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error reading file content: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.log(Level.SEVERE, "Error encoding file content to base64: " + e.getMessage());
         }
+        return null;
     }
 
     @Override
