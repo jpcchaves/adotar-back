@@ -29,13 +29,15 @@ public class FileUtilsImpl implements FileUtils {
 
     @Override
     public String getFileExtension(MultipartFile file) {
-        ;
-        return StringUtils
-                .cleanPath(Objects.requireNonNull(file.getOriginalFilename()))
-                .substring(
-                        StringUtils
-                                .cleanPath(Objects.requireNonNull(file.getOriginalFilename()))
-                                .lastIndexOf(".") + 1
-                );
+        String originalFilename = Objects.requireNonNull(file.getOriginalFilename());
+        String cleanPath = StringUtils.cleanPath(originalFilename);
+
+        int lastDotIndex = cleanPath.lastIndexOf(".");
+
+        if (lastDotIndex == -1) {
+            return "";
+        }
+
+        return cleanPath.substring(lastDotIndex + 1);
     }
 }
