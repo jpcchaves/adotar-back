@@ -26,9 +26,9 @@ public class PetUpdateRequestDto {
     @NotNull(message = "A idade em meses é obrigatória")
     private int monthsAge;
 
-    private AnimalGender gender;
-    private AnimalSize size;
-    private HealthCondition healthCondition;
+    private char gender;
+    private char size;
+    private char healthCondition;
 
     @NotBlank(message = "A cor é obrigatória")
     private String color;
@@ -37,8 +37,12 @@ public class PetUpdateRequestDto {
     private boolean isAvailable;
     private Date adoptionDate;
     private boolean active;
+
+    @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 características")
     private List<Long> characteristicsIds = new ArrayList<>();
-    private List<PetPictureDto> petPictures = new ArrayList<>();
+
+    @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 fotos")
+    private List<String> petPictures = new ArrayList<>();
 
     @NotNull(message = "O tipo do animal é obrigatório")
     private Long typeId;
@@ -53,9 +57,9 @@ public class PetUpdateRequestDto {
                                String name,
                                int yearsAge,
                                int monthsAge,
-                               AnimalGender gender,
-                               AnimalSize size,
-                               HealthCondition healthCondition,
+                               char gender,
+                               char size,
+                               char healthCondition,
                                String color,
                                String description,
                                int visualizations,
@@ -63,7 +67,7 @@ public class PetUpdateRequestDto {
                                boolean isAvailable,
                                Date adoptionDate,
                                List<Long> characteristicsIds,
-                               List<PetPictureDto> petPictures,
+                               List<String> petPictures,
                                Long typeId,
                                Long breedId) {
         this.id = id;
@@ -80,6 +84,7 @@ public class PetUpdateRequestDto {
         this.adoptionDate = adoptionDate;
         this.isAvailable = isAvailable;
         this.characteristicsIds = characteristicsIds;
+        this.petPictures = petPictures;
         this.typeId = typeId;
         this.breedId = breedId;
     }
@@ -117,27 +122,27 @@ public class PetUpdateRequestDto {
         this.monthsAge = monthsAge;
     }
 
-    public AnimalGender getGender() {
+    public char getGender() {
         return gender;
     }
 
-    public void setGender(AnimalGender gender) {
+    public void setGender(char gender) {
         this.gender = gender;
     }
 
-    public AnimalSize getSize() {
+    public char getSize() {
         return size;
     }
 
-    public void setSize(AnimalSize size) {
+    public void setSize(char size) {
         this.size = size;
     }
 
-    public HealthCondition getHealthCondition() {
+    public char getHealthCondition() {
         return healthCondition;
     }
 
-    public void setHealthCondition(HealthCondition healthCondition) {
+    public void setHealthCondition(char healthCondition) {
         this.healthCondition = healthCondition;
     }
 
@@ -197,11 +202,11 @@ public class PetUpdateRequestDto {
         this.characteristicsIds = characteristicsIds;
     }
 
-    public List<PetPictureDto> getPetPictures() {
+    public List<String> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPictureDto> petPictures) {
+    public void setPetPictures(List<String> petPictures) {
         this.petPictures = petPictures;
     }
 

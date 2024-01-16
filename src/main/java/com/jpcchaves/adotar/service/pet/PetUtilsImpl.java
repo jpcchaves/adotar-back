@@ -18,7 +18,6 @@ import com.jpcchaves.adotar.utils.files.contracts.FileUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -88,9 +87,14 @@ public class PetUtilsImpl implements PetUtils {
                          AnimalType animalType,
                          Breed breed,
                          List<PetCharacteristic> characteristicsList) {
-        pet.setHealthCondition(petDto.getHealthCondition());
-        pet.setGender(petDto.getGender());
-        pet.setSize(petDto.getSize());
+        HealthCondition healthCondition = HealthCondition.fromValue(petDto.getHealthCondition());
+        AnimalGender animalGender = AnimalGender.fromValue(petDto.getGender());
+        AnimalSize animalSize = AnimalSize.fromValue(petDto.getSize());
+
+        pet.setHealthCondition(healthCondition);
+        pet.setGender(animalGender);
+        pet.setSize(animalSize);
+
         pet.setMonthsAge(petDto.getMonthsAge());
         pet.setYearsAge(petDto.getYearsAge());
         pet.setColor(petDto.getColor());
@@ -112,14 +116,21 @@ public class PetUtilsImpl implements PetUtils {
         pet.setName(petDto.getName());
         pet.setYearsAge(petDto.getYearsAge());
         pet.setMonthsAge(petDto.getMonthsAge());
-        pet.setGender(petDto.getGender());
-        pet.setSize(petDto.getSize());
-        pet.setHealthCondition(petDto.getHealthCondition());
+
+        HealthCondition healthCondition = HealthCondition.fromValue(petDto.getHealthCondition());
+        AnimalGender animalGender = AnimalGender.fromValue(petDto.getGender());
+        AnimalSize animalSize = AnimalSize.fromValue(petDto.getSize());
+
+        pet.setHealthCondition(healthCondition);
+        pet.setGender(animalGender);
+        pet.setSize(animalSize);
+
         pet.setColor(petDto.getColor());
         pet.setDescription(petDto.getDescription());
         pet.setVisualizations(pet.getVisualizations());
         pet.setAvailable(petDto.isAvailable());
         pet.setAdoptionDate(petDto.getAdoptionDate());
+        pet.setPetPictures(petDto.getPetPictures());
 
         return pet;
     }
@@ -252,14 +263,7 @@ public class PetUtilsImpl implements PetUtils {
 
     @Override
     public void setPetPictures(Pet pet,
-                               List<MultipartFile> petPictures) {
-        List<String> pictures = new ArrayList<>();
-
-        for (MultipartFile petPicture : petPictures) {
-            String picture = fileUtils.encodeMultipartFileWithPrefix(petPicture);
-            pictures.add(picture);
-        }
-
-        pet.setPetPictures(pictures);
+                               List<String> petPictures) {
+        pet.setPetPictures(petPictures);
     }
 }
