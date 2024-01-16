@@ -70,5 +70,5 @@ public interface PetUtils {
                          Long animalTypeId);
 
     void setPetPictures(Pet pet,
-                        List<MultipartFile> petPictures);
+                        List<String> petPictures);
 }

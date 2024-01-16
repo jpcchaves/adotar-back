@@ -18,7 +18,6 @@ import com.jpcchaves.adotar.utils.files.contracts.FileUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -264,14 +263,7 @@ public class PetUtilsImpl implements PetUtils {
 
     @Override
     public void setPetPictures(Pet pet,
-                               List<MultipartFile> petPictures) {
-        List<String> pictures = new ArrayList<>();
-
-        for (MultipartFile petPicture : petPictures) {
-            String picture = fileUtils.encodeMultipartFileWithPrefix(petPicture);
-            pictures.add(picture);
-        }
-
-        pet.setPetPictures(pictures);
+                               List<String> petPictures) {
+        pet.setPetPictures(petPictures);
     }
 }
