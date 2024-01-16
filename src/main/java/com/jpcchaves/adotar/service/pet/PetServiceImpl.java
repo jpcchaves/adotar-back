@@ -8,6 +8,7 @@ import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.v2.PetDtoV2;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.service.address.contracts.AddressService;
@@ -72,17 +73,17 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public PetDto getById(Long id) {
+    public PetDtoV2 getById(Long id) {
         Pet pet = petRepositoryService.findById(id);
         petUtils.increasePetVisualization(pet);
         petRepositoryService.savePet(pet);
-        return mapper.parseObject(pet, PetDto.class);
+        return mapper.parseObject(pet, PetDtoV2.class);
     }
 
     @Override
     @Transactional
     public ApiMessageResponseDto create(PetCreateRequestDto petDto) {
-        petValidationService.validatePetPictures(petDto.getPetPictures());
+        petValidationService.validateMultipartFilePetPictures(petDto.getPetPictures());
         petValidationService.validateCharacteristicsLimit(petDto.getCharacteristicsIds());
 
         Breed breed = petRepositoryService.fetchBreed(petDto.getBreedId(), petDto.getTypeId());
@@ -115,6 +116,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public ApiMessageResponseDto update(Long id,
                                         PetUpdateRequestDto petDto) {
+        petValidationService.validateEncodedPetPictures(petDto.getPetPictures());
         petValidationService.validateCharacteristicsLimit(petDto.getCharacteristicsIds());
         Pet pet = petRepositoryService.findById(id);
 
@@ -123,6 +125,7 @@ public class PetServiceImpl implements PetService {
         AnimalType animalType = petRepositoryService.fetchAnimalType(petDto.getTypeId());
 
         petUtils.updatePet(pet, petDto, animalType, breed, characteristicsList);
+        pet.setPetPictures(petDto.getPetPictures());
 
         petRepositoryService.savePet(pet);
 

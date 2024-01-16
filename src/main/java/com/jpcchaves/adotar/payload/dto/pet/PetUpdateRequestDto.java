@@ -37,7 +37,11 @@ public class PetUpdateRequestDto {
     private boolean isAvailable;
     private Date adoptionDate;
     private boolean active;
+
+    @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 características")
     private List<Long> characteristicsIds = new ArrayList<>();
+
+    @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 fotos")
     private List<String> petPictures = new ArrayList<>();
 
     @NotNull(message = "O tipo do animal é obrigatório")

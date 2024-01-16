@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface PetValidationService {
     void validateCharacteristicsLimit(List<Long> characteristicsIds);
-    void validatePetPictures(List<MultipartFile> petPictures);
 
+    void validateMultipartFilePetPictures(List<MultipartFile> petPictures);
+
+    void validateEncodedPetPictures(List<String> petPictures);
 }

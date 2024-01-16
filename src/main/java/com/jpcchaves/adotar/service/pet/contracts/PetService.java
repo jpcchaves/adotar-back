@@ -5,6 +5,7 @@ import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.v2.PetDtoV2;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ public interface PetService {
 
     ApiResponsePaginatedDto<PetMinDtoV2> getAllByUserId(Pageable pageable);
 
-    PetDto getById(Long id);
+    PetDtoV2 getById(Long id);
 
     PetDto getBySerialNumber(String serialNumber);
 
