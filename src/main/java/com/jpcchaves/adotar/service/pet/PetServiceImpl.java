@@ -5,6 +5,7 @@ import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetDetailsDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetDtoV2;
@@ -77,6 +78,12 @@ public class PetServiceImpl implements PetService {
         petUtils.increasePetVisualization(pet);
         petRepositoryService.savePet(pet);
         return mapper.parseObject(pet, PetDtoV2.class);
+    }
+
+    @Override
+    public PetDetailsDto getPetDetails(Long id) {
+        Pet pet = petRepositoryService.findById(id);
+        return mapper.parseObject(pet, PetDetailsDto.class);
     }
 
     @Override

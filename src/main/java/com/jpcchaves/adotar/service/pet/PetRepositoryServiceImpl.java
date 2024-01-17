@@ -85,7 +85,7 @@ public class PetRepositoryServiceImpl implements PetRepositoryService {
     @Override
     public Page<Pet> fetchAllByUser(Pageable pageable,
                                     Long userId) {
-        return petRepository.getAllByUser_Id(pageable, userId);
+        return petRepository.getAllByUser_IdAndActiveTrue(pageable, userId);
     }
 
     @Override
