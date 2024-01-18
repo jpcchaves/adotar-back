@@ -73,7 +73,6 @@ public class Pet {
     )
     private AnimalType type;
 
-    // CHECKED
     @ManyToOne(
             fetch = FetchType.LAZY
     )
