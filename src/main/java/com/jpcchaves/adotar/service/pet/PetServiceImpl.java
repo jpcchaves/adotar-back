@@ -140,7 +140,6 @@ public class PetServiceImpl implements PetService {
         AnimalType animalType = petRepositoryService.fetchAnimalType(petDto.getTypeId());
 
         petUtils.updatePet(pet, petDto, animalType, breed, characteristicsList);
-        pet.setPetPictures(petDto.getPetPictures());
 
         petRepositoryService.savePet(pet);
 

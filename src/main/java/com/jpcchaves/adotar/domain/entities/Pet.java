@@ -85,7 +85,8 @@ public class Pet {
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            mappedBy = "pet"
     )
     private List<PetPicture> petPictures = new ArrayList<>();
 
