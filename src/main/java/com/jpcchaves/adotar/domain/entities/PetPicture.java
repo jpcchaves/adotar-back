@@ -1,9 +1,6 @@
 package com.jpcchaves.adotar.domain.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
@@ -22,17 +19,28 @@ public class PetPicture {
     @Column(nullable = false, length = 50)
     private String type;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String imgUrl;
+
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "pet_id")
+    private Pet pet;
+
     public PetPicture() {
     }
 
     public PetPicture(UUID id,
                       String name,
                       long size,
-                      String type) {
+                      String type,
+                      String imgUrl) {
         this.id = id;
         this.name = name;
         this.size = size;
         this.type = type;
+        this.imgUrl = imgUrl;
     }
 
     public UUID getId() {
@@ -65,5 +73,22 @@ public class PetPicture {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 }
