@@ -7,7 +7,7 @@ import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetPictureMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.service.pet.contracts.PetRepositoryService;
@@ -136,8 +136,8 @@ public class PetUtilsImpl implements PetUtils {
 
 
     @Override
-    public void removeBase64Prefix(List<PetPictureDto> pictureDtos) {
-        for (PetPictureDto picture : pictureDtos) {
+    public void removeBase64Prefix(List<PetPictureMinDto> pictureDtos) {
+        for (PetPictureMinDto picture : pictureDtos) {
             if (Base64Utils.hasBase64Prefix(picture.getImgUrl())) {
                 picture.setImgUrl(Base64Utils.removeBase64Prefix(picture.getImgUrl()));
             }

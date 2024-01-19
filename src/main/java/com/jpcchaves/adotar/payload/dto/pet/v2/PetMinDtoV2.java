@@ -4,6 +4,7 @@ import com.jpcchaves.adotar.domain.entities.Breed;
 import com.jpcchaves.adotar.payload.dto.address.AddressMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.BreedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetPictureMinDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class PetMinDtoV2 {
     private String type;
     private String breed;
     private boolean isFavorite;
-    private List<String> petPictures = new ArrayList<>();
+    private List<PetPictureDto> petPictures = new ArrayList<>();
     private AddressMinDto address;
 
     public PetMinDtoV2() {
@@ -32,7 +33,7 @@ public class PetMinDtoV2 {
             String type,
             BreedDto breed,
             boolean isFavorite,
-            List<String> petPictures,
+            List<PetPictureDto> petPictures,
             AddressMinDto address) {
         this.id = id;
         this.name = name;
@@ -102,11 +103,11 @@ public class PetMinDtoV2 {
         this.breed = breed.getName();
     }
 
-    public List<String> getPetPictures() {
+    public List<PetPictureDto> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<String> petPictures) {
+    public void setPetPictures(List<PetPictureDto> petPictures) {
         this.petPictures = petPictures;
     }
 
