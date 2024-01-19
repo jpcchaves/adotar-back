@@ -15,10 +15,11 @@ public class PetPicture {
 
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 50)
     private long size;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String type;
 
     public PetPicture() {
