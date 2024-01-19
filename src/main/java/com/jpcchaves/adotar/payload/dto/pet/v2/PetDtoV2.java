@@ -8,7 +8,6 @@ import com.jpcchaves.adotar.domain.entities.Breed;
 import com.jpcchaves.adotar.payload.dto.pet.AnimalTypeDto;
 import com.jpcchaves.adotar.payload.dto.pet.BreedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCharacteristicsDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 
 import java.util.*;
 

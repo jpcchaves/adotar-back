@@ -1,35 +1,22 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
-import java.util.UUID;
-
-public class PetPictureDto {
-    private UUID id;
+public class PetPictureMinDto {
     private String name;
     private long size;
     private String type;
     private String imgUrl;
 
-    public PetPictureDto() {
+    public PetPictureMinDto() {
     }
 
-    public PetPictureDto(UUID id,
-                         String name,
-                         long size,
-                         String type,
-                         String imgUrl) {
-        this.id = id;
+    public PetPictureMinDto(String name,
+                            long size,
+                            String type,
+                            String imgUrl) {
         this.name = name;
         this.size = size;
         this.type = type;
         this.imgUrl = imgUrl;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getName() {
