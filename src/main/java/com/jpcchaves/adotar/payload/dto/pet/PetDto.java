@@ -25,7 +25,7 @@ public class PetDto {
     private Set<PetCharacteristicsDto> characteristics = new HashSet<>();
     private String type;
     private String breed;
-    private List<PetPictureMinDto> petPictures = new ArrayList<>();
+    private List<PetPictureDto> petPictures = new ArrayList<>();
 
     public PetDto() {
     }
@@ -46,7 +46,7 @@ public class PetDto {
                   Set<PetCharacteristicsDto> characteristics,
                   AnimalTypeDto type,
                   BreedDto breed,
-                  List<PetPictureMinDto> petPictures) {
+                  List<PetPictureDto> petPictures) {
         this.id = id;
         this.name = name;
         this.yearsAge = yearsAge;
@@ -199,11 +199,11 @@ public class PetDto {
         this.healthCondition = healthCondition;
     }
 
-    public List<PetPictureMinDto> getPetPictures() {
+    public List<PetPictureDto> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPictureMinDto> petPictures) {
+    public void setPetPictures(List<PetPictureDto> petPictures) {
         this.petPictures = petPictures;
     }
 }

@@ -2,11 +2,12 @@ package com.jpcchaves.adotar.service.pet.contracts;
 
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetPictureMinDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ public interface PetUtils {
     Pet updatePetAttributes(Pet pet,
                             PetUpdateRequestDto petDto);
 
-    void removeBase64Prefix(List<PetPictureMinDto> pictureDtos);
+    void removeBase64Prefix(List<PetPictureDto> pictureDtos);
 
     <T> void verifyCharacteristicsLimit(List<T> characteristics);
 
@@ -69,5 +70,5 @@ public interface PetUtils {
                          Long animalTypeId);
 
     void setPetPictures(Pet pet,
-                        List<PetPicture> petPictures);
+                        List<String> petPictures);
 }

@@ -1,5 +1,8 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
+import com.jpcchaves.adotar.domain.Enum.AnimalGender;
+import com.jpcchaves.adotar.domain.Enum.AnimalSize;
+import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
@@ -39,7 +42,7 @@ public class PetUpdateRequestDto {
     private List<Long> characteristicsIds = new ArrayList<>();
 
     @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 fotos")
-    private List<PetPictureRequestDto> petPictures = new ArrayList<>();
+    private List<String> petPictures = new ArrayList<>();
 
     @NotNull(message = "O tipo do animal é obrigatório")
     private Long typeId;
@@ -64,7 +67,7 @@ public class PetUpdateRequestDto {
                                boolean isAvailable,
                                Date adoptionDate,
                                List<Long> characteristicsIds,
-                               List<PetPictureRequestDto> petPictures,
+                               List<String> petPictures,
                                Long typeId,
                                Long breedId) {
         this.id = id;
@@ -199,11 +202,11 @@ public class PetUpdateRequestDto {
         this.characteristicsIds = characteristicsIds;
     }
 
-    public List<PetPictureRequestDto> getPetPictures() {
+    public List<String> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPictureRequestDto> petPictures) {
+    public void setPetPictures(List<String> petPictures) {
         this.petPictures = petPictures;
     }
 

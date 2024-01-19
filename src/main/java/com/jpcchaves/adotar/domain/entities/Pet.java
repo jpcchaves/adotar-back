@@ -73,6 +73,7 @@ public class Pet {
     )
     private AnimalType type;
 
+    // CHECKED
     @ManyToOne(
             fetch = FetchType.LAZY
     )
@@ -82,13 +83,11 @@ public class Pet {
     )
     private Breed breed;
 
-    @OneToMany(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            mappedBy = "pet"
+    @ElementCollection(
+            fetch = FetchType.LAZY
     )
-    private List<PetPicture> petPictures = new ArrayList<>();
+    @Column(columnDefinition = "TEXT")
+    private List<String> petPictures = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -104,13 +103,10 @@ public class Pet {
 
     @Column(length = 25, unique = true, nullable = false)
     private String serialNumber;
-
     @CreationTimestamp
     private Date createdAt;
-
     @UpdateTimestamp
     private Date updatedAt;
-
     private Date deletedAt;
 
     public Pet() {
@@ -132,6 +128,7 @@ public class Pet {
                Set<PetCharacteristic> characteristics,
                AnimalType type,
                Breed breed,
+               List<String> petPictures,
                User user,
                Address address,
                String serialNumber,
@@ -154,6 +151,7 @@ public class Pet {
         this.characteristics = characteristics;
         this.type = type;
         this.breed = breed;
+        this.petPictures = petPictures;
         this.user = user;
         this.address = address;
         this.serialNumber = serialNumber;
@@ -330,11 +328,11 @@ public class Pet {
         this.breed = breed;
     }
 
-    public List<PetPicture> getPetPictures() {
+    public List<String> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPicture> petPictures) {
+    public void setPetPictures(List<String> petPictures) {
         this.petPictures = petPictures;
     }
 

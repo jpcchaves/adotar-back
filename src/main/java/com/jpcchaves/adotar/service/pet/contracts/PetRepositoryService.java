@@ -1,6 +1,7 @@
 package com.jpcchaves.adotar.service.pet.contracts;
 
 import com.jpcchaves.adotar.domain.entities.*;
+import com.jpcchaves.adotar.payload.dto.pet.PetPictureCreateDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
