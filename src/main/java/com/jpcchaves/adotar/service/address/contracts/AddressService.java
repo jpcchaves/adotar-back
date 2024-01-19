@@ -9,6 +9,8 @@ import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 public interface AddressService {
     City fetchCityByIbge(Long cityIbge);
 
+    City fetchCityByName(String name);
+
     Address buildAddress(AddressRequestDto addressDto,
                          City city);
 

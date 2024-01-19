@@ -1,18 +1,14 @@
-package com.jpcchaves.adotar.payload.dto.pet.v2;
+package com.jpcchaves.adotar.payload.dto.pet;
 
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
-import com.jpcchaves.adotar.domain.entities.AnimalType;
-import com.jpcchaves.adotar.domain.entities.Breed;
-import com.jpcchaves.adotar.payload.dto.pet.AnimalTypeDto;
-import com.jpcchaves.adotar.payload.dto.pet.BreedDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetCharacteristicsDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
+import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.payload.dto.address.AddressResponseDto;
 
 import java.util.*;
 
-public class PetDtoV2 {
+public class PetDetailsDto {
     private Long id;
     private String name;
     private int yearsAge;
@@ -27,32 +23,34 @@ public class PetDtoV2 {
     private Date adoptionDate;
     private boolean isFavorite;
     private boolean active;
-    private Set<PetCharacteristicsDto> characteristics = new HashSet<>();
-    private String type;
-    private String breed;
+    private Set<Long> characteristics = new HashSet<>();
+    private AnimalTypeMinDto type;
+    private BreedDto breed;
     private List<PetPictureDto> petPictures = new ArrayList<>();
+    private AddressResponseDto address;
 
-    public PetDtoV2() {
+    public PetDetailsDto() {
     }
 
-    public PetDtoV2(Long id,
-                    String name,
-                    int yearsAge,
-                    int monthsAge,
-                    AnimalGender gender,
-                    AnimalSize size,
-                    HealthCondition healthCondition,
-                    String color,
-                    String description,
-                    int visualizations,
-                    boolean active,
-                    boolean isAvailable,
-                    Date adoptionDate,
-                    boolean isFavorite,
-                    Set<PetCharacteristicsDto> characteristics,
-                    AnimalTypeDto type,
-                    BreedDto breed,
-                    List<PetPictureDto> petPictures) {
+    public PetDetailsDto(Long id,
+                         String name,
+                         int yearsAge,
+                         int monthsAge,
+                         AnimalGender gender,
+                         AnimalSize size,
+                         HealthCondition healthCondition,
+                         String color,
+                         String description,
+                         int visualizations,
+                         boolean isAvailable,
+                         Date adoptionDate,
+                         boolean isFavorite,
+                         boolean active,
+                         Set<Long> characteristics,
+                         AnimalTypeMinDto type,
+                         BreedDto breed,
+                         List<PetPictureDto> petPictures,
+                         AddressResponseDto address) {
         this.id = id;
         this.name = name;
         this.yearsAge = yearsAge;
@@ -63,16 +61,16 @@ public class PetDtoV2 {
         this.color = color;
         this.description = description;
         this.visualizations = visualizations;
-        this.active = active;
-        this.adoptionDate = adoptionDate;
         this.isAvailable = isAvailable;
+        this.adoptionDate = adoptionDate;
         this.isFavorite = isFavorite;
+        this.active = active;
         this.characteristics = characteristics;
-        this.type = type.getType();
-        this.breed = breed.getName();
+        this.type = type;
+        this.breed = breed;
         this.petPictures = petPictures;
+        this.address = address;
     }
-
 
     public Long getId() {
         return id;
@@ -104,6 +102,30 @@ public class PetDtoV2 {
 
     public void setMonthsAge(int monthsAge) {
         this.monthsAge = monthsAge;
+    }
+
+    public AnimalGender getGender() {
+        return gender;
+    }
+
+    public void setGender(AnimalGender gender) {
+        this.gender = gender;
+    }
+
+    public AnimalSize getSize() {
+        return size;
+    }
+
+    public void setSize(AnimalSize size) {
+        this.size = size;
+    }
+
+    public HealthCondition getHealthCondition() {
+        return healthCondition;
+    }
+
+    public void setHealthCondition(HealthCondition healthCondition) {
+        this.healthCondition = healthCondition;
     }
 
     public String getColor() {
@@ -162,56 +184,35 @@ public class PetDtoV2 {
         this.active = active;
     }
 
-    public Set<PetCharacteristicsDto> getCharacteristics() {
+    public Set<Long> getCharacteristics() {
         return characteristics;
     }
 
-    public void setCharacteristics(Set<PetCharacteristicsDto> characteristics) {
-        this.characteristics = characteristics;
+    public void setCharacteristics(Set<PetCharacteristic> characteristics) {
+        Set<Long> characteristicsIds = new HashSet<>();
+
+        for (PetCharacteristic characteristic : characteristics
+        ) {
+            characteristicsIds.add(characteristic.getId());
+        }
+
+        this.characteristics = characteristicsIds;
     }
 
-    public String getType() {
+    public AnimalTypeMinDto getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(AnimalTypeMinDto type) {
         this.type = type;
     }
 
-    public void setType(AnimalType type) {
-        this.type = type.getType();
-    }
-
-    public String getBreed() {
+    public BreedDto getBreed() {
         return breed;
     }
 
-    public void setBreed(Breed breed) {
-        this.breed = breed.getName();
-    }
-
-    public AnimalGender getGender() {
-        return gender;
-    }
-
-    public void setGender(AnimalGender gender) {
-        this.gender = gender;
-    }
-
-    public AnimalSize getSize() {
-        return size;
-    }
-
-    public void setSize(AnimalSize size) {
-        this.size = size;
-    }
-
-    public HealthCondition getHealthCondition() {
-        return healthCondition;
-    }
-
-    public void setHealthCondition(HealthCondition healthCondition) {
-        this.healthCondition = healthCondition;
+    public void setBreed(BreedDto breed) {
+        this.breed = breed;
     }
 
     public List<PetPictureDto> getPetPictures() {
@@ -220,5 +221,13 @@ public class PetDtoV2 {
 
     public void setPetPictures(List<PetPictureDto> petPictures) {
         this.petPictures = petPictures;
+    }
+
+    public AddressResponseDto getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressResponseDto address) {
+        this.address = address;
     }
 }
