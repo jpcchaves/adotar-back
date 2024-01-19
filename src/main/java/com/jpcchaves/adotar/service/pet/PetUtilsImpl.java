@@ -130,7 +130,6 @@ public class PetUtilsImpl implements PetUtils {
         pet.setVisualizations(pet.getVisualizations());
         pet.setAvailable(petDto.isAvailable());
         pet.setAdoptionDate(petDto.getAdoptionDate());
-        pet.setPetPictures(petDto.getPetPictures());
 
         return pet;
     }
@@ -263,7 +262,12 @@ public class PetUtilsImpl implements PetUtils {
 
     @Override
     public void setPetPictures(Pet pet,
-                               List<String> petPictures) {
+                               List<PetPicture> petPictures) {
+        for (PetPicture picture : petPictures) {
+            picture.setPet(pet);
+        }
+
+        pet.getPetPictures().clear();
         pet.setPetPictures(petPictures);
     }
 }

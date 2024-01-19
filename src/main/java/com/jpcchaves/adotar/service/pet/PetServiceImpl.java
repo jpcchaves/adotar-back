@@ -107,7 +107,6 @@ public class PetServiceImpl implements PetService {
     @Override
     @Transactional
     public ApiMessageResponseDto create(PetCreateRequestDto petDto) {
-        petValidationService.validateEncodedPetPictures(petDto.getPetPictures());
         petValidationService.validateCharacteristicsLimit(petDto.getCharacteristicsIds());
 
         Breed breed = petRepositoryService.fetchBreed(petDto.getBreedId(), petDto.getTypeId());
@@ -121,7 +120,7 @@ public class PetServiceImpl implements PetService {
 
         Pet pet = petUtils.buildPet(petDto, animalType, breed, characteristicsList, address, user);
 
-        petUtils.setPetPictures(pet, petDto.getPetPictures());
+        petUtils.setPetPictures(pet, mapper.parseListObjects(petDto.getPetPictures(), PetPicture.class));
 
         petRepositoryService.savePet(pet);
 
