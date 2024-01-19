@@ -26,7 +26,7 @@ public class PetDetailsDto {
     private Set<Long> characteristics = new HashSet<>();
     private AnimalTypeMinDto type;
     private BreedDto breed;
-    private List<String> petPictures = new ArrayList<>();
+    private List<PetPictureDto> petPictures = new ArrayList<>();
     private AddressResponseDto address;
 
     public PetDetailsDto() {
@@ -49,7 +49,7 @@ public class PetDetailsDto {
                          Set<Long> characteristics,
                          AnimalTypeMinDto type,
                          BreedDto breed,
-                         List<String> petPictures,
+                         List<PetPictureDto> petPictures,
                          AddressResponseDto address) {
         this.id = id;
         this.name = name;
@@ -215,11 +215,11 @@ public class PetDetailsDto {
         this.breed = breed;
     }
 
-    public List<String> getPetPictures() {
+    public List<PetPictureDto> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<String> petPictures) {
+    public void setPetPictures(List<PetPictureDto> petPictures) {
         this.petPictures = petPictures;
     }
 
