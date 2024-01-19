@@ -8,6 +8,7 @@ import com.jpcchaves.adotar.domain.entities.Breed;
 import com.jpcchaves.adotar.payload.dto.pet.AnimalTypeDto;
 import com.jpcchaves.adotar.payload.dto.pet.BreedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCharacteristicsDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 
 import java.util.*;
 
@@ -29,7 +30,7 @@ public class PetDtoV2 {
     private Set<PetCharacteristicsDto> characteristics = new HashSet<>();
     private String type;
     private String breed;
-    private List<String> petPictures = new ArrayList<>();
+    private List<PetPictureDto> petPictures = new ArrayList<>();
 
     public PetDtoV2() {
     }
@@ -51,7 +52,7 @@ public class PetDtoV2 {
                     Set<PetCharacteristicsDto> characteristics,
                     AnimalTypeDto type,
                     BreedDto breed,
-                    List<String> petPictures) {
+                    List<PetPictureDto> petPictures) {
         this.id = id;
         this.name = name;
         this.yearsAge = yearsAge;
@@ -213,11 +214,11 @@ public class PetDtoV2 {
         this.healthCondition = healthCondition;
     }
 
-    public List<String> getPetPictures() {
+    public List<PetPictureDto> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<String> petPictures) {
+    public void setPetPictures(List<PetPictureDto> petPictures) {
         this.petPictures = petPictures;
     }
 }
