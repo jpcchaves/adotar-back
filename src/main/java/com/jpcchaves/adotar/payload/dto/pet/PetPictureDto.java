@@ -1,31 +1,46 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
-import com.jpcchaves.adotar.domain.annotations.base64validator.ValidBase64;
-
 public class PetPictureDto {
-    private Long id;
-    @ValidBase64
+    private String name;
+    private long size;
+    private String type;
     private String imgUrl;
-    private boolean isFavorite;
 
     public PetPictureDto() {
     }
 
-    public PetPictureDto(
-            Long id,
-            String imgUrl,
-            boolean isFavorite) {
-        this.id = id;
+    public PetPictureDto(String name,
+                         long size,
+                         String type,
+                         String imgUrl) {
+        this.name = name;
+        this.size = size;
+        this.type = type;
         this.imgUrl = imgUrl;
-        this.isFavorite = isFavorite;
     }
 
-    public Long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getImgUrl() {
@@ -34,13 +49,5 @@ public class PetPictureDto {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
-    }
-
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
     }
 }
