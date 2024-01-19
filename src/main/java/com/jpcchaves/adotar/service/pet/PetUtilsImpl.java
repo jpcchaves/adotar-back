@@ -1,6 +1,5 @@
 package com.jpcchaves.adotar.service.pet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
@@ -14,7 +13,6 @@ import com.jpcchaves.adotar.service.pet.contracts.PetRepositoryService;
 import com.jpcchaves.adotar.service.pet.contracts.PetUtils;
 import com.jpcchaves.adotar.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
-import com.jpcchaves.adotar.utils.files.contracts.FileUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,16 +23,9 @@ import java.util.*;
 @Service
 public class PetUtilsImpl implements PetUtils {
     private final PetRepositoryService petRepositoryService;
-    private final FileUtils fileUtils;
-    private final ObjectMapper objectMapper;
 
-    public PetUtilsImpl(PetRepositoryService petRepositoryService,
-                        FileUtils fileUtils,
-                        ObjectMapper objectMapper) {
+    public PetUtilsImpl(PetRepositoryService petRepositoryService) {
         this.petRepositoryService = petRepositoryService;
-
-        this.fileUtils = fileUtils;
-        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -262,12 +253,11 @@ public class PetUtilsImpl implements PetUtils {
 
     @Override
     public void setPetPictures(Pet pet,
-                               List<PetPicture> petPictures) {
-        for (PetPicture picture : petPictures) {
-            picture.setPet(pet);
-        }
-
+                               List<PetPicture> newPetPictures) {
+        pet.getPetPictures().forEach(picture -> picture.setPet(null));
         pet.getPetPictures().clear();
-        pet.setPetPictures(petPictures);
+
+        newPetPictures.forEach(picture -> picture.setPet(pet));
+        pet.getPetPictures().addAll(newPetPictures);
     }
 }
