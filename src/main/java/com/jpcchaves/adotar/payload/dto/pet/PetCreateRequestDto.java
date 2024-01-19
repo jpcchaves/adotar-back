@@ -45,7 +45,7 @@ public class PetCreateRequestDto {
     private Long breedId;
 
     @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 fotos")
-    private List<PetPictureMinDto> petPictures;
+    private List<String> petPictures;
 
     public PetCreateRequestDto() {
     }
@@ -64,7 +64,7 @@ public class PetCreateRequestDto {
                                AddressRequestDto address,
                                Long typeId,
                                Long breedId,
-                               List<PetPictureMinDto> petPictures) {
+                               List<String> petPictures) {
         this.name = name;
         this.yearsAge = yearsAge;
         this.monthsAge = monthsAge;
@@ -187,11 +187,11 @@ public class PetCreateRequestDto {
     }
 
 
-    public List<PetPictureMinDto> getPetPictures() {
+    public List<String> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPictureMinDto> petPictures) {
+    public void setPetPictures(List<String> petPictures) {
         this.petPictures = petPictures;
     }
 
