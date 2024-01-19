@@ -30,4 +30,9 @@ public class AddressRepositoryServiceImpl implements AddressRepositoryService {
     public Address saveAddress(Address address) {
         return addressRepository.save(address);
     }
+
+    @Override
+    public City fetchCityByName(String name) {
+        return cityRepository.findCityByNameIgnoreCase(name).orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada!"));
+    }
 }

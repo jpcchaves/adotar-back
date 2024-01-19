@@ -3,8 +3,8 @@ package com.jpcchaves.adotar.payload.dto.pet;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
-import com.jpcchaves.adotar.domain.entities.Breed;
 import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.payload.dto.address.AddressResponseDto;
 
 import java.util.*;
 
@@ -24,9 +24,10 @@ public class PetDetailsDto {
     private boolean isFavorite;
     private boolean active;
     private Set<Long> characteristics = new HashSet<>();
-    private String type;
-    private String breed;
+    private AnimalTypeMinDto type;
+    private BreedDto breed;
     private List<String> petPictures = new ArrayList<>();
+    private AddressResponseDto address;
 
     public PetDetailsDto() {
     }
@@ -46,9 +47,10 @@ public class PetDetailsDto {
                          boolean isFavorite,
                          boolean active,
                          Set<Long> characteristics,
-                         String type,
-                         String breed,
-                         List<String> petPictures) {
+                         AnimalTypeMinDto type,
+                         BreedDto breed,
+                         List<String> petPictures,
+                         AddressResponseDto address) {
         this.id = id;
         this.name = name;
         this.yearsAge = yearsAge;
@@ -67,6 +69,7 @@ public class PetDetailsDto {
         this.type = type;
         this.breed = breed;
         this.petPictures = petPictures;
+        this.address = address;
     }
 
     public Long getId() {
@@ -196,20 +199,20 @@ public class PetDetailsDto {
         this.characteristics = characteristicsIds;
     }
 
-    public String getType() {
+    public AnimalTypeMinDto getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(AnimalTypeMinDto type) {
         this.type = type;
     }
 
-    public String getBreed() {
+    public BreedDto getBreed() {
         return breed;
     }
 
-    public void setBreed(Breed breed) {
-        this.breed = breed.getName();
+    public void setBreed(BreedDto breed) {
+        this.breed = breed;
     }
 
     public List<String> getPetPictures() {
@@ -218,5 +221,13 @@ public class PetDetailsDto {
 
     public void setPetPictures(List<String> petPictures) {
         this.petPictures = petPictures;
+    }
+
+    public AddressResponseDto getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressResponseDto address) {
+        this.address = address;
     }
 }

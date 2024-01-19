@@ -7,5 +7,7 @@ public interface AddressRepositoryService {
     City fetchCityByIbge(Long cityIbge);
 
     Address saveAddress(Address address);
-    
+
+    City fetchCityByName(String name);
+
 }

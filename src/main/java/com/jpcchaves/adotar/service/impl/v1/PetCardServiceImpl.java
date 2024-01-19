@@ -173,7 +173,7 @@ public class PetCardServiceImpl implements PetCardService {
     private String extractBase64(Pet pet) {
         if (!pet.getPetPictures().isEmpty()) {
 
-            String pictureBase64 = pet.getPetPictures().get(0);
+            String pictureBase64 = pet.getPetPictures().get(0).getImgUrl();
 
 
             if (Base64Utils.hasBase64Prefix(pictureBase64)) {
