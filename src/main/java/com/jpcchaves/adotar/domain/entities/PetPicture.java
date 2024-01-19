@@ -1,22 +1,41 @@
-package com.jpcchaves.adotar.payload.dto.pet;
+package com.jpcchaves.adotar.domain.entities;
+
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
-public class PetPictureDto {
+@Entity
+public class PetPicture {
+    @Id
+    @GeneratedValue(generator = "UUID")
     private UUID id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, length = 50)
     private long size;
+
+    @Column(nullable = false, length = 50)
     private String type;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String imgUrl;
 
-    public PetPictureDto() {
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "pet_id")
+    private Pet pet;
+
+    public PetPicture() {
     }
 
-    public PetPictureDto(UUID id,
-                         String name,
-                         long size,
-                         String type,
-                         String imgUrl) {
+    public PetPicture(UUID id,
+                      String name,
+                      long size,
+                      String type,
+                      String imgUrl) {
         this.id = id;
         this.name = name;
         this.size = size;
@@ -56,11 +75,20 @@ public class PetPictureDto {
         this.type = type;
     }
 
+
     public String getImgUrl() {
         return imgUrl;
     }
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 }

@@ -13,7 +13,7 @@ public class PetMinDto {
     private int visualizations;
     private String type;
     private String breed;
-    private List<PetPictureDto> petPictures = new ArrayList<>();
+    private List<PetPictureMinDto> petPictures = new ArrayList<>();
     private AddressMinDto address;
 
     public PetMinDto() {
@@ -25,7 +25,7 @@ public class PetMinDto {
                      int visualizations,
                      String type,
                      BreedDto breed,
-                     List<PetPictureDto> petPictures,
+                     List<PetPictureMinDto> petPictures,
                      AddressMinDto address) {
         this.id = id;
         this.name = name;
@@ -85,11 +85,11 @@ public class PetMinDto {
         this.breed = breed.getName();
     }
 
-    public List<PetPictureDto> getPetPictures() {
+    public List<PetPictureMinDto> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPictureDto> petPictures) {
+    public void setPetPictures(List<PetPictureMinDto> petPictures) {
         this.petPictures = petPictures;
     }
 
