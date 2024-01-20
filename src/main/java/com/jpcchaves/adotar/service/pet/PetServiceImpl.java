@@ -139,6 +139,7 @@ public class PetServiceImpl implements PetService {
         Breed breed = petRepositoryService.fetchBreed(petDto.getBreedId(), petDto.getTypeId());
         List<PetCharacteristic> characteristicsList = petRepositoryService.fetchCharacteristics(petDto.getCharacteristicsIds());
         AnimalType animalType = petRepositoryService.fetchAnimalType(petDto.getTypeId());
+
         City city = addressService.fetchCityByIbge(petDto.getAddress().getCityIbge());
         Address address = addressService.buildAddress(petDto.getAddress(), city);
 

@@ -96,7 +96,16 @@ public class PetUtilsImpl implements PetUtils {
         pet.setType(animalType);
         pet.setBreed(breed);
         pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicsList));
-        pet.setAddress(petAddress);
+
+        Address address = pet.getAddress();
+
+        address.setCity(petAddress.getCity());
+        address.setState(petAddress.getState());
+        address.setZipcode(petAddress.getZipcode());
+        address.setStreet(petAddress.getStreet());
+        address.setNumber(petAddress.getNumber());
+        address.setComplement(petAddress.getComplement());
+        address.setNeighborhood(petAddress.getNeighborhood());
 
         return pet;
     }
