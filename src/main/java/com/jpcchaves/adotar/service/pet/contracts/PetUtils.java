@@ -1,7 +1,6 @@
 package com.jpcchaves.adotar.service.pet.contracts;
 
 import com.jpcchaves.adotar.domain.entities.*;
-import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
@@ -27,8 +26,7 @@ public interface PetUtils {
                   PetUpdateRequestDto petDto,
                   AnimalType animalType,
                   Breed breed,
-                  List<PetCharacteristic> characteristicsList,
-                  Address petAddress
+                  List<PetCharacteristic> characteristicsList
     );
 
     Pet updatePetAttributes(Pet pet,

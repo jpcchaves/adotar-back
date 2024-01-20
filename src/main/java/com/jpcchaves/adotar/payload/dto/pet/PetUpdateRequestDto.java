@@ -1,6 +1,5 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
-import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
@@ -42,10 +41,8 @@ public class PetUpdateRequestDto {
     @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 características")
     private List<Long> characteristicsIds = new ArrayList<>();
 
-    private AddressRequestDto address;
-
     @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 fotos")
-    private List<PetPictureRequestDto> petPictures = new ArrayList<>();
+    private List<String> petPictures = new ArrayList<>();
 
     @NotNull(message = "O tipo do animal é obrigatório")
     private Long typeId;
@@ -70,8 +67,6 @@ public class PetUpdateRequestDto {
                                boolean isAvailable,
                                Date adoptionDate,
                                List<Long> characteristicsIds,
-                               AddressRequestDto address,
-                               List<PetPictureRequestDto> petPictures,
                                List<String> petPictures,
                                Long typeId,
                                Long breedId) {
@@ -89,7 +84,6 @@ public class PetUpdateRequestDto {
         this.adoptionDate = adoptionDate;
         this.isAvailable = isAvailable;
         this.characteristicsIds = characteristicsIds;
-        this.address = address;
         this.petPictures = petPictures;
         this.typeId = typeId;
         this.breedId = breedId;
@@ -208,15 +202,7 @@ public class PetUpdateRequestDto {
         this.characteristicsIds = characteristicsIds;
     }
 
-    public AddressRequestDto getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressRequestDto address) {
-        this.address = address;
-    }
-
-    public List<PetPictureRequestDto> getPetPictures() {
+    public List<String> getPetPictures() {
         return petPictures;
     }
 
