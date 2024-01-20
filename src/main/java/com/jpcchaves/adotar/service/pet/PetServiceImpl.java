@@ -114,8 +114,11 @@ public class PetServiceImpl implements PetService {
         List<PetCharacteristic> characteristicsList = petRepositoryService.fetchCharacteristics(petDto.getCharacteristicsIds());
         AnimalType animalType = petRepositoryService.fetchAnimalType(petDto.getTypeId());
 
-        petUtils.updatePet(pet, petDto, animalType, breed, characteristicsList);
-        pet.setPetPictures(petDto.getPetPictures());
+        City city = addressService.fetchCityByIbge(petDto.getAddress().getCityIbge());
+        Address address = addressService.buildAddress(petDto.getAddress(), city);
+
+        petUtils.updatePet(pet, petDto, animalType, breed, characteristicsList, address);
+        petUtils.setPetPictures(pet, mapper.parseListObjects(petDto.getPetPictures(), PetPicture.class));
 
         petRepositoryService.savePet(pet);
 

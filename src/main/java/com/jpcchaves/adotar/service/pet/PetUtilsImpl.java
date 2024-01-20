@@ -86,7 +86,8 @@ public class PetUtilsImpl implements PetUtils {
                          PetUpdateRequestDto petDto,
                          AnimalType animalType,
                          Breed breed,
-                         List<PetCharacteristic> characteristicsList) {
+                         List<PetCharacteristic> characteristicsList,
+                         Address petAddress) {
         HealthCondition healthCondition = HealthCondition.fromValue(petDto.getHealthCondition());
         AnimalGender animalGender = AnimalGender.fromValue(petDto.getGender());
         AnimalSize animalSize = AnimalSize.fromValue(petDto.getSize());
@@ -105,6 +106,15 @@ public class PetUtilsImpl implements PetUtils {
         pet.setBreed(breed);
         pet.setCharacteristics(CollectionsUtils.convertListToSet(characteristicsList));
 
+        Address address = pet.getAddress();
+
+        address.setCity(petAddress.getCity());
+        address.setState(petAddress.getState());
+        address.setZipcode(petAddress.getZipcode());
+        address.setStreet(petAddress.getStreet());
+        address.setNumber(petAddress.getNumber());
+        address.setComplement(petAddress.getComplement());
+        address.setNeighborhood(petAddress.getNeighborhood());
 
         return pet;
     }
