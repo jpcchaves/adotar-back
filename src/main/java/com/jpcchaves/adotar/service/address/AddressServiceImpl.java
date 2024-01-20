@@ -102,9 +102,4 @@ public class AddressServiceImpl implements AddressService {
 
         return new ApiMessageResponseDto("Endereco cadastrado com sucesso!");
     }
-
-    @Override
-    public City fetchCityByName(String name) {
-        return addressRepositoryService.fetchCityByName(name);
-    }
 }

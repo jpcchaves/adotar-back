@@ -4,9 +4,7 @@ import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
-import com.jpcchaves.adotar.payload.dto.address.AddressResponseDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetDetailsDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetDtoV2;
@@ -82,31 +80,9 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public PetDetailsDto getPetDetails(Long id) {
-        Pet pet = petRepositoryService.findById(id);
-
-        Address address = pet.getAddress();
-        AddressResponseDto petAddressDto = new AddressResponseDto();
-        City city = addressService.fetchCityByName(pet.getAddress().getCity());
-
-        petAddressDto.setCity(city.getIbge().toString());
-        petAddressDto.setZipcode(address.getZipcode());
-        petAddressDto.setState(city.getState().getId().toString());
-        petAddressDto.setNeighborhood(address.getNeighborhood());
-        petAddressDto.setStreet(address.getStreet());
-        petAddressDto.setNumber(address.getNumber());
-        petAddressDto.setComplement(address.getComplement());
-
-        PetDetailsDto petDetails = mapper.parseObject(pet, PetDetailsDto.class);
-
-        petDetails.setAddress(petAddressDto);
-
-        return petDetails;
-    }
-
-    @Override
     @Transactional
     public ApiMessageResponseDto create(PetCreateRequestDto petDto) {
+        petValidationService.validateEncodedPetPictures(petDto.getPetPictures());
         petValidationService.validateCharacteristicsLimit(petDto.getCharacteristicsIds());
 
         Breed breed = petRepositoryService.fetchBreed(petDto.getBreedId(), petDto.getTypeId());
@@ -120,9 +96,7 @@ public class PetServiceImpl implements PetService {
 
         Pet pet = petUtils.buildPet(petDto, animalType, breed, characteristicsList, address, user);
 
-        Pet savedPet = petRepositoryService.savePet(pet);
-
-        petUtils.setPetPictures(savedPet, mapper.parseListObjects(petDto.getPetPictures(), PetPicture.class));
+        petUtils.setPetPictures(pet, petDto.getPetPictures());
 
         petRepositoryService.savePet(pet);
 
@@ -130,9 +104,9 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    @Transactional
     public ApiMessageResponseDto update(Long id,
                                         PetUpdateRequestDto petDto) {
+        petValidationService.validateEncodedPetPictures(petDto.getPetPictures());
         petValidationService.validateCharacteristicsLimit(petDto.getCharacteristicsIds());
         Pet pet = petRepositoryService.findById(id);
 

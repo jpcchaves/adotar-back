@@ -1,6 +1,9 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
 import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
+import com.jpcchaves.adotar.domain.Enum.AnimalGender;
+import com.jpcchaves.adotar.domain.Enum.AnimalSize;
+import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
@@ -69,6 +72,7 @@ public class PetUpdateRequestDto {
                                List<Long> characteristicsIds,
                                AddressRequestDto address,
                                List<PetPictureRequestDto> petPictures,
+                               List<String> petPictures,
                                Long typeId,
                                Long breedId) {
         this.id = id;
@@ -216,7 +220,7 @@ public class PetUpdateRequestDto {
         return petPictures;
     }
 
-    public void setPetPictures(List<PetPictureRequestDto> petPictures) {
+    public void setPetPictures(List<String> petPictures) {
         this.petPictures = petPictures;
     }
 

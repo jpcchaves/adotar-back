@@ -1,18 +1,20 @@
 package com.jpcchaves.adotar.service.pet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import com.jpcchaves.adotar.domain.entities.*;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetPictureMinDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.service.pet.contracts.PetRepositoryService;
 import com.jpcchaves.adotar.service.pet.contracts.PetUtils;
 import com.jpcchaves.adotar.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.utils.colletions.CollectionsUtils;
+import com.jpcchaves.adotar.utils.files.contracts.FileUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,16 @@ import java.util.*;
 @Service
 public class PetUtilsImpl implements PetUtils {
     private final PetRepositoryService petRepositoryService;
+    private final FileUtils fileUtils;
+    private final ObjectMapper objectMapper;
 
-    public PetUtilsImpl(PetRepositoryService petRepositoryService) {
+    public PetUtilsImpl(PetRepositoryService petRepositoryService,
+                        FileUtils fileUtils,
+                        ObjectMapper objectMapper) {
         this.petRepositoryService = petRepositoryService;
+
+        this.fileUtils = fileUtils;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -131,14 +140,15 @@ public class PetUtilsImpl implements PetUtils {
         pet.setVisualizations(pet.getVisualizations());
         pet.setAvailable(petDto.isAvailable());
         pet.setAdoptionDate(petDto.getAdoptionDate());
+        pet.setPetPictures(petDto.getPetPictures());
 
         return pet;
     }
 
 
     @Override
-    public void removeBase64Prefix(List<PetPictureMinDto> pictureDtos) {
-        for (PetPictureMinDto picture : pictureDtos) {
+    public void removeBase64Prefix(List<PetPictureDto> pictureDtos) {
+        for (PetPictureDto picture : pictureDtos) {
             if (Base64Utils.hasBase64Prefix(picture.getImgUrl())) {
                 picture.setImgUrl(Base64Utils.removeBase64Prefix(picture.getImgUrl()));
             }
@@ -263,11 +273,7 @@ public class PetUtilsImpl implements PetUtils {
 
     @Override
     public void setPetPictures(Pet pet,
-                               List<PetPicture> newPetPictures) {
-        pet.getPetPictures().forEach(picture -> picture.setPet(null));
-        pet.getPetPictures().clear();
-
-        newPetPictures.forEach(picture -> picture.setPet(pet));
-        pet.getPetPictures().addAll(newPetPictures);
+                               List<String> petPictures) {
+        pet.setPetPictures(petPictures);
     }
 }

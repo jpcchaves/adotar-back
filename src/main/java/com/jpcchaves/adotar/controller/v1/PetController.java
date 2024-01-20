@@ -2,7 +2,10 @@ package com.jpcchaves.adotar.controller.v1;
 
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
-import com.jpcchaves.adotar.payload.dto.pet.*;
+import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetMinDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetDtoV2;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.payload.dto.user.UserDetailsDto;
@@ -65,11 +68,6 @@ public class PetController {
     )
     public ResponseEntity<PetDtoV2> getById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(petService.getById(id));
-    }
-
-    @GetMapping("/pet-details/{id}")
-    public ResponseEntity<PetDetailsDto> getPetDetails(@PathVariable(name = "id") Long id) {
-        return ResponseEntity.ok(petService.getPetDetails(id));
     }
 
     @PostMapping
