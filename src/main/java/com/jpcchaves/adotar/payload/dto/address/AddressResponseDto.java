@@ -7,7 +7,9 @@ public class AddressResponseDto {
     private String complement;
     private String neighborhood;
     private String city;
+    private String cityName;
     private String state;
+    private String stateName;
 
     public AddressResponseDto() {
     }
@@ -18,14 +20,18 @@ public class AddressResponseDto {
                               String complement,
                               String neighborhood,
                               String city,
-                              String state) {
+                              String cityName,
+                              String state,
+                              String stateName) {
         this.zipcode = zipcode;
         this.street = street;
         this.number = number;
         this.complement = complement;
         this.neighborhood = neighborhood;
         this.city = city;
+        this.cityName = cityName;
         this.state = state;
+        this.stateName = stateName;
     }
 
     public String getZipcode() {
@@ -82,5 +88,21 @@ public class AddressResponseDto {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 }

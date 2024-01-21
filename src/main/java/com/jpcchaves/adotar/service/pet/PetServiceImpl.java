@@ -90,7 +90,9 @@ public class PetServiceImpl implements PetService {
         City city = addressService.fetchCityByName(pet.getAddress().getCity());
 
         petAddressDto.setCity(city.getIbge().toString());
+        petAddressDto.setCityName(city.getName());
         petAddressDto.setZipcode(address.getZipcode());
+        petAddressDto.setStateName(city.getState().getName());
         petAddressDto.setState(city.getState().getId().toString());
         petAddressDto.setNeighborhood(address.getNeighborhood());
         petAddressDto.setStreet(address.getStreet());
