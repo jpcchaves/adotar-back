@@ -1,16 +1,23 @@
 package com.jpcchaves.adotar.service.pet.contracts;
 
-import com.jpcchaves.adotar.domain.entities.*;
-import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.jpcchaves.adotar.domain.entities.Address;
+import com.jpcchaves.adotar.domain.entities.AnimalType;
+import com.jpcchaves.adotar.domain.entities.Breed;
+import com.jpcchaves.adotar.domain.entities.Pet;
+import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.domain.entities.PetPicture;
+import com.jpcchaves.adotar.domain.entities.User;
+import com.jpcchaves.adotar.domain.entities.UserSavedPets;
 import com.jpcchaves.adotar.payload.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.payload.dto.pet.v2.PetMinDtoV2;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
-import java.util.Set;
 
 public interface PetUtils {
     void increasePetVisualization(Pet pet);

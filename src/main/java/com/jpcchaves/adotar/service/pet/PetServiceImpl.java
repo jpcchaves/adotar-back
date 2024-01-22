@@ -1,6 +1,23 @@
 package com.jpcchaves.adotar.service.pet;
 
-import com.jpcchaves.adotar.domain.entities.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.jpcchaves.adotar.domain.entities.Address;
+import com.jpcchaves.adotar.domain.entities.AnimalType;
+import com.jpcchaves.adotar.domain.entities.Breed;
+import com.jpcchaves.adotar.domain.entities.City;
+import com.jpcchaves.adotar.domain.entities.Pet;
+import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.domain.entities.PetPicture;
+import com.jpcchaves.adotar.domain.entities.User;
+import com.jpcchaves.adotar.domain.entities.UserSavedPets;
 import com.jpcchaves.adotar.exception.BadRequestException;
 import com.jpcchaves.adotar.payload.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.payload.dto.ApiResponsePaginatedDto;
@@ -21,15 +38,8 @@ import com.jpcchaves.adotar.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.utils.user.UserUtils;
-import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import jakarta.transaction.Transactional;
 
 @Service
 public class PetServiceImpl implements PetService {

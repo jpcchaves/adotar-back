@@ -1,15 +1,23 @@
 package com.jpcchaves.adotar.service.pet;
 
-import com.jpcchaves.adotar.domain.entities.*;
-import com.jpcchaves.adotar.exception.ResourceNotFoundException;
-import com.jpcchaves.adotar.repository.*;
-import com.jpcchaves.adotar.service.pet.contracts.PetRepositoryService;
-import com.jpcchaves.adotar.utils.mapper.MapperUtils;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.jpcchaves.adotar.domain.entities.AnimalType;
+import com.jpcchaves.adotar.domain.entities.Breed;
+import com.jpcchaves.adotar.domain.entities.Pet;
+import com.jpcchaves.adotar.domain.entities.PetCharacteristic;
+import com.jpcchaves.adotar.domain.entities.UserSavedPets;
+import com.jpcchaves.adotar.exception.ResourceNotFoundException;
+import com.jpcchaves.adotar.repository.AnimalTypeRepository;
+import com.jpcchaves.adotar.repository.BreedRepository;
+import com.jpcchaves.adotar.repository.PetCharacteristicRepository;
+import com.jpcchaves.adotar.repository.PetRepository;
+import com.jpcchaves.adotar.repository.UserSavedPetsRepository;
+import com.jpcchaves.adotar.service.pet.contracts.PetRepositoryService;
 
 @Service
 public class PetRepositoryServiceImpl implements PetRepositoryService {
@@ -18,20 +26,17 @@ public class PetRepositoryServiceImpl implements PetRepositoryService {
     private final PetCharacteristicRepository petCharacteristicRepository;
     private final AnimalTypeRepository animalTypeRepository;
     private final BreedRepository breedRepository;
-    private final MapperUtils mapper;
 
     public PetRepositoryServiceImpl(PetRepository petRepository,
                                     UserSavedPetsRepository userSavedPetsRepository,
                                     PetCharacteristicRepository petCharacteristicRepository,
                                     AnimalTypeRepository animalTypeRepository,
-                                    BreedRepository breedRepository,
-                                    MapperUtils mapper) {
+                                    BreedRepository breedRepository) {
         this.petRepository = petRepository;
         this.userSavedPetsRepository = userSavedPetsRepository;
         this.petCharacteristicRepository = petCharacteristicRepository;
         this.animalTypeRepository = animalTypeRepository;
         this.breedRepository = breedRepository;
-        this.mapper = mapper;
     }
 
     @Override
