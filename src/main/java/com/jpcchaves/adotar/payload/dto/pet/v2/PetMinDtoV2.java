@@ -1,13 +1,12 @@
 package com.jpcchaves.adotar.payload.dto.pet.v2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.jpcchaves.adotar.domain.entities.Breed;
 import com.jpcchaves.adotar.payload.dto.address.AddressMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.BreedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
-import com.jpcchaves.adotar.payload.dto.pet.PetPictureMinDto;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PetMinDtoV2 {
     private Long id;
