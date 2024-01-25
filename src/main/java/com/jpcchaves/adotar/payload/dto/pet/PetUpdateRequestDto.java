@@ -1,8 +1,6 @@
 package com.jpcchaves.adotar.payload.dto.pet;
 
-import com.jpcchaves.adotar.domain.Enum.AnimalGender;
-import com.jpcchaves.adotar.domain.Enum.AnimalSize;
-import com.jpcchaves.adotar.domain.Enum.HealthCondition;
+import com.jpcchaves.adotar.payload.dto.address.AddressRequestDto;
 import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
@@ -41,8 +39,10 @@ public class PetUpdateRequestDto {
     @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 características")
     private List<Long> characteristicsIds = new ArrayList<>();
 
+    private AddressRequestDto address;
+
     @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 fotos")
-    private List<String> petPictures = new ArrayList<>();
+    private List<PetPictureRequestDto> petPictures = new ArrayList<>();
 
     @NotNull(message = "O tipo do animal é obrigatório")
     private Long typeId;
@@ -67,7 +67,8 @@ public class PetUpdateRequestDto {
                                boolean isAvailable,
                                Date adoptionDate,
                                List<Long> characteristicsIds,
-                               List<String> petPictures,
+                               AddressRequestDto address,
+                               List<PetPictureRequestDto> petPictures,
                                Long typeId,
                                Long breedId) {
         this.id = id;
@@ -84,6 +85,7 @@ public class PetUpdateRequestDto {
         this.adoptionDate = adoptionDate;
         this.isAvailable = isAvailable;
         this.characteristicsIds = characteristicsIds;
+        this.address = address;
         this.petPictures = petPictures;
         this.typeId = typeId;
         this.breedId = breedId;
@@ -202,11 +204,19 @@ public class PetUpdateRequestDto {
         this.characteristicsIds = characteristicsIds;
     }
 
-    public List<String> getPetPictures() {
+    public AddressRequestDto getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressRequestDto address) {
+        this.address = address;
+    }
+
+    public List<PetPictureRequestDto> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<String> petPictures) {
+    public void setPetPictures(List<PetPictureRequestDto> petPictures) {
         this.petPictures = petPictures;
     }
 

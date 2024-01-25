@@ -35,7 +35,7 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
     @Query(value = "SELECT * FROM Pet p WHERE LOWER(REGEXP_REPLACE(p.name, '[^a-zA-Z0-9]', '')) LIKE LOWER(CONCAT('%', :name, '%'))", nativeQuery = true)
     List<Pet> findAllByNameContainingIgnoreCase();
 
-    Page<Pet> getAllByUser_Id(
+    Page<Pet> getAllByUser_IdAndActiveTrue(
             Pageable pageable,
             Long userId);
 

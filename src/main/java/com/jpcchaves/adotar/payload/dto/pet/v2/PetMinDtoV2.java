@@ -4,8 +4,10 @@ import com.jpcchaves.adotar.domain.entities.Breed;
 import com.jpcchaves.adotar.payload.dto.address.AddressMinDto;
 import com.jpcchaves.adotar.payload.dto.pet.BreedDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
+import com.jpcchaves.adotar.payload.dto.pet.PetPictureMinDto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PetMinDtoV2 {
@@ -17,8 +19,9 @@ public class PetMinDtoV2 {
     private String type;
     private String breed;
     private boolean isFavorite;
-    private List<String> petPictures = new ArrayList<>();
+    private List<PetPictureDto> petPictures = new ArrayList<>();
     private AddressMinDto address;
+    private Date createdAt;
 
     public PetMinDtoV2() {
     }
@@ -32,8 +35,9 @@ public class PetMinDtoV2 {
             String type,
             BreedDto breed,
             boolean isFavorite,
-            List<String> petPictures,
-            AddressMinDto address) {
+            List<PetPictureDto> petPictures,
+            AddressMinDto address,
+            Date createdAt) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -44,6 +48,7 @@ public class PetMinDtoV2 {
         this.isFavorite = isFavorite;
         this.petPictures = petPictures;
         this.address = address;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -102,11 +107,11 @@ public class PetMinDtoV2 {
         this.breed = breed.getName();
     }
 
-    public List<String> getPetPictures() {
+    public List<PetPictureDto> getPetPictures() {
         return petPictures;
     }
 
-    public void setPetPictures(List<String> petPictures) {
+    public void setPetPictures(List<PetPictureDto> petPictures) {
         this.petPictures = petPictures;
     }
 
@@ -124,5 +129,13 @@ public class PetMinDtoV2 {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }
