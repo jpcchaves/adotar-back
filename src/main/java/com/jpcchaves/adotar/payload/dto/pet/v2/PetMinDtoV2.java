@@ -7,6 +7,7 @@ import com.jpcchaves.adotar.payload.dto.pet.PetPictureDto;
 import com.jpcchaves.adotar.payload.dto.pet.PetPictureMinDto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PetMinDtoV2 {
@@ -20,6 +21,7 @@ public class PetMinDtoV2 {
     private boolean isFavorite;
     private List<PetPictureDto> petPictures = new ArrayList<>();
     private AddressMinDto address;
+    private Date createdAt;
 
     public PetMinDtoV2() {
     }
@@ -34,7 +36,8 @@ public class PetMinDtoV2 {
             BreedDto breed,
             boolean isFavorite,
             List<PetPictureDto> petPictures,
-            AddressMinDto address) {
+            AddressMinDto address,
+            Date createdAt) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -45,6 +48,7 @@ public class PetMinDtoV2 {
         this.isFavorite = isFavorite;
         this.petPictures = petPictures;
         this.address = address;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -125,5 +129,13 @@ public class PetMinDtoV2 {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }
