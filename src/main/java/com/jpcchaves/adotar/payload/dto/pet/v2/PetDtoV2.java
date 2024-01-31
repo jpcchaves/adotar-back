@@ -33,6 +33,7 @@ public class PetDtoV2 {
     private String breed;
     private List<PetPictureDto> petPictures = new ArrayList<>();
     private AddressMinDto address;
+    private String ownerName;
 
     public PetDtoV2() {
     }
@@ -55,7 +56,8 @@ public class PetDtoV2 {
                     AnimalTypeDto type,
                     BreedDto breed,
                     List<PetPictureDto> petPictures,
-                    AddressMinDto address) {
+                    AddressMinDto address,
+                    String ownerName) {
         this.id = id;
         this.name = name;
         this.yearsAge = yearsAge;
@@ -75,6 +77,7 @@ public class PetDtoV2 {
         this.breed = breed.getName();
         this.petPictures = petPictures;
         this.address = address;
+        this.ownerName = ownerName;
     }
 
 
@@ -232,5 +235,13 @@ public class PetDtoV2 {
 
     public void setAddress(AddressMinDto address) {
         this.address = address;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }
