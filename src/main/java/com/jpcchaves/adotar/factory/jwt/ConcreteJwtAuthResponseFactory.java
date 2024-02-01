@@ -1,7 +1,7 @@
 package com.jpcchaves.adotar.factory.jwt;
 
-import com.jpcchaves.adotar.payload.dto.auth.JwtAuthResponseDto;
-import com.jpcchaves.adotar.payload.dto.user.UserDto;
+import com.jpcchaves.adotar.application.dto.auth.JwtAuthResponseDto;
+import com.jpcchaves.adotar.application.dto.user.UserDto;
 import org.springframework.stereotype.Component;
 
 @Component
