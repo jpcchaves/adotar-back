@@ -1,8 +1,8 @@
 package com.jpcchaves.adotar.config.security;
 
-import com.jpcchaves.adotar.security.CustomAccessDeniedHandler;
-import com.jpcchaves.adotar.security.JwtAuthenticationEntrypoint;
-import com.jpcchaves.adotar.security.JwtAuthenticationFilter;
+import com.jpcchaves.adotar.presentation.error.CustomAccessDeniedHandler;
+import com.jpcchaves.adotar.presentation.security.JwtAuthenticationEntrypoint;
+import com.jpcchaves.adotar.presentation.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

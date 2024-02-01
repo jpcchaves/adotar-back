@@ -1,6 +1,6 @@
 package com.jpcchaves.adotar.domain.annotations.base64validator;
 
-import com.jpcchaves.adotar.utils.base64.Base64Utils;
+import com.jpcchaves.adotar.application.utils.base64.Base64Utils;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -12,7 +12,8 @@ public class Base64Validator implements ConstraintValidator<ValidBase64, String>
 
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
+    public boolean isValid(String value,
+                           ConstraintValidatorContext context) {
         if (value == null || value.isEmpty()) {
             return false;
         }
