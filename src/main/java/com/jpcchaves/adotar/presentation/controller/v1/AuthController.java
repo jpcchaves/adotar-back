@@ -76,6 +76,12 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(authService.update(updateUserDto, id));
     }
 
+    @PutMapping("update-password")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public ResponseEntity<ApiMessageResponseDto> updatePassword(@Valid @RequestBody UpdateUserPasswordRequestDTO requestDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(authService.updatePassword(requestDTO));
+    }
+
     @Operation(summary = "Verify the validity of the JWT Token",
             description = "Verify the validity of the JWT Token, if valid, returns the user details to persist the login",
             responses = {

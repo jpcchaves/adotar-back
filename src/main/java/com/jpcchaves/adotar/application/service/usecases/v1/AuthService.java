@@ -14,5 +14,9 @@ public interface AuthService {
             UpdateUserRequestDto updateUserDto,
             Long id);
 
+    ApiMessageResponseDto updatePassword(
+            UpdateUserPasswordRequestDTO requestDTO
+    );
+
     JwtAuthResponseDto verifyToken(TokenDto tokenDto);
 }
