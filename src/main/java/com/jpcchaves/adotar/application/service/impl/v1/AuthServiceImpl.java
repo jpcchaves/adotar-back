@@ -5,9 +5,11 @@ import com.jpcchaves.adotar.application.dto.auth.*;
 import com.jpcchaves.adotar.application.dto.user.UserDto;
 import com.jpcchaves.adotar.application.service.JwtTokenProvider;
 import com.jpcchaves.adotar.application.service.usecases.v1.AuthService;
+import com.jpcchaves.adotar.application.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.Enum.UserRoles;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
+import com.jpcchaves.adotar.domain.exception.PasswordsMismatchException;
 import com.jpcchaves.adotar.domain.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.domain.model.Role;
 import com.jpcchaves.adotar.domain.model.User;
@@ -37,6 +39,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final JwtAuthResponseFactory jwtAuthResponseFactory;
+    private final SecurityContextService securityContextService;
     private final PasswordEncoder passwordEncoder;
     private final MapperUtils mapperUtils;
     private final JwtTokenProvider jwtTokenProvider;
@@ -46,6 +49,7 @@ public class AuthServiceImpl implements AuthService {
             UserRepository userRepository,
             RoleRepository roleRepository,
             JwtAuthResponseFactory jwtAuthResponseFactory,
+            SecurityContextService securityContextService,
             PasswordEncoder passwordEncoder,
             MapperUtils mapperUtils,
             JwtTokenProvider jwtTokenProvider) {
@@ -53,6 +57,7 @@ public class AuthServiceImpl implements AuthService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.jwtAuthResponseFactory = jwtAuthResponseFactory;
+        this.securityContextService = securityContextService;
         this.passwordEncoder = passwordEncoder;
         this.mapperUtils = mapperUtils;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -135,6 +140,62 @@ public class AuthServiceImpl implements AuthService {
         return jwtAuthResponseFactory.createJwtAuthResponse(tokenDto.getAccessToken(), userDto);
     }
 
+    @Override
+    public ApiMessageResponseDto update(
+            UpdateUserRequestDto updateUserDto,
+            Long id) {
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Usuário não encontrado com o id: " + id));
+
+        if (passwordsMatches(updateUserDto.getCurrentPassword(), user.getPassword())) {
+
+            updateUser(user, updateUserDto);
+
+            userRepository.save(user);
+
+            return new ApiMessageResponseDto("Usuário atualizado com sucesso");
+        } else {
+            throw new BadRequestException("A senha atual não condiz com a senha cadastrada anteriormente.");
+        }
+    }
+
+    @Override
+    public ApiMessageResponseDto updatePassword(UpdateUserPasswordRequestDTO requestDTO) {
+        checkPasswordsMatch(requestDTO.getNewPassword(), requestDTO.getConfirmNewPassword());
+
+        User currentUser = securityContextService.getCurrentLoggedUser();
+        User user = userRepository
+                .findById(currentUser.getId())
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Ocorreu um erro inesperado. Por favor, tente novamente."));
+
+        if (!passwordsMatches(requestDTO.getCurrentPassword(), user.getPassword())) {
+            throw new PasswordsMismatchException("A senha atual não coincide com a senha cadastrada no sistema");
+        }
+
+        user.setPassword(encodePassword(requestDTO.getNewPassword()));
+
+        userRepository.save(user);
+
+        return new ApiMessageResponseDto("Senha atualizada com sucesso!");
+    }
+
+    private void checkEmailAvailability(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new BadRequestException("Já existe um usuário cadastrado com o email informado");
+        }
+    }
+
+    private void checkPasswordsMatch(
+            String password,
+            String confirmPassword) {
+        if (!password.equals(confirmPassword)) {
+            throw new BadRequestException("As senhas não são iguais!");
+        }
+    }
+
     private void isTokenValid(String token) {
         jwtTokenProvider.validateToken(token);
     }
@@ -177,47 +238,12 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    @Override
-    public ApiMessageResponseDto update(
-            UpdateUserRequestDto updateUserDto,
-            Long id) {
-        User user = userRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Usuário não encontrado com o id: " + id));
-
-        if (passwordsMatches(updateUserDto.getCurrentPassword(), user.getPassword())) {
-
-            updateUser(user, updateUserDto);
-
-            userRepository.save(user);
-
-            return new ApiMessageResponseDto("Usuário atualizado com sucesso");
-        } else {
-            throw new BadRequestException("A senha atual não condiz com a senha cadastrada anteriormente.");
-        }
-    }
-
-    private void checkEmailAvailability(String email) {
-        if (userRepository.existsByEmail(email)) {
-            throw new BadRequestException("Já existe um usuário cadastrado com o email informado");
-        }
-    }
-
-    private void checkPasswordsMatch(
-            String password,
-            String confirmPassword) {
-        if (!password.equals(confirmPassword)) {
-            throw new BadRequestException("As senhas não são iguais!");
-        }
-    }
-
     private void updateUser(
             User user,
             UpdateUserRequestDto updateUserDto) {
         user.setFirstName(updateUserDto.getFirstName());
         user.setLastName(updateUserDto.getLastName());
-        user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
+        user.setPassword(encodePassword(updateUserDto.getPassword()));
         user.setAdmin(false);
         user.setRoles(user.getRoles());
     }
@@ -258,5 +284,9 @@ public class AuthServiceImpl implements AuthService {
             String currentPassword,
             String password) {
         return passwordEncoder.matches(currentPassword, password);
+    }
+
+    private String encodePassword(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
     }
 }
