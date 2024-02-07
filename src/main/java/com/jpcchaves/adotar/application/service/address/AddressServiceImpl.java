@@ -64,7 +64,9 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressDto updateUserAddress(AddressRequestDto addressDto) {
-        Address address = securityContextService.getCurrentLoggedUser().getAddress();
+        User user = securityContextService.getCurrentLoggedUser();
+        User currentUser = userRepository.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+        Address address = currentUser.getAddress();
 
         City city = addressRepositoryService.fetchCityByIbge(addressDto.getCityIbge());
 
