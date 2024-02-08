@@ -1,6 +1,6 @@
 package com.jpcchaves.adotar.application.dto.user;
 
-import com.jpcchaves.adotar.application.dto.address.AddressDto;
+import com.jpcchaves.adotar.application.dto.address.AddressResponseDto;
 import com.jpcchaves.adotar.application.dto.contact.ContactDto;
 
 import java.util.Date;
@@ -13,7 +13,7 @@ public class UserDetailsDto {
     private String name;
     private String email;
     private ContactDto contact;
-    private AddressDto address;
+    private AddressResponseDto address;
     private Date lastSeen;
     private Date updatedAt;
     private Date createdAt;
@@ -28,7 +28,7 @@ public class UserDetailsDto {
                           String name,
                           String email,
                           ContactDto contact,
-                          AddressDto address,
+                          AddressResponseDto address,
                           Date lastSeen,
                           Date updatedAt,
                           Date createdAt) {
@@ -101,11 +101,11 @@ public class UserDetailsDto {
         this.contact = contact;
     }
 
-    public AddressDto getAddress() {
+    public AddressResponseDto getAddress() {
         return address;
     }
 
-    public void setAddress(AddressDto address) {
+    public void setAddress(AddressResponseDto address) {
         this.address = address;
     }
 
