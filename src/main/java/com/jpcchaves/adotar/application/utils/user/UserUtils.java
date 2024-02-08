@@ -1,25 +1,30 @@
 package com.jpcchaves.adotar.application.utils.user;
 
+import com.jpcchaves.adotar.application.dto.address.AddressResponseDto;
+import com.jpcchaves.adotar.application.dto.contact.ContactDto;
+import com.jpcchaves.adotar.application.dto.user.UserDetailsDto;
+import com.jpcchaves.adotar.application.service.address.contracts.AddressService;
 import com.jpcchaves.adotar.application.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.model.Address;
+import com.jpcchaves.adotar.domain.model.City;
 import com.jpcchaves.adotar.domain.model.Contact;
 import com.jpcchaves.adotar.domain.model.User;
-import com.jpcchaves.adotar.application.dto.address.AddressDto;
-import com.jpcchaves.adotar.application.dto.contact.ContactDto;
-import com.jpcchaves.adotar.application.dto.user.UserDetailsDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserUtils {
     private final MapperUtils mapperUtils;
     private final GlobalUtils globalUtils;
+    private final AddressService addressService;
 
     public UserUtils(
             GlobalUtils globalUtils,
-            MapperUtils mapperUtils) {
+            MapperUtils mapperUtils,
+            AddressService addressService) {
         this.globalUtils = globalUtils;
         this.mapperUtils = mapperUtils;
+        this.addressService = addressService;
     }
 
     public UserDetailsDto buildUserDetails(User user) {
@@ -31,8 +36,20 @@ public class UserUtils {
         buildUserAttributes(user, userDetailsDto);
 
         if (isAddressNotNull(userAddress)) {
-            AddressDto addressDto = mapperUtils.parseObject(userAddress, AddressDto.class);
-            userDetailsDto.setAddress(addressDto);
+            AddressResponseDto addressResponseDto = new AddressResponseDto();
+            City city = addressService.fetchCityByName(userAddress.getCity());
+
+            addressResponseDto.setCity(city.getIbge().toString());
+            addressResponseDto.setCityName(city.getName());
+            addressResponseDto.setZipcode(userAddress.getZipcode());
+            addressResponseDto.setStateName(city.getState().getName());
+            addressResponseDto.setState(city.getState().getId().toString());
+            addressResponseDto.setNeighborhood(userAddress.getNeighborhood());
+            addressResponseDto.setStreet(userAddress.getStreet());
+            addressResponseDto.setNumber(userAddress.getNumber());
+            addressResponseDto.setComplement(userAddress.getComplement());
+
+            userDetailsDto.setAddress(addressResponseDto);
         }
 
         if (isContactNotNull(userContact)) {
