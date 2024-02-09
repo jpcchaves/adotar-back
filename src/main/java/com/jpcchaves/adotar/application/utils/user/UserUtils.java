@@ -10,6 +10,7 @@ import com.jpcchaves.adotar.domain.model.Address;
 import com.jpcchaves.adotar.domain.model.City;
 import com.jpcchaves.adotar.domain.model.Contact;
 import com.jpcchaves.adotar.domain.model.User;
+import com.jpcchaves.adotar.factory.address.AddressFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,14 +18,17 @@ public class UserUtils {
     private final MapperUtils mapperUtils;
     private final GlobalUtils globalUtils;
     private final AddressService addressService;
+    private final AddressFactory addressFactory;
 
     public UserUtils(
             GlobalUtils globalUtils,
             MapperUtils mapperUtils,
-            AddressService addressService) {
+            AddressService addressService,
+            AddressFactory addressFactory) {
         this.globalUtils = globalUtils;
         this.mapperUtils = mapperUtils;
         this.addressService = addressService;
+        this.addressFactory = addressFactory;
     }
 
     public UserDetailsDto buildUserDetails(User user) {
@@ -36,18 +40,19 @@ public class UserUtils {
         buildUserAttributes(user, userDetailsDto);
 
         if (isAddressNotNull(userAddress)) {
-            AddressResponseDto addressResponseDto = new AddressResponseDto();
             City city = addressService.fetchCityByName(userAddress.getCity());
-
-            addressResponseDto.setCity(city.getIbge().toString());
-            addressResponseDto.setCityName(city.getName());
-            addressResponseDto.setZipcode(userAddress.getZipcode());
-            addressResponseDto.setStateName(city.getState().getName());
-            addressResponseDto.setState(city.getState().getId().toString());
-            addressResponseDto.setNeighborhood(userAddress.getNeighborhood());
-            addressResponseDto.setStreet(userAddress.getStreet());
-            addressResponseDto.setNumber(userAddress.getNumber());
-            addressResponseDto.setComplement(userAddress.getComplement());
+            
+            AddressResponseDto addressResponseDto = addressFactory.createAddressResponseDto(
+                    userAddress.getZipcode(),
+                    userAddress.getStreet(),
+                    userAddress.getNumber(),
+                    userAddress.getComplement(),
+                    userAddress.getNeighborhood(),
+                    city.getIbge().toString(),
+                    city.getName(),
+                    city.getState().getId().toString(),
+                    city.getState().getName()
+            );
 
             userDetailsDto.setAddress(addressResponseDto);
         }
