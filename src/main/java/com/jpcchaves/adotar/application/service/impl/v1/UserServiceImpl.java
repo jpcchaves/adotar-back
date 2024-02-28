@@ -1,14 +1,15 @@
 package com.jpcchaves.adotar.application.service.impl.v1;
 
-import com.jpcchaves.adotar.application.service.usecases.v1.SecurityContextService;
-import com.jpcchaves.adotar.application.service.usecases.v1.UserService;
-import com.jpcchaves.adotar.domain.model.User;
-import com.jpcchaves.adotar.domain.exception.UnexpectedErrorException;
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.application.dto.user.UserPictureDto;
-import com.jpcchaves.adotar.infra.repository.UserRepository;
+import com.jpcchaves.adotar.application.dto.user.UserUpdateNameDTO;
+import com.jpcchaves.adotar.application.service.usecases.v1.SecurityContextService;
+import com.jpcchaves.adotar.application.service.usecases.v1.UserService;
 import com.jpcchaves.adotar.application.utils.user.UserUtils;
+import com.jpcchaves.adotar.domain.exception.UnexpectedErrorException;
+import com.jpcchaves.adotar.domain.model.User;
+import com.jpcchaves.adotar.infra.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,5 +49,20 @@ public class UserServiceImpl implements UserService {
         userRepository.save(currentUser);
 
         return new ApiMessageResponseDto("Foto adicionada com sucesso!");
+    }
+
+    @Override
+    public ApiMessageResponseDto updateFirstAndLastname(UserUpdateNameDTO requestDTO) {
+        User user = securityContextService.getCurrentLoggedUser();
+        User currentUser = userRepository
+                .findById(user.getId())
+                .orElseThrow(() -> new UnexpectedErrorException("Ocorreu um erro inesperado, tente novamente"));
+
+        currentUser.setFirstName(requestDTO.getFirstName());
+        currentUser.setLastName(requestDTO.getLastName());
+
+        userRepository.save(currentUser);
+
+        return new ApiMessageResponseDto("Dados atualizados com sucesso!");
     }
 }
