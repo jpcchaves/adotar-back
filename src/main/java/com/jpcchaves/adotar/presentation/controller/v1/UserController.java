@@ -3,6 +3,7 @@ package com.jpcchaves.adotar.presentation.controller.v1;
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.application.dto.user.UserPictureDto;
+import com.jpcchaves.adotar.application.dto.user.UserUpdateNameDTO;
 import com.jpcchaves.adotar.application.service.usecases.v1.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -56,5 +57,11 @@ public class UserController {
             @RequestBody
             UserPictureDto userPictureDto) {
         return ResponseEntity.ok(userService.updateUserPicture(userPictureDto));
+    }
+
+    @PatchMapping("/user-name")
+    public ResponseEntity<ApiMessageResponseDto> updateUserFirstAndLastName(@RequestBody
+                                                                            UserUpdateNameDTO requestDTO) {
+        return ResponseEntity.ok(userService.updateFirstAndLastname(requestDTO));
     }
 }
