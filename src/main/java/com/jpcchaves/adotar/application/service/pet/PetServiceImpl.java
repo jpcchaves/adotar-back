@@ -1,8 +1,8 @@
 package com.jpcchaves.adotar.application.service.pet;
 
-import com.jpcchaves.adotar.application.dto.address.AddressResponseDto;
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.ApiResponsePaginatedDto;
+import com.jpcchaves.adotar.application.dto.address.AddressResponseDto;
 import com.jpcchaves.adotar.application.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.application.dto.pet.PetDetailsDto;
 import com.jpcchaves.adotar.application.dto.pet.PetDto;
@@ -21,10 +21,10 @@ import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.application.utils.user.UserUtils;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
 import com.jpcchaves.adotar.domain.model.*;
-import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,6 +62,9 @@ public class PetServiceImpl implements PetService {
 
 
     @Override
+    @Transactional(
+            readOnly = true
+    )
     public ApiResponsePaginatedDto<PetMinDtoV2> listAll(Pageable pageable) {
         User user = securityContextService.getCurrentLoggedUser();
         Page<Pet> petPage = petRepositoryService.listAll(pageable);
@@ -166,6 +169,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ApiResponsePaginatedDto<PetMinDtoV2> getAllByUserId(Pageable pageable) {
         Long userId = securityContextService.getCurrentLoggedUser().getId();
         Page<Pet> petPage = petRepositoryService.fetchAllByUser(pageable, userId);
@@ -176,12 +180,14 @@ public class PetServiceImpl implements PetService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public PetDto getBySerialNumber(String serialNumber) {
         Pet pet = petRepositoryService.findBySerialNumber(serialNumber);
         return mapper.parseObject(pet, PetDto.class);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<PetDto> getUserSavedPets() {
         User user = securityContextService.getCurrentLoggedUser();
         List<UserSavedPets> userSavedPets = petRepositoryService.fetchAllUserSavedPets(user.getId());
@@ -197,6 +203,7 @@ public class PetServiceImpl implements PetService {
 
 
     @Override
+    @Transactional
     public ApiMessageResponseDto addUserSavedPet(Long petId) {
         Pet pet = petRepositoryService.findById(petId);
 
@@ -212,6 +219,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @Transactional
     public ApiMessageResponseDto removeUserSavedPet(Long petId) {
         User user = securityContextService.getCurrentLoggedUser();
 
@@ -223,6 +231,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetailsDto getPetOwnerDetails(Long petId) {
         Pet pet = petRepositoryService.findById(petId);
         User petOwner = pet.getUser();
@@ -230,6 +239,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ApiResponsePaginatedDto<PetMinDtoV2> filterByAnimalTypes(Pageable pageable,
                                                                     List<Long> animalTypesIds) {
         User user = securityContextService.getCurrentLoggedUser();
@@ -242,6 +252,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ApiResponsePaginatedDto<PetMinDtoV2> filterByBreedOrAnimalType(Pageable pageable,
                                                                           Long breedId,
                                                                           Long animalTypeId) {
