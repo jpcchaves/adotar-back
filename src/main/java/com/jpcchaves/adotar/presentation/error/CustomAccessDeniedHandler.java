@@ -1,23 +1,26 @@
 package com.jpcchaves.adotar.presentation.error;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.IOException;
 import java.util.Date;
 
 @Component
+@ResponseStatus(HttpStatus.FORBIDDEN)
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest req,
                        HttpServletResponse res,
-                       org.springframework.security.access.AccessDeniedException accessDeniedException) throws ServletException, IOException {
+                       AccessDeniedException accessDeniedException) throws IOException {
         res.setContentType("application/json;charset=UTF-8");
         res.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
