@@ -2,7 +2,7 @@ package com.jpcchaves.adotar.presentation.controller.v1;
 
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.auth.*;
-import com.jpcchaves.adotar.application.service.usecases.v1.AuthService;
+import com.jpcchaves.adotar.application.service.auth.contracts.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -74,6 +74,12 @@ public class AuthController {
             @Valid @RequestBody UpdateUserRequestDto updateUserDto,
             @PathVariable(name = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(authService.update(updateUserDto, id));
+    }
+
+    @PutMapping("update-password")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public ResponseEntity<ApiMessageResponseDto> updatePassword(@Valid @RequestBody UpdateUserPasswordRequestDTO requestDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(authService.updatePassword(requestDTO));
     }
 
     @Operation(summary = "Verify the validity of the JWT Token",

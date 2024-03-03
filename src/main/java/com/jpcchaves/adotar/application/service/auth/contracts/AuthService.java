@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.application.service.usecases.v1;
+package com.jpcchaves.adotar.application.service.auth.contracts;
 
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.auth.*;
@@ -13,6 +13,10 @@ public interface AuthService {
     ApiMessageResponseDto update(
             UpdateUserRequestDto updateUserDto,
             Long id);
+
+    ApiMessageResponseDto updatePassword(
+            UpdateUserPasswordRequestDTO requestDTO
+    );
 
     JwtAuthResponseDto verifyToken(TokenDto tokenDto);
 }

@@ -2,7 +2,7 @@ package com.jpcchaves.adotar.presentation.controller.v2;
 
 import com.jpcchaves.adotar.application.dto.auth.JwtAuthResponseDto;
 import com.jpcchaves.adotar.application.dto.auth.LoginDtoV2;
-import com.jpcchaves.adotar.application.service.usecases.v1.AuthService;
+import com.jpcchaves.adotar.application.service.auth.contracts.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
