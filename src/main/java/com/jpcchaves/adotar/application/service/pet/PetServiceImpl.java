@@ -62,9 +62,7 @@ public class PetServiceImpl implements PetService {
 
 
     @Override
-    @Transactional(
-            readOnly = true
-    )
+    @Transactional(readOnly = true)
     public ApiResponsePaginatedDto<PetMinDtoV2> listAll(Pageable pageable) {
         User user = securityContextService.getCurrentLoggedUser();
         Page<Pet> petPage = petRepositoryService.listAll(pageable);
@@ -77,6 +75,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PetDtoV2 getById(Long id) {
         Pet pet = petRepositoryService.findById(id);
         petUtils.increasePetVisualization(pet);
