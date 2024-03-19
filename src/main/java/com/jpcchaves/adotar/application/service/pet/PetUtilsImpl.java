@@ -14,6 +14,7 @@ import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
 import com.jpcchaves.adotar.domain.model.*;
+import com.jpcchaves.adotar.factory.address.StaticAbstractAddressFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -275,7 +276,9 @@ public class PetUtilsImpl implements PetUtils {
     @Override
     public AddressResponseDto prepareAddressResponseDto(City city,
                                                         Address address) {
-        AddressResponseDto petAddressDto = AddressResponseDto.getAddressResponseDto();
+        AddressResponseDto petAddressDto = StaticAbstractAddressFactory
+                .createAddressResponseDtoWithDefaultValues();
+
         petAddressDto.setCity(city.getIbge().toString());
         petAddressDto.setCityName(city.getName());
         petAddressDto.setZipcode(address.getZipcode());
