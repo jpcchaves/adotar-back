@@ -112,20 +112,32 @@ public class PetServiceImpl implements PetService {
     public ApiMessageResponseDto create(PetCreateRequestDto petDto) {
         petValidationService.validateCharacteristicsLimit(petDto.getCharacteristicsIds());
 
-        Breed breed = petRepositoryService.fetchBreed(petDto.getBreedId(), petDto.getTypeId());
-        List<PetCharacteristic> characteristicsList = petRepositoryService.fetchCharacteristics(petDto.getCharacteristicsIds());
-        AnimalType animalType = petRepositoryService.fetchAnimalType(petDto.getTypeId());
+        Breed breed = petRepositoryService
+                .fetchBreed(petDto.getBreedId(), petDto.getTypeId());
 
-        City city = addressService.fetchCityByIbge(petDto.getAddress().getCityIbge());
-        Address address = addressService.buildAddress(petDto.getAddress(), city);
+        List<PetCharacteristic> characteristicsList = petRepositoryService
+                .fetchCharacteristics(petDto.getCharacteristicsIds());
 
-        User user = securityContextService.getCurrentLoggedUser();
+        AnimalType animalType = petRepositoryService
+                .fetchAnimalType(petDto.getTypeId());
 
-        Pet pet = petUtils.buildPet(petDto, animalType, breed, characteristicsList, address, user);
+        City city = addressService.
+                fetchCityByIbge(petDto.getAddress().getCityIbge());
 
-        Pet savedPet = petRepositoryService.savePet(pet);
+        Address address = addressService
+                .buildAddress(petDto.getAddress(), city);
 
-        petUtils.setPetPictures(savedPet, mapper.parseListObjects(petDto.getPetPictures(), PetPicture.class));
+        User user = securityContextService
+                .getCurrentLoggedUser();
+
+        Pet pet = petUtils
+                .buildPet(petDto, animalType, breed, characteristicsList, address, user);
+
+        Pet savedPet = petRepositoryService
+                .savePet(pet);
+
+        petUtils.setPetPictures(savedPet,
+                mapper.parseListObjects(petDto.getPetPictures(), PetPicture.class));
 
         petRepositoryService.savePet(pet);
 
