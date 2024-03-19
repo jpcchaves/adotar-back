@@ -93,22 +93,14 @@ public class PetServiceImpl implements PetService {
         Pet pet = petRepositoryService.findById(id);
 
         Address address = pet.getAddress();
-        AddressResponseDto petAddressDto = new AddressResponseDto();
         City city = addressService.fetchCityByName(pet.getAddress().getCity());
 
-        petAddressDto.setCity(city.getIbge().toString());
-        petAddressDto.setCityName(city.getName());
-        petAddressDto.setZipcode(address.getZipcode());
-        petAddressDto.setStateName(city.getState().getName());
-        petAddressDto.setState(city.getState().getId().toString());
-        petAddressDto.setNeighborhood(address.getNeighborhood());
-        petAddressDto.setStreet(address.getStreet());
-        petAddressDto.setNumber(address.getNumber());
-        petAddressDto.setComplement(address.getComplement());
+        AddressResponseDto petAddress = petUtils
+                .prepareAddressResponseDto(city, address);
 
         PetDetailsDto petDetails = mapper.parseObject(pet, PetDetailsDto.class);
 
-        petDetails.setAddress(petAddressDto);
+        petDetails.setAddress(petAddress);
 
         return petDetails;
     }
