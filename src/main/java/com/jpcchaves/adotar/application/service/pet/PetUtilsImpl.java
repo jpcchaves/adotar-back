@@ -1,18 +1,19 @@
 package com.jpcchaves.adotar.application.service.pet;
 
-import com.jpcchaves.adotar.application.service.pet.contracts.PetUtils;
-import com.jpcchaves.adotar.domain.Enum.AnimalGender;
-import com.jpcchaves.adotar.domain.Enum.AnimalSize;
-import com.jpcchaves.adotar.domain.Enum.HealthCondition;
-import com.jpcchaves.adotar.domain.model.*;
-import com.jpcchaves.adotar.domain.exception.BadRequestException;
+import com.jpcchaves.adotar.application.dto.address.AddressResponseDto;
 import com.jpcchaves.adotar.application.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.application.dto.pet.PetPictureMinDto;
 import com.jpcchaves.adotar.application.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.application.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.application.service.pet.contracts.PetRepositoryService;
+import com.jpcchaves.adotar.application.service.pet.contracts.PetUtils;
 import com.jpcchaves.adotar.application.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.application.utils.colletions.CollectionsUtils;
+import com.jpcchaves.adotar.domain.Enum.AnimalGender;
+import com.jpcchaves.adotar.domain.Enum.AnimalSize;
+import com.jpcchaves.adotar.domain.Enum.HealthCondition;
+import com.jpcchaves.adotar.domain.exception.BadRequestException;
+import com.jpcchaves.adotar.domain.model.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -269,5 +270,22 @@ public class PetUtilsImpl implements PetUtils {
 
         newPetPictures.forEach(picture -> picture.setPet(pet));
         pet.getPetPictures().addAll(newPetPictures);
+    }
+
+    @Override
+    public AddressResponseDto prepareAddressResponseDto(City city,
+                                                        Address address) {
+        AddressResponseDto petAddressDto = AddressResponseDto.getAddressResponseDto();
+        petAddressDto.setCity(city.getIbge().toString());
+        petAddressDto.setCityName(city.getName());
+        petAddressDto.setZipcode(address.getZipcode());
+        petAddressDto.setStateName(city.getState().getName());
+        petAddressDto.setState(city.getState().getId().toString());
+        petAddressDto.setNeighborhood(address.getNeighborhood());
+        petAddressDto.setStreet(address.getStreet());
+        petAddressDto.setNumber(address.getNumber());
+        petAddressDto.setComplement(address.getComplement());
+
+        return petAddressDto;
     }
 }

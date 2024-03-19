@@ -1,23 +1,16 @@
 package com.jpcchaves.adotar.application.service.pet.contracts;
 
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import com.jpcchaves.adotar.domain.model.Address;
-import com.jpcchaves.adotar.domain.model.AnimalType;
-import com.jpcchaves.adotar.domain.model.Breed;
-import com.jpcchaves.adotar.domain.model.Pet;
-import com.jpcchaves.adotar.domain.model.PetCharacteristic;
-import com.jpcchaves.adotar.domain.model.PetPicture;
-import com.jpcchaves.adotar.domain.model.User;
-import com.jpcchaves.adotar.domain.model.UserSavedPets;
+import com.jpcchaves.adotar.application.dto.address.AddressResponseDto;
 import com.jpcchaves.adotar.application.dto.pet.PetCreateRequestDto;
 import com.jpcchaves.adotar.application.dto.pet.PetPictureMinDto;
 import com.jpcchaves.adotar.application.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.application.dto.pet.v2.PetMinDtoV2;
+import com.jpcchaves.adotar.domain.model.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Set;
 
 public interface PetUtils {
     void increasePetVisualization(Pet pet);
@@ -79,4 +72,7 @@ public interface PetUtils {
 
     void setPetPictures(Pet pet,
                         List<PetPicture> petPictures);
+
+    AddressResponseDto prepareAddressResponseDto(City city,
+                                                 Address address);
 }
