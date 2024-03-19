@@ -1,31 +1,29 @@
 package com.jpcchaves.adotar.application.dto.email;
 
 public class ContactEmailDto {
-    private String subject;
-    private String message;
+  private String subject;
+  private String message;
 
-    public ContactEmailDto() {
-    }
+  public ContactEmailDto() {}
 
-    public ContactEmailDto(String subject,
-                           String message) {
-        this.subject = subject;
-        this.message = message;
-    }
+  public ContactEmailDto(String subject, String message) {
+    this.subject = subject;
+    this.message = message;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public String getMessage() {
+    return message;
+  }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
-    public String getSubject() {
-        return subject;
-    }
+  public String getSubject() {
+    return subject;
+  }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
 }

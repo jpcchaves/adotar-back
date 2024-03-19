@@ -5,54 +5,52 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "user_saved_pets")
 public class UserSavedPets {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    @ManyToOne
-    @JoinColumn(name = "pet_id")
-    private Pet pet;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    public UserSavedPets() {
-    }
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 
-    public UserSavedPets(User user,
-                         Pet pet) {
-        this.user = user;
-        this.pet = pet;
-    }
+  @ManyToOne
+  @JoinColumn(name = "pet_id")
+  private Pet pet;
 
-    public UserSavedPets(Long id,
-                         User user,
-                         Pet pet) {
-        this.id = id;
-        this.user = user;
-        this.pet = pet;
-    }
+  public UserSavedPets() {}
 
-    public Long getId() {
-        return id;
-    }
+  public UserSavedPets(User user, Pet pet) {
+    this.user = user;
+    this.pet = pet;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public UserSavedPets(Long id, User user, Pet pet) {
+    this.id = id;
+    this.user = user;
+    this.pet = pet;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Pet getPet() {
-        return pet;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public Pet getPet() {
+    return pet;
+  }
+
+  public void setPet(Pet pet) {
+    this.pet = pet;
+  }
 }

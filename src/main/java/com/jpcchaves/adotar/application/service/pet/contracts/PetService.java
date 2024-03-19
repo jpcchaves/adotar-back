@@ -9,42 +9,38 @@ import com.jpcchaves.adotar.application.dto.pet.PetUpdateRequestDto;
 import com.jpcchaves.adotar.application.dto.pet.v2.PetDtoV2;
 import com.jpcchaves.adotar.application.dto.pet.v2.PetMinDtoV2;
 import com.jpcchaves.adotar.application.dto.user.UserDetailsDto;
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 import java.util.Set;
+import org.springframework.data.domain.Pageable;
 
 public interface PetService {
-    ApiResponsePaginatedDto<PetMinDtoV2> listAll(Pageable pageable);
+  ApiResponsePaginatedDto<PetMinDtoV2> listAll(Pageable pageable);
 
-    ApiResponsePaginatedDto<PetMinDtoV2> filterByBreedOrAnimalType(Pageable pageable,
-                                                                   Long breedId,
-                                                                   Long animalTypeId);
+  ApiResponsePaginatedDto<PetMinDtoV2> filterByBreedOrAnimalType(
+      Pageable pageable, Long breedId, Long animalTypeId);
 
-    ApiResponsePaginatedDto<PetMinDtoV2> getAllByUserId(Pageable pageable);
+  ApiResponsePaginatedDto<PetMinDtoV2> getAllByUserId(Pageable pageable);
 
-    PetDtoV2 getById(Long id);
+  PetDtoV2 getById(Long id);
 
-    PetDetailsDto getPetDetails(Long id);
+  PetDetailsDto getPetDetails(Long id);
 
-    PetDto getBySerialNumber(String serialNumber);
+  PetDto getBySerialNumber(String serialNumber);
 
-    Set<PetDto> getUserSavedPets();
+  Set<PetDto> getUserSavedPets();
 
-    UserDetailsDto getPetOwnerDetails(Long petId);
+  UserDetailsDto getPetOwnerDetails(Long petId);
 
-    ApiMessageResponseDto addUserSavedPet(Long petId);
+  ApiMessageResponseDto addUserSavedPet(Long petId);
 
-    ApiMessageResponseDto removeUserSavedPet(Long petId);
+  ApiMessageResponseDto removeUserSavedPet(Long petId);
 
-    ApiMessageResponseDto create(PetCreateRequestDto petDto);
+  ApiMessageResponseDto create(PetCreateRequestDto petDto);
 
-    ApiMessageResponseDto update(Long id,
-                                 PetUpdateRequestDto petDto);
+  ApiMessageResponseDto update(Long id, PetUpdateRequestDto petDto);
 
-    ApiMessageResponseDto delete(Long id);
+  ApiMessageResponseDto delete(Long id);
 
-    ApiResponsePaginatedDto<PetMinDtoV2> filterByAnimalTypes(Pageable pageable,
-                                                             List<Long> animalTypesIds);
-
+  ApiResponsePaginatedDto<PetMinDtoV2> filterByAnimalTypes(
+      Pageable pageable, List<Long> animalTypesIds);
 }

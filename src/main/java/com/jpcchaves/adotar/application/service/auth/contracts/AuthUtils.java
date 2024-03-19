@@ -7,36 +7,32 @@ import com.jpcchaves.adotar.domain.model.User;
 import org.springframework.security.core.Authentication;
 
 public interface AuthUtils {
-    void checkEmailAvailability(String email);
+  void checkEmailAvailability(String email);
 
-    void checkPasswordsMatch(String password,
-                             String confirmPassword);
+  void checkPasswordsMatch(String password, String confirmPassword);
 
-    void isTokenValid(String token);
+  void isTokenValid(String token);
 
-    String getUserEmailFromToken(String token);
+  String getUserEmailFromToken(String token);
 
-    void updateLastSeen(User user);
+  void updateLastSeen(User user);
 
-    Authentication buildNewAuthentication(String usernameOrEmail,
-                                          String password);
+  Authentication buildNewAuthentication(
+      String usernameOrEmail, String password);
 
-    User fetchUserByUsernameOrEmail(String usernameOrEmail);
+  User fetchUserByUsernameOrEmail(String usernameOrEmail);
 
-    User fetchUserByEmail(String email);
+  User fetchUserByEmail(String email);
 
-    void defineUserRole(User user,
-                        String role);
+  void defineUserRole(User user, String role);
 
-    void updateUser(User user,
-                    UpdateUserRequestDto updateUserDto);
+  void updateUser(User user, UpdateUserRequestDto updateUserDto);
 
-    UserDto copyPropertiesFromUserToUserDto(User user);
+  UserDto copyPropertiesFromUserToUserDto(User user);
 
-    User copyPropertiesFromRegisterDtoToUser(RegisterRequestDto registerDto);
+  User copyPropertiesFromRegisterDtoToUser(RegisterRequestDto registerDto);
 
-    Boolean passwordsMatches(String currentPassword,
-                             String password);
+  Boolean passwordsMatches(String currentPassword, String password);
 
-    String encodePassword(String rawPassword);
+  String encodePassword(String rawPassword);
 }
