@@ -6,104 +6,110 @@ import jakarta.validation.constraints.Positive;
 import org.hibernate.validator.constraints.Length;
 
 public class AddressRequestDto {
-    private Long id;
-    @NotBlank(message = "O CEP é obrigatório")
-    @Length(min = 8, max = 8, message = "CEP inválido")
-    private String zipcode;
-    private String street;
-    private String number;
-    private String complement;
-    private String neighborhood;
-    @NotNull(message = "A cidade é obrigatória!")
-    @Positive(message = "Dados inválidos, verifique os dados de cidade informados e tente novamente")
-    private Long cityIbge;
+  private Long id;
 
-    public AddressRequestDto() {
-    }
+  @NotBlank(message = "O CEP é obrigatório")
+  @Length(min = 8, max = 8, message = "CEP inválido")
+  private String zipcode;
 
-    public AddressRequestDto(String zipcode,
-                             String street,
-                             String number,
-                             String complement,
-                             String neighborhood,
-                             Long cityIbge) {
-        this.zipcode = zipcode;
-        this.street = street;
-        this.number = number;
-        this.complement = complement;
-        this.neighborhood = neighborhood;
-        this.cityIbge = cityIbge;
-    }
+  private String street;
+  private String number;
+  private String complement;
+  private String neighborhood;
 
-    public AddressRequestDto(Long id,
-                             String zipcode,
-                             String street,
-                             String number,
-                             String complement,
-                             String neighborhood,
-                             Long cityIbge) {
-        this.id = id;
-        this.zipcode = zipcode;
-        this.street = street;
-        this.number = number;
-        this.complement = complement;
-        this.neighborhood = neighborhood;
-        this.cityIbge = cityIbge;
-    }
+  @NotNull(message = "A cidade é obrigatória!")
+  @Positive(
+      message =
+          "Dados inválidos, verifique os dados de cidade informados e tente novamente")
+  private Long cityIbge;
 
-    public Long getId() {
-        return id;
-    }
+  public AddressRequestDto() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public AddressRequestDto(
+      String zipcode,
+      String street,
+      String number,
+      String complement,
+      String neighborhood,
+      Long cityIbge) {
+    this.zipcode = zipcode;
+    this.street = street;
+    this.number = number;
+    this.complement = complement;
+    this.neighborhood = neighborhood;
+    this.cityIbge = cityIbge;
+  }
 
-    public String getZipcode() {
-        return zipcode;
-    }
+  public AddressRequestDto(
+      Long id,
+      String zipcode,
+      String street,
+      String number,
+      String complement,
+      String neighborhood,
+      Long cityIbge) {
+    this.id = id;
+    this.zipcode = zipcode;
+    this.street = street;
+    this.number = number;
+    this.complement = complement;
+    this.neighborhood = neighborhood;
+    this.cityIbge = cityIbge;
+  }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getStreet() {
-        return street;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
+  public String getZipcode() {
+    return zipcode;
+  }
 
-    public String getNumber() {
-        return number;
-    }
+  public void setZipcode(String zipcode) {
+    this.zipcode = zipcode;
+  }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
+  public String getStreet() {
+    return street;
+  }
 
-    public String getComplement() {
-        return complement;
-    }
+  public void setStreet(String street) {
+    this.street = street;
+  }
 
-    public void setComplement(String complement) {
-        this.complement = complement;
-    }
+  public String getNumber() {
+    return number;
+  }
 
-    public String getNeighborhood() {
-        return neighborhood;
-    }
+  public void setNumber(String number) {
+    this.number = number;
+  }
 
-    public void setNeighborhood(String neighborhood) {
-        this.neighborhood = neighborhood;
-    }
+  public String getComplement() {
+    return complement;
+  }
 
-    public Long getCityIbge() {
-        return cityIbge;
-    }
+  public void setComplement(String complement) {
+    this.complement = complement;
+  }
 
-    public void setCityIbge(Long cityIbge) {
-        this.cityIbge = cityIbge;
-    }
+  public String getNeighborhood() {
+    return neighborhood;
+  }
+
+  public void setNeighborhood(String neighborhood) {
+    this.neighborhood = neighborhood;
+  }
+
+  public Long getCityIbge() {
+    return cityIbge;
+  }
+
+  public void setCityIbge(Long cityIbge) {
+    this.cityIbge = cityIbge;
+  }
 }

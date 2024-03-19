@@ -15,22 +15,25 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Pet Card-Controller")
 @SecurityRequirement(name = "Bearer Authentication")
 public class PetCardController {
-    private final PetCardService petCardService;
-    HttpHeaders headers = new HttpHeaders();
+  private final PetCardService petCardService;
+  HttpHeaders headers = new HttpHeaders();
 
-    public PetCardController(PetCardService petCardService) {
-        this.petCardService = petCardService;
-    }
+  public PetCardController(PetCardService petCardService) {
+    this.petCardService = petCardService;
+  }
 
-    @GetMapping("/{petId}")
-    public ResponseEntity<byte[]> generatePetCard(@PathVariable(name = "petId") Long petId) {
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        return new ResponseEntity<>(petCardService.generatePetCard(petId), headers, HttpStatus.OK);
-    }
+  @GetMapping("/{petId}")
+  public ResponseEntity<byte[]> generatePetCard(
+      @PathVariable(name = "petId") Long petId) {
+    headers.setContentType(MediaType.APPLICATION_PDF);
+    return new ResponseEntity<>(
+        petCardService.generatePetCard(petId), headers, HttpStatus.OK);
+  }
 
-    @GetMapping("/empty-card")
-    public ResponseEntity<byte[]> generateEmptyCard() {
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        return new ResponseEntity<>(petCardService.generateEmptyCard(), headers, HttpStatus.OK);
-    }
+  @GetMapping("/empty-card")
+  public ResponseEntity<byte[]> generateEmptyCard() {
+    headers.setContentType(MediaType.APPLICATION_PDF);
+    return new ResponseEntity<>(
+        petCardService.generateEmptyCard(), headers, HttpStatus.OK);
+  }
 }

@@ -8,8 +8,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 public class AdotarApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(AdotarApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(AdotarApplication.class, args);
+  }
 }

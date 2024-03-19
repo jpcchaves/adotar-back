@@ -1,8 +1,8 @@
 package com.jpcchaves.adotar.presentation.controller.v1;
 
+import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.address.AddressDto;
 import com.jpcchaves.adotar.application.dto.address.AddressRequestDto;
-import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.service.address.contracts.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,74 +21,105 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "Address-Controller")
 public class AddressController {
-    private final AddressService addressService;
+  private final AddressService addressService;
 
-    public AddressController(AddressService addressService) {
-        this.addressService = addressService;
-    }
+  public AddressController(AddressService addressService) {
+    this.addressService = addressService;
+  }
 
-    @Operation(
-            summary = "Get user's address",
-            description = "Get the current user's logged in address",
-            responses = {
-                    @ApiResponse(
-                            description = "Success",
-                            responseCode = "200",
-                            content = @Content(
-                                    schema = @Schema(
-                                            implementation = AddressDto.class
-                                    )
+  @Operation(
+      summary = "Get user's address",
+      description = "Get the current user's logged in address",
+      responses = {
+        @ApiResponse(
+            description = "Success",
+            responseCode = "200",
+            content =
+                @Content(schema = @Schema(implementation = AddressDto.class))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Not Found",
+            responseCode = "404",
+            content = @Content),
+        @ApiResponse(
+            description = "Unauthorized",
+            responseCode = "401",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
+      })
+  @GetMapping
+  public ResponseEntity<AddressDto> getUserAddress() {
+    return ResponseEntity.ok(addressService.getUserAddress());
+  }
 
-                            )
-                    ),
-                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
-                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
-                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
-            }
-    )
-    @GetMapping
-    public ResponseEntity<AddressDto> getUserAddress() {
-        return ResponseEntity.ok(addressService.getUserAddress());
-    }
+  @Operation(
+      summary = "Update user's address",
+      description = "Update the current user's logged in address",
+      responses = {
+        @ApiResponse(
+            description = "Success",
+            responseCode = "200",
+            content =
+                @Content(schema = @Schema(implementation = AddressDto.class))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Not Found",
+            responseCode = "404",
+            content = @Content),
+        @ApiResponse(
+            description = "Unauthorized",
+            responseCode = "401",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
+      })
+  @PutMapping
+  public ResponseEntity<AddressDto> updateUserAddress(
+      @Valid @RequestBody AddressRequestDto addressRequestDto) {
+    return ResponseEntity.ok(
+        addressService.updateUserAddress(addressRequestDto));
+  }
 
-    @Operation(
-            summary = "Update user's address",
-            description = "Update the current user's logged in address",
-            responses = {
-                    @ApiResponse(
-                            description = "Success",
-                            responseCode = "200",
-                            content = @Content(
-                                    schema = @Schema(
-                                            implementation = AddressDto.class
-                                    )
-                            )
-                    ),
-                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
-                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
-                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
-            }
-    )
-    @PutMapping
-    public ResponseEntity<AddressDto> updateUserAddress(@Valid @RequestBody AddressRequestDto addressRequestDto) {
-        return ResponseEntity.ok(addressService.updateUserAddress(addressRequestDto));
-    }
-
-    @Operation(summary = "Create an address",
-            description = "Create an address by passing a JSON representation of the Address",
-            responses = {
-                    @ApiResponse(description = "Success", responseCode = "201",
-                            content = @Content(schema = @Schema(implementation = ApiMessageResponseDto.class))
-                    ),
-                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
-                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
-            }
-    )
-    @PostMapping
-    public ResponseEntity<ApiMessageResponseDto> createAddress(@Valid @RequestBody AddressRequestDto addressRequestDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(addressService.createAddress(addressRequestDto));
-    }
+  @Operation(
+      summary = "Create an address",
+      description =
+          "Create an address by passing a JSON representation of the Address",
+      responses = {
+        @ApiResponse(
+            description = "Success",
+            responseCode = "201",
+            content =
+                @Content(
+                    schema =
+                        @Schema(implementation = ApiMessageResponseDto.class))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Unauthorized",
+            responseCode = "401",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
+      })
+  @PostMapping
+  public ResponseEntity<ApiMessageResponseDto> createAddress(
+      @Valid @RequestBody AddressRequestDto addressRequestDto) {
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(addressService.createAddress(addressRequestDto));
+  }
 }

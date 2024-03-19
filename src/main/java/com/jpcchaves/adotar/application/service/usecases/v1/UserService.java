@@ -6,9 +6,9 @@ import com.jpcchaves.adotar.application.dto.user.UserPictureDto;
 import com.jpcchaves.adotar.application.dto.user.UserUpdateNameDTO;
 
 public interface UserService {
-    UserDetailsDto getUserDetails();
+  UserDetailsDto getUserDetails();
 
-    ApiMessageResponseDto updateUserPicture(UserPictureDto userPictureDto);
+  ApiMessageResponseDto updateUserPicture(UserPictureDto userPictureDto);
 
-    ApiMessageResponseDto updateFirstAndLastname(UserUpdateNameDTO requestDTO);
+  ApiMessageResponseDto updateFirstAndLastname(UserUpdateNameDTO requestDTO);
 }

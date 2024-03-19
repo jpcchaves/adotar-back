@@ -5,84 +5,85 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "cities")
 public class City {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(length = 120)
-    private String name;
+  @Column(length = 120)
+  private String name;
 
-    @Column(length = 10, nullable = false, unique = true)
-    private Long ibge;
-    private Double latitude;
-    private Double longitude;
+  @Column(length = 10, nullable = false, unique = true)
+  private Long ibge;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "uf_id")
-    private State state;
+  private Double latitude;
+  private Double longitude;
 
-    public City() {
-    }
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "uf_id")
+  private State state;
 
-    public City(Long id,
-                String name,
-                Long ibge,
-                Double latitude,
-                Double longitude,
-                State state) {
-        this.id = id;
-        this.name = name;
-        this.ibge = ibge;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.state = state;
-    }
+  public City() {}
 
-    public Long getId() {
-        return id;
-    }
+  public City(
+      Long id,
+      String name,
+      Long ibge,
+      Double latitude,
+      Double longitude,
+      State state) {
+    this.id = id;
+    this.name = name;
+    this.ibge = ibge;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.state = state;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Long getIbge() {
-        return ibge;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setIbge(Long ibge) {
-        this.ibge = ibge;
-    }
+  public Long getIbge() {
+    return ibge;
+  }
 
-    public Double getLatitude() {
-        return latitude;
-    }
+  public void setIbge(Long ibge) {
+    this.ibge = ibge;
+  }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
+  public Double getLatitude() {
+    return latitude;
+  }
 
-    public Double getLongitude() {
-        return longitude;
-    }
+  public void setLatitude(Double latitude) {
+    this.latitude = latitude;
+  }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
+  public Double getLongitude() {
+    return longitude;
+  }
 
-    public State getState() {
-        return state;
-    }
+  public void setLongitude(Double longitude) {
+    this.longitude = longitude;
+  }
 
-    public void setState(State state) {
-        this.state = state;
-    }
+  public State getState() {
+    return state;
+  }
+
+  public void setState(State state) {
+    this.state = state;
+  }
 }

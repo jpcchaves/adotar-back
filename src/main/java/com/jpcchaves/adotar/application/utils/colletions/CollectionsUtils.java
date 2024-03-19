@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.Set;
 
 public class CollectionsUtils {
-    public CollectionsUtils() {
-    }
+  public CollectionsUtils() {}
 
-    public static <T> List<T> convertSetToList(Set<T> objectsSet) {
-        return new ArrayList<>(objectsSet);
-    }
+  public static <T> List<T> convertSetToList(Set<T> objectsSet) {
+    return new ArrayList<>(objectsSet);
+  }
 
-    public static <T> Set<T> convertListToSet(List<T> objectsList) {
-        return new HashSet<>(objectsList);
-    }
+  public static <T> Set<T> convertListToSet(List<T> objectsList) {
+    return new HashSet<>(objectsList);
+  }
 }

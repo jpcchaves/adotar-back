@@ -4,19 +4,15 @@ import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.auth.*;
 
 public interface AuthService {
-    JwtAuthResponseDto login(LoginDto loginDto);
+  JwtAuthResponseDto login(LoginDto loginDto);
 
-    JwtAuthResponseDto loginV2(LoginDtoV2 loginDtoV2);
+  JwtAuthResponseDto loginV2(LoginDtoV2 loginDtoV2);
 
-    RegisterResponseDto register(RegisterRequestDto registerDto);
+  RegisterResponseDto register(RegisterRequestDto registerDto);
 
-    ApiMessageResponseDto update(
-            UpdateUserRequestDto updateUserDto,
-            Long id);
+  ApiMessageResponseDto update(UpdateUserRequestDto updateUserDto, Long id);
 
-    ApiMessageResponseDto updatePassword(
-            UpdateUserPasswordRequestDTO requestDTO
-    );
+  ApiMessageResponseDto updatePassword(UpdateUserPasswordRequestDTO requestDTO);
 
-    JwtAuthResponseDto verifyToken(TokenDto tokenDto);
+  JwtAuthResponseDto verifyToken(TokenDto tokenDto);
 }

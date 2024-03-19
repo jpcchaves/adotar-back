@@ -1,20 +1,19 @@
 package com.jpcchaves.adotar.application.dto;
 
 public class ApiMessageResponseDto {
-    private String message;
+  private String message;
 
-    public ApiMessageResponseDto() {
-    }
+  public ApiMessageResponseDto() {}
 
-    public ApiMessageResponseDto(String message) {
-        this.message = message;
-    }
+  public ApiMessageResponseDto(String message) {
+    this.message = message;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public String getMessage() {
+    return message;
+  }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+  public void setMessage(String message) {
+    this.message = message;
+  }
 }

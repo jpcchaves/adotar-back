@@ -1,31 +1,29 @@
 package com.jpcchaves.adotar.application.dto.address;
 
 public class AddressMinDto {
-    private String state;
-    private String city;
+  private String state;
+  private String city;
 
-    public AddressMinDto() {
-    }
+  public AddressMinDto() {}
 
-    public AddressMinDto(String state,
-                         String city) {
-        this.state = state;
-        this.city = city;
-    }
+  public AddressMinDto(String state, String city) {
+    this.state = state;
+    this.city = city;
+  }
 
-    public String getState() {
-        return state;
-    }
+  public String getState() {
+    return state;
+  }
 
-    public void setState(String state) {
-        this.state = state;
-    }
+  public void setState(String state) {
+    this.state = state;
+  }
 
-    public String getCity() {
-        return city;
-    }
+  public String getCity() {
+    return city;
+  }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+  public void setCity(String city) {
+    this.city = city;
+  }
 }
