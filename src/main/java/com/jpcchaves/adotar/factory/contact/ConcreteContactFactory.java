@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ConcreteContactFactory implements ContactFactory {
-    @Override
-    public Contact createUserEmptyContact() {
-        return new Contact("", "", "");
-    }
+  @Override
+  public Contact createUserEmptyContact() {
+    return new Contact("", "", "");
+  }
 }

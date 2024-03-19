@@ -1,100 +1,94 @@
 package com.jpcchaves.adotar.domain.model;
 
 import jakarta.persistence.*;
+import java.util.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.util.*;
 
 @Entity
 @Table(name = "animal_types")
 public class AnimalType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(length = 30)
-    private String type;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            mappedBy = "animalType"
-    )
-    private Set<Breed> breeds = new HashSet<>();
+  @Column(length = 30)
+  private String type;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "type"
-    )
-    private List<Pet> petList = new ArrayList<>();
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "animalType")
+  private Set<Breed> breeds = new HashSet<>();
 
-    @CreationTimestamp
-    private Date createdAt;
-    @UpdateTimestamp
-    private Date updatedAt;
+  @OneToMany(
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY,
+      mappedBy = "type")
+  private List<Pet> petList = new ArrayList<>();
 
-    public AnimalType() {
-    }
+  @CreationTimestamp private Date createdAt;
+  @UpdateTimestamp private Date updatedAt;
 
-    public AnimalType(Long id,
-                      String type,
-                      Set<Breed> breeds,
-                      List<Pet> petList,
-                      Date createdAt,
-                      Date updatedAt) {
-        this.id = id;
-        this.type = type;
-        this.breeds = breeds;
-        this.petList = petList;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+  public AnimalType() {}
 
-    public Long getId() {
-        return id;
-    }
+  public AnimalType(
+      Long id,
+      String type,
+      Set<Breed> breeds,
+      List<Pet> petList,
+      Date createdAt,
+      Date updatedAt) {
+    this.id = id;
+    this.type = type;
+    this.breeds = breeds;
+    this.petList = petList;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getType() {
-        return type;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  public String getType() {
+    return type;
+  }
 
-    public Set<Breed> getBreeds() {
-        return breeds;
-    }
+  public void setType(String type) {
+    this.type = type;
+  }
 
-    public void setBreeds(Set<Breed> breeds) {
-        this.breeds = breeds;
-    }
+  public Set<Breed> getBreeds() {
+    return breeds;
+  }
 
-    public List<Pet> getPetList() {
-        return petList;
-    }
+  public void setBreeds(Set<Breed> breeds) {
+    this.breeds = breeds;
+  }
 
-    public void setPetList(List<Pet> petList) {
-        this.petList = petList;
-    }
+  public List<Pet> getPetList() {
+    return petList;
+  }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+  public void setPetList(List<Pet> petList) {
+    this.petList = petList;
+  }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+  public Date getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
+  }
 }

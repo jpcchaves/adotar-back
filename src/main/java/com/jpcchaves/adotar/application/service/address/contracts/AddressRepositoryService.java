@@ -4,10 +4,9 @@ import com.jpcchaves.adotar.domain.model.Address;
 import com.jpcchaves.adotar.domain.model.City;
 
 public interface AddressRepositoryService {
-    City fetchCityByIbge(Long cityIbge);
+  City fetchCityByIbge(Long cityIbge);
 
-    Address saveAddress(Address address);
+  Address saveAddress(Address address);
 
-    City fetchCityByName(String name);
-
+  City fetchCityByName(String name);
 }

@@ -2,237 +2,249 @@ package com.jpcchaves.adotar.application.dto.pet;
 
 import com.jpcchaves.adotar.application.dto.address.AddressRequestDto;
 import jakarta.validation.constraints.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class PetUpdateRequestDto {
-    private Long id;
-    @NotBlank(message = "O nome é obrigatório")
-    private String name;
+  private Long id;
 
-    @PositiveOrZero(message = "A idade em anos deve ser um valor maior ou igual a 0")
-    @Min(value = 0, message = "A idade em anos deve ser 0 ou maior")
-    @Max(value = 25, message = "Verifique a idade em anos informada e tente novamente")
-    @NotNull(message = "A idade em anos é obrigatória")
-    private int yearsAge;
+  @NotBlank(message = "O nome é obrigatório")
+  private String name;
 
-    @Min(value = 1, message = "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
-    @Max(value = 11, message = "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
-    @Positive(message = "A idade em meses deve ser um valor maior ou igual a 1")
-    @NotNull(message = "A idade em meses é obrigatória")
-    private int monthsAge;
+  @PositiveOrZero(
+      message = "A idade em anos deve ser um valor maior ou igual a 0")
+  @Min(value = 0, message = "A idade em anos deve ser 0 ou maior")
+  @Max(
+      value = 25,
+      message = "Verifique a idade em anos informada e tente novamente")
+  @NotNull(message = "A idade em anos é obrigatória")
+  private int yearsAge;
 
-    private char gender;
-    private char size;
-    private char healthCondition;
+  @Min(
+      value = 1,
+      message =
+          "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
+  @Max(
+      value = 11,
+      message =
+          "A idade em meses deve ser um valor entre 1 e 11 (meses do ano)")
+  @Positive(message = "A idade em meses deve ser um valor maior ou igual a 1")
+  @NotNull(message = "A idade em meses é obrigatória")
+  private int monthsAge;
 
-    @NotBlank(message = "A cor é obrigatória")
-    private String color;
-    private String description;
-    private int visualizations;
-    private boolean isAvailable;
-    private Date adoptionDate;
-    private boolean active;
+  private char gender;
+  private char size;
+  private char healthCondition;
 
-    @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 características")
-    private List<Long> characteristicsIds = new ArrayList<>();
+  @NotBlank(message = "A cor é obrigatória")
+  private String color;
 
-    private AddressRequestDto address;
+  private String description;
+  private int visualizations;
+  private boolean isAvailable;
+  private Date adoptionDate;
+  private boolean active;
 
-    @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 fotos")
-    private List<PetPictureRequestDto> petPictures = new ArrayList<>();
+  @Size(
+      min = 1,
+      max = 5,
+      message = "O pet deve ter entre 1 e 5 características")
+  private List<Long> characteristicsIds = new ArrayList<>();
 
-    @NotNull(message = "O tipo do animal é obrigatório")
-    private Long typeId;
+  private AddressRequestDto address;
 
-    @NotNull(message = "A raça do animal é obrigatória")
-    private Long breedId;
+  @Size(min = 1, max = 5, message = "O pet deve ter entre 1 e 5 fotos")
+  private List<PetPictureRequestDto> petPictures = new ArrayList<>();
 
-    public PetUpdateRequestDto() {
-    }
+  @NotNull(message = "O tipo do animal é obrigatório")
+  private Long typeId;
 
-    public PetUpdateRequestDto(Long id,
-                               String name,
-                               int yearsAge,
-                               int monthsAge,
-                               char gender,
-                               char size,
-                               char healthCondition,
-                               String color,
-                               String description,
-                               int visualizations,
-                               boolean active,
-                               boolean isAvailable,
-                               Date adoptionDate,
-                               List<Long> characteristicsIds,
-                               AddressRequestDto address,
-                               List<PetPictureRequestDto> petPictures,
-                               Long typeId,
-                               Long breedId) {
-        this.id = id;
-        this.name = name;
-        this.yearsAge = yearsAge;
-        this.monthsAge = monthsAge;
-        this.gender = gender;
-        this.size = size;
-        this.healthCondition = healthCondition;
-        this.color = color;
-        this.description = description;
-        this.visualizations = visualizations;
-        this.active = active;
-        this.adoptionDate = adoptionDate;
-        this.isAvailable = isAvailable;
-        this.characteristicsIds = characteristicsIds;
-        this.address = address;
-        this.petPictures = petPictures;
-        this.typeId = typeId;
-        this.breedId = breedId;
-    }
+  @NotNull(message = "A raça do animal é obrigatória")
+  private Long breedId;
 
+  public PetUpdateRequestDto() {}
 
-    public Long getId() {
-        return id;
-    }
+  public PetUpdateRequestDto(
+      Long id,
+      String name,
+      int yearsAge,
+      int monthsAge,
+      char gender,
+      char size,
+      char healthCondition,
+      String color,
+      String description,
+      int visualizations,
+      boolean active,
+      boolean isAvailable,
+      Date adoptionDate,
+      List<Long> characteristicsIds,
+      AddressRequestDto address,
+      List<PetPictureRequestDto> petPictures,
+      Long typeId,
+      Long breedId) {
+    this.id = id;
+    this.name = name;
+    this.yearsAge = yearsAge;
+    this.monthsAge = monthsAge;
+    this.gender = gender;
+    this.size = size;
+    this.healthCondition = healthCondition;
+    this.color = color;
+    this.description = description;
+    this.visualizations = visualizations;
+    this.active = active;
+    this.adoptionDate = adoptionDate;
+    this.isAvailable = isAvailable;
+    this.characteristicsIds = characteristicsIds;
+    this.address = address;
+    this.petPictures = petPictures;
+    this.typeId = typeId;
+    this.breedId = breedId;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public int getYearsAge() {
-        return yearsAge;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setYearsAge(int yearsAge) {
-        this.yearsAge = yearsAge;
-    }
+  public int getYearsAge() {
+    return yearsAge;
+  }
 
-    public int getMonthsAge() {
-        return monthsAge;
-    }
+  public void setYearsAge(int yearsAge) {
+    this.yearsAge = yearsAge;
+  }
 
-    public void setMonthsAge(int monthsAge) {
-        this.monthsAge = monthsAge;
-    }
+  public int getMonthsAge() {
+    return monthsAge;
+  }
 
-    public char getGender() {
-        return gender;
-    }
+  public void setMonthsAge(int monthsAge) {
+    this.monthsAge = monthsAge;
+  }
 
-    public void setGender(char gender) {
-        this.gender = gender;
-    }
+  public char getGender() {
+    return gender;
+  }
 
-    public char getSize() {
-        return size;
-    }
+  public void setGender(char gender) {
+    this.gender = gender;
+  }
 
-    public void setSize(char size) {
-        this.size = size;
-    }
+  public char getSize() {
+    return size;
+  }
 
-    public char getHealthCondition() {
-        return healthCondition;
-    }
+  public void setSize(char size) {
+    this.size = size;
+  }
 
-    public void setHealthCondition(char healthCondition) {
-        this.healthCondition = healthCondition;
-    }
+  public char getHealthCondition() {
+    return healthCondition;
+  }
 
-    public String getColor() {
-        return color;
-    }
+  public void setHealthCondition(char healthCondition) {
+    this.healthCondition = healthCondition;
+  }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
+  public String getColor() {
+    return color;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setColor(String color) {
+    this.color = color;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public int getVisualizations() {
-        return visualizations;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setVisualizations(int visualizations) {
-        this.visualizations = visualizations;
-    }
+  public int getVisualizations() {
+    return visualizations;
+  }
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
+  public void setVisualizations(int visualizations) {
+    this.visualizations = visualizations;
+  }
 
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
+  public boolean isAvailable() {
+    return isAvailable;
+  }
 
-    public Date getAdoptionDate() {
-        return adoptionDate;
-    }
+  public void setAvailable(boolean available) {
+    isAvailable = available;
+  }
 
-    public void setAdoptionDate(Date adoptionDate) {
-        this.adoptionDate = adoptionDate;
-    }
+  public Date getAdoptionDate() {
+    return adoptionDate;
+  }
 
-    public boolean isActive() {
-        return active;
-    }
+  public void setAdoptionDate(Date adoptionDate) {
+    this.adoptionDate = adoptionDate;
+  }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+  public boolean isActive() {
+    return active;
+  }
 
-    public List<Long> getCharacteristicsIds() {
-        return characteristicsIds;
-    }
+  public void setActive(boolean active) {
+    this.active = active;
+  }
 
-    public void setCharacteristicsIds(List<Long> characteristicsIds) {
-        this.characteristicsIds = characteristicsIds;
-    }
+  public List<Long> getCharacteristicsIds() {
+    return characteristicsIds;
+  }
 
-    public AddressRequestDto getAddress() {
-        return address;
-    }
+  public void setCharacteristicsIds(List<Long> characteristicsIds) {
+    this.characteristicsIds = characteristicsIds;
+  }
 
-    public void setAddress(AddressRequestDto address) {
-        this.address = address;
-    }
+  public AddressRequestDto getAddress() {
+    return address;
+  }
 
-    public List<PetPictureRequestDto> getPetPictures() {
-        return petPictures;
-    }
+  public void setAddress(AddressRequestDto address) {
+    this.address = address;
+  }
 
-    public void setPetPictures(List<PetPictureRequestDto> petPictures) {
-        this.petPictures = petPictures;
-    }
+  public List<PetPictureRequestDto> getPetPictures() {
+    return petPictures;
+  }
 
-    public Long getTypeId() {
-        return typeId;
-    }
+  public void setPetPictures(List<PetPictureRequestDto> petPictures) {
+    this.petPictures = petPictures;
+  }
 
-    public void setTypeId(Long typeId) {
-        this.typeId = typeId;
-    }
+  public Long getTypeId() {
+    return typeId;
+  }
 
-    public Long getBreedId() {
-        return breedId;
-    }
+  public void setTypeId(Long typeId) {
+    this.typeId = typeId;
+  }
 
-    public void setBreedId(Long breedId) {
-        this.breedId = breedId;
-    }
+  public Long getBreedId() {
+    return breedId;
+  }
+
+  public void setBreedId(Long breedId) {
+    this.breedId = breedId;
+  }
 }

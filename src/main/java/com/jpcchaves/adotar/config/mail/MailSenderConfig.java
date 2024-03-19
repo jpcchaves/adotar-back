@@ -1,46 +1,47 @@
 package com.jpcchaves.adotar.config.mail;
 
+import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import java.util.Properties;
-
 @Configuration
 public class MailSenderConfig {
 
-    @Value("${mail.host}")
-    private String host;
-    @Value("${mail.port}")
-    private int port;
-    @Value("${mail.username}")
-    private String username;
-    @Value("${mail.password}")
-    private String password;
+  @Value("${mail.host}")
+  private String host;
 
-    public String getPassword() {
-        return password;
-    }
+  @Value("${mail.port}")
+  private int port;
 
-    @Bean
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+  @Value("${mail.username}")
+  private String username;
 
-        mailSender.setHost(host);
-        mailSender.setPort(port);
+  @Value("${mail.password}")
+  private String password;
 
-        mailSender.setUsername(username);
-        mailSender.setPassword(password);
+  public String getPassword() {
+    return password;
+  }
 
+  @Bean
+  public JavaMailSender getJavaMailSender() {
+    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
+    mailSender.setHost(host);
+    mailSender.setPort(port);
 
-        return mailSender;
-    }
+    mailSender.setUsername(username);
+    mailSender.setPassword(password);
+
+    Properties props = mailSender.getJavaMailProperties();
+    props.put("mail.transport.protocol", "smtp");
+    props.put("mail.smtp.auth", "true");
+    props.put("mail.smtp.starttls.enable", "true");
+    props.put("mail.debug", "true");
+
+    return mailSender;
+  }
 }

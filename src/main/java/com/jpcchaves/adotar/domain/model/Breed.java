@@ -1,76 +1,67 @@
 package com.jpcchaves.adotar.domain.model;
 
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "breeds")
 public class Breed {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(length = 60, nullable = false)
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(
-            name = "animal_type_id"
-    )
-    private AnimalType animalType;
+  @Column(length = 60, nullable = false)
+  private String name;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "breed"
-    )
-    private List<Pet> petList = new ArrayList<>();
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "animal_type_id")
+  private AnimalType animalType;
 
-    public Breed() {
-    }
+  @OneToMany(
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY,
+      mappedBy = "breed")
+  private List<Pet> petList = new ArrayList<>();
 
-    public Breed(Long id,
-                 String name,
-                 AnimalType animalType,
-                 List<Pet> petList) {
-        this.id = id;
-        this.name = name;
-        this.animalType = animalType;
-        this.petList = petList;
-    }
+  public Breed() {}
 
-    public Long getId() {
-        return id;
-    }
+  public Breed(Long id, String name, AnimalType animalType, List<Pet> petList) {
+    this.id = id;
+    this.name = name;
+    this.animalType = animalType;
+    this.petList = petList;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public AnimalType getAnimalType() {
-        return animalType;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setAnimalType(AnimalType animalType) {
-        this.animalType = animalType;
-    }
+  public AnimalType getAnimalType() {
+    return animalType;
+  }
 
-    public List<Pet> getPetList() {
-        return petList;
-    }
+  public void setAnimalType(AnimalType animalType) {
+    this.animalType = animalType;
+  }
 
-    public void setPetList(List<Pet> petList) {
-        this.petList = petList;
-    }
+  public List<Pet> getPetList() {
+    return petList;
+  }
+
+  public void setPetList(List<Pet> petList) {
+    this.petList = petList;
+  }
 }

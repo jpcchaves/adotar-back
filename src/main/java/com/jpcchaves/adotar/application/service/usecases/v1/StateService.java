@@ -1,12 +1,10 @@
 package com.jpcchaves.adotar.application.service.usecases.v1;
 
 import com.jpcchaves.adotar.application.dto.state.StateDto;
-
 import java.util.List;
 
 public interface StateService {
-    List<StateDto> getAll();
+  List<StateDto> getAll();
 
-    StateDto getByNameOrUf(String nameOrUf);
-
+  StateDto getByNameOrUf(String nameOrUf);
 }

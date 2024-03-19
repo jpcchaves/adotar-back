@@ -17,25 +17,40 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @Tag(name = "Auth-Controller")
 public class AuthControllerV2 {
-    private final AuthService authService;
+  private final AuthService authService;
 
-    public AuthControllerV2(AuthService authService) {
-        this.authService = authService;
-    }
+  public AuthControllerV2(AuthService authService) {
+    this.authService = authService;
+  }
 
-    @Operation(summary = "Authenticates an user",
-            description = "Authenticate an user using the provided email and password",
-            responses = {
-                    @ApiResponse(description = "Success", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = JwtAuthResponseDto.class))
-                    ),
-                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
-                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
-            }
-    )
-    @PostMapping(value = {"/login", "/signin"})
-    public ResponseEntity<JwtAuthResponseDto> loginV2(@Valid @RequestBody LoginDtoV2 loginDtoV2) {
-        return ResponseEntity.ok(authService.loginV2(loginDtoV2));
-    }
+  @Operation(
+      summary = "Authenticates an user",
+      description =
+          "Authenticate an user using the provided email and password",
+      responses = {
+        @ApiResponse(
+            description = "Success",
+            responseCode = "200",
+            content =
+                @Content(
+                    schema =
+                        @Schema(implementation = JwtAuthResponseDto.class))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Unauthorized",
+            responseCode = "401",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
+      })
+  @PostMapping(value = {"/login", "/signin"})
+  public ResponseEntity<JwtAuthResponseDto> loginV2(
+      @Valid @RequestBody LoginDtoV2 loginDtoV2) {
+    return ResponseEntity.ok(authService.loginV2(loginDtoV2));
+  }
 }
