@@ -291,4 +291,10 @@ public class PetUtilsImpl implements PetUtils {
 
         return petAddressDto;
     }
+
+    @Override
+    public String preparePetOwnerName(String firstName,
+                                      String lastName) {
+        return String.format("%s %s", firstName, lastName);
+    }
 }

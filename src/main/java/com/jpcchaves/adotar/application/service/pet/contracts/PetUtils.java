@@ -75,4 +75,7 @@ public interface PetUtils {
 
     AddressResponseDto prepareAddressResponseDto(City city,
                                                  Address address);
+
+    String preparePetOwnerName(String firstName,
+                               String lastName);
 }

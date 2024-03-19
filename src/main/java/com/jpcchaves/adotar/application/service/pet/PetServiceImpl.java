@@ -83,12 +83,15 @@ public class PetServiceImpl implements PetService {
         petRepositoryService.savePet(pet);
 
         PetDtoV2 petDto = mapper.parseObject(pet, PetDtoV2.class);
-        petDto.setOwnerName(pet.getUser().getFirstName() + " " + pet.getUser().getLastName());
+
+        petDto.setOwnerName(petUtils
+                .preparePetOwnerName(pet.getUser().getFirstName(), pet.getUser().getLastName()));
 
         return petDto;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PetDetailsDto getPetDetails(Long id) {
         Pet pet = petRepositoryService.findById(id);
 
