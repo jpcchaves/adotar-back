@@ -6,9 +6,9 @@ import com.jpcchaves.adotar.domain.model.PasswordResetToken;
 import jakarta.mail.MessagingException;
 
 public interface EmailService {
-    void sendResetPasswordRequest(PasswordResetToken passwordResetRequestDto)
-            throws MessagingException;
+  void sendResetPasswordRequest(PasswordResetToken passwordResetRequestDto)
+      throws MessagingException;
 
-    ApiMessageResponseDto sendContactMessage(ContactEmailDto contactEmailDto)
-            throws MessagingException;
+  ApiMessageResponseDto sendContactMessage(ContactEmailDto contactEmailDto)
+      throws MessagingException;
 }

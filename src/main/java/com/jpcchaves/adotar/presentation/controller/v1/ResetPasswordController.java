@@ -19,67 +19,67 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @Tag(name = "Reset Password-Controller")
 public class ResetPasswordController {
-    private final PasswordResetService passwordResetService;
+  private final PasswordResetService passwordResetService;
 
-    public ResetPasswordController(PasswordResetService passwordResetService) {
-        this.passwordResetService = passwordResetService;
-    }
+  public ResetPasswordController(PasswordResetService passwordResetService) {
+    this.passwordResetService = passwordResetService;
+  }
 
-    @Operation(
-            summary = "Requests a password reset",
-            description =
-                    "To initiate a password reset, please provide the user's email address. An email will then be sent to the user's registered email address, containing a token that can be used to reset their password",
-            responses = {
-                    @ApiResponse(
-                            description = "Success",
-                            responseCode = "200",
-                            content =
-                            @Content(
-                                    schema =
-                                    @Schema(implementation = ApiMessageResponseDto.class))),
-                    @ApiResponse(
-                            description = "Bad Request",
-                            responseCode = "400",
-                            content = @Content),
-                    @ApiResponse(
-                            description = "Internal Error",
-                            responseCode = "500",
-                            content = @Content),
-            })
-    @PostMapping
-    public ResponseEntity<ApiMessageResponseDto> resetTokenRequestDto(
-            @Valid @RequestBody PasswordResetRequestDto passwordResetRequestDto)
-            throws MessagingException {
-        return ResponseEntity.ok(
-                passwordResetService.resetTokenRequestDto(passwordResetRequestDto));
-    }
+  @Operation(
+      summary = "Requests a password reset",
+      description =
+          "To initiate a password reset, please provide the user's email address. An email will then be sent to the user's registered email address, containing a token that can be used to reset their password",
+      responses = {
+        @ApiResponse(
+            description = "Success",
+            responseCode = "200",
+            content =
+                @Content(
+                    schema =
+                        @Schema(implementation = ApiMessageResponseDto.class))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
+      })
+  @PostMapping
+  public ResponseEntity<ApiMessageResponseDto> resetTokenRequestDto(
+      @Valid @RequestBody PasswordResetRequestDto passwordResetRequestDto)
+      throws MessagingException {
+    return ResponseEntity.ok(
+        passwordResetService.resetTokenRequestDto(passwordResetRequestDto));
+  }
 
-    @Operation(
-            summary = "Redefine user's password",
-            description =
-                    "Redefine user's password by passing  the code that was sent to their email, as well as the new password and its confirmation",
-            responses = {
-                    @ApiResponse(
-                            description = "Success",
-                            responseCode = "200",
-                            content =
-                            @Content(
-                                    schema =
-                                    @Schema(implementation = ApiMessageResponseDto.class))),
-                    @ApiResponse(
-                            description = "Bad Request",
-                            responseCode = "400",
-                            content = @Content),
-                    @ApiResponse(
-                            description = "Internal Error",
-                            responseCode = "500",
-                            content = @Content),
-            })
-    @PostMapping("/redefine")
-    public ResponseEntity<ApiMessageResponseDto> resetPassword(
-            @Valid @RequestBody
-            PasswordResetTokenRequestDto passwordResetTokenRequestDto) {
-        return ResponseEntity.ok(
-                passwordResetService.resetPassword(passwordResetTokenRequestDto));
-    }
+  @Operation(
+      summary = "Redefine user's password",
+      description =
+          "Redefine user's password by passing  the code that was sent to their email, as well as the new password and its confirmation",
+      responses = {
+        @ApiResponse(
+            description = "Success",
+            responseCode = "200",
+            content =
+                @Content(
+                    schema =
+                        @Schema(implementation = ApiMessageResponseDto.class))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
+      })
+  @PostMapping("/redefine")
+  public ResponseEntity<ApiMessageResponseDto> resetPassword(
+      @Valid @RequestBody
+          PasswordResetTokenRequestDto passwordResetTokenRequestDto) {
+    return ResponseEntity.ok(
+        passwordResetService.resetPassword(passwordResetTokenRequestDto));
+  }
 }
