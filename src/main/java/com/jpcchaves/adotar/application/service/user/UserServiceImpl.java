@@ -1,11 +1,11 @@
-package com.jpcchaves.adotar.application.service.impl.v1;
+package com.jpcchaves.adotar.application.service.user;
 
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.application.dto.user.UserPictureDto;
 import com.jpcchaves.adotar.application.dto.user.UserUpdateNameDTO;
 import com.jpcchaves.adotar.application.service.usecases.SecurityContextService;
-import com.jpcchaves.adotar.application.service.usecases.UserService;
+import com.jpcchaves.adotar.application.service.user.contracts.UserService;
 import com.jpcchaves.adotar.application.utils.user.UserUtils;
 import com.jpcchaves.adotar.domain.exception.UnexpectedErrorException;
 import com.jpcchaves.adotar.domain.model.User;

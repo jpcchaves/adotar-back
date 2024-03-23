@@ -4,7 +4,7 @@ import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.user.UserDetailsDto;
 import com.jpcchaves.adotar.application.dto.user.UserPictureDto;
 import com.jpcchaves.adotar.application.dto.user.UserUpdateNameDTO;
-import com.jpcchaves.adotar.application.service.usecases.UserService;
+import com.jpcchaves.adotar.application.service.user.contracts.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
