@@ -1,7 +1,7 @@
 package com.jpcchaves.adotar.application.service.pwdreset;
 
 import com.jpcchaves.adotar.application.service.pwdreset.contracts.PwdResetUtils;
-import com.jpcchaves.adotar.application.service.usecases.EmailService;
+import com.jpcchaves.adotar.application.service.mail.contracts.EmailService;
 import com.jpcchaves.adotar.domain.Enum.ExpirationTime;
 import com.jpcchaves.adotar.domain.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.domain.exception.UserNotFoundException;
