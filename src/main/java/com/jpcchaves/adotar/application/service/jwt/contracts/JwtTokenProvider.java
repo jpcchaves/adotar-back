@@ -3,12 +3,11 @@ package com.jpcchaves.adotar.application.service.jwt.contracts;
 import org.springframework.security.core.Authentication;
 
 public interface JwtTokenProvider {
-    String generateToken(Authentication authentication);
+  String generateToken(Authentication authentication);
 
-    String getUsernameFromToken(String token);
+  String getUsernameFromToken(String token);
 
-    boolean validateToken(String token);
+  boolean validateToken(String token);
 
-    String getClaimFromTokenByKey(String token,
-                                  String key);
+  String getClaimFromTokenByKey(String token, String key);
 }
