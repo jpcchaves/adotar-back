@@ -15,151 +15,148 @@ import com.jpcchaves.adotar.domain.model.User;
 import com.jpcchaves.adotar.infra.repository.PasswordResetTokenRepository;
 import com.jpcchaves.adotar.infra.repository.UserRepository;
 import jakarta.mail.MessagingException;
-
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PasswordResetServiceImpl implements PasswordResetService {
-    private static final int TOKEN_VALIDITY_MINUTES =
-            ExpirationTime.FIVE_MINUTES.getMinutes();
+  private static final int TOKEN_VALIDITY_MINUTES =
+      ExpirationTime.FIVE_MINUTES.getMinutes();
 
-    private final PasswordResetTokenRepository passwordResetTokenRepository;
-    private final UserRepository userRepository;
-    private final EmailService emailService;
-    private final PasswordEncoder passwordEncoder;
+  private final PasswordResetTokenRepository passwordResetTokenRepository;
+  private final UserRepository userRepository;
+  private final EmailService emailService;
+  private final PasswordEncoder passwordEncoder;
 
-    public PasswordResetServiceImpl(
-            PasswordResetTokenRepository passwordResetTokenRepository,
-            UserRepository userRepository,
-            EmailService emailService,
-            PasswordEncoder passwordEncoder) {
-        this.passwordResetTokenRepository = passwordResetTokenRepository;
-        this.userRepository = userRepository;
-        this.emailService = emailService;
-        this.passwordEncoder = passwordEncoder;
+  public PasswordResetServiceImpl(
+      PasswordResetTokenRepository passwordResetTokenRepository,
+      UserRepository userRepository,
+      EmailService emailService,
+      PasswordEncoder passwordEncoder) {
+    this.passwordResetTokenRepository = passwordResetTokenRepository;
+    this.userRepository = userRepository;
+    this.emailService = emailService;
+    this.passwordEncoder = passwordEncoder;
+  }
+
+  @Override
+  public ApiMessageResponseDto resetTokenRequestDto(
+      PasswordResetRequestDto passwordResetRequestDto)
+      throws MessagingException {
+    User user = getUserByEmail(passwordResetRequestDto.getEmail());
+
+    PasswordResetToken token = generatePasswordResetToken(user);
+    sendPasswordRequest(token);
+
+    return new ApiMessageResponseDto("Solicitação enviada com sucesso!");
+  }
+
+  @Override
+  public ApiMessageResponseDto resetPassword(
+      PasswordResetTokenRequestDto passwordResetTokenRequestDto) {
+    String newPassword = passwordResetTokenRequestDto.getNewPassword();
+    String confirmNewPassword =
+        passwordResetTokenRequestDto.getConfirmNewPassword();
+
+    if (!passwordsMatch(newPassword, confirmNewPassword)) {
+      throw new PasswordsMismatchException(
+          "As senhas não são indênticas. Verifique os dados informados e tente novamente");
     }
 
-    @Override
-    public ApiMessageResponseDto resetTokenRequestDto(
-            PasswordResetRequestDto passwordResetRequestDto)
-            throws MessagingException {
-        User user = getUserByEmail(passwordResetRequestDto.getEmail());
+    PasswordResetToken passwordResetToken =
+        getPasswordResetToken(passwordResetTokenRequestDto.getToken());
 
-        PasswordResetToken token = generatePasswordResetToken(user);
-        sendPasswordRequest(token);
-
-        return new ApiMessageResponseDto("Solicitação enviada com sucesso!");
+    if (isTokenExpired(passwordResetToken.getExpirationTime())) {
+      deleteExpiredToken(passwordResetToken);
+      throw new TokenExpiredException(
+          "O token informado não existe ou está expirado. Verifique os dados informados ou solicite um novo token para continuar");
     }
 
-    @Override
-    public ApiMessageResponseDto resetPassword(
-            PasswordResetTokenRequestDto passwordResetTokenRequestDto) {
-        String newPassword = passwordResetTokenRequestDto.getNewPassword();
-        String confirmNewPassword =
-                passwordResetTokenRequestDto.getConfirmNewPassword();
+    User user = getUserByEmail(passwordResetToken.getUser().getEmail());
+    user.setPassword(
+        encodePassword(passwordResetTokenRequestDto.getNewPassword()));
+    userRepository.save(user);
 
-        if (!passwordsMatch(newPassword, confirmNewPassword)) {
-            throw new PasswordsMismatchException(
-                    "As senhas não são indênticas. Verifique os dados informados e tente novamente");
-        }
+    deleteExpiredToken(passwordResetToken);
 
-        PasswordResetToken passwordResetToken =
-                getPasswordResetToken(passwordResetTokenRequestDto.getToken());
+    return new ApiMessageResponseDto("Senha redefinida com sucesso!");
+  }
 
-        if (isTokenExpired(passwordResetToken.getExpirationTime())) {
-            deleteExpiredToken(passwordResetToken);
-            throw new TokenExpiredException(
-                    "O token informado não existe ou está expirado. Verifique os dados informados ou solicite um novo token para continuar");
-        }
+  private PasswordResetToken generatePasswordResetToken(User user) {
+    Optional<PasswordResetToken> passwordResetToken =
+        passwordResetTokenRepository.findByUser(user);
 
-        User user = getUserByEmail(passwordResetToken.getUser().getEmail());
-        user.setPassword(
-                encodePassword(passwordResetTokenRequestDto.getNewPassword()));
-        userRepository.save(user);
+    if (passwordResetToken.isPresent()) {
+      PasswordResetToken token = passwordResetToken.get();
 
-        deleteExpiredToken(passwordResetToken);
-
-        return new ApiMessageResponseDto("Senha redefinida com sucesso!");
+      if (isTokenExpired(token.getExpirationTime())) {
+        deleteExpiredToken(token);
+      } else {
+        return token;
+      }
     }
 
-    private PasswordResetToken generatePasswordResetToken(User user) {
-        Optional<PasswordResetToken> passwordResetToken =
-                passwordResetTokenRepository.findByUser(user);
+    return buildNewToken(user);
+  }
 
-        if (passwordResetToken.isPresent()) {
-            PasswordResetToken token = passwordResetToken.get();
+  private PasswordResetToken getPasswordResetToken(String token) {
+    return passwordResetTokenRepository
+        .findByToken(token)
+        .orElseThrow(
+            () ->
+                new ResourceNotFoundException(
+                    "O token informado está expirado ou não existe. Por favor, verifique os dados e tente novamente."));
+  }
 
-            if (isTokenExpired(token.getExpirationTime())) {
-                deleteExpiredToken(token);
-            } else {
-                return token;
-            }
-        }
+  private User getUserByEmail(String email) {
+    return userRepository
+        .findByEmail(email)
+        .orElseThrow(
+            () ->
+                new UserNotFoundException(
+                    "Ocorreu um erro inesperado. Por favor, tente novamente"));
+  }
 
-        return buildNewToken(user);
-    }
+  private String encodePassword(String rawPassword) {
+    return passwordEncoder.encode(rawPassword);
+  }
 
-    private PasswordResetToken getPasswordResetToken(String token) {
-        return passwordResetTokenRepository
-                .findByToken(token)
-                .orElseThrow(
-                        () ->
-                                new ResourceNotFoundException(
-                                        "O token informado está expirado ou não existe. Por favor, verifique os dados e tente novamente."));
-    }
+  private void sendPasswordRequest(PasswordResetToken token)
+      throws MessagingException {
+    emailService.sendResetPasswordRequest(token);
+  }
 
-    private User getUserByEmail(String email) {
-        return userRepository
-                .findByEmail(email)
-                .orElseThrow(
-                        () ->
-                                new UserNotFoundException(
-                                        "Ocorreu um erro inesperado. Por favor, tente novamente"));
-    }
+  private Instant calculateExpirationDate() {
+    return Instant.now().plus(TOKEN_VALIDITY_MINUTES, ChronoUnit.MINUTES);
+  }
 
-    private String encodePassword(String rawPassword) {
-        return passwordEncoder.encode(rawPassword);
-    }
+  private void deleteExpiredToken(PasswordResetToken token) {
+    passwordResetTokenRepository.delete(token);
+  }
 
-    private void sendPasswordRequest(PasswordResetToken token)
-            throws MessagingException {
-        emailService.sendResetPasswordRequest(token);
-    }
+  private String generateRandomCode() {
+    SecureRandom random = new SecureRandom();
+    int code = random.nextInt(900000) + 100000;
+    return String.valueOf(code);
+  }
 
-    private Instant calculateExpirationDate() {
-        return Instant.now().plus(TOKEN_VALIDITY_MINUTES, ChronoUnit.MINUTES);
-    }
+  private PasswordResetToken buildNewToken(User user) {
+    String token = generateRandomCode();
+    Instant expirationDate = calculateExpirationDate();
+    return passwordResetTokenRepository.save(
+        new PasswordResetToken(token, expirationDate, user));
+  }
 
-    private void deleteExpiredToken(PasswordResetToken token) {
-        passwordResetTokenRepository.delete(token);
-    }
+  private Boolean passwordsMatch(
+      String newPassword, String confirmNewPassword) {
+    return newPassword.equals(confirmNewPassword);
+  }
 
-    private String generateRandomCode() {
-        SecureRandom random = new SecureRandom();
-        int code = random.nextInt(900000) + 100000;
-        return String.valueOf(code);
-    }
-
-    private PasswordResetToken buildNewToken(User user) {
-        String token = generateRandomCode();
-        Instant expirationDate = calculateExpirationDate();
-        return passwordResetTokenRepository.save(
-                new PasswordResetToken(token, expirationDate, user));
-    }
-
-    private Boolean passwordsMatch(
-            String newPassword,
-            String confirmNewPassword) {
-        return newPassword.equals(confirmNewPassword);
-    }
-
-    private Boolean isTokenExpired(Instant expirationTime) {
-        return Instant.now().isAfter(expirationTime);
-    }
+  private Boolean isTokenExpired(Instant expirationTime) {
+    return Instant.now().isAfter(expirationTime);
+  }
 }

@@ -6,10 +6,10 @@ import com.jpcchaves.adotar.application.dto.auth.PasswordResetTokenRequestDto;
 import jakarta.mail.MessagingException;
 
 public interface PasswordResetService {
-    ApiMessageResponseDto resetTokenRequestDto(
-            PasswordResetRequestDto passwordResetRequestDto)
-            throws MessagingException;
+  ApiMessageResponseDto resetTokenRequestDto(
+      PasswordResetRequestDto passwordResetRequestDto)
+      throws MessagingException;
 
-    ApiMessageResponseDto resetPassword(
-            PasswordResetTokenRequestDto passwordResetTokenRequestDto);
+  ApiMessageResponseDto resetPassword(
+      PasswordResetTokenRequestDto passwordResetTokenRequestDto);
 }

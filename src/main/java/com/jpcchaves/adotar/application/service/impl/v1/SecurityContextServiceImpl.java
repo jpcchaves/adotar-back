@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityContextServiceImpl implements SecurityContextService {
-    @Override
-    public User getCurrentLoggedUser() {
-        return (User)
-                SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
+  @Override
+  public User getCurrentLoggedUser() {
+    return (User)
+        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  }
 }
