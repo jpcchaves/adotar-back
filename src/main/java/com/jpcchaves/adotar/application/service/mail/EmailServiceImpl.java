@@ -9,6 +9,7 @@ import com.jpcchaves.adotar.domain.model.PasswordResetToken;
 import com.jpcchaves.adotar.domain.model.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -30,33 +31,41 @@ public class EmailServiceImpl implements EmailService {
 
   public void sendResetPasswordRequest(PasswordResetToken passwordResetToken)
       throws MessagingException {
-    MimeMessage message = mailSender.createMimeMessage();
-
-    MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-    helper.setTo(passwordResetToken.getUser().getEmail());
-    helper.setSubject("Adotar - Solcitação para Redefinir Senha");
-    helper.setText(
-        MailUtils.generateResetPasswordMessage(passwordResetToken), true);
-    mailSender.send(message);
+    mailSender.send(
+        prepareEmail(
+            passwordResetToken.getUser().getEmail(),
+            appMail,
+            "Adotar - Redefinir senha",
+            MailUtils.generateResetPasswordMessage(passwordResetToken)));
   }
 
   @Override
   public ApiMessageResponseDto sendContactMessage(
       ContactEmailDto contactEmailDto) throws MessagingException {
-    MimeMessage message = mailSender.createMimeMessage();
-
-    MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
     User user = contextService.getCurrentLoggedUser();
 
-    helper.setTo(appMail);
-    helper.setFrom(user.getEmail());
-    helper.setSubject(contactEmailDto.getSubject());
-    helper.setText(MailUtils.generateContactUsHtml(contactEmailDto), true);
-
-    mailSender.send(message);
+    mailSender.send(
+        prepareEmail(
+            appMail,
+            user.getEmail(),
+            contactEmailDto.getSubject(),
+            MailUtils.generateContactUsHtml(contactEmailDto)));
 
     return new ApiMessageResponseDto("Mensagem enviada com sucesso!");
+  }
+
+  private MimeMessage prepareEmail(
+      String to, String from, String subject, String text)
+      throws MessagingException {
+    MimeMessage message = mailSender.createMimeMessage();
+    MimeMessageHelper helper =
+        new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
+
+    helper.setFrom(from);
+    helper.setTo(to);
+    helper.setSubject(subject);
+    helper.setText(text, true);
+
+    return message;
   }
 }
