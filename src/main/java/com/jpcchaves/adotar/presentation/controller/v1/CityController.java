@@ -1,7 +1,7 @@
 package com.jpcchaves.adotar.presentation.controller.v1;
 
 import com.jpcchaves.adotar.application.dto.city.CityDto;
-import com.jpcchaves.adotar.application.service.usecases.v1.CityService;
+import com.jpcchaves.adotar.application.service.usecases.CityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

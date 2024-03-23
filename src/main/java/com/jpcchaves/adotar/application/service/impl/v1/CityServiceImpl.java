@@ -1,7 +1,7 @@
 package com.jpcchaves.adotar.application.service.impl.v1;
 
 import com.jpcchaves.adotar.application.dto.city.CityDto;
-import com.jpcchaves.adotar.application.service.usecases.v1.CityService;
+import com.jpcchaves.adotar.application.service.usecases.CityService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
 import com.jpcchaves.adotar.domain.model.City;

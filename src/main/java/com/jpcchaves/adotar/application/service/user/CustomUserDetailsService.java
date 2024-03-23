@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.application.service;
+package com.jpcchaves.adotar.application.service.user;
 
 import com.jpcchaves.adotar.domain.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.infra.repository.UserRepository;

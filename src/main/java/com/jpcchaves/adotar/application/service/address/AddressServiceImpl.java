@@ -6,7 +6,7 @@ import com.jpcchaves.adotar.application.dto.address.AddressRequestDto;
 import com.jpcchaves.adotar.application.service.address.contracts.AddressRepositoryService;
 import com.jpcchaves.adotar.application.service.address.contracts.AddressService;
 import com.jpcchaves.adotar.application.service.address.contracts.AddressUtils;
-import com.jpcchaves.adotar.application.service.usecases.v1.SecurityContextService;
+import com.jpcchaves.adotar.application.service.usecases.SecurityContextService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
 import com.jpcchaves.adotar.domain.exception.ResourceNotFoundException;

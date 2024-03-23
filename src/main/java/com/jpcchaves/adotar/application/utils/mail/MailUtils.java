@@ -1,64 +1,10 @@
-package com.jpcchaves.adotar.application.service.impl.v1;
+package com.jpcchaves.adotar.application.utils.mail;
 
-import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.email.ContactEmailDto;
-import com.jpcchaves.adotar.application.service.usecases.v1.EmailService;
-import com.jpcchaves.adotar.application.service.usecases.v1.SecurityContextService;
 import com.jpcchaves.adotar.domain.model.PasswordResetToken;
-import com.jpcchaves.adotar.domain.model.User;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
 
-@Service
-public class EmailServiceImpl implements EmailService {
-  private final JavaMailSender mailSender;
-  private final SecurityContextService contextService;
-
-  @Value("${mail.username}")
-  private String appMail;
-
-  public EmailServiceImpl(
-      JavaMailSender javaMailSender, SecurityContextService contextService) {
-    this.mailSender = javaMailSender;
-    this.contextService = contextService;
-  }
-
-  public void sendResetPasswordRequest(PasswordResetToken passwordResetToken)
-      throws MessagingException {
-    MimeMessage message = mailSender.createMimeMessage();
-
-    MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-    helper.setTo(passwordResetToken.getUser().getEmail());
-    helper.setSubject("Adote.Me - Solcitação para Redefinir Senha");
-    helper.setText(generateResetPasswordMessage(passwordResetToken), true);
-    mailSender.send(message);
-  }
-
-  @Override
-  public ApiMessageResponseDto sendContactMessage(
-      ContactEmailDto contactEmailDto) throws MessagingException {
-    MimeMessage message = mailSender.createMimeMessage();
-
-    MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-    User user = contextService.getCurrentLoggedUser();
-
-    helper.setTo(appMail);
-    helper.setFrom(user.getEmail());
-    helper.setSubject(contactEmailDto.getSubject());
-    helper.setText(generateContactUsHtml(contactEmailDto, user), true);
-
-    mailSender.send(message);
-
-    return new ApiMessageResponseDto("Mensagem enviada com sucesso!");
-  }
-
-  private String generateResetPasswordMessage(
+public class MailUtils {
+  public static String generateResetPasswordMessage(
       PasswordResetToken passwordResetToken) {
     return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
         + "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"
@@ -517,7 +463,7 @@ public class EmailServiceImpl implements EmailService {
         + "            <tr>\n"
         + "              <td class=\"email-masthead\">\n"
         + "                <a href=\"https://example.com\" class=\"f-fallback email-masthead_name\">\n"
-        + "                Adote.Me\n"
+        + "                Adotar\n"
         + "              </a>\n"
         + "              </td>\n"
         + "            </tr>\n"
@@ -553,7 +499,7 @@ public class EmailServiceImpl implements EmailService {
         + "                        </table>\n"
         + "                        <p>Se você não realizou essa solicitação, por favor, ignore esse email.</p>\n"
         + "                        <p>Atenciosamente,\n"
-        + "                          <br>Time Adote.Me</p>\n"
+        + "                          <br>Time Adotar</p>\n"
         + "                      </div>\n"
         + "                    </td>\n"
         + "                  </tr>\n"
@@ -578,12 +524,12 @@ public class EmailServiceImpl implements EmailService {
         + "        </td>\n"
         + "      </tr>\n"
         + "    </table>\n"
+        + "    </table>\n"
         + "  </body>\n"
         + "</html>";
   }
 
-  private String generateContactUsHtml(
-      ContactEmailDto contactEmailDto, User user) {
+  public static String generateContactUsHtml(ContactEmailDto contactEmailDto) {
     return "<!DOCTYPE html>\n"
         + "<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\"\n"
         + "  xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n"

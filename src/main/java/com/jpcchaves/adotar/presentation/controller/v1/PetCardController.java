@@ -1,6 +1,6 @@
 package com.jpcchaves.adotar.presentation.controller.v1;
 
-import com.jpcchaves.adotar.application.service.usecases.v1.PetCardService;
+import com.jpcchaves.adotar.application.service.usecases.PetCardService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpHeaders;

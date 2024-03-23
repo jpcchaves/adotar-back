@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.application.service.usecases.v1;
+package com.jpcchaves.adotar.application.service.usecases;
 
 import com.jpcchaves.adotar.domain.model.User;
 

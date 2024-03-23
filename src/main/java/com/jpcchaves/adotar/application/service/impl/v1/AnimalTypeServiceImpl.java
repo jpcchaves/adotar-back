@@ -1,7 +1,7 @@
 package com.jpcchaves.adotar.application.service.impl.v1;
 
 import com.jpcchaves.adotar.application.dto.pet.AnimalTypeMinDto;
-import com.jpcchaves.adotar.application.service.usecases.v1.AnimalTypeService;
+import com.jpcchaves.adotar.application.service.usecases.AnimalTypeService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.domain.model.AnimalType;

@@ -1,7 +1,7 @@
 package com.jpcchaves.adotar.presentation.controller.v1;
 
 import com.jpcchaves.adotar.application.dto.state.StateDto;
-import com.jpcchaves.adotar.application.service.usecases.v1.StateService;
+import com.jpcchaves.adotar.application.service.usecases.StateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,8 +1,9 @@
-package com.jpcchaves.adotar.application.service;
+package com.jpcchaves.adotar.application.service.jwt;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpcchaves.adotar.application.dto.user.UserMinDto;
+import com.jpcchaves.adotar.application.service.jwt.contracts.JwtTokenProvider;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
 import com.jpcchaves.adotar.domain.model.User;
 import io.jsonwebtoken.Claims;

@@ -1,6 +1,6 @@
 package com.jpcchaves.adotar.presentation.security;
 
-import com.jpcchaves.adotar.application.service.JwtTokenProvider;
+import com.jpcchaves.adotar.application.service.jwt.contracts.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

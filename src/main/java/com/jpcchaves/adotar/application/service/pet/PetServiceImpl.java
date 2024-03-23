@@ -15,7 +15,7 @@ import com.jpcchaves.adotar.application.service.pet.contracts.PetRepositoryServi
 import com.jpcchaves.adotar.application.service.pet.contracts.PetService;
 import com.jpcchaves.adotar.application.service.pet.contracts.PetUtils;
 import com.jpcchaves.adotar.application.service.pet.contracts.PetValidationService;
-import com.jpcchaves.adotar.application.service.usecases.v1.SecurityContextService;
+import com.jpcchaves.adotar.application.service.usecases.SecurityContextService;
 import com.jpcchaves.adotar.application.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.application.utils.user.UserUtils;

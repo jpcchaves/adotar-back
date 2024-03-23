@@ -1,7 +1,7 @@
 package com.jpcchaves.adotar.application.service.impl.v1;
 
 import com.jpcchaves.adotar.application.dto.state.StateDto;
-import com.jpcchaves.adotar.application.service.usecases.v1.StateService;
+import com.jpcchaves.adotar.application.service.usecases.StateService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.domain.model.State;

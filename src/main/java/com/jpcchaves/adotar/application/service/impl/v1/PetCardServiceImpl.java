@@ -1,6 +1,6 @@
 package com.jpcchaves.adotar.application.service.impl.v1;
 
-import com.jpcchaves.adotar.application.service.usecases.v1.PetCardService;
+import com.jpcchaves.adotar.application.service.usecases.PetCardService;
 import com.jpcchaves.adotar.application.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;

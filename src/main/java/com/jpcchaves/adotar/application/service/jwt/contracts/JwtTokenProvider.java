@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.application.service;
+package com.jpcchaves.adotar.application.service.jwt.contracts;
 
 import org.springframework.security.core.Authentication;
 

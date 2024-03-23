@@ -2,7 +2,7 @@ package com.jpcchaves.adotar.presentation.controller.v1;
 
 import com.jpcchaves.adotar.application.dto.pet.AnimalTypeDto;
 import com.jpcchaves.adotar.application.dto.pet.AnimalTypeMinDto;
-import com.jpcchaves.adotar.application.service.usecases.v1.AnimalTypeService;
+import com.jpcchaves.adotar.application.service.usecases.AnimalTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

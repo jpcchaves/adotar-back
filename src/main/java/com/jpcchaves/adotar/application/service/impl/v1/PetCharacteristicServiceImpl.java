@@ -1,7 +1,7 @@
 package com.jpcchaves.adotar.application.service.impl.v1;
 
 import com.jpcchaves.adotar.application.dto.pet.PetCharacteristicsDto;
-import com.jpcchaves.adotar.application.service.usecases.v1.PetCharacteristicService;
+import com.jpcchaves.adotar.application.service.usecases.PetCharacteristicService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.model.PetCharacteristic;
 import com.jpcchaves.adotar.infra.repository.PetCharacteristicRepository;
