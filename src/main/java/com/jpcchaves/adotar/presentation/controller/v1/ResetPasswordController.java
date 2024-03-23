@@ -3,7 +3,7 @@ package com.jpcchaves.adotar.presentation.controller.v1;
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.auth.PasswordResetRequestDto;
 import com.jpcchaves.adotar.application.dto.auth.PasswordResetTokenRequestDto;
-import com.jpcchaves.adotar.application.service.usecases.PasswordResetService;
+import com.jpcchaves.adotar.application.service.pwdreset.contracts.PasswordResetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
