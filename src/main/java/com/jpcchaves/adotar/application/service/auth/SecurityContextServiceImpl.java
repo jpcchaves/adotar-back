@@ -1,6 +1,6 @@
-package com.jpcchaves.adotar.application.service.impl.v1;
+package com.jpcchaves.adotar.application.service.auth;
 
-import com.jpcchaves.adotar.application.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.application.service.auth.contracts.SecurityContextService;
 import com.jpcchaves.adotar.domain.model.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

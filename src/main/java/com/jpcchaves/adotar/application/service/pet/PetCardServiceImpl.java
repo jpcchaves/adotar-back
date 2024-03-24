@@ -1,6 +1,6 @@
-package com.jpcchaves.adotar.application.service.impl.v1;
+package com.jpcchaves.adotar.application.service.pet;
 
-import com.jpcchaves.adotar.application.service.usecases.PetCardService;
+import com.jpcchaves.adotar.application.service.pet.contracts.PetCardService;
 import com.jpcchaves.adotar.application.utils.base64.Base64Utils;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
@@ -9,9 +9,11 @@ import com.jpcchaves.adotar.domain.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.domain.model.Pet;
 import com.jpcchaves.adotar.domain.model.PetCharacteristic;
 import com.jpcchaves.adotar.infra.repository.PetRepository;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -89,7 +91,9 @@ public class PetCardServiceImpl implements PetCardService {
   }
 
   private void setPetCardFields(
-      Pet pet, PDDocument pdfDocument, PDAcroForm acroForm) {
+      Pet pet,
+      PDDocument pdfDocument,
+      PDAcroForm acroForm) {
 
     handlePetPictureInput(pet, pdfDocument, acroForm);
 
@@ -132,7 +136,9 @@ public class PetCardServiceImpl implements PetCardService {
   }
 
   private void handlePetPictureInput(
-      Pet pet, PDDocument pdfDocument, PDAcroForm acroForm) {
+      Pet pet,
+      PDDocument pdfDocument,
+      PDAcroForm acroForm) {
     try {
       PDField imageField = acroForm.getField("picture");
       PDPage page = pdfDocument.getPage(0);
@@ -165,7 +171,8 @@ public class PetCardServiceImpl implements PetCardService {
   }
 
   private void handlePetPictureInput(
-      PDDocument pdfDocument, PDAcroForm acroForm) {
+      PDDocument pdfDocument,
+      PDAcroForm acroForm) {
     try {
       PDField imageField = acroForm.getField("picture");
       PDPage page = pdfDocument.getPage(0);

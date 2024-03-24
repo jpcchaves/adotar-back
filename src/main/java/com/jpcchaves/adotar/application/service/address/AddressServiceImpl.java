@@ -6,7 +6,7 @@ import com.jpcchaves.adotar.application.dto.address.AddressRequestDto;
 import com.jpcchaves.adotar.application.service.address.contracts.AddressRepositoryService;
 import com.jpcchaves.adotar.application.service.address.contracts.AddressService;
 import com.jpcchaves.adotar.application.service.address.contracts.AddressUtils;
-import com.jpcchaves.adotar.application.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.application.service.auth.contracts.SecurityContextService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
 import com.jpcchaves.adotar.domain.exception.ResourceNotFoundException;
@@ -14,7 +14,9 @@ import com.jpcchaves.adotar.domain.model.Address;
 import com.jpcchaves.adotar.domain.model.City;
 import com.jpcchaves.adotar.domain.model.User;
 import com.jpcchaves.adotar.infra.repository.UserRepository;
+
 import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,7 +46,8 @@ public class AddressServiceImpl implements AddressService {
   }
 
   @Override
-  public Address buildAddress(AddressRequestDto addressDto, City city) {
+  public Address buildAddress(AddressRequestDto addressDto,
+                              City city) {
     return addressUtils.buildAddress(addressDto, city);
   }
 

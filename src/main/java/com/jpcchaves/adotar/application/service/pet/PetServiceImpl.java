@@ -15,16 +15,18 @@ import com.jpcchaves.adotar.application.service.pet.contracts.PetRepositoryServi
 import com.jpcchaves.adotar.application.service.pet.contracts.PetService;
 import com.jpcchaves.adotar.application.service.pet.contracts.PetUtils;
 import com.jpcchaves.adotar.application.service.pet.contracts.PetValidationService;
-import com.jpcchaves.adotar.application.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.application.service.auth.contracts.SecurityContextService;
 import com.jpcchaves.adotar.application.utils.global.GlobalUtils;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.application.utils.user.UserUtils;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
 import com.jpcchaves.adotar.domain.model.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -154,7 +156,8 @@ public class PetServiceImpl implements PetService {
 
   @Override
   @Transactional
-  public ApiMessageResponseDto update(Long id, PetUpdateRequestDto petDto) {
+  public ApiMessageResponseDto update(Long id,
+                                      PetUpdateRequestDto petDto) {
     petValidationService.validateCharacteristicsLimit(
         petDto.getCharacteristicsIds());
 
@@ -281,7 +284,8 @@ public class PetServiceImpl implements PetService {
   @Override
   @Transactional(readOnly = true)
   public ApiResponsePaginatedDto<PetMinDtoV2> filterByAnimalTypes(
-      Pageable pageable, List<Long> animalTypesIds) {
+      Pageable pageable,
+      List<Long> animalTypesIds) {
     User user = securityContextService.getCurrentLoggedUser();
 
     Page<Pet> petPage =
@@ -298,7 +302,9 @@ public class PetServiceImpl implements PetService {
   @Override
   @Transactional(readOnly = true)
   public ApiResponsePaginatedDto<PetMinDtoV2> filterByBreedOrAnimalType(
-      Pageable pageable, Long breedId, Long animalTypeId) {
+      Pageable pageable,
+      Long breedId,
+      Long animalTypeId) {
 
     if (!petUtils.breedIsPresent(breedId)
         && !petUtils.animalTypeIsPresent(animalTypeId)) {

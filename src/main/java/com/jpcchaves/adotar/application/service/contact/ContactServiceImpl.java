@@ -3,7 +3,7 @@ package com.jpcchaves.adotar.application.service.contact;
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.contact.ContactDto;
 import com.jpcchaves.adotar.application.service.contact.contracts.ContactService;
-import com.jpcchaves.adotar.application.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.application.service.auth.contracts.SecurityContextService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
 import com.jpcchaves.adotar.domain.exception.ResourceNotFoundException;
