@@ -1,8 +1,8 @@
-package com.jpcchaves.adotar.application.service.impl.v1;
+package com.jpcchaves.adotar.application.service.contact;
 
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.contact.ContactDto;
-import com.jpcchaves.adotar.application.service.usecases.ContactService;
+import com.jpcchaves.adotar.application.service.contact.contracts.ContactService;
 import com.jpcchaves.adotar.application.service.usecases.SecurityContextService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
@@ -12,7 +12,9 @@ import com.jpcchaves.adotar.domain.model.Contact;
 import com.jpcchaves.adotar.domain.model.User;
 import com.jpcchaves.adotar.infra.repository.ContactRepository;
 import com.jpcchaves.adotar.infra.repository.UserRepository;
+
 import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -88,7 +90,8 @@ public class ContactServiceImpl implements ContactService {
     return mapperUtils.parseObject(updatedContact, ContactDto.class);
   }
 
-  private void updateContact(Contact contact, ContactDto contactDto) {
+  private void updateContact(Contact contact,
+                             ContactDto contactDto) {
     contact.setPhone1(contactDto.getPhone1());
     contact.setPhone2(contactDto.getPhone2());
     contact.setPhone3(contactDto.getPhone3());
