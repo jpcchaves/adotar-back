@@ -3,13 +3,15 @@ package com.jpcchaves.adotar.application.service.mail;
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.email.ContactEmailDto;
 import com.jpcchaves.adotar.application.service.mail.contracts.EmailService;
-import com.jpcchaves.adotar.application.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.application.service.auth.contracts.SecurityContextService;
 import com.jpcchaves.adotar.application.utils.mail.MailUtils;
 import com.jpcchaves.adotar.domain.model.PasswordResetToken;
 import com.jpcchaves.adotar.domain.model.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
 import java.nio.charset.StandardCharsets;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -24,7 +26,8 @@ public class EmailServiceImpl implements EmailService {
   private String appMail;
 
   public EmailServiceImpl(
-      JavaMailSender javaMailSender, SecurityContextService contextService) {
+      JavaMailSender javaMailSender,
+      SecurityContextService contextService) {
     this.mailSender = javaMailSender;
     this.contextService = contextService;
   }
@@ -55,7 +58,10 @@ public class EmailServiceImpl implements EmailService {
   }
 
   private MimeMessage prepareEmail(
-      String to, String from, String subject, String text)
+      String to,
+      String from,
+      String subject,
+      String text)
       throws MessagingException {
     MimeMessage message = mailSender.createMimeMessage();
     MimeMessageHelper helper =

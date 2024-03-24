@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.application.service.usecases;
+package com.jpcchaves.adotar.application.service.contact.contracts;
 
 import com.jpcchaves.adotar.application.dto.ApiMessageResponseDto;
 import com.jpcchaves.adotar.application.dto.contact.ContactDto;

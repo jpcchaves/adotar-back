@@ -1,11 +1,13 @@
-package com.jpcchaves.adotar.application.service.impl.v1;
+package com.jpcchaves.adotar.application.service.pet;
 
 import com.jpcchaves.adotar.application.dto.pet.PetCharacteristicsDto;
-import com.jpcchaves.adotar.application.service.usecases.PetCharacteristicService;
+import com.jpcchaves.adotar.application.service.pet.contracts.PetCharacteristicService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.model.PetCharacteristic;
 import com.jpcchaves.adotar.infra.repository.PetCharacteristicRepository;
+
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service

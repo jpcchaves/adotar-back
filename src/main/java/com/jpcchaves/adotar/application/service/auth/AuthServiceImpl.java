@@ -6,7 +6,7 @@ import com.jpcchaves.adotar.application.dto.user.UserDto;
 import com.jpcchaves.adotar.application.service.auth.contracts.AuthService;
 import com.jpcchaves.adotar.application.service.auth.contracts.AuthUtils;
 import com.jpcchaves.adotar.application.service.jwt.contracts.JwtTokenProvider;
-import com.jpcchaves.adotar.application.service.usecases.SecurityContextService;
+import com.jpcchaves.adotar.application.service.auth.contracts.SecurityContextService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.Enum.UserRoles;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
@@ -140,7 +140,8 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public ApiMessageResponseDto update(
-      UpdateUserRequestDto updateUserDto, Long id) {
+      UpdateUserRequestDto updateUserDto,
+      Long id) {
     User user =
         userRepository
             .findById(id)

@@ -1,12 +1,14 @@
-package com.jpcchaves.adotar.application.service.impl.v1;
+package com.jpcchaves.adotar.application.service.location;
 
 import com.jpcchaves.adotar.application.dto.city.CityDto;
-import com.jpcchaves.adotar.application.service.usecases.CityService;
+import com.jpcchaves.adotar.application.service.location.contracts.CityService;
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.exception.BadRequestException;
 import com.jpcchaves.adotar.domain.model.City;
 import com.jpcchaves.adotar.infra.repository.CityRepository;
+
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,13 +17,15 @@ public class CityServiceImpl implements CityService {
   private final MapperUtils mapperUtils;
 
   public CityServiceImpl(
-      CityRepository cityRepository, MapperUtils mapperUtils) {
+      CityRepository cityRepository,
+      MapperUtils mapperUtils) {
     this.cityRepository = cityRepository;
     this.mapperUtils = mapperUtils;
   }
 
   @Override
-  public List<CityDto> getAllCities(Long stateId, String uf) {
+  public List<CityDto> getAllCities(Long stateId,
+                                    String uf) {
     validateSingleQueryParam(stateId, uf);
 
     List<City> cities;
@@ -49,7 +53,8 @@ public class CityServiceImpl implements CityService {
     return cityRepository.findAll();
   }
 
-  private void validateSingleQueryParam(Long stateId, String uf) {
+  private void validateSingleQueryParam(Long stateId,
+                                        String uf) {
     if (stateId != null && uf != null) {
       throw new BadRequestException(
           "Informe apenas um parâmetro para realizar a busca");

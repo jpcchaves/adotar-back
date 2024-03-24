@@ -1,6 +1,7 @@
-package com.jpcchaves.adotar.application.service.usecases;
+package com.jpcchaves.adotar.application.service.breed.contracts;
 
 import com.jpcchaves.adotar.application.dto.pet.BreedDto;
+
 import java.util.List;
 
 public interface BreedService {
