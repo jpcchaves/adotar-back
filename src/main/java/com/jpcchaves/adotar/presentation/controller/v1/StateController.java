@@ -9,9 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,27 +29,27 @@ public class StateController {
       summary = "Get a BR states list",
       description = "Returns a list of states",
       responses = {
-          @ApiResponse(
-              description = "Success",
-              responseCode = "200",
-              content =
-              @Content(
-                  array =
-                  @ArraySchema(
-                      schema =
-                      @Schema(implementation = StateDto.class)))),
-          @ApiResponse(
-              description = "Bad Request",
-              responseCode = "400",
-              content = @Content),
-          @ApiResponse(
-              description = "Unauthorized",
-              responseCode = "401",
-              content = @Content),
-          @ApiResponse(
-              description = "Internal Error",
-              responseCode = "500",
-              content = @Content),
+        @ApiResponse(
+            description = "Success",
+            responseCode = "200",
+            content =
+                @Content(
+                    array =
+                        @ArraySchema(
+                            schema =
+                                @Schema(implementation = StateDto.class)))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Unauthorized",
+            responseCode = "401",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
       })
   @GetMapping
   public ResponseEntity<List<StateDto>> getAll() {
@@ -63,23 +61,23 @@ public class StateController {
       description =
           "Returns a state by passing it's name or uf as a path variable 'nameOrUf'",
       responses = {
-          @ApiResponse(
-              description = "Success",
-              responseCode = "200",
-              content =
-              @Content(schema = @Schema(implementation = StateDto.class))),
-          @ApiResponse(
-              description = "Bad Request",
-              responseCode = "400",
-              content = @Content),
-          @ApiResponse(
-              description = "Unauthorized",
-              responseCode = "401",
-              content = @Content),
-          @ApiResponse(
-              description = "Internal Error",
-              responseCode = "500",
-              content = @Content),
+        @ApiResponse(
+            description = "Success",
+            responseCode = "200",
+            content =
+                @Content(schema = @Schema(implementation = StateDto.class))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Unauthorized",
+            responseCode = "401",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
       })
   @GetMapping("/{nameOrUf}")
   public ResponseEntity<StateDto> getByNameOrUf(@PathVariable String nameOrUf) {

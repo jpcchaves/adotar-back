@@ -10,9 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.websocket.server.PathParam;
-
 import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,27 +35,27 @@ public class BreedController {
       description =
           "Get a list of breeds by animal type (passing an animal type id)",
       responses = {
-          @ApiResponse(
-              description = "Success",
-              responseCode = "200",
-              content =
-              @Content(
-                  array =
-                  @ArraySchema(
-                      schema =
-                      @Schema(implementation = BreedDto.class)))),
-          @ApiResponse(
-              description = "Bad Request",
-              responseCode = "400",
-              content = @Content),
-          @ApiResponse(
-              description = "Unauthorized",
-              responseCode = "401",
-              content = @Content),
-          @ApiResponse(
-              description = "Internal Error",
-              responseCode = "500",
-              content = @Content),
+        @ApiResponse(
+            description = "Success",
+            responseCode = "200",
+            content =
+                @Content(
+                    array =
+                        @ArraySchema(
+                            schema =
+                                @Schema(implementation = BreedDto.class)))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Unauthorized",
+            responseCode = "401",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
       })
   public ResponseEntity<List<BreedDto>> findAllByAnimalType(
       @PathParam("animalTypeId") Long animalTypeId) {

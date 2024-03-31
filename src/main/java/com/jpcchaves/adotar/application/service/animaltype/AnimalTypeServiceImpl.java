@@ -6,9 +6,7 @@ import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.exception.ResourceNotFoundException;
 import com.jpcchaves.adotar.domain.model.AnimalType;
 import com.jpcchaves.adotar.infra.repository.AnimalTypeRepository;
-
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,8 +15,7 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
   private final MapperUtils mapperUtils;
 
   public AnimalTypeServiceImpl(
-      AnimalTypeRepository animalTypeRepository,
-      MapperUtils mapperUtils) {
+      AnimalTypeRepository animalTypeRepository, MapperUtils mapperUtils) {
     this.animalTypeRepository = animalTypeRepository;
     this.mapperUtils = mapperUtils;
   }

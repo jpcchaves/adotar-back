@@ -14,9 +14,7 @@ import com.jpcchaves.adotar.domain.model.Address;
 import com.jpcchaves.adotar.domain.model.City;
 import com.jpcchaves.adotar.domain.model.User;
 import com.jpcchaves.adotar.infra.repository.UserRepository;
-
 import java.util.Objects;
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,8 +44,7 @@ public class AddressServiceImpl implements AddressService {
   }
 
   @Override
-  public Address buildAddress(AddressRequestDto addressDto,
-                              City city) {
+  public Address buildAddress(AddressRequestDto addressDto, City city) {
     return addressUtils.buildAddress(addressDto, city);
   }
 
