@@ -29,27 +29,27 @@ public class ContactController {
       summary = "Get user's contact",
       description = "Get the current user's logged in contact",
       responses = {
-          @ApiResponse(
-              description = "Success",
-              responseCode = "200",
-              content =
-              @Content(schema = @Schema(implementation = ContactDto.class))),
-          @ApiResponse(
-              description = "Bad Request",
-              responseCode = "400",
-              content = @Content),
-          @ApiResponse(
-              description = "Not Found",
-              responseCode = "404",
-              content = @Content),
-          @ApiResponse(
-              description = "Unauthorized",
-              responseCode = "401",
-              content = @Content),
-          @ApiResponse(
-              description = "Internal Error",
-              responseCode = "500",
-              content = @Content),
+        @ApiResponse(
+            description = "Success",
+            responseCode = "200",
+            content =
+                @Content(schema = @Schema(implementation = ContactDto.class))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Not Found",
+            responseCode = "404",
+            content = @Content),
+        @ApiResponse(
+            description = "Unauthorized",
+            responseCode = "401",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
       })
   @GetMapping
   public ResponseEntity<ContactDto> getUserContact() {
@@ -60,27 +60,27 @@ public class ContactController {
       summary = "Update user's contact",
       description = "Update the current user's logged in contact",
       responses = {
-          @ApiResponse(
-              description = "Success",
-              responseCode = "200",
-              content =
-              @Content(schema = @Schema(implementation = ContactDto.class))),
-          @ApiResponse(
-              description = "Bad Request",
-              responseCode = "400",
-              content = @Content),
-          @ApiResponse(
-              description = "Not Found",
-              responseCode = "404",
-              content = @Content),
-          @ApiResponse(
-              description = "Unauthorized",
-              responseCode = "401",
-              content = @Content),
-          @ApiResponse(
-              description = "Internal Error",
-              responseCode = "500",
-              content = @Content),
+        @ApiResponse(
+            description = "Success",
+            responseCode = "200",
+            content =
+                @Content(schema = @Schema(implementation = ContactDto.class))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Not Found",
+            responseCode = "404",
+            content = @Content),
+        @ApiResponse(
+            description = "Unauthorized",
+            responseCode = "401",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
       })
   @PutMapping
   public ResponseEntity<ContactDto> updateUserContact(
@@ -93,25 +93,25 @@ public class ContactController {
       description =
           "Create a contact by passing a JSON representation of the Contact",
       responses = {
-          @ApiResponse(
-              description = "Success",
-              responseCode = "201",
-              content =
-              @Content(
-                  schema =
-                  @Schema(implementation = ApiMessageResponseDto.class))),
-          @ApiResponse(
-              description = "Bad Request",
-              responseCode = "400",
-              content = @Content),
-          @ApiResponse(
-              description = "Unauthorized",
-              responseCode = "401",
-              content = @Content),
-          @ApiResponse(
-              description = "Internal Error",
-              responseCode = "500",
-              content = @Content),
+        @ApiResponse(
+            description = "Success",
+            responseCode = "201",
+            content =
+                @Content(
+                    schema =
+                        @Schema(implementation = ApiMessageResponseDto.class))),
+        @ApiResponse(
+            description = "Bad Request",
+            responseCode = "400",
+            content = @Content),
+        @ApiResponse(
+            description = "Unauthorized",
+            responseCode = "401",
+            content = @Content),
+        @ApiResponse(
+            description = "Internal Error",
+            responseCode = "500",
+            content = @Content),
       })
   @PostMapping
   public ResponseEntity<ApiMessageResponseDto> createContact(

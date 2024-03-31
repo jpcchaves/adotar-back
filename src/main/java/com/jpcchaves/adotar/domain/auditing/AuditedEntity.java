@@ -2,12 +2,11 @@ package com.jpcchaves.adotar.domain.auditing;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.MappedSuperclass;
+import java.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
 
 @MappedSuperclass
 public abstract class AuditedEntity {
@@ -19,19 +18,17 @@ public abstract class AuditedEntity {
   @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
   private LocalDateTime updatedAt;
 
-  @CreatedBy
-  private String createdBy;
+  @CreatedBy private String createdBy;
 
-  @LastModifiedBy
-  private String modifiedBy;
+  @LastModifiedBy private String modifiedBy;
 
-  public AuditedEntity() {
-  }
+  public AuditedEntity() {}
 
-  public AuditedEntity(LocalDateTime createdAt,
-                       LocalDateTime updatedAt,
-                       String createdBy,
-                       String modifiedBy) {
+  public AuditedEntity(
+      LocalDateTime createdAt,
+      LocalDateTime updatedAt,
+      String createdBy,
+      String modifiedBy) {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.createdBy = createdBy;

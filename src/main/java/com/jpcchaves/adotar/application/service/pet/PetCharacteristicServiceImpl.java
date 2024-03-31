@@ -5,9 +5,7 @@ import com.jpcchaves.adotar.application.service.pet.contracts.PetCharacteristicS
 import com.jpcchaves.adotar.application.utils.mapper.MapperUtils;
 import com.jpcchaves.adotar.domain.model.PetCharacteristic;
 import com.jpcchaves.adotar.infra.repository.PetCharacteristicRepository;
-
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 @Service

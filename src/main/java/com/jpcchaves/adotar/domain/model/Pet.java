@@ -3,14 +3,14 @@ package com.jpcchaves.adotar.domain.model;
 import com.jpcchaves.adotar.domain.Enum.AnimalGender;
 import com.jpcchaves.adotar.domain.Enum.AnimalSize;
 import com.jpcchaves.adotar.domain.Enum.HealthCondition;
+import com.jpcchaves.adotar.domain.auditing.AuditedEntity;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "pets")
-public class Pet {
+public class Pet extends AuditedEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -39,8 +39,7 @@ public class Pet {
   @Column(length = 30)
   private String color;
 
-  @Column(length = 255)
-  private String description;
+  @Column private String description;
 
   @Column(length = 10)
   private int visualizations;
@@ -87,10 +86,6 @@ public class Pet {
   @Column(length = 25, unique = true, nullable = false)
   private String serialNumber;
 
-  @CreationTimestamp private Date createdAt;
-
-  @UpdateTimestamp private Date updatedAt;
-
   private Date deletedAt;
 
   public Pet() {}
@@ -115,8 +110,6 @@ public class Pet {
       User user,
       Address address,
       String serialNumber,
-      Date createdAt,
-      Date updatedAt,
       Date deletedAt) {
     this.id = id;
     this.name = name;
@@ -137,8 +130,56 @@ public class Pet {
     this.user = user;
     this.address = address;
     this.serialNumber = serialNumber;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.deletedAt = deletedAt;
+  }
+
+  public Pet(
+      LocalDateTime createdAt,
+      LocalDateTime updatedAt,
+      String createdBy,
+      String modifiedBy,
+      Long id,
+      String name,
+      int yearsAge,
+      int monthsAge,
+      AnimalGender gender,
+      AnimalSize size,
+      HealthCondition healthCondition,
+      String color,
+      String description,
+      int visualizations,
+      boolean isAvailable,
+      Date adoptionDate,
+      boolean active,
+      Set<PetCharacteristic> characteristics,
+      AnimalType type,
+      Breed breed,
+      List<PetPicture> petPictures,
+      User user,
+      Address address,
+      String serialNumber,
+      Date deletedAt) {
+    super(createdAt, updatedAt, createdBy, modifiedBy);
+    this.id = id;
+    this.name = name;
+    this.yearsAge = yearsAge;
+    this.monthsAge = monthsAge;
+    this.gender = gender;
+    this.size = size;
+    this.healthCondition = healthCondition;
+    this.color = color;
+    this.description = description;
+    this.visualizations = visualizations;
+    this.isAvailable = isAvailable;
+    this.adoptionDate = adoptionDate;
+    this.active = active;
+    this.characteristics = characteristics;
+    this.type = type;
+    this.breed = breed;
+    this.petPictures = petPictures;
+    this.user = user;
+    this.address = address;
+    this.serialNumber = serialNumber;
     this.deletedAt = deletedAt;
   }
 
@@ -220,22 +261,6 @@ public class Pet {
 
   public void setAddress(Address address) {
     this.address = address;
-  }
-
-  public Date getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public Date getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(Date updatedAt) {
-    this.updatedAt = updatedAt;
   }
 
   public Date getDeletedAt() {
