@@ -1,4 +1,4 @@
-package com.jpcchaves.adotar.domain.Enum;
+package com.jpcchaves.adotar.domain.exception.http;
 
 
 public enum ExceptionDefinition {

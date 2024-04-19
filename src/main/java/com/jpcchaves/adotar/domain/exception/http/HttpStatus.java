@@ -1,6 +1,9 @@
-package com.jpcchaves.adotar.domain.Enum;
+package com.jpcchaves.adotar.domain.exception.http;
+
+import org.springframework.lang.Nullable;
 
 public enum HttpStatus {
+
   CONTINUE(100),
   SWITCHING_PROTOCOLS(101),
   PROCESSING(102),
@@ -71,14 +74,39 @@ public enum HttpStatus {
   NOT_EXTENDED(510),
   NETWORK_AUTHENTICATION_REQUIRED(511);
 
+  private static final HttpStatus[] VALUES = values();
   private final int code;
+
 
   HttpStatus(int code) {
     this.code = code;
   }
 
+  public static HttpStatus valueOf(int statusCode) {
+    HttpStatus status = resolve(statusCode);
+    if (status == null) {
+      throw new IllegalArgumentException("No matching constant for [" + statusCode + "]");
+    } else {
+      return status;
+    }
+  }
+
+  @Nullable
+  public static HttpStatus resolve(int statusCode) {
+    HttpStatus[] var1 = VALUES;
+    int var2 = var1.length;
+
+    for (int var3 = 0; var3 < var2; ++var3) {
+      HttpStatus status = var1[var3];
+      if (status.value() == statusCode) {
+        return status;
+      }
+    }
+
+    return null;
+  }
+
   public int value() {
     return code;
   }
-
 }
