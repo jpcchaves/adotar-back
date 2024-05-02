@@ -31,3 +31,9 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
     runtimeOnly 'com.h2database:h2'
 }
+
+bootJar {
+    enabled = true
+    archiveFileName = "app.jar"
+    destinationDirectory = file("$buildDir/target")
+}
