@@ -1,0 +1,28 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: jdbc:h2:~/test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password:
+    baseline-on-migrate: true
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+deploy:
+  repo: jpa
+app:
+  jwt-secret: ${JWT_DEV_SECRET}
+  jwt-expiration-milliseconds: ${JWT_DEV_EXPIRATION}
+mail:
+  host: ${MAIL_DEV_HOST}
+  port: ${MAIL_DEV_PORT}
+  username: ${MAIL_DEV_USERNAME}
+  password: ${MAIL_DEV_PASSWORD}
