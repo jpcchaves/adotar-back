@@ -1,8 +1,9 @@
 package com.cleanarch.usecase.auth;
 
 import com.cleanarch.usecase.auth.dto.LoginRequestDTO;
+import com.cleanarch.usecase.auth.dto.LoginResponseDTO;
 
 public interface LoginUseCase {
 
-  String login(LoginRequestDTO requestDTO);
+  LoginResponseDTO login(LoginRequestDTO requestDTO);
 }
