@@ -3,7 +3,9 @@ package br.com.jpcchaves.core.exception.enums;
 import br.com.jpcchaves.core.domain.constants.HttpStatus;
 
 public enum ExceptionDefinition {
-  GEN0001("Resource not found!", "GEN-0001", HttpStatus.BAD_REQUEST);
+  GEN0001("Resource not found!", "GEN-0001", HttpStatus.NOT_FOUND),
+  GEN0002("Bad request. Check the request and try again!", "GEN-0002",
+      HttpStatus.BAD_REQUEST);
 
   private String message;
   private String code;
