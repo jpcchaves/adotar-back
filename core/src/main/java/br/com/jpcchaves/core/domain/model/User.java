@@ -2,7 +2,6 @@ package br.com.jpcchaves.core.domain.model;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,7 +10,6 @@ public class User {
   private Long id;
   private String firstName;
   private String lastName;
-  private String userName;
   private String email;
   private String photoUrl;
   private String password;
@@ -33,14 +31,12 @@ public class User {
       Long id,
       String firstName,
       String lastName,
-      String userName,
       String email,
       String photoUrl,
       String password,
       boolean isAdmin,
       boolean isActive,
       Set<Role> roles,
-      List<Pet> pets,
       Address address,
       String phone,
       String phone2,
@@ -52,7 +48,6 @@ public class User {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.userName = userName;
     this.email = email;
     this.photoUrl = photoUrl;
     this.password = password;
@@ -91,15 +86,7 @@ public class User {
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
+  
   public String getEmail() {
     return email;
   }
