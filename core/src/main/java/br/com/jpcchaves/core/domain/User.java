@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class User {
@@ -20,54 +21,36 @@ public class User {
   private Set<Role> roles = new HashSet<>();
   private List<Pet> pets = new ArrayList<>();
   private Address address;
-  private Contact contact;
+  private String phone;
+  private String phone2;
   private Date lastSeen;
   private Date createdAt;
   private Date updatedAt;
   private Date deletedAt;
 
-  public User(String firstName, String lastName, String userName, String email,
-      String photoUrl,
-      String password, boolean isAdmin, boolean isActive, Set<Role> roles) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.userName = userName;
-    this.email = email;
-    this.photoUrl = photoUrl;
-    this.password = password;
-    this.isAdmin = isAdmin;
-    this.isActive = isActive;
-    this.roles = roles;
+  public User() {
   }
 
-  public User(String firstName, String lastName, String userName, String email,
-      String photoUrl,
-      String password, boolean isAdmin, boolean isActive, Set<Role> roles,
-      List<Pet> pets,
-      Address address, Contact contact) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.userName = userName;
-    this.email = email;
-    this.photoUrl = photoUrl;
-    this.password = password;
-    this.isAdmin = isAdmin;
-    this.isActive = isActive;
-    this.roles = roles;
-    this.pets = pets;
-    this.address = address;
-    this.contact = contact;
-    this.createdAt = new Date();
-  }
-
-  public User(Long id, String firstName, String lastName, String userName,
+  public User(
+      Long id,
+      String firstName,
+      String lastName,
+      String userName,
       String email,
-      String photoUrl, String password, boolean isAdmin, boolean isActive,
+      String photoUrl,
+      String password,
+      boolean isAdmin,
+      boolean isActive,
       Set<Role> roles,
-      List<Pet> pets, Address address, Contact contact, Date lastSeen,
+      List<Pet> pets,
+      Address address,
+      String phone,
+      String phone2,
+      Date lastSeen,
       Date createdAt,
       Date updatedAt,
-      Date deletedAt) {
+      Date deletedAt
+  ) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -80,7 +63,8 @@ public class User {
     this.roles = roles;
     this.pets = pets;
     this.address = address;
-    this.contact = contact;
+    this.phone = phone;
+    this.phone2 = phone2;
     this.lastSeen = lastSeen;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
@@ -183,12 +167,20 @@ public class User {
     this.address = address;
   }
 
-  public Contact getContact() {
-    return contact;
+  public String getPhone() {
+    return phone;
   }
 
-  public void setContact(Contact contact) {
-    this.contact = contact;
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getPhone2() {
+    return phone2;
+  }
+
+  public void setPhone2(String phone2) {
+    this.phone2 = phone2;
   }
 
   public Date getLastSeen() {
@@ -221,5 +213,32 @@ public class User {
 
   public void setDeletedAt(Date deletedAt) {
     this.deletedAt = deletedAt;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+        "id=" + id +
+        ", firstName='" + firstName + '\'' +
+        ", lastName='" + lastName + '\'' +
+        ", email='" + email + '\'' +
+        '}';
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(id, user.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
   }
 }
