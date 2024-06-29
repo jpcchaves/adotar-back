@@ -26,7 +26,8 @@ public class User {
   private Date updatedAt;
   private Date deletedAt;
 
-  public User(String firstName, String lastName, String userName, String email, String photoUrl,
+  public User(String firstName, String lastName, String userName, String email,
+      String photoUrl,
       String password, boolean isAdmin, boolean isActive, Set<Role> roles) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -39,8 +40,10 @@ public class User {
     this.roles = roles;
   }
 
-  public User(String firstName, String lastName, String userName, String email, String photoUrl,
-      String password, boolean isAdmin, boolean isActive, Set<Role> roles, List<Pet> pets,
+  public User(String firstName, String lastName, String userName, String email,
+      String photoUrl,
+      String password, boolean isAdmin, boolean isActive, Set<Role> roles,
+      List<Pet> pets,
       Address address, Contact contact) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -57,9 +60,12 @@ public class User {
     this.createdAt = new Date();
   }
 
-  public User(Long id, String firstName, String lastName, String userName, String email,
-      String photoUrl, String password, boolean isAdmin, boolean isActive, Set<Role> roles,
-      List<Pet> pets, Address address, Contact contact, Date lastSeen, Date createdAt,
+  public User(Long id, String firstName, String lastName, String userName,
+      String email,
+      String photoUrl, String password, boolean isAdmin, boolean isActive,
+      Set<Role> roles,
+      List<Pet> pets, Address address, Contact contact, Date lastSeen,
+      Date createdAt,
       Date updatedAt,
       Date deletedAt) {
     this.id = id;
