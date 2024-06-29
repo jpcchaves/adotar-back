@@ -1,6 +1,5 @@
 package br.com.jpcchaves.core.domain.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +18,6 @@ public class User {
   private boolean isAdmin;
   private boolean isActive;
   private Set<Role> roles = new HashSet<>();
-  private List<Pet> pets = new ArrayList<>();
   private Address address;
   private String phone;
   private String phone2;
@@ -61,7 +59,6 @@ public class User {
     this.isAdmin = isAdmin;
     this.isActive = isActive;
     this.roles = roles;
-    this.pets = pets;
     this.address = address;
     this.phone = phone;
     this.phone2 = phone2;
@@ -149,14 +146,6 @@ public class User {
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
-  }
-
-  public List<Pet> getPets() {
-    return pets;
-  }
-
-  public void setPets(List<Pet> pets) {
-    this.pets = pets;
   }
 
   public Address getAddress() {
