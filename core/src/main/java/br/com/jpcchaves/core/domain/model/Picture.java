@@ -1,4 +1,4 @@
-package br.com.jpcchaves.core.domain;
+package br.com.jpcchaves.core.domain.model;
 
 import java.util.Objects;
 

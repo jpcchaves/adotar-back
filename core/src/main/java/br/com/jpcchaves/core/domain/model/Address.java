@@ -1,4 +1,4 @@
-package br.com.jpcchaves.core.domain;
+package br.com.jpcchaves.core.domain.model;
 
 public class Address {
 
@@ -10,7 +10,7 @@ public class Address {
   private String neighborhood;
   private String city;
   private String state;
-  
+
   public Address(
       Long id,
       String zipcode,

@@ -1,4 +1,4 @@
-package br.com.jpcchaves.core.domain;
+package br.com.jpcchaves.core.domain.model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -224,7 +224,7 @@ public class User {
         ", email='" + email + '\'' +
         '}';
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

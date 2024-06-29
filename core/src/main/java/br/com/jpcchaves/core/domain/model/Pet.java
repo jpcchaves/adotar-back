@@ -1,4 +1,4 @@
-package br.com.jpcchaves.core.domain;
+package br.com.jpcchaves.core.domain.model;
 
 import br.com.jpcchaves.core.domain.enums.AnimalSize;
 import br.com.jpcchaves.core.domain.enums.AnimalType;
