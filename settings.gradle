@@ -1,5 +1,4 @@
-include 'infrastructure'
-include 'application'
 include 'core'
 include 'usecase'
-
+include 'application'
+include 'infrastructure'

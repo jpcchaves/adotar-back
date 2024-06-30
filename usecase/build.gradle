@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'br.com.jpcchaves'
+group = 'com.cleanarch'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -10,10 +10,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation project(path: ":core")
 }
 
 test {
-    useJUnitPlatform()
 }

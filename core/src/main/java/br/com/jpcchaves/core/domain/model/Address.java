@@ -1,4 +1,4 @@
-package br.com.jpcchaves.core.domain;
+package br.com.jpcchaves.core.domain.model;
 
 public class Address {
 
@@ -11,8 +11,16 @@ public class Address {
   private String city;
   private String state;
 
-  public Address(Long id, String zipcode, String street, String number, String complement,
-      String neighborhood, String city, String state) {
+  public Address(
+      Long id,
+      String zipcode,
+      String street,
+      String number,
+      String complement,
+      String neighborhood,
+      String city,
+      String state
+  ) {
     this.id = id;
     this.zipcode = zipcode;
     this.street = street;
@@ -23,9 +31,15 @@ public class Address {
     this.state = state;
   }
 
-  public Address(String zipcode, String street, String number, String complement,
+  public Address(
+      String zipcode,
+      String street,
+      String number,
+      String complement,
       String neighborhood,
-      String city, String state) {
+      String city,
+      String state
+  ) {
     this.zipcode = zipcode;
     this.street = street;
     this.number = number;
