@@ -1,10 +1,10 @@
-package com.cleanarch.usecase.auth;
+package com.cleanarch.application.gateway.auth;
 
 import com.cleanarch.usecase.auth.dto.*;
 import com.cleanarch.usecase.dto.*;
 
-@FunctionalInterface
-public interface UpdateUserUseCase {
+public interface UpdateUserGateway {
+
   MessageResponseDTO updateUser(
       UpdateUserRequestDTO requestDTO);
 }
