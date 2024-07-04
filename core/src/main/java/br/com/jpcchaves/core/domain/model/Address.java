@@ -19,8 +19,7 @@ public class Address {
       String complement,
       String neighborhood,
       String city,
-      String state
-  ) {
+      String state) {
     this.id = id;
     this.zipcode = zipcode;
     this.street = street;
@@ -38,8 +37,7 @@ public class Address {
       String complement,
       String neighborhood,
       String city,
-      String state
-  ) {
+      String state) {
     this.zipcode = zipcode;
     this.street = street;
     this.number = number;

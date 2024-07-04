@@ -9,15 +9,9 @@ public class PaginationRequest {
   private String sort = "";
   private String direction = PaginationDirection.getDefault();
 
-  public PaginationRequest() {
-  }
+  public PaginationRequest() {}
 
-  public PaginationRequest(
-      int page,
-      int size,
-      String sort,
-      String direction
-  ) {
+  public PaginationRequest(int page, int size, String sort, String direction) {
     this.page = page;
     this.size = size;
     this.sort = sort;
@@ -74,8 +68,7 @@ public class PaginationRequest {
     public String sort = "";
     public String direction = PaginationDirection.getDefault();
 
-    public Builder() {
-    }
+    public Builder() {}
 
     public Builder setPage(int page) {
       this.page = page;
