@@ -1,6 +1,6 @@
 package br.com.jpcchaves.core.domain.model;
 
-public class Address {
+public abstract class Address {
 
   private Long id;
   private String zipcode;
