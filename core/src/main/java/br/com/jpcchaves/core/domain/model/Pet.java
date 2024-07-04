@@ -58,8 +58,7 @@ public class Pet {
   private Date updatedAt;
   private Date deletedAt;
 
-  public Pet() {
-  }
+  public Pet() {}
 
   public Pet(
       Long id,
@@ -85,8 +84,7 @@ public class Pet {
       Date lastSeen,
       Date createdAt,
       Date updatedAt,
-      Date deletedAt
-  ) {
+      Date deletedAt) {
     this.id = id;
     this.name = name;
     this.yearsAge = yearsAge;
@@ -307,10 +305,7 @@ public class Pet {
 
   @Override
   public String toString() {
-    return "Pet{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        '}';
+    return "Pet{" + "id=" + id + ", name='" + name + '\'' + '}';
   }
 
   @Override
