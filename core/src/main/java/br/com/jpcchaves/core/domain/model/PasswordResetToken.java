@@ -9,15 +9,11 @@ public class PasswordResetToken {
   private Instant expirationTime;
   private User user;
 
-  public PasswordResetToken() {
-  }
+  public PasswordResetToken() {}
 
   public PasswordResetToken(
-      Long id,
-      String token,
-      Instant expirationTime,
-      User user
-  ) {
+      Long id, String token, Instant expirationTime, User user) {
+
     this.id = id;
     this.token = token;
     this.expirationTime = expirationTime;

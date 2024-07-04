@@ -1,11 +1,12 @@
 package br.com.jpcchaves.core.domain.model;
 
-import java.util.Objects;
+import java.util.*;
 
-public class Picture {
+// This is going to be a @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Picture {
 
   private Long id;
-  private String name;
+  private String fileName;
   private long size;
   private String type;
   private String imgUrl;
@@ -15,13 +16,13 @@ public class Picture {
 
   public Picture(
       Long id,
-      String name,
+      String fileName,
       long size,
       String type,
       String imgUrl
   ) {
     this.id = id;
-    this.name = name;
+    this.fileName = fileName;
     this.size = size;
     this.type = type;
     this.imgUrl = imgUrl;
@@ -36,11 +37,11 @@ public class Picture {
   }
 
   public String getName() {
-    return name;
+    return fileName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setName(String fileName) {
+    this.fileName = fileName;
   }
 
   public long getSize() {
@@ -71,7 +72,7 @@ public class Picture {
   public String toString() {
     return "Picture{" +
         "id=" + id +
-        ", name='" + name + '\'' +
+        ", fileName='" + fileName + '\'' +
         ", size=" + size +
         ", type='" + type + '\'' +
         '}';
