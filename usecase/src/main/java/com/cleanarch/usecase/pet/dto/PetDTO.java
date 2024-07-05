@@ -20,7 +20,7 @@ public class PetDTO {
   private boolean isFavorite;
   private boolean active;
   private List<String> characteristics = new ArrayList<>();
-  private String type;
+  private String animalType;
   private String breed;
   private List<PictureDTO> petPictures = new ArrayList<>();
   private AddressMinDTO address;
@@ -44,7 +44,7 @@ public class PetDTO {
       boolean isFavorite,
       boolean active,
       List<String> characteristics,
-      String type,
+      String animalType,
       String breed,
       List<PictureDTO> petPictures,
       AddressMinDTO address,
@@ -64,7 +64,7 @@ public class PetDTO {
     this.isFavorite = isFavorite;
     this.active = active;
     this.characteristics = characteristics;
-    this.type = type;
+    this.animalType = animalType;
     this.breed = breed;
     this.petPictures = petPictures;
     this.address = address;
@@ -191,12 +191,12 @@ public class PetDTO {
     this.characteristics = characteristics;
   }
 
-  public String getType() {
-    return type;
+  public String getAnimalType() {
+    return animalType;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setAnimalType(String animalType) {
+    this.animalType = animalType;
   }
 
   public String getBreed() {
