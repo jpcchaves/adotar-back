@@ -3,7 +3,7 @@ package com.cleanarch.application.usecaseimpl.auth;
 import com.cleanarch.application.gateway.auth.*;
 import com.cleanarch.usecase.auth.*;
 import com.cleanarch.usecase.auth.dto.*;
-import com.cleanarch.usecase.dto.*;
+import com.cleanarch.usecase.common.dto.*;
 
 public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
 

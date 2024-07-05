@@ -1,11 +1,9 @@
 package com.cleanarch.usecase.auth;
 
 import com.cleanarch.usecase.auth.dto.*;
-import com.cleanarch.usecase.dto.*;
+import com.cleanarch.usecase.common.dto.*;
 
 public interface RequestPasswordResetUseCase {
 
-  MessageResponseDTO resetTokenRequest(
-      PasswordResetRequestDTO requestDTO
-  );
+  MessageResponseDTO resetTokenRequest(PasswordResetRequestDTO requestDTO);
 }

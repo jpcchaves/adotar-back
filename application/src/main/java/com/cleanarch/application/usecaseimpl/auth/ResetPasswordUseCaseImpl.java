@@ -3,7 +3,7 @@ package com.cleanarch.application.usecaseimpl.auth;
 import com.cleanarch.application.gateway.auth.*;
 import com.cleanarch.usecase.auth.*;
 import com.cleanarch.usecase.auth.dto.*;
-import com.cleanarch.usecase.dto.*;
+import com.cleanarch.usecase.common.dto.*;
 
 public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
 
@@ -14,7 +14,8 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
   }
 
   @Override
-  public MessageResponseDTO resetPassword(PasswordResetTokenRequestDTO requestDTO) {
+  public MessageResponseDTO resetPassword(
+      PasswordResetTokenRequestDTO requestDTO) {
 
     return resetPasswordGateway.resetPassword(requestDTO);
   }
