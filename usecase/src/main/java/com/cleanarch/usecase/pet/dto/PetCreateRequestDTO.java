@@ -17,7 +17,7 @@ public class PetCreateRequestDTO {
   private Address address;
   private char animalType;
   private String breed;
-  private List<PetPictureMinDTO> petPictures = new ArrayList<>();
+  private List<PictureMinDTO> petPictures = new ArrayList<>();
 
   public PetCreateRequestDTO() {}
 
@@ -34,7 +34,7 @@ public class PetCreateRequestDTO {
       Address address,
       char animalType,
       String breed,
-      List<PetPictureMinDTO> petPictures) {
+      List<PictureMinDTO> petPictures) {
     this.name = name;
     this.yearsAge = yearsAge;
     this.monthsAge = monthsAge;
@@ -146,11 +146,11 @@ public class PetCreateRequestDTO {
     this.breed = breed;
   }
 
-  public List<PetPictureMinDTO> getPetPictures() {
+  public List<PictureMinDTO> getPetPictures() {
     return petPictures;
   }
 
-  public void setPetPictures(List<PetPictureMinDTO> petPictures) {
+  public void setPetPictures(List<PictureMinDTO> petPictures) {
     this.petPictures = petPictures;
   }
 }
