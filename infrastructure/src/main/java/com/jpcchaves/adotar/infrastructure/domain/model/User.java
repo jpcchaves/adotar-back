@@ -5,7 +5,6 @@ import java.util.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
@@ -240,8 +239,7 @@ public class User implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return AuthorityUtils.createAuthorityList(
-        roles.stream().map(Role::getName).toList());
+    return this.roles;
   }
 
   @Override
