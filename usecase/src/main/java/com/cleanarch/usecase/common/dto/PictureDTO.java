@@ -1,18 +1,18 @@
 package com.cleanarch.usecase.common.dto;
 
-public class PetPictureDTO {
+public class PictureDTO {
   private Long id;
-  private String name;
+  private String fileName;
   private long size;
   private String type;
   private String imgUrl;
 
-  public PetPictureDTO() {}
+  public PictureDTO() {}
 
-  public PetPictureDTO(
-      Long id, String name, long size, String type, String imgUrl) {
+  public PictureDTO(
+      Long id, String fileName, long size, String type, String imgUrl) {
     this.id = id;
-    this.name = name;
+    this.fileName = fileName;
     this.size = size;
     this.type = type;
     this.imgUrl = imgUrl;
@@ -26,12 +26,12 @@ public class PetPictureDTO {
     this.id = id;
   }
 
-  public String getName() {
-    return name;
+  public String getfileName() {
+    return fileName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setfileName(String fileName) {
+    this.fileName = fileName;
   }
 
   public long getSize() {

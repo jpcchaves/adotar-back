@@ -1,6 +1,5 @@
 package com.cleanarch.usecase.pet.dto;
 
-import br.com.jpcchaves.core.domain.model.*;
 import com.cleanarch.usecase.common.dto.*;
 import java.util.*;
 
@@ -13,7 +12,7 @@ public class PetMinDTO {
   private String type;
   private String breed;
   private boolean isFavorite;
-  private List<PetPictureDTO> petPictures = new ArrayList<>();
+  private List<PictureDTO> petPictures = new ArrayList<>();
   private AddressMinDTO address;
   private Date createdAt;
 
@@ -28,7 +27,7 @@ public class PetMinDTO {
       String type,
       String breed,
       boolean isFavorite,
-      List<PetPictureDTO> petPictures,
+      List<PictureDTO> petPictures,
       AddressMinDTO address,
       Date createdAt) {
     this.id = id;
@@ -108,11 +107,11 @@ public class PetMinDTO {
     isFavorite = favorite;
   }
 
-  public List<PetPictureDTO> getPetPictures() {
+  public List<PictureDTO> getPetPictures() {
     return petPictures;
   }
 
-  public void setPetPictures(List<PetPictureDTO> petPictures) {
+  public void setPetPictures(List<PictureDTO> petPictures) {
     this.petPictures = petPictures;
   }
 
