@@ -1,28 +1,25 @@
 package br.com.jpcchaves.core.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class PaginationResponse {
+public class PaginationResponse<T> {
 
-  private List<?> content = new ArrayList<>();
+  private List<T> content = new ArrayList<>();
   private int page;
   private int size;
   private long totalElements;
   private int totalPages;
   private boolean last;
 
-  public PaginationResponse() {
-  }
+  public PaginationResponse() {}
 
   public PaginationResponse(
-      List<?> content,
+      List<T> content,
       int page,
       int size,
       long totalElements,
       int totalPages,
-      boolean last
-  ) {
+      boolean last) {
     this.content = content;
     this.page = page;
     this.size = size;
@@ -31,11 +28,11 @@ public class PaginationResponse {
     this.last = last;
   }
 
-  public List<?> getContent() {
+  public List<T> getContent() {
     return content;
   }
 
-  public void setContent(List<?> content) {
+  public void setContent(List<T> content) {
     this.content = content;
   }
 
