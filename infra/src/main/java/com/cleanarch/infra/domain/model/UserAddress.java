@@ -2,9 +2,13 @@ package com.cleanarch.infra.domain.model;
 
 import jakarta.persistence.*;
 
+import java.io.*;
+
 @Entity
 @Table(name = "user_address")
 public class UserAddress extends Address {
+  @Serial
+  private static final long serialVersionUID = 4302061964775105262L;
 
   @OneToOne(
       fetch = FetchType.LAZY,
