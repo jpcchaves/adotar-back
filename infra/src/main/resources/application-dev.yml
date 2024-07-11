@@ -8,12 +8,22 @@ spring:
     password: ${DB_DEV_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        show_sql: true
-        format_sql: true
+        '[show_sql]': true
+        '[format_sql]': true
+  session:
+    jdbc:
+      cleanup-cron: 0 0 4 * * *
+  flyway:
+    baseline-on-migrate: true
+    locations:
+    - classpath:db/migration
+    fail-on-missing-locations: true
+    baseline-version: 1
+    
   #  mail:
   #    host: ${MAIL_DEV_HOST}
   #    port: ${MAIL_DEV_PORT}
