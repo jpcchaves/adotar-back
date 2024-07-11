@@ -14,10 +14,12 @@ public class UserPicture extends Picture implements Serializable {
 
   @ManyToOne(
       fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL
+      cascade = CascadeType.ALL,
+      optional = false
   )
   @JoinColumn(
       name = "user_id",
+      nullable = false,
       foreignKey = @ForeignKey(
           name = "user_fk",
           value = ConstraintMode.CONSTRAINT
