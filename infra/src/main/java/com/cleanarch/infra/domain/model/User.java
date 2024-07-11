@@ -32,8 +32,6 @@ public class User implements UserDetails, Serializable {
 
   private String password;
 
-//  Todo: create Picture, UserPicture and PetPicture entities
-//  private Picture picture;
 
 //  Todo: create Address, UserAddress, PetAddress entities
 //  private Address address;
