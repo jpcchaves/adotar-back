@@ -46,7 +46,6 @@ public class Pet {
 
   private String serialNumber;
 
-  private Date lastSeen;
   private Date createdAt;
   private Date updatedAt;
   private Date deletedAt;
@@ -75,7 +74,6 @@ public class Pet {
       User user,
       Address address,
       String serialNumber,
-      Date lastSeen,
       Date createdAt,
       Date updatedAt,
       Date deletedAt
@@ -100,7 +98,6 @@ public class Pet {
     this.user = user;
     this.address = address;
     this.serialNumber = serialNumber;
-    this.lastSeen = lastSeen;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.deletedAt = deletedAt;
@@ -264,14 +261,6 @@ public class Pet {
 
   public void setSerialNumber(String serialNumber) {
     this.serialNumber = serialNumber;
-  }
-
-  public Date getLastSeen() {
-    return lastSeen;
-  }
-
-  public void setLastSeen(Date lastSeen) {
-    this.lastSeen = lastSeen;
   }
 
   public Date getCreatedAt() {
