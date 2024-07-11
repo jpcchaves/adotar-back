@@ -1,15 +1,8 @@
 package br.com.jpcchaves.core.domain.model;
 
-import br.com.jpcchaves.core.domain.enums.AnimalSize;
-import br.com.jpcchaves.core.domain.enums.AnimalType;
-import br.com.jpcchaves.core.domain.enums.Gender;
-import br.com.jpcchaves.core.domain.enums.HealthCondition;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import br.com.jpcchaves.core.domain.enums.*;
+
+import java.util.*;
 
 public class Pet {
 
@@ -17,9 +10,9 @@ public class Pet {
 
   private String name;
 
-  private int yearsAge;
+  private Integer yearsAge;
 
-  private int monthsAge;
+  private Integer monthsAge;
 
   private Gender gender;
 
@@ -31,7 +24,7 @@ public class Pet {
 
   private String description;
 
-  private int visualizations;
+  private Integer visualizations;
 
   private boolean isAvailable;
 
@@ -58,19 +51,20 @@ public class Pet {
   private Date updatedAt;
   private Date deletedAt;
 
-  public Pet() {}
+  public Pet() {
+  }
 
   public Pet(
       Long id,
       String name,
-      int yearsAge,
-      int monthsAge,
+      Integer yearsAge,
+      Integer monthsAge,
       Gender gender,
       AnimalSize size,
       HealthCondition healthCondition,
       String color,
       String description,
-      int visualizations,
+      Integer visualizations,
       boolean isAvailable,
       Date adoptionDate,
       boolean active,
@@ -84,7 +78,8 @@ public class Pet {
       Date lastSeen,
       Date createdAt,
       Date updatedAt,
-      Date deletedAt) {
+      Date deletedAt
+  ) {
     this.id = id;
     this.name = name;
     this.yearsAge = yearsAge;
@@ -127,19 +122,19 @@ public class Pet {
     this.name = name;
   }
 
-  public int getYearsAge() {
+  public Integer getYearsAge() {
     return yearsAge;
   }
 
-  public void setYearsAge(int yearsAge) {
+  public void setYearsAge(Integer yearsAge) {
     this.yearsAge = yearsAge;
   }
 
-  public int getMonthsAge() {
+  public Integer getMonthsAge() {
     return monthsAge;
   }
 
-  public void setMonthsAge(int monthsAge) {
+  public void setMonthsAge(Integer monthsAge) {
     this.monthsAge = monthsAge;
   }
 
@@ -183,11 +178,11 @@ public class Pet {
     this.description = description;
   }
 
-  public int getVisualizations() {
+  public Integer getVisualizations() {
     return visualizations;
   }
 
-  public void setVisualizations(int visualizations) {
+  public void setVisualizations(Integer visualizations) {
     this.visualizations = visualizations;
   }
 
