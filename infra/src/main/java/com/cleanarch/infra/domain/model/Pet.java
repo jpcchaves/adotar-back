@@ -1,53 +1,91 @@
-package br.com.jpcchaves.core.domain.model;
+package com.cleanarch.infra.domain.model;
 
 import br.com.jpcchaves.core.domain.enums.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.*;
 
+import java.io.*;
 import java.util.*;
 
-public class Pet {
+@Entity
+@Table(name = "pets")
+@SequenceGenerator(name = "seq_pet", sequenceName = "seq_pet", allocationSize = 1)
+public class Pet implements Serializable {
 
+  @Serial
+  private static final long serialVersionUID = 3936582638524306317L;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pet")
   private Long id;
 
+  @Column(nullable = false, length = 100)
   private String name;
 
-  private Integer yearsAge;
+  @Column(nullable = false)
+  private Integer yearsAge = 0;
 
-  private Integer monthsAge;
+  @Column(nullable = false)
+  private Integer monthsAge = 0;
 
+  @Enumerated(EnumType.STRING)
   private Gender gender;
 
+  @Enumerated(EnumType.STRING)
   private AnimalSize size;
 
+  @Enumerated(EnumType.STRING)
   private HealthCondition healthCondition;
 
+  @Enumerated(EnumType.STRING)
+  private AnimalType type;
+
+  @Column(length = 100)
   private String color;
 
   private String description;
 
-  private Integer visualizations;
+  private Integer visualizations = 0;
 
   private Boolean isAvailable;
 
+  @Temporal(TemporalType.DATE)
   private Date adoptionDate;
 
   private Boolean active;
 
+  @Column(nullable = false, columnDefinition = "TEXT")
   private Set<String> characteristics = new HashSet<>();
 
-  private AnimalType type;
-
+  @Column(nullable = false, length = 100)
   private String breed;
 
-  private List<Picture> petPictures = new ArrayList<>();
-
+  @ManyToOne(
+      fetch = FetchType.LAZY,
+      targetEntity = User.class,
+      optional = false,
+      cascade = CascadeType.ALL
+  )
+  @JoinColumn(
+      name = "user_id",
+      referencedColumnName = "id",
+      nullable = false,
+      foreignKey = @ForeignKey(
+          name = "user_fk",
+          value = ConstraintMode.CONSTRAINT
+      )
+  )
   private User user;
 
-  private Address address;
-
-  private String serialNumber;
-
+  @CreationTimestamp
   private Date createdAt;
+
+  @UpdateTimestamp
   private Date updatedAt;
+
   private Date deletedAt;
 
   public Pet() {
@@ -61,6 +99,7 @@ public class Pet {
       Gender gender,
       AnimalSize size,
       HealthCondition healthCondition,
+      AnimalType type,
       String color,
       String description,
       Integer visualizations,
@@ -68,12 +107,8 @@ public class Pet {
       Date adoptionDate,
       Boolean active,
       Set<String> characteristics,
-      AnimalType type,
       String breed,
-      List<Picture> petPictures,
       User user,
-      Address address,
-      String serialNumber,
       Date createdAt,
       Date updatedAt,
       Date deletedAt
@@ -85,6 +120,7 @@ public class Pet {
     this.gender = gender;
     this.size = size;
     this.healthCondition = healthCondition;
+    this.type = type;
     this.color = color;
     this.description = description;
     this.visualizations = visualizations;
@@ -92,12 +128,8 @@ public class Pet {
     this.adoptionDate = adoptionDate;
     this.active = active;
     this.characteristics = characteristics;
-    this.type = type;
     this.breed = breed;
-    this.petPictures = petPictures;
     this.user = user;
-    this.address = address;
-    this.serialNumber = serialNumber;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.deletedAt = deletedAt;
@@ -159,6 +191,14 @@ public class Pet {
     this.healthCondition = healthCondition;
   }
 
+  public AnimalType getType() {
+    return type;
+  }
+
+  public void setType(AnimalType type) {
+    this.type = type;
+  }
+
   public String getColor() {
     return color;
   }
@@ -183,7 +223,7 @@ public class Pet {
     this.visualizations = visualizations;
   }
 
-  public Boolean isAvailable() {
+  public Boolean getAvailable() {
     return isAvailable;
   }
 
@@ -199,7 +239,7 @@ public class Pet {
     this.adoptionDate = adoptionDate;
   }
 
-  public Boolean isActive() {
+  public Boolean getActive() {
     return active;
   }
 
@@ -215,52 +255,12 @@ public class Pet {
     this.characteristics = characteristics;
   }
 
-  public AnimalType getType() {
-    return type;
-  }
-
-  public void setType(AnimalType type) {
-    this.type = type;
-  }
-
   public String getBreed() {
     return breed;
   }
 
   public void setBreed(String breed) {
     this.breed = breed;
-  }
-
-  public List<Picture> getPetPictures() {
-    return petPictures;
-  }
-
-  public void setPetPictures(List<Picture> petPictures) {
-    this.petPictures = petPictures;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
-  public Address getAddress() {
-    return address;
-  }
-
-  public void setAddress(Address address) {
-    this.address = address;
-  }
-
-  public String getSerialNumber() {
-    return serialNumber;
-  }
-
-  public void setSerialNumber(String serialNumber) {
-    this.serialNumber = serialNumber;
   }
 
   public Date getCreatedAt() {
@@ -287,25 +287,11 @@ public class Pet {
     this.deletedAt = deletedAt;
   }
 
-  @Override
-  public String toString() {
-    return "Pet{" + "id=" + id + ", name='" + name + '\'' + '}';
+  public User getUser() {
+    return user;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Pet pet = (Pet) o;
-    return Objects.equals(id, pet.id);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
+  public void setUser(User user) {
+    this.user = user;
   }
 }

@@ -1,0 +1,7 @@
+server:
+  port: 8888
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  profiles:
+    active: dev
