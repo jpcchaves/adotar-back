@@ -1,6 +1,8 @@
 package com.cleanarch.infra.domain.model;
 
 import br.com.jpcchaves.core.domain.enums.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import org.hibernate.annotations.*;
@@ -61,6 +63,23 @@ public class Pet implements Serializable {
   @Column(nullable = false, length = 100)
   private String breed;
 
+  @ManyToOne(
+      fetch = FetchType.LAZY,
+      targetEntity = User.class,
+      optional = false,
+      cascade = CascadeType.ALL
+  )
+  @JoinColumn(
+      name = "user_id",
+      referencedColumnName = "id",
+      nullable = false,
+      foreignKey = @ForeignKey(
+          name = "user_fk",
+          value = ConstraintMode.CONSTRAINT
+      )
+  )
+  private User user;
+
   @CreationTimestamp
   private Date createdAt;
 
@@ -89,6 +108,7 @@ public class Pet implements Serializable {
       Boolean active,
       Set<String> characteristics,
       String breed,
+      User user,
       Date createdAt,
       Date updatedAt,
       Date deletedAt
@@ -109,6 +129,7 @@ public class Pet implements Serializable {
     this.active = active;
     this.characteristics = characteristics;
     this.breed = breed;
+    this.user = user;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.deletedAt = deletedAt;
@@ -264,5 +285,13 @@ public class Pet implements Serializable {
 
   public void setDeletedAt(Date deletedAt) {
     this.deletedAt = deletedAt;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
   }
 }
