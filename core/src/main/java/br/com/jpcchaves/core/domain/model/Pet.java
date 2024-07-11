@@ -26,11 +26,11 @@ public class Pet {
 
   private Integer visualizations;
 
-  private boolean isAvailable;
+  private Boolean isAvailable;
 
   private Date adoptionDate;
 
-  private boolean active;
+  private Boolean active;
 
   private Set<String> characteristics = new HashSet<>();
 
@@ -64,9 +64,9 @@ public class Pet {
       String color,
       String description,
       Integer visualizations,
-      boolean isAvailable,
+      Boolean isAvailable,
       Date adoptionDate,
-      boolean active,
+      Boolean active,
       Set<String> characteristics,
       AnimalType type,
       String breed,
@@ -183,11 +183,11 @@ public class Pet {
     this.visualizations = visualizations;
   }
 
-  public boolean isAvailable() {
+  public Boolean isAvailable() {
     return isAvailable;
   }
 
-  public void setAvailable(boolean available) {
+  public void setAvailable(Boolean available) {
     isAvailable = available;
   }
 
@@ -199,11 +199,11 @@ public class Pet {
     this.adoptionDate = adoptionDate;
   }
 
-  public boolean isActive() {
+  public Boolean isActive() {
     return active;
   }
 
-  public void setActive(boolean active) {
+  public void setActive(Boolean active) {
     this.active = active;
   }
 
