@@ -2,12 +2,16 @@ package com.cleanarch.infra.domain.model;
 
 import jakarta.persistence.*;
 
+import java.io.*;
 import java.util.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @SequenceGenerator(name = "seq_picture", sequenceName = "seq_picture", allocationSize = 1)
-public abstract class Picture {
+public abstract class Picture implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = 4194788856706835259L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_picture")

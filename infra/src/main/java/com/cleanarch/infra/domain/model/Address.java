@@ -10,6 +10,9 @@ import java.util.*;
 @SequenceGenerator(name = "seq_address", sequenceName = "seq_address", allocationSize = 1)
 public abstract class Address implements Serializable {
 
+  @Serial
+  private static final long serialVersionUID = 7063537643534715864L;
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_address")
   private Long id;
