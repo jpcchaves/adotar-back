@@ -6,7 +6,7 @@ public interface JwtTokenProvider {
 
   String generateToken(Authentication authentication);
 
-  String getUsernameFromToken(String token);
+  String getTokenSubject(String token);
 
   boolean validateToken(String token);
 
