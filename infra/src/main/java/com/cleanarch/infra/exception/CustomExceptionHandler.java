@@ -1,5 +1,6 @@
 package com.cleanarch.infra.exception;
 
+import br.com.jpcchaves.core.exception.BadRequestException;
 import com.cleanarch.infra.exception.dto.ExceptionResponseDTO;
 import java.util.Arrays;
 import java.util.Date;
@@ -55,5 +56,17 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             new Date(), ex.getMessage(), request.getDescription(false));
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
+  }
+
+  @ExceptionHandler(BadRequestException.class)
+  public final ResponseEntity<ExceptionResponseDTO> handleBadRequestException(
+      BadRequestException ex,
+      WebRequest request
+  ) {
+    ExceptionResponseDTO exceptionResponse =
+        new ExceptionResponseDTO(
+            new Date(), ex.getMessage(), request.getDescription(false));
+
+    return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
   }
 }
