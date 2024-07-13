@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -42,5 +43,17 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     return new ResponseEntity<>(exceptionResponseDTO,
         HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(AccessDeniedException.class)
+  public final ResponseEntity<ExceptionResponseDTO> handleAccessDeniedException(
+      AccessDeniedException ex,
+      WebRequest request
+  ) {
+    ExceptionResponseDTO exceptionResponse =
+        new ExceptionResponseDTO(
+            new Date(), ex.getMessage(), request.getDescription(false));
+
+    return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
   }
 }
