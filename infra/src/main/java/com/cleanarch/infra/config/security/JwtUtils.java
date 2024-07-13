@@ -22,7 +22,11 @@ public class JwtUtils {
     String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
     if (headerHasBearer(authorizationHeader)) {
-      return authorizationHeader.substring(7);
+
+      String token = authorizationHeader.replace(BEARER_PREFIX + BLANK_SPACE,
+          "");
+
+      return token;
     }
 
     return null;
