@@ -44,4 +44,12 @@ public class ExceptionResponseDTO {
   public void setDetails(String details) {
     this.details = details;
   }
+
+  @Override
+  public String toString() {
+    return
+        "timestamp=" + timestamp +
+            ", message='" + message + '\'' +
+            ", details='" + details;
+  }
 }
