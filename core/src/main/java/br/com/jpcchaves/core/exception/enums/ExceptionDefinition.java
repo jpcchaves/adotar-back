@@ -12,7 +12,11 @@ public enum ExceptionDefinition {
   JWT0004("Token not found!", "JWT-0004", HttpStatus.BAD_REQUEST),
   JWT0005("Invalid token signature!", "JWT-005",
       HttpStatus.BAD_REQUEST), USR0001(
-      "User not found with the given email!", "USR-0001", HttpStatus.NOT_FOUND);
+      "User not found with the given email!", "USR-0001",
+      HttpStatus.NOT_FOUND), INT0001(
+      "Internal server error! Contact admin to get more details", "INT-0001",
+      HttpStatus.INTERNAL_SERVER_ERROR);
+
 
   private String message;
   private String code;
