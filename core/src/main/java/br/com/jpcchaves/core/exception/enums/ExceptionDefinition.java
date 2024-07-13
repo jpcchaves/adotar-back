@@ -5,7 +5,12 @@ import br.com.jpcchaves.core.domain.constants.HttpStatus;
 public enum ExceptionDefinition {
   GEN0001("Resource not found!", "GEN-0001", HttpStatus.NOT_FOUND),
   GEN0002("Bad request. Check the request and try again!", "GEN-0002",
-      HttpStatus.BAD_REQUEST);
+      HttpStatus.BAD_REQUEST),
+  JWT0001("Malformed Jwt!", "JWT-0001", HttpStatus.BAD_REQUEST),
+  JWT0002("Expired Jwt!", "JWT-0002", HttpStatus.BAD_REQUEST),
+  JWT0003("Invalid token format!", "JWT-0003", HttpStatus.BAD_REQUEST),
+  JWT0004("Token not found!", "JWT-0004", HttpStatus.BAD_REQUEST),
+  JWT0005("Invalid token signature!", "JWT-005", HttpStatus.BAD_REQUEST);
 
   private String message;
   private String code;
