@@ -17,7 +17,7 @@ public class JwtUtils {
     this.jwtTokenProvider = jwtTokenProvider;
   }
 
-  private String getTokenFromRequest(HttpServletRequest request) {
+  public String getTokenFromRequest(HttpServletRequest request) {
 
     String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -28,13 +28,13 @@ public class JwtUtils {
     return null;
   }
 
-  private Boolean headerHasBearer(String authorizationHeader) {
+  public Boolean headerHasBearer(String authorizationHeader) {
 
     return StringUtils.hasText(authorizationHeader)
         && authorizationHeader.startsWith(BEARER_PREFIX + BLANK_SPACE);
   }
 
-  private Boolean isTokenValid(String token) {
+  public Boolean isTokenValid(String token) {
 
     return StringUtils.hasText(token) && jwtTokenProvider.validateToken(token);
   }
