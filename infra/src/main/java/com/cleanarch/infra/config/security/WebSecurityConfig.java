@@ -16,7 +16,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -27,9 +29,17 @@ public class WebSecurityConfig {
       WebSecurityConfig.class);
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final AccessDeniedHandler accessDeniedHandler;
+  private final AuthenticationEntryPoint authenticationEntryPoint;
 
-  public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+  public WebSecurityConfig(
+      JwtAuthenticationFilter jwtAuthenticationFilter,
+      AccessDeniedHandler accessDeniedHandler,
+      AuthenticationEntryPoint authenticationEntryPoint
+  ) {
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    this.accessDeniedHandler = accessDeniedHandler;
+    this.authenticationEntryPoint = authenticationEntryPoint;
   }
 
   @Bean
@@ -70,6 +80,14 @@ public class WebSecurityConfig {
                       .anyRequest()
                       .authenticated()
           )
+          .exceptionHandling(
+              httpSecurityExceptionHandlingConfigurer ->
+                  httpSecurityExceptionHandlingConfigurer
+                      .accessDeniedHandler(accessDeniedHandler)
+          )
+          .exceptionHandling(httpSecurityExceptionHandlingConfigurer ->
+              httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(
+                  authenticationEntryPoint))
           .sessionManagement(session ->
               session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
           )
@@ -81,7 +99,7 @@ public class WebSecurityConfig {
       return http.build();
 
     } catch (Exception ex) {
-      
+
       logger.error(ex.getMessage());
       logger.error(Arrays.toString(ex.getStackTrace()));
 
