@@ -1,0 +1,8 @@
+ALTER TABLE users
+    ALTER COLUMN email SET NOT NULL;
+
+ALTER TABLE users
+    ADD CONSTRAINT unique_email UNIQUE (email);
+
+ALTER TABLE users
+    ALTER COLUMN password SET NOT NULL;
