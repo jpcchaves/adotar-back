@@ -1,6 +1,6 @@
 package com.cleanarch.usecase.auth.dto;
 
-public class RegisterRequestDTO {
+public class BaseRegisterRequestDTO {
 
   private String firstName;
   private String lastName;
@@ -8,10 +8,10 @@ public class RegisterRequestDTO {
   private String password;
   private String confirmPassword;
 
-  public RegisterRequestDTO() {
+  public BaseRegisterRequestDTO() {
   }
 
-  public RegisterRequestDTO(
+  public BaseRegisterRequestDTO(
       String firstName,
       String lastName,
       String email,

@@ -2,7 +2,7 @@ package com.cleanarch.application.usecaseimpl.auth;
 
 import com.cleanarch.application.gateway.auth.RegisterGateway;
 import com.cleanarch.usecase.auth.RegisterUseCase;
-import com.cleanarch.usecase.auth.dto.RegisterRequestDTO;
+import com.cleanarch.usecase.auth.dto.BaseRegisterRequestDTO;
 
 public class RegisterUseCaseImpl implements RegisterUseCase {
 
@@ -13,7 +13,7 @@ public class RegisterUseCaseImpl implements RegisterUseCase {
   }
 
   @Override
-  public String register(RegisterRequestDTO requestDTO) {
+  public String register(BaseRegisterRequestDTO requestDTO) {
     return registerGateway.register(requestDTO);
   }
 }
