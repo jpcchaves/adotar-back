@@ -1,5 +1,6 @@
 package com.cleanarch.infra.domain.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -45,13 +46,12 @@ public class User implements UserDetails, Serializable {
 
   private String lastName;
 
+  @Column(unique = true, nullable = false)
   private String email;
 
+  @Column(nullable = false)
   private String password;
-
-//  Todo: create Address, UserAddress, PetAddress entities
-//  private Address address;
-
+  
   private Boolean isActive = Boolean.TRUE;
 
   private String phone;
