@@ -3,11 +3,14 @@ package com.cleanarch.infra.exception;
 import br.com.jpcchaves.core.exception.BadRequestException;
 import br.com.jpcchaves.core.exception.InternalServerError;
 import com.cleanarch.infra.exception.dto.ExceptionResponseDTO;
+import jakarta.validation.ConstraintViolationException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -24,7 +27,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
   private static final Logger logger = LoggerFactory.getLogger(
       CustomExceptionHandler.class);
-
 
   @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
   @Override
@@ -44,6 +46,41 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     exceptionResponseDTO.setTimestamp(new Date());
     exceptionResponseDTO.setMessage(ex.getMessage());
     exceptionResponseDTO.setDetails(request.getDescription(false));
+
+    return new ResponseEntity<>(exceptionResponseDTO,
+        HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler({DataIntegrityViolationException.class,
+      ConstraintViolationException.class, SQLException.class,})
+  protected ResponseEntity<Object> handleExceptionDataIntegrity(Exception ex) {
+
+    logger.error(ex.getCause().getLocalizedMessage());
+
+    ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO();
+
+    StringBuilder errorMsg = new StringBuilder();
+
+    if (ex instanceof DataIntegrityViolationException) {
+
+      errorMsg.append(ex.getCause()
+          .getMessage());
+
+    } else if (ex instanceof ConstraintViolationException) {
+
+      errorMsg.append(ex.getCause()
+          .getMessage());
+
+    } else if (ex instanceof SQLException) {
+
+      errorMsg.append(ex.getCause()
+          .getMessage());
+
+    }
+
+    exceptionResponseDTO.setTimestamp(new Date());
+    exceptionResponseDTO.setMessage(errorMsg.toString());
+    exceptionResponseDTO.setDetails(ex.getMessage());
 
     return new ResponseEntity<>(exceptionResponseDTO,
         HttpStatus.INTERNAL_SERVER_ERROR);
