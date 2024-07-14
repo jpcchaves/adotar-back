@@ -29,6 +29,8 @@ public class WebSecurityConfig {
   private static final Logger logger = LoggerFactory.getLogger(
       WebSecurityConfig.class);
 
+  private static final int BCRYPT_SALT_ROUNDS = 8;
+
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final AccessDeniedHandler accessDeniedHandler;
   private final AuthenticationEntryPoint authenticationEntryPoint;
@@ -45,7 +47,7 @@ public class WebSecurityConfig {
 
   @Bean
   public static PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
+    return new BCryptPasswordEncoder(BCRYPT_SALT_ROUNDS);
   }
 
   @Bean
