@@ -1,6 +1,7 @@
 package com.cleanarch.infra.gateway.auth;
 
 import br.com.jpcchaves.core.domain.constants.Roles;
+import br.com.jpcchaves.core.exception.BadRequestException;
 import br.com.jpcchaves.core.exception.InternalServerError;
 import br.com.jpcchaves.core.exception.enums.ExceptionDefinition;
 import com.cleanarch.application.gateway.auth.RegisterGateway;
@@ -31,6 +32,11 @@ public class RegisterGatewayImpl implements RegisterGateway {
 
   @Override
   public String register(BaseRegisterRequestDTO requestDTO) {
+
+    if (userRepository.existsByEmail(requestDTO.getEmail())) {
+
+      throw new BadRequestException(ExceptionDefinition.USR0002);
+    }
 
     Role role = roleRepository.findByName(Roles.ROLE_USER)
         .orElseThrow(() -> new InternalServerError(
