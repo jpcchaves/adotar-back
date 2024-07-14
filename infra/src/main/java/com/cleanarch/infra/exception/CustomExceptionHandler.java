@@ -1,6 +1,7 @@
 package com.cleanarch.infra.exception;
 
 import br.com.jpcchaves.core.exception.BadRequestException;
+import br.com.jpcchaves.core.exception.InternalServerError;
 import com.cleanarch.infra.exception.dto.ExceptionResponseDTO;
 import java.util.Arrays;
 import java.util.Date;
@@ -68,5 +69,18 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             new Date(), ex.getMessage(), request.getDescription(false));
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(InternalServerError.class)
+  public ResponseEntity<ExceptionResponseDTO> handleInternalServerError(
+      InternalServerError ex,
+      WebRequest request
+  ) {
+    ExceptionResponseDTO exceptionResponse =
+        new ExceptionResponseDTO(
+            new Date(), ex.getMessage(), request.getDescription(false));
+
+    return new ResponseEntity<>(exceptionResponse,
+        HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
