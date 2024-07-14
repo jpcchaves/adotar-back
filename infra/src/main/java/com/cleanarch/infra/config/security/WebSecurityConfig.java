@@ -2,6 +2,7 @@ package com.cleanarch.infra.config.security;
 
 import br.com.jpcchaves.core.exception.InternalServerError;
 import br.com.jpcchaves.core.exception.enums.ExceptionDefinition;
+import com.cleanarch.infra.config.security.constants.RequestMatchersConstants;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,8 +75,8 @@ public class WebSecurityConfig {
               authorize ->
                   authorize
                       .requestMatchers(
-                          "/h2/**",
-                          "/h2-console/**")
+                          RequestMatchersConstants.PUBLIC_REQUEST_MATCHERS
+                      )
                       .permitAll()
                       .anyRequest()
                       .authenticated()
