@@ -5,6 +5,7 @@ import br.com.jpcchaves.core.exception.InternalServerError;
 import com.cleanarch.infra.exception.dto.ExceptionResponseDTO;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -82,5 +84,21 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     return new ResponseEntity<>(exceptionResponse,
         HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @Override
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(
+      MethodArgumentNotValidException ex,
+      HttpHeaders headers,
+      HttpStatusCode status,
+      WebRequest request
+  ) {
+    ExceptionResponseDTO exceptionResponse =
+        new ExceptionResponseDTO(
+            new Date(),
+            Objects.requireNonNull(ex.getFieldError()).getDefaultMessage(),
+            request.getDescription(false));
+
+    return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
   }
 }
