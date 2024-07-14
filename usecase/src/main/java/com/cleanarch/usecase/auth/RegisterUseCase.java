@@ -1,9 +1,9 @@
 package com.cleanarch.usecase.auth;
 
-import com.cleanarch.usecase.auth.dto.RegisterRequestDTO;
+import com.cleanarch.usecase.auth.dto.BaseRegisterRequestDTO;
 
 @FunctionalInterface
 public interface RegisterUseCase {
 
-  String register(RegisterRequestDTO requestDTO);
+  String register(BaseRegisterRequestDTO requestDTO);
 }

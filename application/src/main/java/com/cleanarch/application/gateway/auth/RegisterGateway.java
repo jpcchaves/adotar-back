@@ -1,8 +1,8 @@
 package com.cleanarch.application.gateway.auth;
 
-import com.cleanarch.usecase.auth.dto.RegisterRequestDTO;
+import com.cleanarch.usecase.auth.dto.BaseRegisterRequestDTO;
 
 public interface RegisterGateway {
 
-  String register(RegisterRequestDTO requestDTO);
+  String register(BaseRegisterRequestDTO requestDTO);
 }
