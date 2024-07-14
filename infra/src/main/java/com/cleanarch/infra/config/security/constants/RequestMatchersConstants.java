@@ -6,7 +6,8 @@ public class RequestMatchersConstants {
       new String[]{
           "/h2/**",
           "/h2-console/**",
-          "/api/v1/auth/login"
+          "/api/v1/auth/login",
+          "/api/v1/auth/register"
       };
 
 }
