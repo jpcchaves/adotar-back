@@ -1,9 +1,9 @@
 package com.cleanarch.application.usecaseimpl.role;
 
-import com.cleanarch.application.gateway.role.CreateRoleGateway;
-import com.cleanarch.usecase.common.dto.MessageResponseDTO;
-import com.cleanarch.usecase.role.CreateRoleUseCase;
-import com.cleanarch.usecase.role.dto.RoleRequestDTO;
+import com.cleanarch.application.gateway.role.*;
+import com.cleanarch.usecase.common.dto.*;
+import com.cleanarch.usecase.role.*;
+import com.cleanarch.usecase.role.dto.*;
 
 public class CreateRoleUseCaseImpl implements CreateRoleUseCase {
 
@@ -14,7 +14,7 @@ public class CreateRoleUseCaseImpl implements CreateRoleUseCase {
   }
 
   @Override
-  public MessageResponseDTO create(RoleRequestDTO requestDTO) {
+  public MessageResponseDTO create(BaseRoleRequestDTO requestDTO) {
     return createRoleGateway.create(requestDTO);
   }
 }
