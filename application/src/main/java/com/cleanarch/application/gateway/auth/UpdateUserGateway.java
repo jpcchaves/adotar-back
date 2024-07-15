@@ -5,5 +5,5 @@ import com.cleanarch.usecase.common.dto.*;
 
 public interface UpdateUserGateway {
 
-  MessageResponseDTO updateUser(BaseUpdateUserRequestDTO requestDTO);
+  MessageResponseDTO updateUser(UpdateUserRequestDTO requestDTO);
 }

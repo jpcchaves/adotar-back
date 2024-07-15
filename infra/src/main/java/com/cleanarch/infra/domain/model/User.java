@@ -1,31 +1,14 @@
 package com.cleanarch.infra.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ConstraintMode;
-import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import jakarta.persistence.UniqueConstraint;
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.persistence.*;
+import org.hibernate.annotations.*;
+import org.springframework.security.core.*;
+import org.springframework.security.core.userdetails.*;
+
+import java.io.*;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -34,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
     sequenceName = "seq_user",
     allocationSize = 1)
 public class User implements UserDetails, Serializable {
-
   @Serial
   private static final long serialVersionUID = -4823560267175762698L;
 
@@ -46,12 +28,14 @@ public class User implements UserDetails, Serializable {
 
   private String lastName;
 
-  @Column(unique = true, nullable = false)
   private String email;
 
-  @Column(nullable = false)
   private String password;
-  
+
+
+//  Todo: create Address, UserAddress, PetAddress entities
+//  private Address address;
+
   private Boolean isActive = Boolean.TRUE;
 
   private String phone;
@@ -277,12 +261,8 @@ public class User implements UserDetails, Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     User user = (User) o;
     return Objects.equals(id, user.id);
   }

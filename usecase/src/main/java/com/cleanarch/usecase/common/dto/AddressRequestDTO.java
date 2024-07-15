@@ -1,6 +1,6 @@
 package com.cleanarch.usecase.common.dto;
 
-public class BaseAddressRequestDTO {
+public class AddressRequestDTO {
   private String zipcode;
   private String street;
   private String number;
@@ -9,18 +9,16 @@ public class BaseAddressRequestDTO {
   private String city;
   private String state;
 
-  public BaseAddressRequestDTO() {
-  }
+  public AddressRequestDTO() {}
 
-  public BaseAddressRequestDTO(
+  public AddressRequestDTO(
       String zipcode,
       String street,
       String number,
       String complement,
       String neighborhood,
       String city,
-      String state
-  ) {
+      String state) {
     this.zipcode = zipcode;
     this.street = street;
     this.number = number;

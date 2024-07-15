@@ -1,9 +1,9 @@
 package com.cleanarch.application.usecaseimpl.role;
 
-import com.cleanarch.application.gateway.role.*;
-import com.cleanarch.usecase.common.dto.*;
-import com.cleanarch.usecase.role.*;
-import com.cleanarch.usecase.role.dto.*;
+import com.cleanarch.application.gateway.role.UpdateRoleGateway;
+import com.cleanarch.usecase.common.dto.MessageResponseDTO;
+import com.cleanarch.usecase.role.UpdateRoleUseCase;
+import com.cleanarch.usecase.role.dto.RoleRequestDTO;
 
 public class UpdateRoleUseCaseImpl implements UpdateRoleUseCase {
 
@@ -16,7 +16,7 @@ public class UpdateRoleUseCaseImpl implements UpdateRoleUseCase {
   @Override
   public MessageResponseDTO update(
       Long roleId,
-      BaseRoleRequestDTO requestDTO
+      RoleRequestDTO requestDTO
   ) {
     return updateRoleGateway.update(roleId, requestDTO);
   }

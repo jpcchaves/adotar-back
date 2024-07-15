@@ -1,12 +1,11 @@
 package com.cleanarch.usecase.role.dto;
 
-public class BaseRoleRequestDTO {
+public class RoleRequestDTO {
   private String name;
 
-  public BaseRoleRequestDTO() {
-  }
+  public RoleRequestDTO() {}
 
-  public BaseRoleRequestDTO(String name) {
+  public RoleRequestDTO(String name) {
     this.name = name;
   }
 

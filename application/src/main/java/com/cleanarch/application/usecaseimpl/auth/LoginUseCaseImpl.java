@@ -1,8 +1,9 @@
 package com.cleanarch.application.usecaseimpl.auth;
 
-import com.cleanarch.application.gateway.auth.*;
-import com.cleanarch.usecase.auth.*;
-import com.cleanarch.usecase.auth.dto.*;
+import com.cleanarch.application.gateway.auth.LoginGateway;
+import com.cleanarch.usecase.auth.LoginUseCase;
+import com.cleanarch.usecase.auth.dto.LoginRequestDTO;
+import com.cleanarch.usecase.auth.dto.LoginResponseDTO;
 
 public class LoginUseCaseImpl implements LoginUseCase {
 
@@ -13,7 +14,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
   }
 
   @Override
-  public LoginResponseDTO login(BaseLoginRequestDTO requestDTO) {
+  public LoginResponseDTO login(LoginRequestDTO requestDTO) {
     return loginGateway.login(requestDTO);
   }
 }

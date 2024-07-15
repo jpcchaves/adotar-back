@@ -15,8 +15,7 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
 
   @Override
   public MessageResponseDTO resetPassword(
-      BasePasswordResetTokenRequestDTO requestDTO
-  ) {
+      PasswordResetTokenRequestDTO requestDTO) {
 
     return resetPasswordGateway.resetPassword(requestDTO);
   }

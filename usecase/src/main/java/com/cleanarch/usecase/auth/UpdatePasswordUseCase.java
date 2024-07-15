@@ -6,5 +6,5 @@ import com.cleanarch.usecase.common.dto.*;
 @FunctionalInterface
 public interface UpdatePasswordUseCase {
 
-  MessageResponseDTO updatePassword(BaseUpdatePasswordRequestDTO requestDTO);
+  MessageResponseDTO updatePassword(UpdatePasswordRequestDTO requestDTO);
 }

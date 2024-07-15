@@ -1,9 +1,9 @@
 package com.cleanarch.application.usecaseimpl.pet;
 
-import com.cleanarch.application.gateway.pet.*;
-import com.cleanarch.usecase.common.dto.*;
-import com.cleanarch.usecase.pet.*;
-import com.cleanarch.usecase.pet.dto.*;
+import com.cleanarch.application.gateway.pet.CreatePetGateway;
+import com.cleanarch.usecase.common.dto.MessageResponseDTO;
+import com.cleanarch.usecase.pet.CreatePetUseCase;
+import com.cleanarch.usecase.pet.dto.PetCreateRequestDTO;
 
 public class CreatePetUseCaseImpl implements CreatePetUseCase {
 
@@ -14,7 +14,7 @@ public class CreatePetUseCaseImpl implements CreatePetUseCase {
   }
 
   @Override
-  public MessageResponseDTO create(BasePetCreateRequestDTO requestDTO) {
+  public MessageResponseDTO create(PetCreateRequestDTO requestDTO) {
     return createPetGateway.create(requestDTO);
   }
 }

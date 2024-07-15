@@ -2,9 +2,6 @@ package com.cleanarch.infra.config.security;
 
 import br.com.jpcchaves.core.exception.InternalServerError;
 import br.com.jpcchaves.core.exception.enums.ExceptionDefinition;
-
-import com.cleanarch.infra.config.security.constants.RequestMatchersConstants;
-
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +28,6 @@ public class WebSecurityConfig {
   private static final Logger logger = LoggerFactory.getLogger(
       WebSecurityConfig.class);
 
-  private static final int BCRYPT_SALT_ROUNDS = 8;
-
-
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final AccessDeniedHandler accessDeniedHandler;
   private final AuthenticationEntryPoint authenticationEntryPoint;
@@ -46,11 +40,6 @@ public class WebSecurityConfig {
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     this.accessDeniedHandler = accessDeniedHandler;
     this.authenticationEntryPoint = authenticationEntryPoint;
-  }
-
-  @Bean
-  public static PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder(BCRYPT_SALT_ROUNDS);
   }
 
   @Bean
@@ -85,8 +74,8 @@ public class WebSecurityConfig {
               authorize ->
                   authorize
                       .requestMatchers(
-                          RequestMatchersConstants.PUBLIC_REQUEST_MATCHERS
-                      )
+                          "/h2/**",
+                          "/h2-console/**")
                       .permitAll()
                       .anyRequest()
                       .authenticated()

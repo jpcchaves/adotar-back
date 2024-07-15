@@ -1,12 +1,12 @@
 package com.cleanarch.application.gateway.role;
 
-import com.cleanarch.usecase.common.dto.*;
-import com.cleanarch.usecase.role.dto.*;
+import com.cleanarch.usecase.common.dto.MessageResponseDTO;
+import com.cleanarch.usecase.role.dto.RoleRequestDTO;
 
 public interface UpdateRoleGateway {
 
   MessageResponseDTO update(
       Long roleId,
-      BaseRoleRequestDTO requestDTO
+      RoleRequestDTO requestDTO
   );
 }

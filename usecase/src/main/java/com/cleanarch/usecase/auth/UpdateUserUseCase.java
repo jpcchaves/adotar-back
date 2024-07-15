@@ -5,5 +5,5 @@ import com.cleanarch.usecase.common.dto.*;
 
 @FunctionalInterface
 public interface UpdateUserUseCase {
-  MessageResponseDTO updateUser(BaseUpdateUserRequestDTO requestDTO);
+  MessageResponseDTO updateUser(UpdateUserRequestDTO requestDTO);
 }

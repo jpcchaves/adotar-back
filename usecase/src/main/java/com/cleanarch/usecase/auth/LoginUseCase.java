@@ -1,9 +1,10 @@
 package com.cleanarch.usecase.auth;
 
-import com.cleanarch.usecase.auth.dto.*;
+import com.cleanarch.usecase.auth.dto.LoginRequestDTO;
+import com.cleanarch.usecase.auth.dto.LoginResponseDTO;
 
 @FunctionalInterface
 public interface LoginUseCase {
 
-  LoginResponseDTO login(BaseLoginRequestDTO requestDTO);
+  LoginResponseDTO login(LoginRequestDTO requestDTO);
 }

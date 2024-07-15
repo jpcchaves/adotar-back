@@ -2,10 +2,9 @@ package com.cleanarch.usecase.pet.dto;
 
 import br.com.jpcchaves.core.domain.model.*;
 import com.cleanarch.usecase.common.dto.*;
-
 import java.util.*;
 
-public class BasePetCreateRequestDTO {
+public class PetUpdateRequestDTO {
   private String name;
   private int yearsAge;
   private int monthsAge;
@@ -14,16 +13,16 @@ public class BasePetCreateRequestDTO {
   private char healthCondition;
   private String color;
   private String description;
+  private boolean isAvailable;
   private List<String> characteristics = new ArrayList<>();
-  private Address address;
+  private AddressRequestDTO address;
+  private List<Picture> petPictures = new ArrayList<>();
   private char animalType;
   private String breed;
-  private List<PictureMinDTO> petPictures = new ArrayList<>();
 
-  public BasePetCreateRequestDTO() {
-  }
+  public PetUpdateRequestDTO() {}
 
-  public BasePetCreateRequestDTO(
+  public PetUpdateRequestDTO(
       String name,
       int yearsAge,
       int monthsAge,
@@ -32,12 +31,12 @@ public class BasePetCreateRequestDTO {
       char healthCondition,
       String color,
       String description,
+      boolean isAvailable,
       List<String> characteristics,
-      Address address,
+      AddressRequestDTO address,
+      List<Picture> petPictures,
       char animalType,
-      String breed,
-      List<PictureMinDTO> petPictures
-  ) {
+      String breed) {
     this.name = name;
     this.yearsAge = yearsAge;
     this.monthsAge = monthsAge;
@@ -46,11 +45,12 @@ public class BasePetCreateRequestDTO {
     this.healthCondition = healthCondition;
     this.color = color;
     this.description = description;
+    this.isAvailable = isAvailable;
     this.characteristics = characteristics;
     this.address = address;
+    this.petPictures = petPictures;
     this.animalType = animalType;
     this.breed = breed;
-    this.petPictures = petPictures;
   }
 
   public String getName() {
@@ -117,6 +117,14 @@ public class BasePetCreateRequestDTO {
     this.description = description;
   }
 
+  public boolean isAvailable() {
+    return isAvailable;
+  }
+
+  public void setAvailable(boolean available) {
+    isAvailable = available;
+  }
+
   public List<String> getCharacteristics() {
     return characteristics;
   }
@@ -125,12 +133,20 @@ public class BasePetCreateRequestDTO {
     this.characteristics = characteristics;
   }
 
-  public Address getAddress() {
+  public AddressRequestDTO getAddress() {
     return address;
   }
 
-  public void setAddress(Address address) {
+  public void setAddress(AddressRequestDTO address) {
     this.address = address;
+  }
+
+  public List<Picture> getPetPictures() {
+    return petPictures;
+  }
+
+  public void setPetPictures(List<Picture> petPictures) {
+    this.petPictures = petPictures;
   }
 
   public char getAnimalType() {
@@ -147,13 +163,5 @@ public class BasePetCreateRequestDTO {
 
   public void setBreed(String breed) {
     this.breed = breed;
-  }
-
-  public List<PictureMinDTO> getPetPictures() {
-    return petPictures;
-  }
-
-  public void setPetPictures(List<PictureMinDTO> petPictures) {
-    this.petPictures = petPictures;
   }
 }

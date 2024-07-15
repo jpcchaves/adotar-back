@@ -4,5 +4,5 @@ import com.cleanarch.usecase.common.dto.*;
 import com.cleanarch.usecase.pet.dto.*;
 
 public interface CreatePetUseCase {
-  MessageResponseDTO create(BasePetCreateRequestDTO requestDTO);
+  MessageResponseDTO create(PetCreateRequestDTO requestDTO);
 }

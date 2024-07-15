@@ -1,27 +1,27 @@
 package com.cleanarch.usecase.auth.dto;
 
-public class BasePasswordResetTokenRequestDTO {
+public class UpdatePasswordRequestDTO {
 
-  private String token;
+  private String currentPassword;
   private String newPassword;
   private String confirmNewPassword;
 
-  public BasePasswordResetTokenRequestDTO(
-      String token,
+  public UpdatePasswordRequestDTO(
+      String currentPassword,
       String newPassword,
       String confirmNewPassword
   ) {
-    this.token = token;
+    this.currentPassword = currentPassword;
     this.newPassword = newPassword;
     this.confirmNewPassword = confirmNewPassword;
   }
 
-  public String getToken() {
-    return token;
+  public String getCurrentPassword() {
+    return currentPassword;
   }
 
-  public void setToken(String token) {
-    this.token = token;
+  public void setCurrentPassword(String currentPassword) {
+    this.currentPassword = currentPassword;
   }
 
   public String getNewPassword() {
