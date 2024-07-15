@@ -5,5 +5,5 @@ import com.cleanarch.usecase.common.dto.*;
 
 public interface RequestPasswordResetUseCase {
 
-  MessageResponseDTO resetTokenRequest(PasswordResetRequestDTO requestDTO);
+  MessageResponseDTO resetTokenRequest(BasePasswordResetRequestDTO requestDTO);
 }
