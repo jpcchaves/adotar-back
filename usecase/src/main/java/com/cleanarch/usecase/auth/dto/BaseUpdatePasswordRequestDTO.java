@@ -1,12 +1,12 @@
 package com.cleanarch.usecase.auth.dto;
 
-public class UpdatePasswordRequestDTO {
+public class BaseUpdatePasswordRequestDTO {
 
   private String currentPassword;
   private String newPassword;
   private String confirmNewPassword;
 
-  public UpdatePasswordRequestDTO(
+  public BaseUpdatePasswordRequestDTO(
       String currentPassword,
       String newPassword,
       String confirmNewPassword
