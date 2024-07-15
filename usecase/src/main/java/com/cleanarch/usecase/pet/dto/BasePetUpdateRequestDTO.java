@@ -5,7 +5,7 @@ import com.cleanarch.usecase.common.dto.*;
 
 import java.util.*;
 
-public class PetUpdateRequestDTO {
+public class BasePetUpdateRequestDTO {
   private String name;
   private int yearsAge;
   private int monthsAge;
@@ -21,10 +21,10 @@ public class PetUpdateRequestDTO {
   private char animalType;
   private String breed;
 
-  public PetUpdateRequestDTO() {
+  public BasePetUpdateRequestDTO() {
   }
 
-  public PetUpdateRequestDTO(
+  public BasePetUpdateRequestDTO(
       String name,
       int yearsAge,
       int monthsAge,

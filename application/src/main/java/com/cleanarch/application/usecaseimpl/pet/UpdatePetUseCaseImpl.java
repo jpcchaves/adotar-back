@@ -1,9 +1,9 @@
 package com.cleanarch.application.usecaseimpl.pet;
 
-import com.cleanarch.application.gateway.pet.UpdatePetUseCaseGateway;
-import com.cleanarch.usecase.common.dto.MessageResponseDTO;
-import com.cleanarch.usecase.pet.UpdatePetUseCase;
-import com.cleanarch.usecase.pet.dto.PetUpdateRequestDTO;
+import com.cleanarch.application.gateway.pet.*;
+import com.cleanarch.usecase.common.dto.*;
+import com.cleanarch.usecase.pet.*;
+import com.cleanarch.usecase.pet.dto.*;
 
 public class UpdatePetUseCaseImpl implements UpdatePetUseCase {
 
@@ -16,7 +16,7 @@ public class UpdatePetUseCaseImpl implements UpdatePetUseCase {
   @Override
   public MessageResponseDTO update(
       Long petId,
-      PetUpdateRequestDTO requestDTO
+      BasePetUpdateRequestDTO requestDTO
   ) {
     return updatePetUseCaseGateway.update(petId, requestDTO);
   }
