@@ -2,6 +2,7 @@ package com.cleanarch.usecase.pet.dto;
 
 import br.com.jpcchaves.core.domain.model.*;
 import com.cleanarch.usecase.common.dto.*;
+
 import java.util.*;
 
 public class PetUpdateRequestDTO {
@@ -15,12 +16,13 @@ public class PetUpdateRequestDTO {
   private String description;
   private boolean isAvailable;
   private List<String> characteristics = new ArrayList<>();
-  private AddressRequestDTO address;
+  private BaseAddressRequestDTO address;
   private List<Picture> petPictures = new ArrayList<>();
   private char animalType;
   private String breed;
 
-  public PetUpdateRequestDTO() {}
+  public PetUpdateRequestDTO() {
+  }
 
   public PetUpdateRequestDTO(
       String name,
@@ -33,10 +35,11 @@ public class PetUpdateRequestDTO {
       String description,
       boolean isAvailable,
       List<String> characteristics,
-      AddressRequestDTO address,
+      BaseAddressRequestDTO address,
       List<Picture> petPictures,
       char animalType,
-      String breed) {
+      String breed
+  ) {
     this.name = name;
     this.yearsAge = yearsAge;
     this.monthsAge = monthsAge;
@@ -133,11 +136,11 @@ public class PetUpdateRequestDTO {
     this.characteristics = characteristics;
   }
 
-  public AddressRequestDTO getAddress() {
+  public BaseAddressRequestDTO getAddress() {
     return address;
   }
 
-  public void setAddress(AddressRequestDTO address) {
+  public void setAddress(BaseAddressRequestDTO address) {
     this.address = address;
   }
 
