@@ -14,7 +14,7 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
   }
 
   @Override
-  public MessageResponseDTO updateUser(UpdateUserRequestDTO requestDTO) {
+  public MessageResponseDTO updateUser(BaseUpdateUserRequestDTO requestDTO) {
 
     return updateUserGateway.updateUser(requestDTO);
   }
