@@ -1,9 +1,8 @@
 package com.cleanarch.application.gateway.auth;
 
-import com.cleanarch.usecase.auth.dto.LoginRequestDTO;
-import com.cleanarch.usecase.auth.dto.LoginResponseDTO;
+import com.cleanarch.usecase.auth.dto.*;
 
 public interface LoginGateway {
 
-  LoginResponseDTO login(LoginRequestDTO requestDTO);
+  LoginResponseDTO login(BaseLoginRequestDTO requestDTO);
 }

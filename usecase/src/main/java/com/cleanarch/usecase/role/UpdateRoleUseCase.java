@@ -6,5 +6,8 @@ import com.cleanarch.usecase.role.dto.*;
 @FunctionalInterface
 public interface UpdateRoleUseCase {
 
-  MessageResponseDTO update(Long roleId, RoleRequestDTO requestDTO);
+  MessageResponseDTO update(
+      Long roleId,
+      BaseRoleRequestDTO requestDTO
+  );
 }

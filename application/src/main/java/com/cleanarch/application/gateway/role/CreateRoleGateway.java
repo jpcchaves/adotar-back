@@ -1,9 +1,9 @@
 package com.cleanarch.application.gateway.role;
 
-import com.cleanarch.usecase.common.dto.MessageResponseDTO;
-import com.cleanarch.usecase.role.dto.RoleRequestDTO;
+import com.cleanarch.usecase.common.dto.*;
+import com.cleanarch.usecase.role.dto.*;
 
 public interface CreateRoleGateway {
-  
-  MessageResponseDTO create(RoleRequestDTO requestDTO);
+
+  MessageResponseDTO create(BaseRoleRequestDTO requestDTO);
 }

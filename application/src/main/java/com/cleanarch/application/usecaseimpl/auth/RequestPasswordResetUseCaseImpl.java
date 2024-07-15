@@ -11,13 +11,15 @@ public class RequestPasswordResetUseCaseImpl
   private final RequestPasswordResetGateway requestPasswordResetGateway;
 
   public RequestPasswordResetUseCaseImpl(
-      RequestPasswordResetGateway requestPasswordResetGateway) {
+      RequestPasswordResetGateway requestPasswordResetGateway
+  ) {
     this.requestPasswordResetGateway = requestPasswordResetGateway;
   }
 
   @Override
   public MessageResponseDTO resetTokenRequest(
-      PasswordResetRequestDTO requestDTO) {
+      BasePasswordResetRequestDTO requestDTO
+  ) {
 
     return requestPasswordResetGateway.resetTokenRequest(requestDTO);
   }
