@@ -1,14 +1,14 @@
 package com.cleanarch.usecase.auth.dto;
 
-public class LoginRequestDTO {
+public class BaseLoginRequestDTO {
 
   private String email;
   private String password;
 
-  public LoginRequestDTO() {
+  public BaseLoginRequestDTO() {
   }
 
-  public LoginRequestDTO(
+  public BaseLoginRequestDTO(
       String email,
       String password
   ) {
