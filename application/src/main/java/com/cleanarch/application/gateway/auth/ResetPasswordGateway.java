@@ -6,5 +6,5 @@ import com.cleanarch.usecase.common.dto.*;
 @FunctionalInterface
 public interface ResetPasswordGateway {
 
-  MessageResponseDTO resetPassword(PasswordResetTokenRequestDTO requestDTO);
+  MessageResponseDTO resetPassword(BasePasswordResetTokenRequestDTO requestDTO);
 }
