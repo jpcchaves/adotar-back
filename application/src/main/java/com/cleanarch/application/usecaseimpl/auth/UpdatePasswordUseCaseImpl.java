@@ -10,13 +10,15 @@ public class UpdatePasswordUseCaseImpl implements UpdatePasswordUseCase {
   private final UpdatePasswordGateway updatePasswordGateway;
 
   public UpdatePasswordUseCaseImpl(
-      UpdatePasswordGateway updatePasswordGateway) {
+      UpdatePasswordGateway updatePasswordGateway
+  ) {
     this.updatePasswordGateway = updatePasswordGateway;
   }
 
   @Override
   public MessageResponseDTO updatePassword(
-      UpdatePasswordRequestDTO requestDTO) {
+      BaseUpdatePasswordRequestDTO requestDTO
+  ) {
 
     return updatePasswordGateway.updatePassword(requestDTO);
   }
