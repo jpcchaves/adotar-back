@@ -2,9 +2,10 @@ package com.cleanarch.usecase.pet.dto;
 
 import br.com.jpcchaves.core.domain.model.*;
 import com.cleanarch.usecase.common.dto.*;
+
 import java.util.*;
 
-public class PetCreateRequestDTO {
+public class BasePetCreateRequestDTO {
   private String name;
   private int yearsAge;
   private int monthsAge;
@@ -19,9 +20,10 @@ public class PetCreateRequestDTO {
   private String breed;
   private List<PictureMinDTO> petPictures = new ArrayList<>();
 
-  public PetCreateRequestDTO() {}
+  public BasePetCreateRequestDTO() {
+  }
 
-  public PetCreateRequestDTO(
+  public BasePetCreateRequestDTO(
       String name,
       int yearsAge,
       int monthsAge,
@@ -34,7 +36,8 @@ public class PetCreateRequestDTO {
       Address address,
       char animalType,
       String breed,
-      List<PictureMinDTO> petPictures) {
+      List<PictureMinDTO> petPictures
+  ) {
     this.name = name;
     this.yearsAge = yearsAge;
     this.monthsAge = monthsAge;
