@@ -1,7 +1,9 @@
 package com.cleanarch.infra.controller.auth;
 
+import com.cleanarch.infra.domain.dto.auth.LoginRequestDTO;
 import com.cleanarch.infra.domain.dto.auth.RegisterRequestDTO;
 import com.cleanarch.infra.service.auth.AuthService;
+import com.cleanarch.usecase.auth.dto.LoginResponseDTO;
 import com.cleanarch.usecase.common.dto.MessageResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -24,8 +26,11 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login() {
-    return ResponseEntity.ok("Login accessed");
+  public ResponseEntity<LoginResponseDTO> login(
+      @RequestBody @Valid
+      LoginRequestDTO requestDTO
+  ) {
+    return ResponseEntity.ok(authService.login(requestDTO));
   }
 
   @PostMapping("/register")
