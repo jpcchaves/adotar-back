@@ -10,6 +10,7 @@ import com.cleanarch.infra.domain.model.User;
 import com.cleanarch.infra.repository.RoleRepository;
 import com.cleanarch.infra.repository.UserRepository;
 import com.cleanarch.usecase.auth.dto.BaseRegisterRequestDTO;
+import java.util.Objects;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,12 @@ public class RegisterGatewayImpl implements RegisterGateway {
   @Override
   @Transactional
   public String register(BaseRegisterRequestDTO requestDTO) {
+
+    if (!Objects.equals(requestDTO.getPassword(),
+        requestDTO.getConfirmPassword())) {
+
+      throw new BadRequestException(ExceptionDefinition.USR0003);
+    }
 
     if (userRepository.existsByEmail(requestDTO.getEmail())) {
 
