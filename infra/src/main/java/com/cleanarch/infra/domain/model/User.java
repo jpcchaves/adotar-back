@@ -3,6 +3,7 @@ package com.cleanarch.infra.domain.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,7 +52,7 @@ public class User implements UserDetails, Serializable {
 
   @Column(nullable = false)
   private String password;
-  
+
   private Boolean isActive = Boolean.TRUE;
 
   private String phone;
@@ -70,7 +71,7 @@ public class User implements UserDetails, Serializable {
 
   private Date deletedAt;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "user_roles",
       uniqueConstraints = @UniqueConstraint(
