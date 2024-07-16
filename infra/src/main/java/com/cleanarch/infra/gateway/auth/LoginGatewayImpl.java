@@ -13,6 +13,7 @@ import com.cleanarch.usecase.auth.dto.LoginResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,9 +52,11 @@ public class LoginGatewayImpl implements LoginGateway {
           .orElseThrow(
               () -> new BadRequestException(ExceptionDefinition.USR0001));
 
+      UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+          requestDTO.getEmail(), requestDTO.getPassword());
+
       Authentication authentication = authenticationManager.authenticate(
-          authFactory.buildUsernamePasswordAuthToken(user.getEmail(),
-              user.getPassword(), user.getRoles())
+          authenticationToken
       );
 
       SecurityContextHolder.getContext().setAuthentication(authentication);
