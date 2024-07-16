@@ -18,7 +18,7 @@ public class AuthUseCasesConfig {
   }
 
   @Bean
-  LoginUseCase loginUseCase(LoginGateway loginGateway) {
+  public LoginUseCase loginUseCase(LoginGateway loginGateway) {
     return new LoginUseCaseImpl(loginGateway);
   }
 }
