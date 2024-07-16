@@ -18,6 +18,7 @@ public enum ExceptionDefinition {
   USR0002(
       "Duplicate email!", "USR-0002",
       HttpStatus.BAD_REQUEST),
+  USR0003("Passwords doesn't match!", "USR-0003", HttpStatus.BAD_REQUEST),
   INT0001(
       "Internal server error! Contact admin to get more details", "INT-0001",
       HttpStatus.INTERNAL_SERVER_ERROR),
