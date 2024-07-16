@@ -1,5 +1,6 @@
 package com.cleanarch.infra.exception;
 
+import br.com.jpcchaves.core.exception.AuthException;
 import br.com.jpcchaves.core.exception.BadRequestException;
 import br.com.jpcchaves.core.exception.InternalServerError;
 import com.cleanarch.infra.exception.dto.ExceptionResponseDTO;
@@ -19,10 +20,12 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
+@RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
   private static final Logger logger = LoggerFactory.getLogger(
@@ -101,6 +104,18 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(BadRequestException.class)
   public final ResponseEntity<ExceptionResponseDTO> handleBadRequestException(
       BadRequestException ex,
+      WebRequest request
+  ) {
+    ExceptionResponseDTO exceptionResponse =
+        new ExceptionResponseDTO(
+            new Date(), ex.getMessage(), request.getDescription(false));
+
+    return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(AuthException.class)
+  public final ResponseEntity<ExceptionResponseDTO> handleAuthException(
+      AuthException ex,
       WebRequest request
   ) {
     ExceptionResponseDTO exceptionResponse =
