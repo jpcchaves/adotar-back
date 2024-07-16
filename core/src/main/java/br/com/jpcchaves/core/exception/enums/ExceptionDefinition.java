@@ -20,7 +20,9 @@ public enum ExceptionDefinition {
       HttpStatus.BAD_REQUEST),
   INT0001(
       "Internal server error! Contact admin to get more details", "INT-0001",
-      HttpStatus.INTERNAL_SERVER_ERROR);
+      HttpStatus.INTERNAL_SERVER_ERROR),
+  AUT0001("User not found or invalid credentials!", "AUT-0001",
+      HttpStatus.BAD_REQUEST);
 
 
   private String message;
