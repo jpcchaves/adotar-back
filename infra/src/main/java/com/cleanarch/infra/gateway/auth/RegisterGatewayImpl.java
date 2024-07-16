@@ -14,6 +14,8 @@ import java.util.Objects;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 @Component
 public class RegisterGatewayImpl implements RegisterGateway {
@@ -41,6 +43,8 @@ public class RegisterGatewayImpl implements RegisterGateway {
 
       throw new BadRequestException(ExceptionDefinition.USR0003);
     }
+
+  public String register(BaseRegisterRequestDTO requestDTO) {
 
     if (userRepository.existsByEmail(requestDTO.getEmail())) {
 

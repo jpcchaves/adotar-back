@@ -5,6 +5,8 @@ import com.cleanarch.application.gateway.auth.RegisterGateway;
 import com.cleanarch.application.usecaseimpl.auth.LoginUseCaseImpl;
 import com.cleanarch.application.usecaseimpl.auth.RegisterUseCaseImpl;
 import com.cleanarch.usecase.auth.LoginUseCase;
+import com.cleanarch.application.gateway.auth.RegisterGateway;
+import com.cleanarch.application.usecaseimpl.auth.RegisterUseCaseImpl;
 import com.cleanarch.usecase.auth.RegisterUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

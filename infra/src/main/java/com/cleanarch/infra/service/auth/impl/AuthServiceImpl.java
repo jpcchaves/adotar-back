@@ -6,6 +6,9 @@ import com.cleanarch.infra.service.auth.AuthService;
 import com.cleanarch.usecase.auth.LoginUseCase;
 import com.cleanarch.usecase.auth.RegisterUseCase;
 import com.cleanarch.usecase.auth.dto.LoginResponseDTO;
+import com.cleanarch.infra.domain.dto.auth.RegisterRequestDTO;
+import com.cleanarch.infra.service.auth.AuthService;
+import com.cleanarch.usecase.auth.RegisterUseCase;
 import com.cleanarch.usecase.common.dto.MessageResponseDTO;
 import org.springframework.stereotype.Service;
 

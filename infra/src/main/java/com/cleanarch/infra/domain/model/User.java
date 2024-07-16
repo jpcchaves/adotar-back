@@ -52,7 +52,7 @@ public class User implements UserDetails, Serializable {
 
   @Column(nullable = false)
   private String password;
-
+  
   private Boolean isActive = Boolean.TRUE;
 
   private String phone;
