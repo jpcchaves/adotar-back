@@ -12,6 +12,7 @@ import com.cleanarch.infra.repository.UserRepository;
 import com.cleanarch.usecase.auth.dto.BaseRegisterRequestDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class RegisterGatewayImpl implements RegisterGateway {
@@ -31,6 +32,7 @@ public class RegisterGatewayImpl implements RegisterGateway {
   }
 
   @Override
+  @Transactional
   public String register(BaseRegisterRequestDTO requestDTO) {
 
     if (userRepository.existsByEmail(requestDTO.getEmail())) {
