@@ -7,13 +7,15 @@ import br.com.jpcchaves.core.exception.enums.ExceptionDefinition;
 import com.cleanarch.application.gateway.auth.RegisterGateway;
 import com.cleanarch.infra.domain.model.Role;
 import com.cleanarch.infra.domain.model.User;
+import com.cleanarch.infra.factory.user.UserFactory;
 import com.cleanarch.infra.repository.RoleRepository;
 import com.cleanarch.infra.repository.UserRepository;
 import com.cleanarch.usecase.auth.dto.BaseRegisterRequestDTO;
-import java.util.Objects;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Component
 public class RegisterGatewayImpl implements RegisterGateway {
@@ -21,15 +23,18 @@ public class RegisterGatewayImpl implements RegisterGateway {
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
+  private final UserFactory userFactory;
 
   public RegisterGatewayImpl(
       UserRepository userRepository,
       RoleRepository roleRepository,
-      PasswordEncoder passwordEncoder
+      PasswordEncoder passwordEncoder,
+      UserFactory userFactory
   ) {
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
     this.passwordEncoder = passwordEncoder;
+    this.userFactory = userFactory;
   }
 
   @Override
@@ -37,7 +42,7 @@ public class RegisterGatewayImpl implements RegisterGateway {
   public String register(BaseRegisterRequestDTO requestDTO) {
 
     if (!Objects.equals(requestDTO.getPassword(),
-        requestDTO.getConfirmPassword())) {
+                        requestDTO.getConfirmPassword())) {
 
       throw new BadRequestException(ExceptionDefinition.USR0003);
     }
@@ -48,19 +53,19 @@ public class RegisterGatewayImpl implements RegisterGateway {
     }
 
     Role role = roleRepository.findByName(Roles.ROLE_USER)
-        .orElseThrow(() -> new InternalServerError(
-            ExceptionDefinition.INT0001));
+                              .orElseThrow(() -> new InternalServerError(
+                                  ExceptionDefinition.INT0001));
 
-    User user = new User();
+    String encodedPassword = passwordEncoder.encode(requestDTO.getPassword());
 
-    user.setFirstName(requestDTO.getFirstName());
-    user.setLastName(requestDTO.getLastName());
-    user.setEmail(requestDTO.getEmail());
-    user.setPassword(
-        passwordEncoder.encode(requestDTO.getPassword())
+    User user = userFactory.buildUser(
+        requestDTO.getFirstName(),
+        requestDTO.getLastName(),
+        requestDTO.getEmail(),
+        encodedPassword,
+        role
     );
-    user.getRoles().add(role);
-
+    
     userRepository.save(user);
 
     return "Usuario cadastrado com sucesso!";

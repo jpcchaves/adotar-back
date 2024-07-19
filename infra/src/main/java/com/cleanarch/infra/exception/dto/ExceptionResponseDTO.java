@@ -4,11 +4,19 @@ import java.util.Date;
 
 public class ExceptionResponseDTO {
 
-  private Date timestamp;
+  private Date timestamp = new Date();
   private String message;
   private String details;
 
   public ExceptionResponseDTO() {
+  }
+
+  public ExceptionResponseDTO(
+      String message,
+      String details
+  ) {
+    this.message = message;
+    this.details = details;
   }
 
   public ExceptionResponseDTO(
@@ -19,6 +27,15 @@ public class ExceptionResponseDTO {
     this.timestamp = timestamp;
     this.message = message;
     this.details = details;
+  }
+
+  public ExceptionResponseDTO(Builder builder) {
+    this.message = builder.message;
+    this.details = builder.details;
+  }
+
+  public static Builder builder() {
+    return new Builder();
   }
 
   public Date getTimestamp() {
@@ -51,5 +68,28 @@ public class ExceptionResponseDTO {
         "timestamp=" + timestamp +
             ", message='" + message + '\'' +
             ", details='" + details;
+  }
+
+  public static class Builder {
+
+    private String message;
+    private String details;
+
+    protected Builder() {
+    }
+
+    public ExceptionResponseDTO build() {
+      return new ExceptionResponseDTO(this);
+    }
+
+    public Builder setMessage(String message) {
+      this.message = message;
+      return this;
+    }
+
+    public Builder setDetails(String details) {
+      this.details = details;
+      return this;
+    }
   }
 }

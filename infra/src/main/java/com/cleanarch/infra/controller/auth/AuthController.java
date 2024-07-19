@@ -30,6 +30,7 @@ public class AuthController {
       @RequestBody @Valid
       LoginRequestDTO requestDTO
   ) {
+    
     return ResponseEntity.ok(authService.login(requestDTO));
   }
 
@@ -38,7 +39,8 @@ public class AuthController {
       @RequestBody @Valid
       RegisterRequestDTO requestDTO
   ) {
+
     return ResponseEntity.status(HttpStatus.CREATED)
-        .body(authService.register(requestDTO));
+                         .body(authService.register(requestDTO));
   }
 }

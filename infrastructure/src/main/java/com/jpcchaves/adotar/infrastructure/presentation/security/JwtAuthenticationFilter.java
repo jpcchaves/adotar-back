@@ -1,5 +1,7 @@
 package com.jpcchaves.adotar.infrastructure.presentation.security;
 
+import br.com.jpcchaves.core.exception.AuthException;
+import br.com.jpcchaves.core.exception.enums.ExceptionDefinition;
 import com.jpcchaves.adotar.infrastructure.application.service.jwt.contracts.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +26,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   public JwtAuthenticationFilter(
       JwtTokenProvider jwtTokenProvider,
-      UserDetailsService userDetailsService) {
+      UserDetailsService userDetailsService
+  ) {
     this.jwtTokenProvider = jwtTokenProvider;
     this.userDetailsService = userDetailsService;
   }
@@ -33,7 +36,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request,
       HttpServletResponse response,
-      FilterChain filterChain)
+      FilterChain filterChain
+  )
       throws ServletException, IOException {
     String token = getTokenFromRequest(request);
 
@@ -56,11 +60,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   }
 
   private String getTokenFromRequest(HttpServletRequest request) {
+
     String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+
     if (checkIfHeaderHasBearerToken(token)) {
       return token.substring(7);
     }
-    return null;
+
+    throw new AuthException(ExceptionDefinition.JWT0004);
   }
 
   private Boolean checkIfHeaderHasBearerToken(String token) {

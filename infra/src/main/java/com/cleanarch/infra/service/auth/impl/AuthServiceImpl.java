@@ -2,6 +2,7 @@ package com.cleanarch.infra.service.auth.impl;
 
 import com.cleanarch.infra.domain.dto.auth.LoginRequestDTO;
 import com.cleanarch.infra.domain.dto.auth.RegisterRequestDTO;
+import com.cleanarch.infra.factory.common.ConcreteMessageResponseFactory;
 import com.cleanarch.infra.service.auth.AuthService;
 import com.cleanarch.usecase.auth.LoginUseCase;
 import com.cleanarch.usecase.auth.RegisterUseCase;
@@ -25,7 +26,8 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public MessageResponseDTO register(RegisterRequestDTO requestDTO) {
-    return new MessageResponseDTO(registerUseCase.register(requestDTO));
+    return ConcreteMessageResponseFactory.buildMessage(
+        registerUseCase.register(requestDTO));
   }
 
   @Override

@@ -6,18 +6,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AuthenticationEntrypointImpl implements AuthenticationEntryPoint {
-
-  private static final Logger logger = LoggerFactory.getLogger(
-      AuthenticationEntrypointImpl.class);
 
   @Override
   public void commence(
@@ -31,11 +25,11 @@ public class AuthenticationEntrypointImpl implements AuthenticationEntryPoint {
     response.setContentType("application/json;charset=UTF-8");
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-    ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(
-        new Date(),
-        "Unauthorized!",
-        "You need to authenticate to access this resource!"
-    );
+    ExceptionResponseDTO exceptionResponseDTO = ExceptionResponseDTO
+        .builder()
+        .setMessage("Unauthorized!")
+        .setDetails("You need to authenticate to access this resource!")
+        .build();
 
     response
         .getWriter()
@@ -44,8 +38,5 @@ public class AuthenticationEntrypointImpl implements AuthenticationEntryPoint {
                 .writer()
                 .writeValueAsString(exceptionResponseDTO)
         );
-
-    logger.error("Error in class: " + this.getClass().getSimpleName() + ". "
-        + exceptionResponseDTO);
   }
 }
