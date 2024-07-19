@@ -1,8 +1,11 @@
 package com.cleanarch.usecase.pet;
 
-import br.com.jpcchaves.core.domain.model.*;
-import com.cleanarch.usecase.pet.dto.*;
+import br.com.jpcchaves.core.domain.model.PaginationRequest;
+import br.com.jpcchaves.core.domain.model.PaginationResponse;
+import com.cleanarch.usecase.pet.dto.PetMinDTO;
 
+@FunctionalInterface
 public interface ListPetsUseCase {
+
   PaginationResponse<PetMinDTO> list(PaginationRequest pagination);
 }
