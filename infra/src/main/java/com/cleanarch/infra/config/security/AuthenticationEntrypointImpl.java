@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
@@ -31,11 +30,11 @@ public class AuthenticationEntrypointImpl implements AuthenticationEntryPoint {
     response.setContentType("application/json;charset=UTF-8");
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-    ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(
-        new Date(),
-        "Unauthorized!",
-        "You need to authenticate to access this resource!"
-    );
+    ExceptionResponseDTO exceptionResponseDTO = ExceptionResponseDTO
+        .builder()
+        .setMessage("Unauthorized!")
+        .setDetails("You need to authenticate to access this resource!")
+        .build();
 
     response
         .getWriter()

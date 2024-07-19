@@ -7,7 +7,6 @@ import com.cleanarch.infra.exception.dto.ExceptionResponseDTO;
 import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,13 +43,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     logger.error(ex.getMessage());
     logger.error(Arrays.toString(ex.getStackTrace()));
 
-    ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO();
+    ExceptionResponseDTO exceptionResponse =
+        ExceptionResponseDTO
+            .builder()
+            .setDetails(request.getDescription(false))
+            .setMessage(ex.getMessage())
+            .build();
 
-    exceptionResponseDTO.setTimestamp(new Date());
-    exceptionResponseDTO.setMessage(ex.getMessage());
-    exceptionResponseDTO.setDetails(request.getDescription(false));
-
-    return new ResponseEntity<>(exceptionResponseDTO,
+    return new ResponseEntity<>(exceptionResponse,
         HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
@@ -59,8 +59,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   protected ResponseEntity<Object> handleExceptionDataIntegrity(Exception ex) {
 
     logger.error(ex.getCause().getLocalizedMessage());
-
-    ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO();
 
     StringBuilder errorMsg = new StringBuilder();
 
@@ -81,11 +79,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
-    exceptionResponseDTO.setTimestamp(new Date());
-    exceptionResponseDTO.setMessage(errorMsg.toString());
-    exceptionResponseDTO.setDetails(ex.getMessage());
+    ExceptionResponseDTO exceptionResponse =
+        ExceptionResponseDTO
+            .builder()
+            .setDetails(ex.getMessage())
+            .setMessage(errorMsg.toString())
+            .build();
 
-    return new ResponseEntity<>(exceptionResponseDTO,
+    return new ResponseEntity<>(exceptionResponse,
         HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
@@ -94,9 +95,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
       AccessDeniedException ex,
       WebRequest request
   ) {
+
     ExceptionResponseDTO exceptionResponse =
-        new ExceptionResponseDTO(
-            new Date(), ex.getMessage(), request.getDescription(false));
+        ExceptionResponseDTO
+            .builder()
+            .setDetails(ex.getMessage())
+            .setMessage(request.getDescription(false))
+            .build();
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
   }
@@ -106,9 +111,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
       BadRequestException ex,
       WebRequest request
   ) {
+
     ExceptionResponseDTO exceptionResponse =
-        new ExceptionResponseDTO(
-            new Date(), ex.getMessage(), request.getDescription(false));
+        ExceptionResponseDTO
+            .builder()
+            .setDetails(ex.getMessage())
+            .setMessage(request.getDescription(false))
+            .build();
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
   }
@@ -118,9 +127,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
       AuthException ex,
       WebRequest request
   ) {
+
     ExceptionResponseDTO exceptionResponse =
-        new ExceptionResponseDTO(
-            new Date(), ex.getMessage(), request.getDescription(false));
+        ExceptionResponseDTO
+            .builder()
+            .setDetails(ex.getMessage())
+            .setMessage(request.getDescription(false))
+            .build();
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
   }
@@ -130,9 +143,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
       InternalServerError ex,
       WebRequest request
   ) {
+
     ExceptionResponseDTO exceptionResponse =
-        new ExceptionResponseDTO(
-            new Date(), ex.getMessage(), request.getDescription(false));
+        ExceptionResponseDTO
+            .builder()
+            .setDetails(ex.getMessage())
+            .setMessage(request.getDescription(false))
+            .build();
 
     return new ResponseEntity<>(exceptionResponse,
         HttpStatus.INTERNAL_SERVER_ERROR);
@@ -147,7 +164,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   ) {
     ExceptionResponseDTO exceptionResponse =
         new ExceptionResponseDTO(
-            new Date(),
             Objects.requireNonNull(ex.getFieldError()).getDefaultMessage(),
             request.getDescription(false));
 
