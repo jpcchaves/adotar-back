@@ -1,5 +1,7 @@
 package com.cleanarch.infra.config.security;
 
+import br.com.jpcchaves.core.exception.AuthException;
+import br.com.jpcchaves.core.exception.enums.ExceptionDefinition;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -29,7 +31,7 @@ public class JwtUtils {
       return token;
     }
 
-    return null;
+    throw new AuthException(ExceptionDefinition.JWT0004);
   }
 
   public Boolean headerHasBearer(String authorizationHeader) {
