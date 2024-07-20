@@ -1,9 +1,11 @@
 package com.cleanarch.infra.domain.dto.auth;
 
+import com.cleanarch.infra.domain.annotation.pwd.PasswordMatches;
 import com.cleanarch.usecase.auth.dto.BaseUpdatePasswordRequestDTO;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
+@PasswordMatches(message = "The password and it's confirmation does not match!")
 public class UpdatePasswordDTO extends BaseUpdatePasswordRequestDTO {
 
   @Override
