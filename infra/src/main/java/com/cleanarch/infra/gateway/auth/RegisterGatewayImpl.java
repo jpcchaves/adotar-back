@@ -15,8 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-
 @Component
 public class RegisterGatewayImpl implements RegisterGateway {
 
@@ -41,20 +39,14 @@ public class RegisterGatewayImpl implements RegisterGateway {
   @Transactional
   public String register(BaseRegisterRequestDTO requestDTO) {
 
-    if (!Objects.equals(requestDTO.getPassword(),
-                        requestDTO.getConfirmPassword())) {
-
-      throw new BadRequestException(ExceptionDefinition.USR0003);
-    }
-
     if (userRepository.existsByEmail(requestDTO.getEmail())) {
 
       throw new BadRequestException(ExceptionDefinition.USR0002);
     }
 
     Role role = roleRepository.findByName(Roles.ROLE_USER)
-                              .orElseThrow(() -> new InternalServerError(
-                                  ExceptionDefinition.INT0001));
+        .orElseThrow(() -> new InternalServerError(
+            ExceptionDefinition.INT0001));
 
     String encodedPassword = passwordEncoder.encode(requestDTO.getPassword());
 
@@ -65,7 +57,7 @@ public class RegisterGatewayImpl implements RegisterGateway {
         encodedPassword,
         role
     );
-    
+
     userRepository.save(user);
 
     return "Usuario cadastrado com sucesso!";
