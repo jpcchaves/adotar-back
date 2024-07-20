@@ -6,6 +6,9 @@ public class BaseUpdatePasswordRequestDTO {
   private String newPassword;
   private String confirmNewPassword;
 
+  public BaseUpdatePasswordRequestDTO() {
+  }
+
   public BaseUpdatePasswordRequestDTO(
       String currentPassword,
       String newPassword,
