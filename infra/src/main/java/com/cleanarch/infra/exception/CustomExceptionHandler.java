@@ -47,8 +47,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     ExceptionResponseDTO exceptionResponse =
         ExceptionResponseDTO
             .builder()
-            .setDetails(request.getDescription(false))
             .setMessage(ex.getMessage())
+            .setDetails(request.getDescription(false))
             .build();
 
     return new ResponseEntity<>(exceptionResponse,
@@ -83,8 +83,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     ExceptionResponseDTO exceptionResponse =
         ExceptionResponseDTO
             .builder()
-            .setDetails(ex.getMessage())
-            .setMessage(errorMsg.toString())
+            .setMessage(ex.getMessage())
+            .setDetails(errorMsg.toString())
             .build();
 
     return new ResponseEntity<>(exceptionResponse,
@@ -100,8 +100,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     ExceptionResponseDTO exceptionResponse =
         ExceptionResponseDTO
             .builder()
-            .setDetails(ex.getMessage())
-            .setMessage(request.getDescription(false))
+            .setMessage(ex.getMessage())
+            .setDetails(request.getDescription(false))
             .build();
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
@@ -116,8 +116,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     ExceptionResponseDTO exceptionResponse =
         ExceptionResponseDTO
             .builder()
-            .setDetails(ex.getMessage())
-            .setMessage(request.getDescription(false))
+            .setMessage(ex.getMessage())
+            .setDetails(request.getDescription(false))
             .build();
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
@@ -132,8 +132,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     ExceptionResponseDTO exceptionResponse =
         ExceptionResponseDTO
             .builder()
-            .setDetails(ex.getMessage())
-            .setMessage(request.getDescription(false))
+            .setMessage(ex.getMessage())
+            .setDetails(request.getDescription(false))
             .build();
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
@@ -148,8 +148,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     ExceptionResponseDTO exceptionResponse =
         ExceptionResponseDTO
             .builder()
-            .setDetails(ex.getMessage())
-            .setMessage(request.getDescription(false))
+            .setMessage(ex.getMessage())
+            .setDetails(request.getDescription(false))
             .build();
 
     return new ResponseEntity<>(exceptionResponse,
