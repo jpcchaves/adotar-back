@@ -6,8 +6,9 @@ import br.com.jpcchaves.core.exception.InternalServerError;
 import com.cleanarch.infra.exception.dto.ExceptionResponseDTO;
 import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -162,10 +163,23 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
       HttpStatusCode status,
       WebRequest request
   ) {
-    ExceptionResponseDTO exceptionResponse =
-        new ExceptionResponseDTO(
-            Objects.requireNonNull(ex.getFieldError()).getDefaultMessage(),
-            request.getDescription(false));
+
+    List<String> errors = new ArrayList<>();
+
+    ex.getBindingResult().getAllErrors().forEach(error -> {
+      String errorMessage;
+
+      errorMessage =
+          error.getDefaultMessage();
+
+      errors.add(errorMessage);
+    });
+
+    ExceptionResponseDTO exceptionResponse = ExceptionResponseDTO
+        .builder()
+        .setMessage(errors.get(0))
+        .setDetails(request.getDescription(false))
+        .build();
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
   }
