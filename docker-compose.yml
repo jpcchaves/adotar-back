@@ -3,6 +3,7 @@ services:
   db:
     image: postgres:15
     restart: always
+    container_name: adotar_db
     environment:
       TZ: America/Sao_Paulo
       POSTGRES_USER: "${DB_DEV_USER}"
@@ -17,6 +18,7 @@ services:
   adotar:
     image: adotar
     restart: always
+    container_name: adotar
     build:
       context: .
       dockerfile: ./infrastructure/Dockerfile
