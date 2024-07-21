@@ -37,7 +37,7 @@ services:
       MAIL_DEV_PASSWORD: "${MAIL_DEV_PASSWORD}"
     ports:
       - "8086:8080"
-    command: mvn spring-boot:run
+    command: ./gradlew bootRun
     depends_on:
       - db
     networks:
