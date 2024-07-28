@@ -10,11 +10,7 @@ public class ConcreteUserFactory implements UserFactory {
 
   @Override
   public UserMinDTO buildUserMinDTO(
-      Long id,
-      String firstName,
-      String lastName,
-      String email
-  ) {
+      Long id, String firstName, String lastName, String email) {
 
     return new UserMinDTO(id, firstName + " " + lastName, email);
   }
@@ -25,19 +21,15 @@ public class ConcreteUserFactory implements UserFactory {
       String lastName,
       String email,
       String encodedPassword,
-      Role role
-  ) {
+      Role role) {
 
     User user = new User();
 
     user.setFirstName(firstName);
     user.setLastName(lastName);
     user.setEmail(email);
-    user.setPassword(
-        encodedPassword
-    );
-    user.getRoles()
-        .add(role);
+    user.setPassword(encodedPassword);
+    user.getRoles().add(role);
 
     return user;
   }

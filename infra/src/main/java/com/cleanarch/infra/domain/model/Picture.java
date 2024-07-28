@@ -1,17 +1,18 @@
 package com.cleanarch.infra.domain.model;
 
 import jakarta.persistence.*;
-
 import java.io.*;
 import java.util.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@SequenceGenerator(name = "seq_picture", sequenceName = "seq_picture", allocationSize = 1)
+@SequenceGenerator(
+    name = "seq_picture",
+    sequenceName = "seq_picture",
+    allocationSize = 1)
 public abstract class Picture implements Serializable {
 
-  @Serial
-  private static final long serialVersionUID = 4194788856706835259L;
+  @Serial private static final long serialVersionUID = 4194788856706835259L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_picture")
@@ -25,16 +26,10 @@ public abstract class Picture implements Serializable {
 
   private String imgUrl;
 
-  public Picture() {
-  }
+  public Picture() {}
 
   public Picture(
-      Long id,
-      String fileName,
-      long size,
-      String type,
-      String imgUrl
-  ) {
+      Long id, String fileName, long size, String type, String imgUrl) {
     this.id = id;
     this.fileName = fileName;
     this.size = size;
@@ -84,13 +79,21 @@ public abstract class Picture implements Serializable {
 
   @Override
   public String toString() {
-    return "Picture{" +
-        "id=" + id +
-        ", fileName='" + fileName + '\'' +
-        ", size=" + size +
-        ", type='" + type + '\'' +
-        ", imgUrl='" + imgUrl + '\'' +
-        '}';
+    return "Picture{"
+        + "id="
+        + id
+        + ", fileName='"
+        + fileName
+        + '\''
+        + ", size="
+        + size
+        + ", type='"
+        + type
+        + '\''
+        + ", imgUrl='"
+        + imgUrl
+        + '\''
+        + '}';
   }
 
   @Override

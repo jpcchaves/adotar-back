@@ -10,8 +10,5 @@ public interface JwtTokenProvider {
 
   boolean validateToken(String token);
 
-  String getClaimFromTokenByKey(
-      String token,
-      String key
-  );
+  String getClaimFromTokenByKey(String token, String key);
 }

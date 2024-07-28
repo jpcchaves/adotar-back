@@ -28,8 +28,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
-  private static final Logger logger = LoggerFactory.getLogger(
-      CustomExceptionHandler.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(CustomExceptionHandler.class);
 
   @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
   @Override
@@ -38,25 +38,26 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
       Object body,
       HttpHeaders headers,
       HttpStatusCode statusCode,
-      WebRequest request
-  ) {
+      WebRequest request) {
 
     logger.error(ex.getMessage());
     logger.error(Arrays.toString(ex.getStackTrace()));
 
     ExceptionResponseDTO exceptionResponse =
-        ExceptionResponseDTO
-            .builder()
+        ExceptionResponseDTO.builder()
             .setMessage(ex.getMessage())
             .setDetails(request.getDescription(false))
             .build();
 
-    return new ResponseEntity<>(exceptionResponse,
-        HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(
+        exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  @ExceptionHandler({DataIntegrityViolationException.class,
-      ConstraintViolationException.class, SQLException.class,})
+  @ExceptionHandler({
+    DataIntegrityViolationException.class,
+    ConstraintViolationException.class,
+    SQLException.class,
+  })
   protected ResponseEntity<Object> handleExceptionDataIntegrity(Exception ex) {
 
     logger.error(ex.getCause().getLocalizedMessage());
@@ -65,41 +66,33 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     if (ex instanceof DataIntegrityViolationException) {
 
-      errorMsg.append(ex.getCause()
-          .getMessage());
+      errorMsg.append(ex.getCause().getMessage());
 
     } else if (ex instanceof ConstraintViolationException) {
 
-      errorMsg.append(ex.getCause()
-          .getMessage());
+      errorMsg.append(ex.getCause().getMessage());
 
     } else if (ex instanceof SQLException) {
 
-      errorMsg.append(ex.getCause()
-          .getMessage());
-
+      errorMsg.append(ex.getCause().getMessage());
     }
 
     ExceptionResponseDTO exceptionResponse =
-        ExceptionResponseDTO
-            .builder()
+        ExceptionResponseDTO.builder()
             .setMessage(ex.getMessage())
             .setDetails(errorMsg.toString())
             .build();
 
-    return new ResponseEntity<>(exceptionResponse,
-        HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(
+        exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @ExceptionHandler(AccessDeniedException.class)
   public final ResponseEntity<ExceptionResponseDTO> handleAccessDeniedException(
-      AccessDeniedException ex,
-      WebRequest request
-  ) {
+      AccessDeniedException ex, WebRequest request) {
 
     ExceptionResponseDTO exceptionResponse =
-        ExceptionResponseDTO
-            .builder()
+        ExceptionResponseDTO.builder()
             .setMessage(ex.getMessage())
             .setDetails(request.getDescription(false))
             .build();
@@ -109,13 +102,10 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(BadRequestException.class)
   public final ResponseEntity<ExceptionResponseDTO> handleBadRequestException(
-      BadRequestException ex,
-      WebRequest request
-  ) {
+      BadRequestException ex, WebRequest request) {
 
     ExceptionResponseDTO exceptionResponse =
-        ExceptionResponseDTO
-            .builder()
+        ExceptionResponseDTO.builder()
             .setMessage(ex.getMessage())
             .setDetails(request.getDescription(false))
             .build();
@@ -125,13 +115,10 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(AuthException.class)
   public final ResponseEntity<ExceptionResponseDTO> handleAuthException(
-      AuthException ex,
-      WebRequest request
-  ) {
+      AuthException ex, WebRequest request) {
 
     ExceptionResponseDTO exceptionResponse =
-        ExceptionResponseDTO
-            .builder()
+        ExceptionResponseDTO.builder()
             .setMessage(ex.getMessage())
             .setDetails(request.getDescription(false))
             .build();
@@ -141,19 +128,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(InternalServerError.class)
   public ResponseEntity<ExceptionResponseDTO> handleInternalServerError(
-      InternalServerError ex,
-      WebRequest request
-  ) {
+      InternalServerError ex, WebRequest request) {
 
     ExceptionResponseDTO exceptionResponse =
-        ExceptionResponseDTO
-            .builder()
+        ExceptionResponseDTO.builder()
             .setMessage(ex.getMessage())
             .setDetails(request.getDescription(false))
             .build();
 
-    return new ResponseEntity<>(exceptionResponse,
-        HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(
+        exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @Override
@@ -161,25 +145,26 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
       MethodArgumentNotValidException ex,
       HttpHeaders headers,
       HttpStatusCode status,
-      WebRequest request
-  ) {
+      WebRequest request) {
 
     List<String> errors = new ArrayList<>();
 
-    ex.getBindingResult().getAllErrors().forEach(error -> {
-      String errorMessage;
+    ex.getBindingResult()
+        .getAllErrors()
+        .forEach(
+            error -> {
+              String errorMessage;
 
-      errorMessage =
-          error.getDefaultMessage();
+              errorMessage = error.getDefaultMessage();
 
-      errors.add(errorMessage);
-    });
+              errors.add(errorMessage);
+            });
 
-    ExceptionResponseDTO exceptionResponse = ExceptionResponseDTO
-        .builder()
-        .setMessage(errors.get(0))
-        .setDetails(request.getDescription(false))
-        .build();
+    ExceptionResponseDTO exceptionResponse =
+        ExceptionResponseDTO.builder()
+            .setMessage(errors.get(0))
+            .setDetails(request.getDescription(false))
+            .build();
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
   }

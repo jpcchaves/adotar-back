@@ -17,26 +17,22 @@ public class AuthenticationEntrypointImpl implements AuthenticationEntryPoint {
   public void commence(
       HttpServletRequest request,
       HttpServletResponse response,
-      AuthenticationException authException
-  ) throws IOException, ServletException {
+      AuthenticationException authException)
+      throws IOException, ServletException {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
     response.setContentType("application/json;charset=UTF-8");
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-    ExceptionResponseDTO exceptionResponseDTO = ExceptionResponseDTO
-        .builder()
-        .setMessage("Unauthorized!")
-        .setDetails("You need to authenticate to access this resource!")
-        .build();
+    ExceptionResponseDTO exceptionResponseDTO =
+        ExceptionResponseDTO.builder()
+            .setMessage("Unauthorized!")
+            .setDetails("You need to authenticate to access this resource!")
+            .build();
 
     response
         .getWriter()
-        .write(
-            objectMapper
-                .writer()
-                .writeValueAsString(exceptionResponseDTO)
-        );
+        .write(objectMapper.writer().writeValueAsString(exceptionResponseDTO));
   }
 }

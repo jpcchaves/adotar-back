@@ -18,8 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-  private static final Logger logger = LoggerFactory.getLogger(
-      JwtAuthenticationFilter.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
   private final JwtTokenProvider jwtTokenProvider;
   private final UserService userService;
@@ -28,8 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   public JwtAuthenticationFilter(
       JwtTokenProvider jwtTokenProvider,
       UserService userService,
-      JwtUtils jwtUtils
-  ) {
+      JwtUtils jwtUtils) {
     this.jwtTokenProvider = jwtTokenProvider;
     this.userService = userService;
     this.jwtUtils = jwtUtils;
@@ -39,8 +38,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request,
       HttpServletResponse response,
-      FilterChain filterChain
-  ) throws ServletException, IOException {
+      FilterChain filterChain)
+      throws ServletException, IOException {
 
     try {
 
@@ -56,8 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             new UsernamePasswordAuthenticationToken(
                 userDetails,
                 userDetails.getPassword(),
-                userDetails.getAuthorities()
-            );
+                userDetails.getAuthorities());
 
         authenticationToken.setDetails(
             new WebAuthenticationDetailsSource().buildDetails(request));

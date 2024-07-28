@@ -22,8 +22,7 @@ public class AuthServiceImpl implements AuthService {
   public AuthServiceImpl(
       RegisterUseCase registerUseCase,
       LoginUseCase loginUseCase,
-      UpdatePasswordUseCase updatePasswordUseCase
-  ) {
+      UpdatePasswordUseCase updatePasswordUseCase) {
     this.registerUseCase = registerUseCase;
     this.loginUseCase = loginUseCase;
     this.updatePasswordUseCase = updatePasswordUseCase;

@@ -22,20 +22,17 @@ public class ConcreteAuthFactory implements AuthFactory {
   public Authentication buildUsernamePasswordAuthToken(
       Object usernameOrEmail,
       Object password,
-      Collection<? extends GrantedAuthority> authorities
-  ) {
+      Collection<? extends GrantedAuthority> authorities) {
 
-    return new UsernamePasswordAuthenticationToken(usernameOrEmail, password,
-        authorities);
+    return new UsernamePasswordAuthenticationToken(
+        usernameOrEmail, password, authorities);
   }
 
   @Override
-  public LoginResponseDTO buildLoginReponse(
-      String token,
-      User user
-  ) {
+  public LoginResponseDTO buildLoginReponse(String token, User user) {
 
-    return new LoginResponseDTO(token,
+    return new LoginResponseDTO(
+        token,
         userFactory.buildUserMinDTO(
             user.getId(),
             user.getFirstName(),

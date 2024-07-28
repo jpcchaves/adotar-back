@@ -29,8 +29,8 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
   private static final String AUTHORITIES_CLAIM_KEY = "authorities";
   private static final String USER_CLAIM_KEY = "user";
 
-  private static final Logger logger = LoggerFactory.getLogger(
-      JwtTokenProviderImpl.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(JwtTokenProviderImpl.class);
 
   @Value("${app.jwt-secret}")
   private String jwtSecret;
@@ -47,8 +47,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
 
     Date expirationDate = new Date(creationDate.getTime() + jwtExpiration);
 
-    return Jwts
-        .builder()
+    return Jwts.builder()
         .setSubject(user.getEmail())
         .setIssuedAt(creationDate)
         .setExpiration(expirationDate)
@@ -61,12 +60,12 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
   @Override
   public String getTokenSubject(String token) {
 
-    Claims claims = Jwts
-        .parserBuilder()
-        .setSigningKey(generateKey())
-        .build()
-        .parseClaimsJws(token)
-        .getBody();
+    Claims claims =
+        Jwts.parserBuilder()
+            .setSigningKey(generateKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
 
     return claims.getSubject();
   }
@@ -76,11 +75,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
 
     try {
 
-      Jwts
-          .parserBuilder()
-          .setSigningKey(generateKey())
-          .build()
-          .parse(token);
+      Jwts.parserBuilder().setSigningKey(generateKey()).build().parse(token);
 
       return true;
 
@@ -103,10 +98,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
   }
 
   @Override
-  public String getClaimFromTokenByKey(
-      String token,
-      String key
-  ) {
+  public String getClaimFromTokenByKey(String token, String key) {
 
     try {
 
@@ -121,8 +113,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
 
       Map<String, Object> userClaim =
           objectMapper.convertValue(
-              claims.get(USER_CLAIM_KEY), new TypeReference<>() {
-              });
+              claims.get(USER_CLAIM_KEY), new TypeReference<>() {});
 
       return String.valueOf(userClaim.get(key));
 

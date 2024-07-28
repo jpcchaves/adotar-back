@@ -1,18 +1,19 @@
 package com.cleanarch.infra.domain.model;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.*;
-
 import java.io.*;
 import java.util.*;
+import org.springframework.security.core.*;
 
 @Entity
 @Table(name = "roles")
-@SequenceGenerator(name = "seq_role", sequenceName = "seq_role", allocationSize = 1)
+@SequenceGenerator(
+    name = "seq_role",
+    sequenceName = "seq_role",
+    allocationSize = 1)
 public class Role implements GrantedAuthority, Serializable {
 
-  @Serial
-  private static final long serialVersionUID = -4099401606873221148L;
+  @Serial private static final long serialVersionUID = -4099401606873221148L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_role")
@@ -21,13 +22,9 @@ public class Role implements GrantedAuthority, Serializable {
   @Column(nullable = false, length = 50)
   private String name;
 
-  public Role() {
-  }
+  public Role() {}
 
-  public Role(
-      Long id,
-      String name
-  ) {
+  public Role(Long id, String name) {
     this.id = id;
     this.name = name;
   }
@@ -55,12 +52,9 @@ public class Role implements GrantedAuthority, Serializable {
 
   @Override
   public String toString() {
-    return "Role{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        '}';
+    return "Role{" + "id=" + id + ", name='" + name + '\'' + '}';
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

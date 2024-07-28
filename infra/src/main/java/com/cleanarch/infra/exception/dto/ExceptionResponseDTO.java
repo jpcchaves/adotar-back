@@ -8,22 +8,15 @@ public class ExceptionResponseDTO {
   private String message;
   private String details;
 
-  public ExceptionResponseDTO() {
-  }
+  public ExceptionResponseDTO() {}
 
-  public ExceptionResponseDTO(
-      String message,
-      String details
-  ) {
+  public ExceptionResponseDTO(String message, String details) {
+
     this.message = message;
     this.details = details;
   }
 
-  public ExceptionResponseDTO(
-      Date timestamp,
-      String message,
-      String details
-  ) {
+  public ExceptionResponseDTO(Date timestamp, String message, String details) {
     this.timestamp = timestamp;
     this.message = message;
     this.details = details;
@@ -64,10 +57,13 @@ public class ExceptionResponseDTO {
 
   @Override
   public String toString() {
-    return
-        "timestamp=" + timestamp +
-            ", message='" + message + '\'' +
-            ", details='" + details;
+    return "timestamp="
+        + timestamp
+        + ", message='"
+        + message
+        + '\''
+        + ", details='"
+        + details;
   }
 
   public static class Builder {
@@ -75,8 +71,7 @@ public class ExceptionResponseDTO {
     private String message;
     private String details;
 
-    protected Builder() {
-    }
+    protected Builder() {}
 
     public ExceptionResponseDTO build() {
       return new ExceptionResponseDTO(this);

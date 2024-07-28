@@ -1,62 +1,52 @@
 package com.cleanarch.infra.domain.model;
 
 import jakarta.persistence.*;
-
 import java.io.*;
 import java.util.*;
 
 @Entity
 @Table(name = "user_favorite_pets")
-@SequenceGenerator(name = "seq_user_favorite_pets", sequenceName = "seq_user_favorite_pets", allocationSize = 1)
+@SequenceGenerator(
+    name = "seq_user_favorite_pets",
+    sequenceName = "seq_user_favorite_pets",
+    allocationSize = 1)
 public class UserFavoritePets implements Serializable {
 
-  @Serial
-  private static final long serialVersionUID = 3304814684570710897L;
+  @Serial private static final long serialVersionUID = 3304814684570710897L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_user_favorite_pets")
+  @GeneratedValue(
+      strategy = GenerationType.SEQUENCE,
+      generator = "seq_user_favorite_pets")
   private Long id;
 
   @ManyToOne(
       optional = false,
       targetEntity = User.class,
-      fetch = FetchType.LAZY
-  )
+      fetch = FetchType.LAZY)
   @JoinColumn(
       name = "user_id",
       referencedColumnName = "id",
       nullable = false,
-      foreignKey = @ForeignKey(
-          name = "user_fk",
-          value = ConstraintMode.CONSTRAINT
-      )
-  )
+      foreignKey =
+          @ForeignKey(name = "user_fk", value = ConstraintMode.CONSTRAINT))
   private User user;
 
   @ManyToOne(
       optional = false,
       targetEntity = User.class,
-      fetch = FetchType.LAZY
-  )
+      fetch = FetchType.LAZY)
   @JoinColumn(
       name = "pet_id",
       referencedColumnName = "id",
       nullable = false,
-      foreignKey = @ForeignKey(
-          name = "pet_fk",
-          value = ConstraintMode.CONSTRAINT
-      )
-  )
+      foreignKey =
+          @ForeignKey(name = "pet_fk", value = ConstraintMode.CONSTRAINT))
   private Pet pet;
 
-  public UserFavoritePets() {
-  }
+  public UserFavoritePets() {}
 
-  public UserFavoritePets(
-      Long id,
-      User user,
-      Pet pet
-  ) {
+  public UserFavoritePets(Long id, User user, Pet pet) {
     this.id = id;
     this.user = user;
     this.pet = pet;
@@ -101,10 +91,13 @@ public class UserFavoritePets implements Serializable {
 
   @Override
   public String toString() {
-    return "UserFavoritePets{" +
-        "id=" + id +
-        ", user=" + user +
-        ", pet=" + pet +
-        '}';
+    return "UserFavoritePets{"
+        + "id="
+        + id
+        + ", user="
+        + user
+        + ", pet="
+        + pet
+        + '}';
   }
 }

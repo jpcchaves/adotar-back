@@ -26,8 +26,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-  private static final Logger logger = LoggerFactory.getLogger(
-      WebSecurityConfig.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(WebSecurityConfig.class);
 
   private static final int BCRYPT_SALT_ROUNDS = 8;
 
@@ -38,8 +38,7 @@ public class WebSecurityConfig {
   public WebSecurityConfig(
       JwtAuthenticationFilter jwtAuthenticationFilter,
       AccessDeniedHandler accessDeniedHandler,
-      AuthenticationEntryPoint authenticationEntryPoint
-  ) {
+      AuthenticationEntryPoint authenticationEntryPoint) {
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     this.accessDeniedHandler = accessDeniedHandler;
     this.authenticationEntryPoint = authenticationEntryPoint;
@@ -51,18 +50,16 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
-      throws Exception {
+  public AuthenticationManager authenticationManager(
+      AuthenticationConfiguration configuration) throws Exception {
     return configuration.getAuthenticationManager();
   }
-
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http)
       throws Exception {
     try {
-      http
-          .formLogin(AbstractHttpConfigurer::disable)
+      http.formLogin(AbstractHttpConfigurer::disable)
           .httpBasic(AbstractHttpConfigurer::disable)
           .csrf(AbstractHttpConfigurer::disable)
           .headers(
@@ -78,25 +75,23 @@ public class WebSecurityConfig {
               authorize ->
                   authorize
                       .requestMatchers(
-                          RequestMatchersConstants.PUBLIC_REQUEST_MATCHERS
-                      )
+                          RequestMatchersConstants.PUBLIC_REQUEST_MATCHERS)
                       .permitAll()
                       .anyRequest()
-                      .authenticated()
-          )
+                      .authenticated())
           .exceptionHandling(
               httpSecurityExceptionHandlingConfigurer ->
                   httpSecurityExceptionHandlingConfigurer
                       .accessDeniedHandler(accessDeniedHandler)
-                      .authenticationEntryPoint(authenticationEntryPoint)
-          )
-          .sessionManagement(session ->
-              session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-          )
+                      .authenticationEntryPoint(authenticationEntryPoint))
+          .sessionManagement(
+              session ->
+                  session.sessionCreationPolicy(
+                      SessionCreationPolicy.STATELESS))
           .cors(Customizer.withDefaults());
 
-      http.addFilterBefore(jwtAuthenticationFilter,
-          UsernamePasswordAuthenticationFilter.class);
+      http.addFilterBefore(
+          jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
       return http.build();
 

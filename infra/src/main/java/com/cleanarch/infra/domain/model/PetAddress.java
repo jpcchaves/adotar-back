@@ -1,33 +1,23 @@
 package com.cleanarch.infra.domain.model;
 
 import jakarta.persistence.*;
-
 import java.io.*;
 
 @Entity
 @Table(name = "pet_address")
 public class PetAddress extends Address {
-  @Serial
-  private static final long serialVersionUID = -7170105759657703108L;
+  @Serial private static final long serialVersionUID = -7170105759657703108L;
 
-  @OneToOne(
-      fetch = FetchType.LAZY,
-      optional = false,
-      targetEntity = Pet.class
-  )
+  @OneToOne(fetch = FetchType.LAZY, optional = false, targetEntity = Pet.class)
   @JoinColumn(
       name = "pet_id",
       nullable = false,
       unique = true,
-      foreignKey = @ForeignKey(
-          name = "pet_fk",
-          value = ConstraintMode.CONSTRAINT
-      )
-  )
+      foreignKey =
+          @ForeignKey(name = "pet_fk", value = ConstraintMode.CONSTRAINT))
   private Pet pet;
 
-  public PetAddress() {
-  }
+  public PetAddress() {}
 
   public PetAddress(
       Long id,
@@ -38,8 +28,7 @@ public class PetAddress extends Address {
       String complement,
       String city,
       String state,
-      Pet pet
-  ) {
+      Pet pet) {
     super(id, zipcode, street, number, neighborhood, complement, city, state);
     this.pet = pet;
   }
@@ -54,8 +43,6 @@ public class PetAddress extends Address {
 
   @Override
   public String toString() {
-    return "PetAddress{" +
-        "pet=" + pet +
-        '}';
+    return "PetAddress{" + "pet=" + pet + '}';
   }
 }

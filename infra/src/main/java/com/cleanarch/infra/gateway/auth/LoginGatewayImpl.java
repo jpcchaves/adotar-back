@@ -22,8 +22,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoginGatewayImpl implements LoginGateway {
 
-  private static final Logger logger = LoggerFactory.getLogger(
-      LoginGatewayImpl.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(LoginGatewayImpl.class);
 
   private final UserRepository userRepository;
   private final AuthenticationManager authenticationManager;
@@ -34,8 +34,7 @@ public class LoginGatewayImpl implements LoginGateway {
       UserRepository userRepository,
       AuthenticationManager authenticationManager,
       AuthFactory authFactory,
-      JwtTokenProvider jwtTokenProvider
-  ) {
+      JwtTokenProvider jwtTokenProvider) {
     this.userRepository = userRepository;
     this.authenticationManager = authenticationManager;
     this.authFactory = authFactory;
@@ -47,17 +46,18 @@ public class LoginGatewayImpl implements LoginGateway {
 
     try {
 
-      User user = userRepository
-          .findByEmail(requestDTO.getEmail())
-          .orElseThrow(
-              () -> new BadRequestException(ExceptionDefinition.USR0001));
+      User user =
+          userRepository
+              .findByEmail(requestDTO.getEmail())
+              .orElseThrow(
+                  () -> new BadRequestException(ExceptionDefinition.USR0001));
 
-      UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-          requestDTO.getEmail(), requestDTO.getPassword());
+      UsernamePasswordAuthenticationToken authenticationToken =
+          new UsernamePasswordAuthenticationToken(
+              requestDTO.getEmail(), requestDTO.getPassword());
 
-      Authentication authentication = authenticationManager.authenticate(
-          authenticationToken
-      );
+      Authentication authentication =
+          authenticationManager.authenticate(authenticationToken);
 
       SecurityContextHolder.getContext().setAuthentication(authentication);
 

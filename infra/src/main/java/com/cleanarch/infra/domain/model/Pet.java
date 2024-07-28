@@ -1,22 +1,23 @@
 package com.cleanarch.infra.domain.model;
 
 import br.com.jpcchaves.core.domain.enums.*;
+import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Table;
-import jakarta.persistence.*;
-import org.hibernate.annotations.*;
-
 import java.io.*;
 import java.util.*;
+import org.hibernate.annotations.*;
 
 @Entity
 @Table(name = "pets")
-@SequenceGenerator(name = "seq_pet", sequenceName = "seq_pet", allocationSize = 1)
+@SequenceGenerator(
+    name = "seq_pet",
+    sequenceName = "seq_pet",
+    allocationSize = 1)
 public class Pet implements Serializable {
 
-  @Serial
-  private static final long serialVersionUID = 3936582638524306317L;
+  @Serial private static final long serialVersionUID = 3936582638524306317L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pet")
@@ -67,29 +68,22 @@ public class Pet implements Serializable {
       fetch = FetchType.LAZY,
       targetEntity = User.class,
       optional = false,
-      cascade = CascadeType.ALL
-  )
+      cascade = CascadeType.ALL)
   @JoinColumn(
       name = "user_id",
       referencedColumnName = "id",
       nullable = false,
-      foreignKey = @ForeignKey(
-          name = "user_fk",
-          value = ConstraintMode.CONSTRAINT
-      )
-  )
+      foreignKey =
+          @ForeignKey(name = "user_fk", value = ConstraintMode.CONSTRAINT))
   private User user;
 
-  @CreationTimestamp
-  private Date createdAt;
+  @CreationTimestamp private Date createdAt;
 
-  @UpdateTimestamp
-  private Date updatedAt;
+  @UpdateTimestamp private Date updatedAt;
 
   private Date deletedAt;
 
-  public Pet() {
-  }
+  public Pet() {}
 
   public Pet(
       Long id,
@@ -111,8 +105,7 @@ public class Pet implements Serializable {
       User user,
       Date createdAt,
       Date updatedAt,
-      Date deletedAt
-  ) {
+      Date deletedAt) {
     this.id = id;
     this.name = name;
     this.yearsAge = yearsAge;

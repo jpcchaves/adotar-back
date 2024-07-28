@@ -7,17 +7,12 @@ import com.cleanarch.usecase.auth.dto.UserMinDTO;
 public interface UserFactory {
 
   UserMinDTO buildUserMinDTO(
-      Long id,
-      String firstName,
-      String lastName,
-      String email
-  );
+      Long id, String firstName, String lastName, String email);
 
   User buildUser(
       String firstName,
       String lastName,
       String email,
       String encodedPassword,
-      Role role
-  );
+      Role role);
 }

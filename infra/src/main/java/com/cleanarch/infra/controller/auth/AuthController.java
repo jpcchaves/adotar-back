@@ -29,18 +29,14 @@ public class AuthController {
 
   @PostMapping("/login")
   public ResponseEntity<LoginResponseDTO> login(
-      @RequestBody @Valid
-      LoginRequestDTO requestDTO
-  ) {
+      @RequestBody @Valid LoginRequestDTO requestDTO) {
 
     return ResponseEntity.ok(authService.login(requestDTO));
   }
 
   @PostMapping("/register")
   public ResponseEntity<MessageResponseDTO> register(
-      @RequestBody @Valid
-      RegisterRequestDTO requestDTO
-  ) {
+      @RequestBody @Valid RegisterRequestDTO requestDTO) {
 
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(authService.register(requestDTO));
@@ -48,10 +44,7 @@ public class AuthController {
 
   @PutMapping("/update-password")
   public ResponseEntity<MessageResponseDTO> updatePassword(
-      @RequestBody @Valid
-      UpdatePasswordDTO
-          requestDTO
-  ) {
+      @RequestBody @Valid UpdatePasswordDTO requestDTO) {
     return ResponseEntity.ok(authService.updatePassword(requestDTO));
   }
 }
