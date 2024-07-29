@@ -22,7 +22,11 @@ public class MailServiceTest {
     String recipient = "jpcchaves@outlook.com";
 
     // When / Act
-    mailService.send("", "<h1>test email</h1>", recipient);
+    mailService.send(
+        "Welcome to Adotar!",
+        "<h1>Hi, Joao Paulo!</h1> </br> "
+            + "<h2>We are excited to have you here!</h2>",
+        recipient);
 
     Thread.sleep(10000);
 
