@@ -1,21 +1,24 @@
 package com.cleanarch.infra.domain.model;
 
 import jakarta.persistence.*;
-
 import java.io.*;
 import java.time.*;
 import java.util.*;
 
 @Entity
 @Table(name = "password_reset_token")
-@SequenceGenerator(name = "seq_pass_reset_token", sequenceName = "seq_pass_reset_token", allocationSize = 1)
+@SequenceGenerator(
+    name = "seq_pass_reset_token",
+    sequenceName = "seq_pass_reset_token",
+    allocationSize = 1)
 public class PasswordResetToken implements Serializable {
 
-  @Serial
-  private static final long serialVersionUID = -7667069758586804655L;
+  @Serial private static final long serialVersionUID = -7667069758586804655L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pass_reset_token")
+  @GeneratedValue(
+      strategy = GenerationType.SEQUENCE,
+      generator = "seq_pass_reset_token")
   private Long id;
 
   @Column(length = 6, nullable = false, unique = true)
@@ -29,29 +32,20 @@ public class PasswordResetToken implements Serializable {
       optional = false,
       orphanRemoval = true,
       cascade = CascadeType.ALL,
-      targetEntity = User.class
-  )
+      targetEntity = User.class)
   @JoinColumn(
       name = "user_id",
       nullable = false,
       unique = true,
       referencedColumnName = "id",
-      foreignKey = @ForeignKey(
-          name = "user_fk",
-          value = ConstraintMode.CONSTRAINT
-      )
-  )
+      foreignKey =
+          @ForeignKey(name = "user_fk", value = ConstraintMode.CONSTRAINT))
   private User user;
 
-  public PasswordResetToken() {
-  }
+  public PasswordResetToken() {}
 
   public PasswordResetToken(
-      Long id,
-      String token,
-      Instant expirationTime,
-      User user
-  ) {
+      Long id, String token, Instant expirationTime, User user) {
     this.id = id;
     this.token = token;
     this.expirationTime = expirationTime;
@@ -105,11 +99,16 @@ public class PasswordResetToken implements Serializable {
 
   @Override
   public String toString() {
-    return "PasswordResetToken{" +
-        "id=" + id +
-        ", token='" + token + '\'' +
-        ", expirationTime=" + expirationTime +
-        ", user=" + user +
-        '}';
+    return "PasswordResetToken{"
+        + "id="
+        + id
+        + ", token='"
+        + token
+        + '\''
+        + ", expirationTime="
+        + expirationTime
+        + ", user="
+        + user
+        + '}';
   }
 }

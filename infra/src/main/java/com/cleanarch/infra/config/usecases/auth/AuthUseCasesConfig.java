@@ -29,8 +29,7 @@ public class AuthUseCasesConfig {
 
   @Bean
   public UpdatePasswordUseCase updatePasswordUseCase(
-      UpdatePasswordGateway updatePasswordGateway
-  ) {
+      UpdatePasswordGateway updatePasswordGateway) {
 
     return new UpdatePasswordUseCaseImpl(updatePasswordGateway);
   }

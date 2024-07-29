@@ -1,7 +1,6 @@
 package com.cleanarch.infra.domain.model;
 
 import jakarta.persistence.*;
-
 import java.io.*;
 
 @Entity
@@ -9,26 +8,20 @@ import java.io.*;
 @PrimaryKeyJoinColumn(name = "id")
 public class UserPicture extends Picture implements Serializable {
 
-  @Serial
-  private static final long serialVersionUID = 277342111142837805L;
+  @Serial private static final long serialVersionUID = 277342111142837805L;
 
   @ManyToOne(
       fetch = FetchType.LAZY,
       cascade = CascadeType.ALL,
-      optional = false
-  )
+      optional = false)
   @JoinColumn(
       name = "user_id",
       nullable = false,
-      foreignKey = @ForeignKey(
-          name = "user_fk",
-          value = ConstraintMode.CONSTRAINT
-      )
-  )
+      foreignKey =
+          @ForeignKey(name = "user_fk", value = ConstraintMode.CONSTRAINT))
   private User user;
 
-  public UserPicture() {
-  }
+  public UserPicture() {}
 
   public UserPicture(
       Long id,
@@ -36,8 +29,7 @@ public class UserPicture extends Picture implements Serializable {
       long size,
       String type,
       String imgUrl,
-      User user
-  ) {
+      User user) {
     super(id, fileName, size, type, imgUrl);
     this.user = user;
   }
@@ -52,8 +44,6 @@ public class UserPicture extends Picture implements Serializable {
 
   @Override
   public String toString() {
-    return "UserPicture{" +
-        "user=" + user +
-        '}';
+    return "UserPicture{" + "user=" + user + '}';
   }
 }

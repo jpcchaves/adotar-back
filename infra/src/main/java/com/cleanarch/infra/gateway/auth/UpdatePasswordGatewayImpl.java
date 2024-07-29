@@ -20,36 +20,37 @@ public class UpdatePasswordGatewayImpl implements UpdatePasswordGateway {
   private final PasswordEncoder passwordEncoder;
 
   public UpdatePasswordGatewayImpl(
-      UserRepository userRepository,
-      PasswordEncoder passwordEncoder
-  ) {
+      UserRepository userRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
   }
 
   @Override
-  public MessageResponseDTO updatePassword(BaseUpdatePasswordRequestDTO requestDTO) {
+  public MessageResponseDTO updatePassword(
+      BaseUpdatePasswordRequestDTO requestDTO) {
 
-    User userLogged = (User) SecurityContextHolder
-        .getContext()
-        .getAuthentication()
-        .getPrincipal();
+    User userLogged =
+        (User)
+            SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-    User user = userRepository
-        .findById(userLogged.getId())
-        .orElseThrow(
-            () -> new InternalServerError(ExceptionDefinition.INT0001));
+    User user =
+        userRepository
+            .findById(userLogged.getId())
+            .orElseThrow(
+                () -> new InternalServerError(ExceptionDefinition.INT0001));
 
     String encodedCurrentPassword = user.getPassword();
 
-    if (!passwordEncoder.matches(requestDTO.getCurrentPassword(),
-        encodedCurrentPassword)) {
+    if (!passwordEncoder.matches(
+        requestDTO.getCurrentPassword(), encodedCurrentPassword)) {
 
       throw new BadRequestException(ExceptionDefinition.USR0004);
     }
 
-    String encodedNewPassword = passwordEncoder.encode(
-        requestDTO.getNewPassword());
+    String encodedNewPassword =
+        passwordEncoder.encode(requestDTO.getNewPassword());
 
     user.setPassword(encodedNewPassword);
 

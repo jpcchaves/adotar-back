@@ -1,17 +1,18 @@
 package com.cleanarch.infra.domain.model;
 
 import jakarta.persistence.*;
-
 import java.io.*;
 import java.util.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@SequenceGenerator(name = "seq_address", sequenceName = "seq_address", allocationSize = 1)
+@SequenceGenerator(
+    name = "seq_address",
+    sequenceName = "seq_address",
+    allocationSize = 1)
 public abstract class Address implements Serializable {
 
-  @Serial
-  private static final long serialVersionUID = 7063537643534715864L;
+  @Serial private static final long serialVersionUID = 7063537643534715864L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_address")
@@ -37,8 +38,7 @@ public abstract class Address implements Serializable {
   @Column(nullable = false, length = 50)
   private String state;
 
-  public Address() {
-  }
+  public Address() {}
 
   public Address(
       Long id,
@@ -48,8 +48,7 @@ public abstract class Address implements Serializable {
       String neighborhood,
       String complement,
       String city,
-      String state
-  ) {
+      String state) {
     this.id = id;
     this.zipcode = zipcode;
     this.street = street;
@@ -139,15 +138,30 @@ public abstract class Address implements Serializable {
 
   @Override
   public String toString() {
-    return "Address{" +
-        "id=" + id +
-        ", zipcode='" + zipcode + '\'' +
-        ", street='" + street + '\'' +
-        ", number='" + number + '\'' +
-        ", neighborhood='" + neighborhood + '\'' +
-        ", complement='" + complement + '\'' +
-        ", city='" + city + '\'' +
-        ", state='" + state + '\'' +
-        '}';
+    return "Address{"
+        + "id="
+        + id
+        + ", zipcode='"
+        + zipcode
+        + '\''
+        + ", street='"
+        + street
+        + '\''
+        + ", number='"
+        + number
+        + '\''
+        + ", neighborhood='"
+        + neighborhood
+        + '\''
+        + ", complement='"
+        + complement
+        + '\''
+        + ", city='"
+        + city
+        + '\''
+        + ", state='"
+        + state
+        + '\''
+        + '}';
   }
 }

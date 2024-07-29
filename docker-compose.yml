@@ -3,11 +3,12 @@ services:
   db:
     image: postgres:15
     restart: always
+    container_name: adotar_db
     environment:
       TZ: America/Sao_Paulo
       POSTGRES_USER: "${DB_DEV_USER}"
       POSTGRES_PASSWORD: "${DB_DEV_PASSWORD}"
-      POSTGRES_DB: "${DB_DEV_NAME}"
+      POSTGRES_DB: "${DB_NAME}"
     ports:
       - "5436:5432"
     env_file:
@@ -17,6 +18,7 @@ services:
   adotar:
     image: adotar
     restart: always
+    container_name: adotar
     build:
       context: .
       dockerfile: ./infrastructure/Dockerfile
@@ -35,7 +37,7 @@ services:
       MAIL_DEV_PASSWORD: "${MAIL_DEV_PASSWORD}"
     ports:
       - "8086:8080"
-    command: mvn spring-boot:run
+    command: ./gradlew bootRun
     depends_on:
       - db
     networks:

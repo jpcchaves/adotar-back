@@ -5,30 +5,42 @@
 -- Dumped from database version 15.7 (Debian 15.7-1.pgdg120+1)
 -- Dumped by pg_dump version 15.7 (Debian 15.7-1.pgdg120+1)
 
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
+SET
+statement_timeout = 0;
+SET
+lock_timeout = 0;
+SET
+idle_in_transaction_session_timeout = 0;
+SET
+client_encoding = 'UTF8';
+SET
+standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
+SET
+check_function_bodies = false;
+SET
+xmloption = content;
+SET
+client_min_messages = warning;
+SET
+row_security = off;
 
-SET default_tablespace = '';
+SET
+default_tablespace = '';
 
-SET default_table_access_method = heap;
+SET
+default_table_access_method = heap;
 
 --
 -- Name: password_reset_token; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.password_reset_token (
-    token character varying(6) NOT NULL,
+CREATE TABLE public.password_reset_token
+(
+    token           character varying(6)        NOT NULL,
     expiration_time timestamp(6) with time zone NOT NULL,
-    id bigint NOT NULL,
-    user_id bigint NOT NULL
+    id              bigint                      NOT NULL,
+    user_id         bigint                      NOT NULL
 );
 
 
@@ -38,16 +50,17 @@ ALTER TABLE public.password_reset_token OWNER TO postgres;
 -- Name: pet_address; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.pet_address (
-    id bigint NOT NULL,
-    pet_id bigint NOT NULL,
-    zipcode character varying(8) NOT NULL,
-    city character varying(50) NOT NULL,
-    number character varying(50),
-    state character varying(50) NOT NULL,
-    neighborhood character varying(75) NOT NULL,
-    street character varying(100) NOT NULL,
-    complement character varying(255)
+CREATE TABLE public.pet_address
+(
+    id           bigint                 NOT NULL,
+    pet_id       bigint                 NOT NULL,
+    zipcode      character varying(8)   NOT NULL,
+    city         character varying(50)  NOT NULL,
+    number       character varying(50),
+    state        character varying(50)  NOT NULL,
+    neighborhood character varying(75)  NOT NULL,
+    street       character varying(100) NOT NULL,
+    complement   character varying(255)
 );
 
 
@@ -57,13 +70,14 @@ ALTER TABLE public.pet_address OWNER TO postgres;
 -- Name: pet_picture; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.pet_picture (
-    id bigint NOT NULL,
-    pet_id bigint NOT NULL,
-    size bigint NOT NULL,
+CREATE TABLE public.pet_picture
+(
+    id        bigint NOT NULL,
+    pet_id    bigint NOT NULL,
+    size      bigint NOT NULL,
     file_name character varying(255),
-    img_url character varying(255),
-    type character varying(255)
+    img_url   character varying(255),
+    type      character varying(255)
 );
 
 
@@ -73,28 +87,30 @@ ALTER TABLE public.pet_picture OWNER TO postgres;
 -- Name: pets; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.pets (
-    active boolean,
-    adoption_date date,
-    is_available boolean,
-    months_age integer NOT NULL,
-    visualizations integer,
-    years_age integer NOT NULL,
-    created_at timestamp(6) without time zone,
-    deleted_at timestamp(6) without time zone,
-    id bigint NOT NULL,
-    updated_at timestamp(6) without time zone,
-    user_id bigint NOT NULL,
-    breed character varying(100) NOT NULL,
-    color character varying(100),
-    name character varying(100) NOT NULL,
-    description character varying(255),
-    gender character varying(255),
+CREATE TABLE public.pets
+(
+    active           boolean,
+    adoption_date    date,
+    is_available     boolean,
+    months_age       integer                NOT NULL,
+    visualizations   integer,
+    years_age        integer                NOT NULL,
+    created_at       timestamp(6) without time zone,
+    deleted_at       timestamp(6) without time zone,
+    id               bigint                 NOT NULL,
+    updated_at       timestamp(6) without time zone,
+    user_id          bigint                 NOT NULL,
+    breed            character varying(100) NOT NULL,
+    color            character varying(100),
+    name             character varying(100) NOT NULL,
+    description      character varying(255),
+    gender           character varying(255),
     health_condition character varying(255),
-    size character varying(255),
-    type character varying(255),
-    characteristics text NOT NULL,
-    CONSTRAINT pets_gender_check CHECK (((gender)::text = ANY ((ARRAY['FEMALE'::character varying, 'MALE'::character varying])::text[]))),
+    size             character varying(255),
+    type             character varying(255),
+    characteristics  text                   NOT NULL,
+    CONSTRAINT pets_gender_check CHECK (((gender)::text = ANY ((ARRAY['FEMALE':: character varying, 'MALE':: character varying])::text[])
+) ),
     CONSTRAINT pets_health_condition_check CHECK (((health_condition)::text = ANY ((ARRAY['CHRONIC_DISEASE'::character varying, 'INJURED'::character varying, 'SICK'::character varying, 'PREGNANT'::character varying, 'HEALTHY'::character varying])::text[]))),
     CONSTRAINT pets_size_check CHECK (((size)::text = ANY ((ARRAY['TINY'::character varying, 'SMALL'::character varying, 'MEDIUM'::character varying, 'LARGE'::character varying])::text[]))),
     CONSTRAINT pets_type_check CHECK (((type)::text = ANY ((ARRAY['DOG'::character varying, 'CAT'::character varying, 'BIRD'::character varying])::text[])))
@@ -107,8 +123,9 @@ ALTER TABLE public.pets OWNER TO postgres;
 -- Name: roles; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.roles (
-    id bigint NOT NULL,
+CREATE TABLE public.roles
+(
+    id   bigint                NOT NULL,
     name character varying(50) NOT NULL
 );
 
@@ -123,8 +140,7 @@ CREATE SEQUENCE public.seq_address
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+    NO MAXVALUE CACHE 1;
 
 
 ALTER TABLE public.seq_address OWNER TO postgres;
@@ -137,8 +153,7 @@ CREATE SEQUENCE public.seq_pass_reset_token
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+    NO MAXVALUE CACHE 1;
 
 
 ALTER TABLE public.seq_pass_reset_token OWNER TO postgres;
@@ -151,8 +166,7 @@ CREATE SEQUENCE public.seq_pet
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+    NO MAXVALUE CACHE 1;
 
 
 ALTER TABLE public.seq_pet OWNER TO postgres;
@@ -165,8 +179,7 @@ CREATE SEQUENCE public.seq_picture
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+    NO MAXVALUE CACHE 1;
 
 
 ALTER TABLE public.seq_picture OWNER TO postgres;
@@ -179,8 +192,7 @@ CREATE SEQUENCE public.seq_role
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+    NO MAXVALUE CACHE 1;
 
 
 ALTER TABLE public.seq_role OWNER TO postgres;
@@ -193,8 +205,7 @@ CREATE SEQUENCE public.seq_user
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+    NO MAXVALUE CACHE 1;
 
 
 ALTER TABLE public.seq_user OWNER TO postgres;
@@ -207,8 +218,7 @@ CREATE SEQUENCE public.seq_user_favorite_pets
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+    NO MAXVALUE CACHE 1;
 
 
 ALTER TABLE public.seq_user_favorite_pets OWNER TO postgres;
@@ -217,16 +227,17 @@ ALTER TABLE public.seq_user_favorite_pets OWNER TO postgres;
 -- Name: user_address; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.user_address (
-    id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    zipcode character varying(8) NOT NULL,
-    city character varying(50) NOT NULL,
-    number character varying(50),
-    state character varying(50) NOT NULL,
-    neighborhood character varying(75) NOT NULL,
-    street character varying(100) NOT NULL,
-    complement character varying(255)
+CREATE TABLE public.user_address
+(
+    id           bigint                 NOT NULL,
+    user_id      bigint                 NOT NULL,
+    zipcode      character varying(8)   NOT NULL,
+    city         character varying(50)  NOT NULL,
+    number       character varying(50),
+    state        character varying(50)  NOT NULL,
+    neighborhood character varying(75)  NOT NULL,
+    street       character varying(100) NOT NULL,
+    complement   character varying(255)
 );
 
 
@@ -236,9 +247,10 @@ ALTER TABLE public.user_address OWNER TO postgres;
 -- Name: user_favorite_pets; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.user_favorite_pets (
-    id bigint NOT NULL,
-    pet_id bigint NOT NULL,
+CREATE TABLE public.user_favorite_pets
+(
+    id      bigint NOT NULL,
+    pet_id  bigint NOT NULL,
     user_id bigint NOT NULL
 );
 
@@ -249,13 +261,14 @@ ALTER TABLE public.user_favorite_pets OWNER TO postgres;
 -- Name: user_picture; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.user_picture (
-    id bigint NOT NULL,
-    size bigint NOT NULL,
-    user_id bigint NOT NULL,
+CREATE TABLE public.user_picture
+(
+    id        bigint NOT NULL,
+    size      bigint NOT NULL,
+    user_id   bigint NOT NULL,
     file_name character varying(255),
-    img_url character varying(255),
-    type character varying(255)
+    img_url   character varying(255),
+    type      character varying(255)
 );
 
 
@@ -265,7 +278,8 @@ ALTER TABLE public.user_picture OWNER TO postgres;
 -- Name: user_roles; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.user_roles (
+CREATE TABLE public.user_roles
+(
     role_id bigint NOT NULL,
     user_id bigint NOT NULL
 );
@@ -277,19 +291,20 @@ ALTER TABLE public.user_roles OWNER TO postgres;
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.users (
+CREATE TABLE public.users
+(
     created_at date,
-    is_active boolean,
-    last_seen date,
+    is_active  boolean,
+    last_seen  date,
     updated_at date,
     deleted_at timestamp(6) without time zone,
-    id bigint NOT NULL,
-    email character varying(255),
+    id         bigint NOT NULL,
+    email      character varying(255),
     first_name character varying(255),
-    last_name character varying(255),
-    password character varying(255),
-    phone character varying(255),
-    phone2 character varying(255)
+    last_name  character varying(255),
+    password   character varying(255),
+    phone      character varying(255),
+    phone2     character varying(255)
 );
 
 
@@ -301,7 +316,8 @@ ALTER TABLE public.users OWNER TO postgres;
 --
 
 COPY public.password_reset_token (token, expiration_time, id, user_id) FROM stdin;
-\.
+\
+.
 
 
 --
@@ -309,7 +325,8 @@ COPY public.password_reset_token (token, expiration_time, id, user_id) FROM stdi
 --
 
 COPY public.pet_address (id, pet_id, zipcode, city, number, state, neighborhood, street, complement) FROM stdin;
-\.
+\
+.
 
 
 --
@@ -317,7 +334,8 @@ COPY public.pet_address (id, pet_id, zipcode, city, number, state, neighborhood,
 --
 
 COPY public.pet_picture (id, pet_id, size, file_name, img_url, type) FROM stdin;
-\.
+\
+.
 
 
 --
@@ -325,7 +343,8 @@ COPY public.pet_picture (id, pet_id, size, file_name, img_url, type) FROM stdin;
 --
 
 COPY public.pets (active, adoption_date, is_available, months_age, visualizations, years_age, created_at, deleted_at, id, updated_at, user_id, breed, color, name, description, gender, health_condition, size, type, characteristics) FROM stdin;
-\.
+\
+.
 
 
 --
@@ -333,7 +352,8 @@ COPY public.pets (active, adoption_date, is_available, months_age, visualization
 --
 
 COPY public.roles (id, name) FROM stdin;
-\.
+\
+.
 
 
 --
@@ -341,7 +361,8 @@ COPY public.roles (id, name) FROM stdin;
 --
 
 COPY public.user_address (id, user_id, zipcode, city, number, state, neighborhood, street, complement) FROM stdin;
-\.
+\
+.
 
 
 --
@@ -349,7 +370,8 @@ COPY public.user_address (id, user_id, zipcode, city, number, state, neighborhoo
 --
 
 COPY public.user_favorite_pets (id, pet_id, user_id) FROM stdin;
-\.
+\
+.
 
 
 --
@@ -357,7 +379,8 @@ COPY public.user_favorite_pets (id, pet_id, user_id) FROM stdin;
 --
 
 COPY public.user_picture (id, size, user_id, file_name, img_url, type) FROM stdin;
-\.
+\
+.
 
 
 --
@@ -365,7 +388,8 @@ COPY public.user_picture (id, size, user_id, file_name, img_url, type) FROM stdi
 --
 
 COPY public.user_roles (role_id, user_id) FROM stdin;
-\.
+\
+.
 
 
 --
@@ -373,7 +397,8 @@ COPY public.user_roles (role_id, user_id) FROM stdin;
 --
 
 COPY public.users (created_at, is_active, last_seen, updated_at, deleted_at, id, email, first_name, last_name, password, phone, phone2) FROM stdin;
-\.
+\
+.
 
 
 --

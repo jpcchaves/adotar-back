@@ -16,36 +16,35 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 
-  private static final Logger logger = LoggerFactory.getLogger(
-      AccessDeniedHandlerImpl.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(AccessDeniedHandlerImpl.class);
 
   @Override
   public void handle(
       HttpServletRequest request,
       HttpServletResponse response,
-      AccessDeniedException accessDeniedException
-  ) throws IOException, ServletException {
+      AccessDeniedException accessDeniedException)
+      throws IOException, ServletException {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
     response.setContentType("application/json;charset=UTF-8");
     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
-    ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(
-        new Date(),
-        "Access denied!",
-        "You do not have access to this resource!"
-    );
+    ExceptionResponseDTO exceptionResponseDTO =
+        new ExceptionResponseDTO(
+            new Date(),
+            "Access denied!",
+            "You do not have access to this resource!");
 
     response
         .getWriter()
-        .write(
-            objectMapper
-                .writer()
-                .writeValueAsString(exceptionResponseDTO)
-        );
+        .write(objectMapper.writer().writeValueAsString(exceptionResponseDTO));
 
-    logger.error("Error in class: " + this.getClass().getSimpleName() + ". "
-        + exceptionResponseDTO);
+    logger.error(
+        "Error in class: "
+            + this.getClass().getSimpleName()
+            + ". "
+            + exceptionResponseDTO);
   }
 }

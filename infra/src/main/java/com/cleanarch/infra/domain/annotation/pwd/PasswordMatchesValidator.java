@@ -6,25 +6,23 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.Objects;
 
-public class PasswordMatchesValidator implements
-    ConstraintValidator<PasswordMatches, Object> {
+public class PasswordMatchesValidator
+    implements ConstraintValidator<PasswordMatches, Object> {
 
   @Override
-  public boolean isValid(
-      Object obj,
-      ConstraintValidatorContext context
-  ) {
+  public boolean isValid(Object obj, ConstraintValidatorContext context) {
 
     if (obj instanceof UpdatePasswordDTO updatePasswordDTO) {
 
-      return Objects.equals(updatePasswordDTO.getNewPassword(),
+      return Objects.equals(
+          updatePasswordDTO.getNewPassword(),
           updatePasswordDTO.getConfirmNewPassword());
-
     }
 
     if (obj instanceof RegisterRequestDTO registerRequestDTO) {
 
-      return Objects.equals(registerRequestDTO.getPassword(),
+      return Objects.equals(
+          registerRequestDTO.getPassword(),
           registerRequestDTO.getConfirmPassword());
     }
 

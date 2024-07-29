@@ -23,8 +23,8 @@ public class JwtUtils {
 
     if (headerHasBearer(authorizationHeader)) {
 
-      String token = authorizationHeader.replace(BEARER_PREFIX + BLANK_SPACE,
-          "");
+      String token =
+          authorizationHeader.replace(BEARER_PREFIX + BLANK_SPACE, "");
 
       return token;
     }
@@ -42,5 +42,4 @@ public class JwtUtils {
 
     return StringUtils.hasText(token) && jwtTokenProvider.validateToken(token);
   }
-
 }

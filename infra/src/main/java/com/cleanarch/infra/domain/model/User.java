@@ -36,8 +36,7 @@ import org.springframework.security.core.userdetails.UserDetails;
     allocationSize = 1)
 public class User implements UserDetails, Serializable {
 
-  @Serial
-  private static final long serialVersionUID = -4823560267175762698L;
+  @Serial private static final long serialVersionUID = -4823560267175762698L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_user")
@@ -74,32 +73,31 @@ public class User implements UserDetails, Serializable {
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "user_roles",
-      uniqueConstraints = @UniqueConstraint(
-          columnNames = {"user_id", "role_id"},
-          name = "unique_user_role"
-      ),
-      joinColumns = @JoinColumn(
-          name = "user_id",
-          referencedColumnName = "id",
-          table = "users",
-          foreignKey = @ForeignKey(
-              name = "user_fk",
-              value = ConstraintMode.CONSTRAINT)
-      ),
-      inverseJoinColumns = @JoinColumn(
-          name = "role_id",
-          referencedColumnName = "id",
-          table = "roles",
-          foreignKey = @ForeignKey(
-              name = "role_fk",
-              value = ConstraintMode.CONSTRAINT
-          )
-      )
-  )
+      uniqueConstraints =
+          @UniqueConstraint(
+              columnNames = {"user_id", "role_id"},
+              name = "unique_user_role"),
+      joinColumns =
+          @JoinColumn(
+              name = "user_id",
+              referencedColumnName = "id",
+              table = "users",
+              foreignKey =
+                  @ForeignKey(
+                      name = "user_fk",
+                      value = ConstraintMode.CONSTRAINT)),
+      inverseJoinColumns =
+          @JoinColumn(
+              name = "role_id",
+              referencedColumnName = "id",
+              table = "roles",
+              foreignKey =
+                  @ForeignKey(
+                      name = "role_fk",
+                      value = ConstraintMode.CONSTRAINT)))
   private Set<Role> roles = new HashSet<>();
 
-  public User() {
-  }
+  public User() {}
 
   public User(
       Long id,
@@ -114,8 +112,7 @@ public class User implements UserDetails, Serializable {
       Date createdAt,
       Date updatedAt,
       Date deletedAt,
-      Set<Role> roles
-  ) {
+      Set<Role> roles) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -268,12 +265,19 @@ public class User implements UserDetails, Serializable {
 
   @Override
   public String toString() {
-    return "User{" +
-        "id=" + id +
-        ", firstName='" + firstName + '\'' +
-        ", lastName='" + lastName + '\'' +
-        ", email='" + email + '\'' +
-        '}';
+    return "User{"
+        + "id="
+        + id
+        + ", firstName='"
+        + firstName
+        + '\''
+        + ", lastName='"
+        + lastName
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + '}';
   }
 
   @Override

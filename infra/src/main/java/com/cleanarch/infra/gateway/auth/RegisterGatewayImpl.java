@@ -27,8 +27,7 @@ public class RegisterGatewayImpl implements RegisterGateway {
       UserRepository userRepository,
       RoleRepository roleRepository,
       PasswordEncoder passwordEncoder,
-      UserFactory userFactory
-  ) {
+      UserFactory userFactory) {
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
     this.passwordEncoder = passwordEncoder;
@@ -44,19 +43,21 @@ public class RegisterGatewayImpl implements RegisterGateway {
       throw new BadRequestException(ExceptionDefinition.USR0002);
     }
 
-    Role role = roleRepository.findByName(Roles.ROLE_USER)
-        .orElseThrow(() -> new InternalServerError(
-            ExceptionDefinition.INT0001));
+    Role role =
+        roleRepository
+            .findByName(Roles.ROLE_USER)
+            .orElseThrow(
+                () -> new InternalServerError(ExceptionDefinition.INT0001));
 
     String encodedPassword = passwordEncoder.encode(requestDTO.getPassword());
 
-    User user = userFactory.buildUser(
-        requestDTO.getFirstName(),
-        requestDTO.getLastName(),
-        requestDTO.getEmail(),
-        encodedPassword,
-        role
-    );
+    User user =
+        userFactory.buildUser(
+            requestDTO.getFirstName(),
+            requestDTO.getLastName(),
+            requestDTO.getEmail(),
+            encodedPassword,
+            role);
 
     userRepository.save(user);
 

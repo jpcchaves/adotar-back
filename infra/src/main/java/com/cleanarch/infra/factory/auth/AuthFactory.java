@@ -11,11 +11,7 @@ public interface AuthFactory {
   Authentication buildUsernamePasswordAuthToken(
       Object usernameOrEmail,
       Object password,
-      Collection<? extends GrantedAuthority> authorities
-  );
+      Collection<? extends GrantedAuthority> authorities);
 
-  LoginResponseDTO buildLoginReponse(
-      String token,
-      User user
-  );
+  LoginResponseDTO buildLoginReponse(String token, User user);
 }
