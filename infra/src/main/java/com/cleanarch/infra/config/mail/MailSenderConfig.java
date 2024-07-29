@@ -44,9 +44,7 @@ public class MailSenderConfig {
             "mail.transport.protocol", "smtp",
             "mail.smtp.auth", "true",
             "mail.smtp.starttls.enable", "true",
-            "mail.debug", "true",
-            "mail.smtp.socketFactory.port", port,
-            "mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"));
+            "mail.debug", "true"));
 
     return mailSender;
   }

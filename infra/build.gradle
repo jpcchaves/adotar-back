@@ -42,4 +42,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
+
+    environment("ENV_FILE_PATH", "${projectDir}/.env")
 }
