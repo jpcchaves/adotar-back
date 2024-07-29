@@ -5,31 +5,20 @@
 -- Dumped from database version 15.7 (Debian 15.7-1.pgdg120+1)
 -- Dumped by pg_dump version 15.7 (Debian 15.7-1.pgdg120+1)
 
-SET
-statement_timeout = 0;
-SET
-lock_timeout = 0;
-SET
-idle_in_transaction_session_timeout = 0;
-SET
-client_encoding = 'UTF8';
-SET
-standard_conforming_strings = on;
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
-SET
-check_function_bodies = false;
-SET
-xmloption = content;
-SET
-client_min_messages = warning;
-SET
-row_security = off;
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
-SET
-default_tablespace = '';
+SET default_tablespace = '';
 
-SET
-default_table_access_method = heap;
+SET default_table_access_method = heap;
 
 --
 -- Name: password_reset_token; Type: TABLE; Schema: public; Owner: postgres
@@ -44,7 +33,8 @@ CREATE TABLE public.password_reset_token
 );
 
 
-ALTER TABLE public.password_reset_token OWNER TO postgres;
+ALTER TABLE public.password_reset_token
+    OWNER TO postgres;
 
 --
 -- Name: pet_address; Type: TABLE; Schema: public; Owner: postgres
@@ -64,7 +54,8 @@ CREATE TABLE public.pet_address
 );
 
 
-ALTER TABLE public.pet_address OWNER TO postgres;
+ALTER TABLE public.pet_address
+    OWNER TO postgres;
 
 --
 -- Name: pet_picture; Type: TABLE; Schema: public; Owner: postgres
@@ -81,7 +72,8 @@ CREATE TABLE public.pet_picture
 );
 
 
-ALTER TABLE public.pet_picture OWNER TO postgres;
+ALTER TABLE public.pet_picture
+    OWNER TO postgres;
 
 --
 -- Name: pets; Type: TABLE; Schema: public; Owner: postgres
@@ -109,15 +101,20 @@ CREATE TABLE public.pets
     size             character varying(255),
     type             character varying(255),
     characteristics  text                   NOT NULL,
-    CONSTRAINT pets_gender_check CHECK (((gender)::text = ANY ((ARRAY['FEMALE':: character varying, 'MALE':: character varying])::text[])
-) ),
-    CONSTRAINT pets_health_condition_check CHECK (((health_condition)::text = ANY ((ARRAY['CHRONIC_DISEASE'::character varying, 'INJURED'::character varying, 'SICK'::character varying, 'PREGNANT'::character varying, 'HEALTHY'::character varying])::text[]))),
-    CONSTRAINT pets_size_check CHECK (((size)::text = ANY ((ARRAY['TINY'::character varying, 'SMALL'::character varying, 'MEDIUM'::character varying, 'LARGE'::character varying])::text[]))),
-    CONSTRAINT pets_type_check CHECK (((type)::text = ANY ((ARRAY['DOG'::character varying, 'CAT'::character varying, 'BIRD'::character varying])::text[])))
+    CONSTRAINT pets_gender_check CHECK (((gender)::text = ANY
+                                         ((ARRAY ['FEMALE'::character varying, 'MALE'::character varying])::text[]))),
+    CONSTRAINT pets_health_condition_check CHECK ((
+        (health_condition)::text = ANY
+        ((ARRAY ['CHRONIC_DISEASE'::character varying, 'INJURED'::character varying, 'SICK'::character varying, 'PREGNANT'::character varying, 'HEALTHY'::character varying])::text[]))),
+    CONSTRAINT pets_size_check CHECK (((size)::text = ANY
+                                       ((ARRAY ['TINY'::character varying, 'SMALL'::character varying, 'MEDIUM'::character varying, 'LARGE'::character varying])::text[]))),
+    CONSTRAINT pets_type_check CHECK (((type)::text = ANY
+                                       ((ARRAY ['DOG'::character varying, 'CAT'::character varying, 'BIRD'::character varying])::text[])))
 );
 
 
-ALTER TABLE public.pets OWNER TO postgres;
+ALTER TABLE public.pets
+    OWNER TO postgres;
 
 --
 -- Name: roles; Type: TABLE; Schema: public; Owner: postgres
@@ -130,7 +127,8 @@ CREATE TABLE public.roles
 );
 
 
-ALTER TABLE public.roles OWNER TO postgres;
+ALTER TABLE public.roles
+    OWNER TO postgres;
 
 --
 -- Name: seq_address; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -140,10 +138,12 @@ CREATE SEQUENCE public.seq_address
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE CACHE 1;
+    NO MAXVALUE
+    CACHE 1;
 
 
-ALTER TABLE public.seq_address OWNER TO postgres;
+ALTER TABLE public.seq_address
+    OWNER TO postgres;
 
 --
 -- Name: seq_pass_reset_token; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -153,10 +153,12 @@ CREATE SEQUENCE public.seq_pass_reset_token
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE CACHE 1;
+    NO MAXVALUE
+    CACHE 1;
 
 
-ALTER TABLE public.seq_pass_reset_token OWNER TO postgres;
+ALTER TABLE public.seq_pass_reset_token
+    OWNER TO postgres;
 
 --
 -- Name: seq_pet; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -166,10 +168,12 @@ CREATE SEQUENCE public.seq_pet
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE CACHE 1;
+    NO MAXVALUE
+    CACHE 1;
 
 
-ALTER TABLE public.seq_pet OWNER TO postgres;
+ALTER TABLE public.seq_pet
+    OWNER TO postgres;
 
 --
 -- Name: seq_picture; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -179,10 +183,12 @@ CREATE SEQUENCE public.seq_picture
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE CACHE 1;
+    NO MAXVALUE
+    CACHE 1;
 
 
-ALTER TABLE public.seq_picture OWNER TO postgres;
+ALTER TABLE public.seq_picture
+    OWNER TO postgres;
 
 --
 -- Name: seq_role; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -192,10 +198,12 @@ CREATE SEQUENCE public.seq_role
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE CACHE 1;
+    NO MAXVALUE
+    CACHE 1;
 
 
-ALTER TABLE public.seq_role OWNER TO postgres;
+ALTER TABLE public.seq_role
+    OWNER TO postgres;
 
 --
 -- Name: seq_user; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -205,10 +213,12 @@ CREATE SEQUENCE public.seq_user
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE CACHE 1;
+    NO MAXVALUE
+    CACHE 1;
 
 
-ALTER TABLE public.seq_user OWNER TO postgres;
+ALTER TABLE public.seq_user
+    OWNER TO postgres;
 
 --
 -- Name: seq_user_favorite_pets; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -218,10 +228,12 @@ CREATE SEQUENCE public.seq_user_favorite_pets
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
-    NO MAXVALUE CACHE 1;
+    NO MAXVALUE
+    CACHE 1;
 
 
-ALTER TABLE public.seq_user_favorite_pets OWNER TO postgres;
+ALTER TABLE public.seq_user_favorite_pets
+    OWNER TO postgres;
 
 --
 -- Name: user_address; Type: TABLE; Schema: public; Owner: postgres
@@ -241,7 +253,8 @@ CREATE TABLE public.user_address
 );
 
 
-ALTER TABLE public.user_address OWNER TO postgres;
+ALTER TABLE public.user_address
+    OWNER TO postgres;
 
 --
 -- Name: user_favorite_pets; Type: TABLE; Schema: public; Owner: postgres
@@ -255,7 +268,8 @@ CREATE TABLE public.user_favorite_pets
 );
 
 
-ALTER TABLE public.user_favorite_pets OWNER TO postgres;
+ALTER TABLE public.user_favorite_pets
+    OWNER TO postgres;
 
 --
 -- Name: user_picture; Type: TABLE; Schema: public; Owner: postgres
@@ -272,7 +286,8 @@ CREATE TABLE public.user_picture
 );
 
 
-ALTER TABLE public.user_picture OWNER TO postgres;
+ALTER TABLE public.user_picture
+    OWNER TO postgres;
 
 --
 -- Name: user_roles; Type: TABLE; Schema: public; Owner: postgres
@@ -285,7 +300,8 @@ CREATE TABLE public.user_roles
 );
 
 
-ALTER TABLE public.user_roles OWNER TO postgres;
+ALTER TABLE public.user_roles
+    OWNER TO postgres;
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
@@ -308,7 +324,8 @@ CREATE TABLE public.users
 );
 
 
-ALTER TABLE public.users OWNER TO postgres;
+ALTER TABLE public.users
+    OWNER TO postgres;
 
 
 --
@@ -316,17 +333,16 @@ ALTER TABLE public.users OWNER TO postgres;
 --
 
 COPY public.password_reset_token (token, expiration_time, id, user_id) FROM stdin;
-\
-.
+\.
 
 
 --
 -- Data for Name: pet_address; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.pet_address (id, pet_id, zipcode, city, number, state, neighborhood, street, complement) FROM stdin;
-\
-.
+COPY public.pet_address (id, pet_id, zipcode, city, number, state, neighborhood,
+                         street, complement) FROM stdin;
+\.
 
 
 --
@@ -334,17 +350,18 @@ COPY public.pet_address (id, pet_id, zipcode, city, number, state, neighborhood,
 --
 
 COPY public.pet_picture (id, pet_id, size, file_name, img_url, type) FROM stdin;
-\
-.
+\.
 
 
 --
 -- Data for Name: pets; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.pets (active, adoption_date, is_available, months_age, visualizations, years_age, created_at, deleted_at, id, updated_at, user_id, breed, color, name, description, gender, health_condition, size, type, characteristics) FROM stdin;
-\
-.
+COPY public.pets (active, adoption_date, is_available, months_age,
+                  visualizations, years_age, created_at, deleted_at, id,
+                  updated_at, user_id, breed, color, name, description, gender,
+                  health_condition, size, type, characteristics) FROM stdin;
+\.
 
 
 --
@@ -352,17 +369,16 @@ COPY public.pets (active, adoption_date, is_available, months_age, visualization
 --
 
 COPY public.roles (id, name) FROM stdin;
-\
-.
+\.
 
 
 --
 -- Data for Name: user_address; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.user_address (id, user_id, zipcode, city, number, state, neighborhood, street, complement) FROM stdin;
-\
-.
+COPY public.user_address (id, user_id, zipcode, city, number, state,
+                          neighborhood, street, complement) FROM stdin;
+\.
 
 
 --
@@ -370,8 +386,7 @@ COPY public.user_address (id, user_id, zipcode, city, number, state, neighborhoo
 --
 
 COPY public.user_favorite_pets (id, pet_id, user_id) FROM stdin;
-\
-.
+\.
 
 
 --
@@ -379,8 +394,7 @@ COPY public.user_favorite_pets (id, pet_id, user_id) FROM stdin;
 --
 
 COPY public.user_picture (id, size, user_id, file_name, img_url, type) FROM stdin;
-\
-.
+\.
 
 
 --
@@ -388,17 +402,17 @@ COPY public.user_picture (id, size, user_id, file_name, img_url, type) FROM stdi
 --
 
 COPY public.user_roles (role_id, user_id) FROM stdin;
-\
-.
+\.
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (created_at, is_active, last_seen, updated_at, deleted_at, id, email, first_name, last_name, password, phone, phone2) FROM stdin;
-\
-.
+COPY public.users (created_at, is_active, last_seen, updated_at, deleted_at, id,
+                   email, first_name, last_name, password, phone,
+                   phone2) FROM stdin;
+\.
 
 
 --
@@ -568,7 +582,7 @@ ALTER TABLE ONLY public.users
 --
 
 ALTER TABLE ONLY public.pet_address
-    ADD CONSTRAINT pet_fk FOREIGN KEY (pet_id) REFERENCES public.pets(id);
+    ADD CONSTRAINT pet_fk FOREIGN KEY (pet_id) REFERENCES public.pets (id);
 
 
 --
@@ -576,7 +590,7 @@ ALTER TABLE ONLY public.pet_address
 --
 
 ALTER TABLE ONLY public.pet_picture
-    ADD CONSTRAINT pet_fk FOREIGN KEY (pet_id) REFERENCES public.pets(id);
+    ADD CONSTRAINT pet_fk FOREIGN KEY (pet_id) REFERENCES public.pets (id);
 
 
 --
@@ -584,7 +598,7 @@ ALTER TABLE ONLY public.pet_picture
 --
 
 ALTER TABLE ONLY public.user_favorite_pets
-    ADD CONSTRAINT pet_fk FOREIGN KEY (pet_id) REFERENCES public.users(id);
+    ADD CONSTRAINT pet_fk FOREIGN KEY (pet_id) REFERENCES public.users (id);
 
 
 --
@@ -592,7 +606,7 @@ ALTER TABLE ONLY public.user_favorite_pets
 --
 
 ALTER TABLE ONLY public.user_roles
-    ADD CONSTRAINT role_fk FOREIGN KEY (role_id) REFERENCES public.roles(id);
+    ADD CONSTRAINT role_fk FOREIGN KEY (role_id) REFERENCES public.roles (id);
 
 
 --
@@ -600,7 +614,7 @@ ALTER TABLE ONLY public.user_roles
 --
 
 ALTER TABLE ONLY public.password_reset_token
-    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users (id);
 
 
 --
@@ -608,7 +622,7 @@ ALTER TABLE ONLY public.password_reset_token
 --
 
 ALTER TABLE ONLY public.pets
-    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users (id);
 
 
 --
@@ -616,7 +630,7 @@ ALTER TABLE ONLY public.pets
 --
 
 ALTER TABLE ONLY public.user_address
-    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users (id);
 
 
 --
@@ -624,7 +638,7 @@ ALTER TABLE ONLY public.user_address
 --
 
 ALTER TABLE ONLY public.user_favorite_pets
-    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users (id);
 
 
 --
@@ -632,7 +646,7 @@ ALTER TABLE ONLY public.user_favorite_pets
 --
 
 ALTER TABLE ONLY public.user_picture
-    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users (id);
 
 
 --
@@ -640,10 +654,9 @@ ALTER TABLE ONLY public.user_picture
 --
 
 ALTER TABLE ONLY public.user_roles
-    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users (id);
 
 
 --
 -- PostgreSQL database dump complete
 --
-
