@@ -1,6 +1,7 @@
 package com.cleanarch.infra;
 
 import com.cleanarch.infra.service.mail.MailService;
+import com.cleanarch.infra.service.mail.MailTemplates;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ public class MailServiceTest {
 
   @Autowired private MailService mailService;
 
+  @Autowired private MailTemplates mailTemplates;
+
   @DisplayName("Test send email with HTML body")
   @Test
   void testEmailSend_When_SendingEmailWithHTMLBody_ShouldArriveToRecipient()
@@ -24,8 +27,7 @@ public class MailServiceTest {
     // When / Act
     mailService.send(
         "Welcome to Adotar!",
-        "<h1>Hi, Joao Paulo!</h1> </br> "
-            + "<h2>We are excited to have you here!</h2>",
+        mailTemplates.getRegisterSuccessfulTemplate("Joao"),
         recipient);
 
     Thread.sleep(10000);
