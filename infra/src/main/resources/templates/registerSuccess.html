@@ -1,12 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Welcome to Adotar!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            color: #333333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .header {
+            text-align: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .header img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .content {
+            padding: 20px 0;
+        }
+
+        .content h1 {
+            color: #4CAF50;
+        }
+
+        .content p {
+            margin: 0 0 10px;
+        }
+
+        .content ul {
+            padding-left: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 12px;
+            color: #777777;
+            border-top: 1px solid #dddddd;
+        }
+    </style>
 </head>
 <body>
-<h1>Hello,
-    <span th:text="${name}">Name</span>
-</h1>
-<p>You just registered successfully! We're happy to have you here :)</p>
+<div class="container">
+    <div class="header">
+        <img alt="Adotar Logo" src="https://yourdomain.com/logo.png">
+    </div>
+    <div class="content">
+        <h1>Hello, <span th:text="${name}">Name</span></h1>
+        <p>Welcome to Adotar! We are thrilled to have you on board. You have
+            successfully registered, and we are excited to help you find your
+            perfect pet companion.</p>
+        <p>Here are a few things you can do next:</p>
+        <ul>
+            <li>Browse through our list of available pets for adoption.</li>
+            <li>Update your profile to let us know more about you.</li>
+            <li>Connect with other pet lovers in our community.</li>
+        </ul>
+        <p>If you have any questions, feel free to <a
+                href="https://yourdomain.com/contact">contact us</a>. We are
+            here to help!</p>
+        <p>Thank you for choosing Adotar. We look forward to helping you find
+            your new best friend!</p>
+        <p>Best regards,<br>The Adotar Team</p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 Adotar. All rights reserved.</p>
+        <p><a href="https://yourdomain.com/privacy-policy">Privacy Policy</a>
+        </p>
+    </div>
+</div>
 </body>
 </html>
