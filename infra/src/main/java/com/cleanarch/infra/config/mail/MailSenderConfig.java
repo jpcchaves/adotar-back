@@ -41,10 +41,18 @@ public class MailSenderConfig {
 
     properties.putAll(
         Map.of(
-            "mail.transport.protocol", "smtp",
-            "mail.smtp.auth", "true",
-            "mail.smtp.starttls.enable", "true",
-            "mail.debug", "true"));
+            "mail.transport.protocol",
+            "smtp",
+            "mail.smtp.auth",
+            "true",
+            "mail.smtp.starttls.enable",
+            "true",
+            "mail.debug",
+            "true",
+            "mail.smtp.ssl.trust",
+            "smtp.gmail.com",
+            "mail.smtp.ssl.protocols",
+            "TLSv1.2"));
 
     return mailSender;
   }
