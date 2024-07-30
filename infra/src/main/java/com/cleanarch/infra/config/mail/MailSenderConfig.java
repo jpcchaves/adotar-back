@@ -1,6 +1,5 @@
 package com.cleanarch.infra.config.mail;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +23,8 @@ public class MailSenderConfig {
   @Value("${spring.mail.password}")
   private String password;
 
+  private static final String UTF_8_CHARSET = "UTF-8";
+
   @Bean
   public JavaMailSender javaMailSender() {
 
@@ -35,7 +36,7 @@ public class MailSenderConfig {
     mailSender.setUsername(username);
     mailSender.setPassword(password);
 
-    mailSender.setDefaultEncoding(StandardCharsets.UTF_8.name());
+    mailSender.setDefaultEncoding(UTF_8_CHARSET);
 
     Properties properties = mailSender.getJavaMailProperties();
 
