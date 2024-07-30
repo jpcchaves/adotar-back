@@ -18,8 +18,7 @@ public class MailServiceTest {
 
   @DisplayName("Test send email with HTML body")
   @Test
-  void testEmailSend_When_SendingEmailWithHTMLBody_ShouldArriveToRecipient()
-      throws InterruptedException {
+  void testEmailSend_When_SendingEmailWithHTMLBody_ShouldArriveToRecipient() {
 
     // Given / Arrange
     String recipient = "jpcchaves@outlook.com";
@@ -29,8 +28,6 @@ public class MailServiceTest {
         "Welcome to Adotar!",
         mailTemplates.getRegisterSuccessfulTemplate("Joao"),
         recipient);
-
-    Thread.sleep(10000);
 
     // Then / Assert
   }
