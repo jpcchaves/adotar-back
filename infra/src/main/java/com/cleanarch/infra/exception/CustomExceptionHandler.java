@@ -56,7 +56,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler({
     DataIntegrityViolationException.class,
     ConstraintViolationException.class,
-    SQLException.class,
+    SQLException.class
   })
   protected ResponseEntity<Object> handleExceptionDataIntegrity(Exception ex) {
 

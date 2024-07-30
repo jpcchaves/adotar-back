@@ -58,6 +58,12 @@ spring:
   web:
     locale-resolver: fixed
     locale: pt_BR
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
 app:
   jwt-secret: ${JWT_DEV_SECRET}
   jwt-expiration-milliseconds: ${JWT_DEV_EXPIRATION}

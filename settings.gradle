@@ -1,6 +1,9 @@
+rootProject.name = 'adotar-back'
+
 include 'core'
 include 'usecase'
 include 'application'
 include 'infrastructure'
 include 'infra'
+include 'test'
 
