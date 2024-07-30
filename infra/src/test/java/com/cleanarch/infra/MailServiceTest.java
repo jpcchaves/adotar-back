@@ -1,7 +1,11 @@
 package com.cleanarch.infra;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
+
 import com.cleanarch.infra.service.mail.MailService;
 import com.cleanarch.infra.service.mail.MailTemplates;
+import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +34,26 @@ public class MailServiceTest {
         recipient);
 
     // Then / Assert
+  }
+
+  @DisplayName("Test send email with HTML body using CompletableFuture")
+  @Test
+  void
+      testEmailSend_When_SendingEmailWithCompletableFuture_ShouldArriveToRecipient() {
+
+    // Given
+    String recipient = "jpcchaves@outlook.com";
+
+    CompletableFuture<Boolean> future =
+        mailService.sendEmail(
+            "Welcome to Adotar!",
+            mailTemplates.getRegisterSuccessfulTemplate("Joao Paulo"),
+            recipient);
+
+    await()
+        .untilAsserted(
+            () -> {
+              assertThat(future).isCompletedWithValue(true);
+            });
   }
 }
