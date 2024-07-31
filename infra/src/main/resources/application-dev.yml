@@ -41,28 +41,29 @@ spring:
     fail-on-missing-locations: true
     baseline-version: 1
 
-  #  mail:
-  #    host: ${MAIL_DEV_HOST}
-  #    port: ${MAIL_DEV_PORT}
-  #    username: ${MAIL_DEV_USERNAME}
-  #    password: ${MAIL_DEV_PASSWORD}
-  #    properties:
-  #      mail:
-  #        smtp:
-  #          auth: true
-  #          socketFactory:
-  #            port: 465
-  #            class: javax.net.ssl.SSLSocketFactory
-  #        starttls:
-  #          enable: true
+  mail:
+    host: ${MAIL_DEV_HOST}
+    port: ${MAIL_DEV_PORT}
+    username: ${MAIL_DEV_USERNAME}
+    password: ${MAIL_DEV_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+        starttls:
+          enable: true
   web:
     locale-resolver: fixed
     locale: pt_BR
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
 app:
   jwt-secret: ${JWT_DEV_SECRET}
   jwt-expiration-milliseconds: ${JWT_DEV_EXPIRATION}
-#mail:
-#  host: ${MAIL_DEV_HOST}
-#  port: ${MAIL_DEV_PORT}
-#  username: ${MAIL_DEV_USERNAME}
-#  password: ${MAIL_DEV_PASSWORD}
