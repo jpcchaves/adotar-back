@@ -3,6 +3,7 @@ package com.cleanarch.infra.service.mail.impl;
 import com.cleanarch.infra.service.mail.MailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.util.concurrent.CompletableFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,6 +47,33 @@ public class MailServiceImpl implements MailService {
     } catch (MessagingException e) {
 
       logger.error("An error occurred while sending the message", e);
+    }
+  }
+
+  @Override
+  public CompletableFuture<Boolean> sendEmail(
+      String subject, String body, String recipient) {
+
+    MimeMessage message = javaMailSender.createMimeMessage();
+
+    MimeMessageHelper helper = new MimeMessageHelper(message);
+
+    try {
+
+      helper.setFrom(from);
+      helper.setTo(recipient);
+      helper.setSubject(subject);
+      helper.setText(body, true);
+
+      javaMailSender.send(message);
+
+      return CompletableFuture.completedFuture(true);
+
+    } catch (MessagingException e) {
+
+      logger.error("An error occurred while sending the message", e);
+
+      return CompletableFuture.completedFuture(false);
     }
   }
 }
