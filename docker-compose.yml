@@ -9,7 +9,7 @@ services:
       TZ: America/Sao_Paulo
       POSTGRES_USER: "${DB_DEV_USER}"
       POSTGRES_PASSWORD: "${DB_DEV_PASSWORD}"
-      POSTGRES_DB: "${DB_NAME}"
+      DB_NAME: "${DB_NAME}"
     ports:
       - "5436:5432"
     volumes:
