@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   db:
     image: postgres:12
@@ -11,6 +12,8 @@ services:
       POSTGRES_DB: "${DB_NAME}"
     ports:
       - "5436:5432"
+    volumes:
+      - ./docker-compose/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     env_file:
       - .env
     networks:
