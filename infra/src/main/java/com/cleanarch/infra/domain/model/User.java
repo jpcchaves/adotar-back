@@ -129,7 +129,6 @@ public class User implements UserDetails, Serializable {
   }
 
   public User(
-      Long id,
       String firstName,
       String lastName,
       String email,
@@ -137,7 +136,6 @@ public class User implements UserDetails, Serializable {
       Boolean isActive,
       Date createdAt,
       Date lastSeen) {
-    this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
