@@ -9,9 +9,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 
 @DataJpaTest
+@TestPropertySource(
+    locations = {"classpath:application-test.yml", "classpath:.env"})
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class UserRepositoryTest {
 
   @Autowired private UserRepository userRepository;
@@ -28,7 +33,6 @@ class UserRepositoryTest {
 
     user =
         new User(
-            faker.number().randomNumber(),
             faker.name().firstName(),
             faker.name().lastName(),
             faker.internet().emailAddress(),
@@ -49,6 +53,12 @@ class UserRepositoryTest {
 
     // Then / Assert
     assertNotNull(savedUser);
-    assertEquals(user.getId(), savedUser.getId());
+    assertTrue(savedUser.getId() > 0);
+    assertEquals(user.getFirstName(), savedUser.getFirstName());
+    assertEquals(user.getLastName(), savedUser.getLastName());
+    assertEquals(user.getEmail(), savedUser.getEmail());
+    assertEquals(user.getPassword(), savedUser.getPassword());
+    assertEquals(user.getCreatedAt(), savedUser.getCreatedAt());
+    assertEquals(user.getUpdatedAt(), savedUser.getUpdatedAt());
   }
 }
