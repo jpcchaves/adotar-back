@@ -8,10 +8,24 @@ spring:
     password:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       show_sql: false
       dialect: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: ${MAIL_DEV_HOST}
+    port: ${MAIL_DEV_PORT}
+    username: ${MAIL_DEV_USERNAME}
+    password: ${MAIL_DEV_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+        starttls:
+          enable: true
   web:
     locale-resolver: fixed
     locale: pt_BR
