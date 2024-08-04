@@ -1,8 +1,10 @@
-package com.cleanarch.infra.service.mail;
+package com.cleanarch.infra.service.mail.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
+import com.cleanarch.infra.service.mail.MailService;
+import com.cleanarch.infra.service.mail.MailTemplates;
 import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(locations = {"classpath:.env"})
-public class MailServiceTest {
+class MailServiceImplTest {
 
   @Autowired private MailService mailService;
 
