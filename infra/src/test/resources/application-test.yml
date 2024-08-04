@@ -1,0 +1,19 @@
+server:
+  port: 8888
+spring:
+  datasource:
+    url: jdbc:h2:~/test;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      show_sql: false
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+  web:
+    locale-resolver: fixed
+    locale: pt_BR
+  flyway:
+    enabled: false
