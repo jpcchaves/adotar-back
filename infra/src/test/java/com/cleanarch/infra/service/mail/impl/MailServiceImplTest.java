@@ -1,4 +1,4 @@
-package com.cleanarch.infra;
+package com.cleanarch.infra.service.mail.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
@@ -14,7 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(locations = {"classpath:.env"})
-public class MailServiceTest {
+class MailServiceImplTest {
 
   @Autowired private MailService mailService;
 
