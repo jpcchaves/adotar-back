@@ -76,4 +76,20 @@ class UserRepositoryTest {
     // Then / Assert
     assertNotNull(user);
   }
+
+  @DisplayName(
+      "Test given user email when search by email should return user object")
+  @Test
+  void testGivenUserEmail_WhenSearchByEmail_ShouldReturnUserObject() {
+
+    // Given / Arrange
+    User savedUser = userRepository.save(user);
+    String email = savedUser.getEmail();
+
+    // When / Act
+    User user = userRepository.findByEmail(email).get();
+
+    // Then / Assert
+    assertNotNull(user);
+  }
 }
