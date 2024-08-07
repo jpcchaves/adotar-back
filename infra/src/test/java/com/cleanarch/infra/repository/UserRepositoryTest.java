@@ -61,4 +61,19 @@ class UserRepositoryTest {
     assertEquals(user.getCreatedAt(), savedUser.getCreatedAt());
     assertEquals(user.getUpdatedAt(), savedUser.getUpdatedAt());
   }
+
+  @DisplayName("Test Given User Id When Search By Id Should Return User Object")
+  @Test
+  void testGivenUserId_WhenSearchById_ShouldReturnUserObject() {
+
+    // Given / Arrange
+    User savedUser = userRepository.save(user);
+    Long userId = savedUser.getId();
+
+    // When / Act
+    User user = userRepository.findById(userId).get();
+
+    // Then / Assert
+    assertNotNull(user);
+  }
 }
