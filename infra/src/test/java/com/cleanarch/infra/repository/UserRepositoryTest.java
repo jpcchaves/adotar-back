@@ -92,4 +92,31 @@ class UserRepositoryTest {
     // Then / Assert
     assertNotNull(user);
   }
+
+  @DisplayName(
+      "Test given user when update user info should return updated user object")
+  @Test
+  void testGivenUser_WhenUpdateUser_ShouldReturnUpdatedUserObject() {
+
+    // Given / Arrange
+    User savedUser = userRepository.save(user);
+
+    String updatedEmail = faker.internet().emailAddress();
+    String updatedFirstName = faker.name().firstName();
+    String updatedLastName = faker.name().lastName();
+
+    // When / Act
+    savedUser.setEmail(updatedEmail);
+    savedUser.setLastName(updatedLastName);
+    savedUser.setFirstName(updatedFirstName);
+
+    User updatedUser = userRepository.save(savedUser);
+
+    // Then / Assert
+    assertNotNull(updatedUser);
+    assertEquals(updatedEmail, updatedUser.getEmail());
+    assertEquals(updatedFirstName, updatedUser.getFirstName());
+    assertEquals(updatedLastName, updatedUser.getLastName());
+    assertEquals(updatedUser.getId(), savedUser.getId());
+  }
 }
