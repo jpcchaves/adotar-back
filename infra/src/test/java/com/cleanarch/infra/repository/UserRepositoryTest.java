@@ -2,6 +2,7 @@ package com.cleanarch.infra.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.cleanarch.infra.config.testcontainer.AbstractTestContainerConfig;
 import com.cleanarch.infra.domain.model.User;
 import java.util.Date;
 import net.datafaker.Faker;
@@ -17,7 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(
     locations = {"classpath:application-test.yml", "classpath:.env"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class UserRepositoryTest {
+class UserRepositoryTest extends AbstractTestContainerConfig {
 
   @Autowired private UserRepository userRepository;
 
@@ -26,6 +27,7 @@ class UserRepositoryTest {
   private User user;
 
   private final Date createdAt = new Date();
+
   private final Date updatedAt = new Date();
 
   @BeforeEach
