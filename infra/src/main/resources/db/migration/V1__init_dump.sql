@@ -20,6 +20,8 @@ SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
+CREATE ROLE postgres;
+
 --
 -- Name: password_reset_token; Type: TABLE; Schema: public; Owner: postgres
 --
