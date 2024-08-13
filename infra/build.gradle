@@ -39,6 +39,8 @@ dependencies {
     testImplementation group: 'io.rest-assured', name: 'rest-assured'
     testImplementation 'org.testcontainers:postgresql:1.20.1'
 
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
 
