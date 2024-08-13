@@ -2,10 +2,7 @@ server:
   port: 8888
 spring:
   datasource:
-    url: ${DB_TEST_URL}
     driver-class-name: org.postgresql.Driver
-    username: ${DB_TEST_USER}
-    password: ${DB_TEST_PASSWORD}
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       connection-timeout: 20000
@@ -25,8 +22,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        '[show_sql]': true
-        '[format_sql]': true
+        '[show_sql]': false
+        '[format_sql]': false
         jdbc:
           batch_size: 4
         order_updates: true

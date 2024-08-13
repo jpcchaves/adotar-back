@@ -2,6 +2,7 @@ package com.cleanarch.infra.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.cleanarch.infra.config.testcontainer.AbstractTestContainerConfig;
 import com.cleanarch.infra.domain.model.User;
 import java.util.Date;
 import net.datafaker.Faker;
@@ -17,7 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(
     locations = {"classpath:application-test.yml", "classpath:.env"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class UserRepositoryTest {
+class UserRepositoryTest extends AbstractTestContainerConfig {
 
   @Autowired private UserRepository userRepository;
 
@@ -26,6 +27,7 @@ class UserRepositoryTest {
   private User user;
 
   private final Date createdAt = new Date();
+
   private final Date updatedAt = new Date();
 
   @BeforeEach
@@ -60,5 +62,63 @@ class UserRepositoryTest {
     assertEquals(user.getPassword(), savedUser.getPassword());
     assertEquals(user.getCreatedAt(), savedUser.getCreatedAt());
     assertEquals(user.getUpdatedAt(), savedUser.getUpdatedAt());
+  }
+
+  @DisplayName("Test Given User Id When Search By Id Should Return User Object")
+  @Test
+  void testGivenUserId_WhenSearchById_ShouldReturnUserObject() {
+
+    // Given / Arrange
+    User savedUser = userRepository.save(user);
+    Long userId = savedUser.getId();
+
+    // When / Act
+    User user = userRepository.findById(userId).get();
+
+    // Then / Assert
+    assertNotNull(user);
+  }
+
+  @DisplayName(
+      "Test given user email when search by email should return user object")
+  @Test
+  void testGivenUserEmail_WhenSearchByEmail_ShouldReturnUserObject() {
+
+    // Given / Arrange
+    User savedUser = userRepository.save(user);
+    String email = savedUser.getEmail();
+
+    // When / Act
+    User user = userRepository.findByEmail(email).get();
+
+    // Then / Assert
+    assertNotNull(user);
+  }
+
+  @DisplayName(
+      "Test given user when update user info should return updated user object")
+  @Test
+  void testGivenUser_WhenUpdateUser_ShouldReturnUpdatedUserObject() {
+
+    // Given / Arrange
+    User savedUser = userRepository.save(user);
+
+    String updatedEmail = faker.internet().emailAddress();
+    String updatedFirstName = faker.name().firstName();
+    String updatedLastName = faker.name().lastName();
+
+    // When / Act
+    savedUser.setEmail(updatedEmail);
+    savedUser.setLastName(updatedLastName);
+    savedUser.setFirstName(updatedFirstName);
+
+    User updatedUser = userRepository.save(savedUser);
+
+    // Then / Assert
+    assertNotNull(updatedUser);
+    assertEquals(updatedEmail, updatedUser.getEmail());
+    assertEquals(updatedFirstName, updatedUser.getFirstName());
+    assertEquals(updatedLastName, updatedUser.getLastName());
+    assertEquals(updatedUser.getId(), savedUser.getId());
   }
 }
