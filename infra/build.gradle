@@ -36,6 +36,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation group: 'io.rest-assured', name: 'rest-assured'
 
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
