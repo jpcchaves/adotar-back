@@ -20,8 +20,19 @@ SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
-CREATE ROLE postgres;
+DO
+$do$
+BEGIN
+   IF EXISTS (
+      SELECT FROM pg_catalog.pg_roles
+      WHERE  rolname = 'postgres') THEN
 
+      RAISE NOTICE 'Role "postgres" already exists. Skipping.';
+   ELSE
+      CREATE ROLE postgres LOGIN PASSWORD 'admin';
+   END IF;
+END
+$do$;
 --
 -- Name: password_reset_token; Type: TABLE; Schema: public; Owner: postgres
 --
