@@ -10,6 +10,8 @@ import com.cleanarch.infra.domain.model.User;
 import com.cleanarch.infra.factory.user.UserFactory;
 import com.cleanarch.infra.repository.RoleRepository;
 import com.cleanarch.infra.repository.UserRepository;
+import com.cleanarch.infra.service.mail.MailService;
+import com.cleanarch.infra.service.mail.MailTemplates;
 import com.cleanarch.usecase.auth.dto.BaseRegisterRequestDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -22,16 +24,22 @@ public class RegisterGatewayImpl implements RegisterGateway {
   private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
   private final UserFactory userFactory;
+  private final MailService mailService;
+  private MailTemplates mailTemplates;
 
   public RegisterGatewayImpl(
       UserRepository userRepository,
       RoleRepository roleRepository,
       PasswordEncoder passwordEncoder,
-      UserFactory userFactory) {
+      UserFactory userFactory,
+      MailService mailService,
+      MailTemplates mailTemplates) {
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
     this.passwordEncoder = passwordEncoder;
     this.userFactory = userFactory;
+    this.mailService = mailService;
+    this.mailTemplates = mailTemplates;
   }
 
   @Override
@@ -46,8 +54,7 @@ public class RegisterGatewayImpl implements RegisterGateway {
     Role role =
         roleRepository
             .findByName(Roles.ROLE_USER)
-            .orElseThrow(
-                () -> new InternalServerError(ExceptionDefinition.INT0001));
+            .orElseThrow(() -> new InternalServerError(ExceptionDefinition.INT0001));
 
     String encodedPassword = passwordEncoder.encode(requestDTO.getPassword());
 
@@ -59,7 +66,13 @@ public class RegisterGatewayImpl implements RegisterGateway {
             encodedPassword,
             role);
 
-    userRepository.save(user);
+    User savedUser = userRepository.save(user);
+
+    mailService.sendEmail(
+        "Welcome to Adotar!",
+        mailTemplates.getRegisterSuccessfulTemplate(
+            savedUser.getFirstName() + " " + savedUser.getLastName()),
+        savedUser.getEmail());
 
     return "Usuario cadastrado com sucesso!";
   }
