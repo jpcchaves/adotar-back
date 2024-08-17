@@ -3,6 +3,7 @@ package com.cleanarch.infra.controller.auth;
 import com.cleanarch.infra.domain.dto.auth.LoginRequestDTO;
 import com.cleanarch.infra.domain.dto.auth.RegisterRequestDTO;
 import com.cleanarch.infra.domain.dto.auth.UpdatePasswordDTO;
+import com.cleanarch.infra.domain.dto.auth.UpdateUserRequestDTO;
 import com.cleanarch.infra.service.auth.AuthService;
 import com.cleanarch.usecase.auth.dto.LoginResponseDTO;
 import com.cleanarch.usecase.common.dto.MessageResponseDTO;
@@ -45,6 +46,14 @@ public class AuthController {
   @PutMapping("/update-password")
   public ResponseEntity<MessageResponseDTO> updatePassword(
       @RequestBody @Valid UpdatePasswordDTO requestDTO) {
+
     return ResponseEntity.ok(authService.updatePassword(requestDTO));
+  }
+
+  @PutMapping("/update-user-details")
+  public ResponseEntity<MessageResponseDTO> updateUserDetails(
+      @Valid @RequestBody UpdateUserRequestDTO requestDTO) {
+
+    return ResponseEntity.ok(authService.updateUser(requestDTO));
   }
 }

@@ -4,19 +4,15 @@ public class BaseUpdateUserRequestDTO {
 
   private String firstName;
   private String lastName;
-  private String currentPassword;
-  private String password;
+  private String phone;
+  private String phone2;
 
   public BaseUpdateUserRequestDTO(
-      String firstName,
-      String lastName,
-      String currentPassword,
-      String password
-  ) {
+      String firstName, String lastName, String phone, String phone2) {
     this.firstName = firstName;
     this.lastName = lastName;
-    this.currentPassword = currentPassword;
-    this.password = password;
+    this.phone = phone;
+    this.phone2 = phone2;
   }
 
   public String getFirstName() {
@@ -35,19 +31,19 @@ public class BaseUpdateUserRequestDTO {
     this.lastName = lastName;
   }
 
-  public String getCurrentPassword() {
-    return currentPassword;
+  public String getPhone() {
+    return phone;
   }
 
-  public void setCurrentPassword(String currentPassword) {
-    this.currentPassword = currentPassword;
+  public void setPhone(String phone) {
+    this.phone = phone;
   }
 
-  public String getPassword() {
-    return password;
+  public String getPhone2() {
+    return phone2;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setPhone2(String phone2) {
+    this.phone2 = phone2;
   }
 }
