@@ -118,7 +118,24 @@ class UserRepositoryTest extends AbstractTestContainerConfig {
     assertNotNull(updatedUser);
     assertEquals(updatedEmail, updatedUser.getEmail());
     assertEquals(updatedFirstName, updatedUser.getFirstName());
+
     assertEquals(updatedLastName, updatedUser.getLastName());
     assertEquals(updatedUser.getId(), savedUser.getId());
+  }
+
+  @DisplayName(
+      "Test given user email when verify if user existsByEmail then should"
+          + " return true")
+  @Test
+  void testGivenUserEmail_WhenVerifyIfUserExistsByEmail_ThenShouldReturnTrue() {
+
+    // Given / Arrange
+    User savedUser = userRepository.save(user);
+
+    // When / Act
+    Boolean exists = userRepository.existsByEmail(savedUser.getEmail());
+
+    // Then / Assert
+    assertTrue(exists);
   }
 }
