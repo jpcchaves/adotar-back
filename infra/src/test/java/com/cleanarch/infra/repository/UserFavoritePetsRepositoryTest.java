@@ -11,6 +11,7 @@ import com.cleanarch.infra.domain.model.Pet;
 import com.cleanarch.infra.domain.model.User;
 import com.cleanarch.infra.domain.model.UserFavoritePets;
 import java.util.List;
+import java.util.Optional;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -84,5 +85,25 @@ class UserFavoritePetsRepositoryTest extends AbstractTestContainerConfig {
     assertEquals(1, userFavoritePetsList.size());
 
     assertEquals(user.getId(), userFavoritePetsList.get(0).getUser().getId());
+  }
+
+  @DisplayName(
+      "Test given User and Pet when find by user and pet then should return"
+          + " UserFavoritePets Object")
+  @Test
+  void
+      testGivenUserAndPet_WhenFindByUserAndPet_ThenShouldReturnUserFavoritePetObject() {
+
+    // Given / Arrange
+    userFavoritePetsRepository.save(new UserFavoritePets(user, pet));
+
+    // When / Act
+    Optional<UserFavoritePets> userFavoritePet =
+        userFavoritePetsRepository.findByUserAndPet(user.getId(), pet.getId());
+
+    // Then / Assert
+    assertNotNull(userFavoritePet.get());
+    assertEquals(user.getId(), userFavoritePet.get().getUser().getId());
+    assertEquals(pet.getId(), userFavoritePet.get().getPet().getId());
   }
 }
