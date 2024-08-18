@@ -65,7 +65,7 @@ public class User implements UserDetails, Serializable {
   private Date createdAt;
 
   @UpdateTimestamp
-  @Temporal(TemporalType.DATE)
+  @Temporal(TemporalType.TIMESTAMP)
   private Date updatedAt;
 
   private Date deletedAt;
@@ -143,6 +143,19 @@ public class User implements UserDetails, Serializable {
     this.isActive = isActive;
     this.createdAt = createdAt;
     this.lastSeen = lastSeen;
+  }
+
+  public User(
+      String firstName,
+      String lastName,
+      String email,
+      String password,
+      Boolean active) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.isActive = active;
   }
 
   public Long getId() {
