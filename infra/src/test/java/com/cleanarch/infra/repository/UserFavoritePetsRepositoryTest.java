@@ -124,4 +124,27 @@ class UserFavoritePetsRepositoryTest extends AbstractTestContainerConfig {
     // Then / Assert
     assertTrue(result);
   }
+
+  @DisplayName(
+      "Test given UserFavoritePet object when save should return saved"
+          + " UserFavoritePet object")
+  @Test
+  void
+      testGivenUserFavoritePetObject_WhenSave_ThenShouldReturnSavedUserFavoritePetObject() {
+
+    // Given / Arrange
+    UserFavoritePets userFavoritePets = new UserFavoritePets(user, pet);
+
+    // When / Act
+    UserFavoritePets savedUserFavoritePets =
+        userFavoritePetsRepository.save(userFavoritePets);
+
+    // Then / Assert
+    assertNotNull(savedUserFavoritePets);
+
+    assertTrue(savedUserFavoritePets.getId() > 0);
+
+    assertEquals(user.getId(), savedUserFavoritePets.getUser().getId());
+    assertEquals(pet.getId(), savedUserFavoritePets.getPet().getId());
+  }
 }
