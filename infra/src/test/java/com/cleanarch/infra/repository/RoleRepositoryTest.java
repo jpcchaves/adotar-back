@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.cleanarch.infra.config.testcontainer.AbstractTestContainerConfig;
 import com.cleanarch.infra.domain.model.Role;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -65,5 +66,26 @@ class RoleRepositoryTest extends AbstractTestContainerConfig {
     assertTrue(savedAdminRole.getId() > 0);
     assertEquals(ROLE_USER.getName(), savedUserRole.getName());
     assertEquals(ROLE_ADMIN.getName(), savedAdminRole.getName());
+  }
+
+  @DisplayName(
+      "Test given role list when list all then should return a list of Role"
+          + " objects")
+  @Test
+  void testGivenRoleList_WhenListAll_ThenShouldReturnAListOfRoleObjects() {
+
+    // Given / Arrange
+    List<Role> givenRoles =
+        Collections.unmodifiableList(List.of(ROLE_USER, ROLE_ADMIN));
+
+    roleRepository.saveAll(givenRoles);
+
+    // When / Act
+
+    List<Role> rolesList = roleRepository.findAll();
+
+    // Then / Assert
+    assertNotNull(rolesList);
+    assertEquals(givenRoles.size(), rolesList.size());
   }
 }
