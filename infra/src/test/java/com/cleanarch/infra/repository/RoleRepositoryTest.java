@@ -47,4 +47,23 @@ class RoleRepositoryTest extends AbstractTestContainerConfig {
     assertTrue(fetchedRole.getId() > 0);
     assertEquals(ROLE_USER.getName(), fetchedRole.getName());
   }
+
+  @DisplayName("Test given Role object when save should return Role object")
+  @Test
+  void testGivenRoleObject_WhenSave_ThenShouldReturnRoleObject() {
+
+    // Given / Arrange
+
+    // When / Act
+    Role savedUserRole = roleRepository.save(ROLE_USER);
+    Role savedAdminRole = roleRepository.save(ROLE_ADMIN);
+
+    // Then / Assert
+    assertNotNull(savedUserRole);
+    assertNotNull(savedAdminRole);
+    assertTrue(savedUserRole.getId() > 0);
+    assertTrue(savedAdminRole.getId() > 0);
+    assertEquals(ROLE_USER.getName(), savedUserRole.getName());
+    assertEquals(ROLE_ADMIN.getName(), savedAdminRole.getName());
+  }
 }
