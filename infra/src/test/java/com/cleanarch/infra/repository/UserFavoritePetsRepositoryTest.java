@@ -106,4 +106,22 @@ class UserFavoritePetsRepositoryTest extends AbstractTestContainerConfig {
     assertEquals(user.getId(), userFavoritePet.get().getUser().getId());
     assertEquals(pet.getId(), userFavoritePet.get().getPet().getId());
   }
+
+  @DisplayName(
+      "Test given User and Pet when exists by User and Pet then should return"
+          + " true")
+  @Test
+  void testGivenUserAndPet_WhenExistsByUserAndPet_ThenShouldReturnTrue() {
+
+    // Given / Arrange
+    userFavoritePetsRepository.save(new UserFavoritePets(user, pet));
+
+    // When / Act
+    boolean result =
+        userFavoritePetsRepository.existsByUserAndPet(
+            user.getId(), pet.getId());
+
+    // Then / Assert
+    assertTrue(result);
+  }
 }
