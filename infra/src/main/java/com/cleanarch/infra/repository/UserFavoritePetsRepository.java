@@ -31,6 +31,6 @@ public interface UserFavoritePetsRepository
               + " user_favorite_pets ufp WHERE ufp.pet_id = :petId and"
               + " ufp.user_id = :userId",
       nativeQuery = true)
-  boolean existsByPetAndUser(
-      @Param("petId") Long petId, @Param("userId") Long userId);
+  boolean existsByUserAndPet(
+      @Param("userId") Long userId, @Param("petId") Long petId);
 }
