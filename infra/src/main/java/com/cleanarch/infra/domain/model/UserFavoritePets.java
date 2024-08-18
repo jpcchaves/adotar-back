@@ -5,7 +5,12 @@ import java.io.*;
 import java.util.*;
 
 @Entity
-@Table(name = "user_favorite_pets")
+@Table(
+    name = "user_favorite_pets",
+    indexes = {
+      @Index(name = "idx_user", columnList = "user_id"),
+      @Index(name = "idx_pet", columnList = "pet_id")
+    })
 @SequenceGenerator(
     name = "seq_user_favorite_pets",
     sequenceName = "seq_user_favorite_pets",
@@ -48,6 +53,11 @@ public class UserFavoritePets implements Serializable {
 
   public UserFavoritePets(Long id, User user, Pet pet) {
     this.id = id;
+    this.user = user;
+    this.pet = pet;
+  }
+
+  public UserFavoritePets(User user, Pet pet) {
     this.user = user;
     this.pet = pet;
   }
