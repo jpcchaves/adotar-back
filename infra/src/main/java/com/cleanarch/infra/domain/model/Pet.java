@@ -128,6 +128,31 @@ public class Pet implements Serializable {
     this.deletedAt = deletedAt;
   }
 
+  public Pet(
+      String name,
+      Integer yearsAge,
+      Integer monthsAge,
+      Gender gender,
+      AnimalSize size,
+      HealthCondition healthCondition,
+      AnimalType type,
+      String color,
+      String description,
+      String breed,
+      User user) {
+    this.name = name;
+    this.yearsAge = yearsAge;
+    this.monthsAge = monthsAge;
+    this.gender = gender;
+    this.size = size;
+    this.healthCondition = healthCondition;
+    this.type = type;
+    this.color = color;
+    this.description = description;
+    this.breed = breed;
+    this.user = user;
+  }
+
   public Long getId() {
     return id;
   }
