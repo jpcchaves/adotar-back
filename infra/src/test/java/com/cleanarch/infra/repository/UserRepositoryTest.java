@@ -21,14 +21,8 @@ import org.springframework.test.context.TestPropertySource;
 class UserRepositoryTest extends AbstractTestContainerConfig {
 
   @Autowired private UserRepository userRepository;
-
   private Faker faker = new Faker();
-
   private User user;
-
-  private final Date createdAt = new Date();
-
-  private final Date updatedAt = new Date();
 
   @BeforeEach
   void setUp() {
@@ -39,9 +33,7 @@ class UserRepositoryTest extends AbstractTestContainerConfig {
             faker.name().lastName(),
             faker.internet().emailAddress(),
             faker.random().hex(12),
-            Boolean.TRUE,
-            createdAt,
-            updatedAt);
+            Boolean.TRUE);
   }
 
   @DisplayName("Test given user when saving should return an User object")
@@ -62,6 +54,38 @@ class UserRepositoryTest extends AbstractTestContainerConfig {
     assertEquals(user.getPassword(), savedUser.getPassword());
     assertEquals(user.getCreatedAt(), savedUser.getCreatedAt());
     assertEquals(user.getUpdatedAt(), savedUser.getUpdatedAt());
+  }
+
+  @DisplayName("Test given user when saving should return an User object")
+  @Test
+  void testGivenUser_WhenSaveAndFlush_ShouldReturnUserUpdatedObject() {
+
+    // Given / Arrange
+    User savedUser = userRepository.saveAndFlush(user);
+    Date prevUpdatedAt = savedUser.getUpdatedAt();
+
+    String updatedFirstName = faker.name().firstName();
+    String updatedLastName = faker.name().lastName();
+    String updatedPhone = faker.phoneNumber().cellPhone();
+    String updatedPhone2 = faker.phoneNumber().cellPhone();
+
+    savedUser.setFirstName(updatedFirstName);
+    savedUser.setLastName(updatedLastName);
+    savedUser.setPhone(updatedPhone);
+    savedUser.setPhone2(updatedPhone2);
+
+    // When / Act
+    User updatedUser = userRepository.saveAndFlush(savedUser);
+
+    // Then / Assert
+    assertNotNull(updatedUser);
+    assertTrue(savedUser.getId() > 0);
+    assertEquals(updatedFirstName, updatedUser.getFirstName());
+    assertEquals(updatedLastName, updatedUser.getLastName());
+    assertEquals(updatedPhone, updatedUser.getPhone());
+    assertEquals(updatedPhone2, updatedUser.getPhone2());
+
+    assertTrue(updatedUser.getUpdatedAt().after(prevUpdatedAt));
   }
 
   @DisplayName("Test Given User Id When Search By Id Should Return User Object")
