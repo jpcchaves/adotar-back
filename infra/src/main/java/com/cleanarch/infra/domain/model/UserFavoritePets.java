@@ -52,6 +52,11 @@ public class UserFavoritePets implements Serializable {
     this.pet = pet;
   }
 
+  public UserFavoritePets(User user, Pet pet) {
+    this.user = user;
+    this.pet = pet;
+  }
+
   public Long getId() {
     return id;
   }
