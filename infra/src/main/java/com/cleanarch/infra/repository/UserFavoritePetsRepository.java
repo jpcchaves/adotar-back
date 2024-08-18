@@ -22,8 +22,8 @@ public interface UserFavoritePetsRepository
           "SELECT * FROM user_favorite_pets ufp where ufp.pet_id = :petId AND"
               + " ufp.user_id = :userId",
       nativeQuery = true)
-  Optional<UserFavoritePets> findByPetAndUser(
-      @Param("petId") Long petId, @Param("userId") Long userId);
+  Optional<UserFavoritePets> findByUserAndPet(
+      @Param("userId") Long userId, @Param("petId") Long petId);
 
   @Query(
       value =
