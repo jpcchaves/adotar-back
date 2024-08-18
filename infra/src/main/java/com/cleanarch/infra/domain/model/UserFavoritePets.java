@@ -5,7 +5,12 @@ import java.io.*;
 import java.util.*;
 
 @Entity
-@Table(name = "user_favorite_pets")
+@Table(
+    name = "user_favorite_pets",
+    indexes = {
+      @Index(name = "idx_user", columnList = "user_id"),
+      @Index(name = "idx_pet", columnList = "pet_id")
+    })
 @SequenceGenerator(
     name = "seq_user_favorite_pets",
     sequenceName = "seq_user_favorite_pets",
