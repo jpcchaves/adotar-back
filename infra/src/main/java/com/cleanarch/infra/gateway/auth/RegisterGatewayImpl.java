@@ -25,7 +25,7 @@ public class RegisterGatewayImpl implements RegisterGateway {
   private final PasswordEncoder passwordEncoder;
   private final UserFactory userFactory;
   private final MailService mailService;
-  private MailTemplates mailTemplates;
+  private final MailTemplates mailTemplates;
 
   public RegisterGatewayImpl(
       UserRepository userRepository,
