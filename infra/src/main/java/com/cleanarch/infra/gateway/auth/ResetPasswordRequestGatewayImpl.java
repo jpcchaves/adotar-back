@@ -9,6 +9,7 @@ import com.cleanarch.infra.factory.common.ConcreteMessageResponseFactory;
 import com.cleanarch.infra.repository.PasswordResetTokenRepository;
 import com.cleanarch.infra.repository.UserRepository;
 import com.cleanarch.infra.service.mail.MailService;
+import com.cleanarch.infra.service.mail.MailTemplates;
 import com.cleanarch.infra.util.PasswordResetTokenUtils;
 import com.cleanarch.usecase.auth.dto.BasePasswordResetRequestDTO;
 import com.cleanarch.usecase.common.dto.MessageResponseDTO;
@@ -16,20 +17,22 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ResetPasswordRequestGatewayImpl
-    implements RequestPasswordResetGateway {
+public class ResetPasswordRequestGatewayImpl implements RequestPasswordResetGateway {
 
   private final UserRepository userRepository;
   private final PasswordResetTokenRepository passwordResetTokenRepository;
   private final MailService mailService;
+  private final MailTemplates mailTemplates;
 
   public ResetPasswordRequestGatewayImpl(
       UserRepository userRepository,
       PasswordResetTokenRepository passwordResetTokenRepository,
-      MailService mailService) {
+      MailService mailService,
+      MailTemplates mailTemplates) {
     this.userRepository = userRepository;
     this.passwordResetTokenRepository = passwordResetTokenRepository;
     this.mailService = mailService;
+    this.mailTemplates = mailTemplates;
   }
 
   /*
@@ -40,15 +43,12 @@ public class ResetPasswordRequestGatewayImpl
   */
 
   @Override
-  public MessageResponseDTO resetTokenRequest(
-      BasePasswordResetRequestDTO requestDTO) {
+  public MessageResponseDTO resetTokenRequest(BasePasswordResetRequestDTO requestDTO) {
 
     User user =
         userRepository
             .findByEmail(requestDTO.getEmail())
-            .orElseThrow(
-                () ->
-                    new ResourceNotFoundException(ExceptionDefinition.USR0001));
+            .orElseThrow(() -> new ResourceNotFoundException(ExceptionDefinition.USR0001));
 
     Optional<PasswordResetToken> optionalToken =
         passwordResetTokenRepository.findByUser(user.getId());
@@ -62,8 +62,7 @@ public class ResetPasswordRequestGatewayImpl
       if (PasswordResetTokenUtils.isTokenExpired(token)) {
 
         token.setToken(PasswordResetTokenUtils.generateToken());
-        token.setExpirationTime(
-            PasswordResetTokenUtils.generateExpirationTime());
+        token.setExpirationTime(PasswordResetTokenUtils.generateExpirationTime());
 
         passwordResetTokenRepository.saveAndFlush(token);
       }
@@ -80,10 +79,9 @@ public class ResetPasswordRequestGatewayImpl
 
     mailService.sendEmail(
         "Password Reset Request",
-        "<h1>" + token.getToken() + "</h1>",
+        mailTemplates.getPasswordResetTokenTemplate(user.getFirstName(), token.getToken()),
         requestDTO.getEmail());
 
-    return ConcreteMessageResponseFactory.buildMessage(
-        "Password request sent!");
+    return ConcreteMessageResponseFactory.buildMessage("Password request sent!");
   }
 }

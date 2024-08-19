@@ -23,4 +23,16 @@ public class MailTemplates {
 
     return htmlTemplate;
   }
+
+  public String getPasswordResetTokenTemplate(String name, String token) {
+
+    Context context = new Context();
+
+    context.setVariable("name", name);
+    context.setVariable("token", token);
+
+    String htmlTemplate = templateEngine.process("passwordResetToken", context);
+
+    return htmlTemplate;
+  }
 }
