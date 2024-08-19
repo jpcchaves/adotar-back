@@ -52,6 +52,12 @@ public class PasswordResetToken implements Serializable {
     this.user = user;
   }
 
+  public PasswordResetToken(String token, Instant expirationTime, User user) {
+    this.token = token;
+    this.expirationTime = expirationTime;
+    this.user = user;
+  }
+
   public Long getId() {
     return id;
   }
