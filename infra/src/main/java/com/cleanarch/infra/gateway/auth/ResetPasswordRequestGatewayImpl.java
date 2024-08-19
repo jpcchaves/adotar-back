@@ -32,6 +32,13 @@ public class ResetPasswordRequestGatewayImpl
     this.mailService = mailService;
   }
 
+  /*
+
+  TODO (18/08/2024):
+   - Create ResetPasswordRequest service method and Controller endpoint. Also, add integration test
+
+  */
+
   @Override
   public MessageResponseDTO resetTokenRequest(
       BasePasswordResetRequestDTO requestDTO) {
