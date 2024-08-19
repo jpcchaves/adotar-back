@@ -6,16 +6,20 @@ import jakarta.validation.constraints.NotBlank;
 
 public class PasswordResetRequestDTO extends BasePasswordResetRequestDTO {
 
-    public PasswordResetRequestDTO(String email) {
+  public PasswordResetRequestDTO() {
+    super();
+  }
 
-        super(email);
-    }
+  public PasswordResetRequestDTO(String email) {
 
-    @Override
-    @NotBlank(message = "Email is a required field!")
-    @Email(message = "Invalid email!")
-    public String getEmail() {
+    super(email);
+  }
 
-        return super.getEmail();
-    }
+  @Override
+  @NotBlank(message = "Email is a required field!")
+  @Email(message = "Invalid email!")
+  public String getEmail() {
+
+    return super.getEmail();
+  }
 }
