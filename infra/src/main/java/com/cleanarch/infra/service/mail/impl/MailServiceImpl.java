@@ -51,6 +51,7 @@ public class MailServiceImpl implements MailService {
   }
 
   @Override
+  @Async
   public CompletableFuture<Boolean> sendEmail(
       String subject, String body, String recipient) {
 

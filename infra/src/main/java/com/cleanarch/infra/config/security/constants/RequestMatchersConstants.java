@@ -7,6 +7,7 @@ public class RequestMatchersConstants {
         "/h2/**",
         "/h2-console/**",
         "/api/v1/auth/login",
-        "/api/v1/auth/register"
+        "/api/v1/auth/register",
+        "/api/v1/auth/password-reset"
       };
 }

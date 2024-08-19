@@ -3,6 +3,8 @@ package com.cleanarch.usecase.auth.dto;
 public class BasePasswordResetRequestDTO {
   private String email;
 
+  public BasePasswordResetRequestDTO() {}
+
   public BasePasswordResetRequestDTO(String email) {
     this.email = email;
   }

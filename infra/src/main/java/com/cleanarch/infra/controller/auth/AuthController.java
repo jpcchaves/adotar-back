@@ -1,9 +1,6 @@
 package com.cleanarch.infra.controller.auth;
 
-import com.cleanarch.infra.domain.dto.auth.LoginRequestDTO;
-import com.cleanarch.infra.domain.dto.auth.RegisterRequestDTO;
-import com.cleanarch.infra.domain.dto.auth.UpdatePasswordDTO;
-import com.cleanarch.infra.domain.dto.auth.UpdateUserRequestDTO;
+import com.cleanarch.infra.domain.dto.auth.*;
 import com.cleanarch.infra.service.auth.AuthService;
 import com.cleanarch.usecase.auth.dto.LoginResponseDTO;
 import com.cleanarch.usecase.common.dto.MessageResponseDTO;
@@ -29,8 +26,7 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<LoginResponseDTO> login(
-      @RequestBody @Valid LoginRequestDTO requestDTO) {
+  public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO requestDTO) {
 
     return ResponseEntity.ok(authService.login(requestDTO));
   }
@@ -39,8 +35,7 @@ public class AuthController {
   public ResponseEntity<MessageResponseDTO> register(
       @RequestBody @Valid RegisterRequestDTO requestDTO) {
 
-    return ResponseEntity.status(HttpStatus.CREATED)
-        .body(authService.register(requestDTO));
+    return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(requestDTO));
   }
 
   @PutMapping("/update-password")
@@ -55,5 +50,12 @@ public class AuthController {
       @Valid @RequestBody UpdateUserRequestDTO requestDTO) {
 
     return ResponseEntity.ok(authService.updateUser(requestDTO));
+  }
+
+  @PostMapping("/password-reset")
+  public ResponseEntity<MessageResponseDTO> resetTokenRequest(
+      @Valid @RequestBody PasswordResetRequestDTO requestDTO) {
+
+    return ResponseEntity.ok(authService.resetTokenRequest(requestDTO));
   }
 }
