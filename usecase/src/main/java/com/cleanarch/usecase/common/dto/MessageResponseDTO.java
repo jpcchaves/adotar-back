@@ -3,6 +3,8 @@ package com.cleanarch.usecase.common.dto;
 public class MessageResponseDTO {
   private String message;
 
+  public MessageResponseDTO() {}
+
   public MessageResponseDTO(String message) {
     this.message = message;
   }
